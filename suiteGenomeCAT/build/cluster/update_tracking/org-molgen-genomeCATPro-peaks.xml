@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="org.molgen.genomeCATPro.peaks">
+    <module_version install_time="1382707967104" last="true" origin="installer" specification_version="2.7.1">
+        <file crc="2555093849" name="cnvcatprops.xml"/>
+        <file crc="2620201144" name="colorlisthex.txt"/>
+        <file crc="3244881889" name="config/Modules/org-molgen-genomeCATPro-peaks.xml"/>
+        <file crc="2061332823" name="modules/org-molgen-genomeCATPro-peaks.jar"/>
+    </module_version>
+</module>

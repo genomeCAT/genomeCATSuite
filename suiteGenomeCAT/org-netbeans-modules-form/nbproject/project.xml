@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>org.netbeans.modules.form</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>org.netbeans.modules.form</package>
+                <package>org.netbeans.modules.form.actions</package>
+                <package>org.netbeans.modules.form.assistant</package>
+                <package>org.netbeans.modules.form.beaninfo.awt</package>
+                <package>org.netbeans.modules.form.beaninfo.swing</package>
+                <package>org.netbeans.modules.form.codestructure</package>
+                <package>org.netbeans.modules.form.editors</package>
+                <package>org.netbeans.modules.form.editors2</package>
+                <package>org.netbeans.modules.form.fakepeer</package>
+                <package>org.netbeans.modules.form.forminfo</package>
+                <package>org.netbeans.modules.form.layoutdesign</package>
+                <package>org.netbeans.modules.form.layoutdesign.support</package>
+                <package>org.netbeans.modules.form.layoutsupport</package>
+                <package>org.netbeans.modules.form.layoutsupport.delegates</package>
+                <package>org.netbeans.modules.form.menu</package>
+                <package>org.netbeans.modules.form.palette</package>
+                <package>org.netbeans.modules.form.project</package>
+                <package>org.netbeans.modules.form.wizard</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/org-netbeans-modules-form.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/org-netbeans-modules-form.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

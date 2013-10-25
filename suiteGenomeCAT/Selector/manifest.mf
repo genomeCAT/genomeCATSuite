@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.molgen.genomeCATPro.selector
+OpenIDE-Module-Implementation-Version: 1
+OpenIDE-Module-Install: org/molgen/genomeCATPro/selector/Installer.class
+OpenIDE-Module-Layer: org/molgen/genomeCATPro/selector/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/selector/Bundle.properties
+

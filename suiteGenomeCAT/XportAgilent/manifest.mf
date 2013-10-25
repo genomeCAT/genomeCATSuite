@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.molgen.genomeCATPro.xportagilent
+OpenIDE-Module-Implementation-Version: 3
+OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/xportagilent/Bundle.properties
+

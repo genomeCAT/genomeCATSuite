@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="org.molgen.genomeCATPro.guimodul">
+    <module_version install_time="1382707964421" last="true" origin="installer" specification_version="2.7.3">
+        <file crc="3071447917" name="config/Modules/org-molgen-genomeCATPro-guimodul.xml"/>
+        <file crc="2412961735" name="modules/org-molgen-genomeCATPro-guimodul.jar"/>
+    </module_version>
+</module>

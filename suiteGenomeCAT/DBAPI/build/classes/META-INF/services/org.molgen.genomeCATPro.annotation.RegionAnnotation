@@ -1,0 +1,5 @@
+org.molgen.genomeCATPro.annotation.LCRImpl
+org.molgen.genomeCATPro.annotation.VariationImpl
+org.molgen.genomeCATPro.annotation.GCContentBase
+org.molgen.genomeCATPro.annotation.GeneImpl
+org.molgen.genomeCATPro.annotation.CytoBandImpl

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module codename="oracle.toplink.essentials.internal.ejb.cmp3">
+    <module_version install_time="1382707953213" last="true" origin="installer" specification_version="1.0">
+        <file crc="3284237794" name="config/Modules/oracle-toplink-essentials-internal-ejb-cmp3.xml"/>
+        <file crc="709849052" name="modules/ext/toplink-essentials-agent.jar"/>
+        <file crc="3877246702" name="modules/oracle-toplink-essentials-internal-ejb-cmp3.jar"/>
+    </module_version>
+</module>

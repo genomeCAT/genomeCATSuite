@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mode version="2.0">
+    <name unique="mynav" />
+    <kind type="view" />
+    <state type="joined" />
+   <constraints>
+    <path orientation="vertical" number="20" weight="0.6674669867947179"/>
+    <path orientation="horizontal" number="20" weight="0.1984189723320158"/>
+    <path orientation="vertical" number="60" weight="0.410459587955626"/>
+  </constraints>
+  <bounds x="128" y="440" width="448" height="460" />
+  
+</mode>
