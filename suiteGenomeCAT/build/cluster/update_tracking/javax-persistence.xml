@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module codename="javax.persistence">
-    <module_version install_time="1382707951926" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1383062776966" last="true" origin="installer" specification_version="1.0">
         <file crc="2091175338" name="config/Modules/javax-persistence.xml"/>
         <file crc="1491704355" name="modules/ext/toplink-essentials.jar"/>
-        <file crc="2994017913" name="modules/javax-persistence.jar"/>
+        <file crc="286832719" name="modules/javax-persistence.jar"/>
     </module_version>
 </module>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module codename="org.molgen.genomeCATPro.xportagilent">
-    <module_version install_time="1382707971720" last="true" origin="installer" specification_version="2.7.3">
+    <module_version install_time="1383062794734" last="true" origin="installer" specification_version="2.7.3">
         <file crc="2880353473" name="config/Modules/org-molgen-genomeCATPro-xportagilent.xml"/>
         <file crc="2649589299" name="feprotokoll.xml"/>
         <file crc="737413113" name="feprotokollold_1.xml"/>
-        <file crc="203980635" name="modules/org-molgen-genomeCATPro-xportagilent.jar"/>
+        <file crc="604567234" name="modules/org-molgen-genomeCATPro-xportagilent.jar"/>
     </module_version>
 </module>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module codename="org.molgen.genomeCATPro.dbapi">
-    <module_version install_time="1382707957416" last="true" origin="installer" specification_version="2.7.3">
+    <module_version install_time="1383062780829" last="true" origin="installer" specification_version="2.7.3">
         <file crc="3741492973" name="config/Modules/org-molgen-genomeCATPro-dbapi.xml"/>
-        <file crc="107984639" name="modules/org-molgen-genomeCATPro-dbapi.jar"/>
+        <file crc="2249092077" name="modules/org-molgen-genomeCATPro-dbapi.jar"/>
     </module_version>
 </module>

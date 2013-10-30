@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/CAT/build.xml</file>
+        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/CAT/nbproject/private/private.properties</file>
+        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/CAT/nbproject/project.properties</file>
+        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/CAT/nbproject/project.xml</file>
+        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/maparr/Map.java</file>
+        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/CAT/test/unit/src/org/molgen/genomeCATPro/cat/maparr/MapTest.java</file>
+    </open-files>
 </project-private>

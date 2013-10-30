@@ -73,10 +73,11 @@ final class InfoTopComponent extends TopComponent {
                     .addComponent(jLabelAck, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 465, Short.MAX_VALUE)
                     .addComponent(Version, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
-                .addGap(91, 91, 91))
+                .addGap(103, 103, 103))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Version, jLabelIcon});
@@ -86,7 +87,7 @@ final class InfoTopComponent extends TopComponent {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jLabelAck)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jLabelIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Version)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
