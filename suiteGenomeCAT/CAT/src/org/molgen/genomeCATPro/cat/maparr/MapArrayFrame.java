@@ -108,8 +108,8 @@ public class MapArrayFrame extends ArrayFrame {
 
     @Override
     public void addData(Data[] list) {
-
-        this.addData(new ArrayList(Arrays.asList(list)));
+        
+        this.addData( Arrays.asList((MapData[]) list));
 
     }
 

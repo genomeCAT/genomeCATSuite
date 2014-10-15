@@ -41,7 +41,7 @@ import org.molgen.genomeCATPro.peaks.cnvcat.AberrationCNVCAT;
  */
 public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
 
-    public final static String methodName = "FindPeaks";
+    public final static String methodName = "ExtractRegions";
     public static final Integer DEF_WINDOW = 2;
     public static final Double DEF_THRESHOLD = 0.2;
     public static final Double DEF_OUTLIER = 20.0;
@@ -87,7 +87,7 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
     }
 
     protected ChipFeature doInBackground() throws Exception {
-        publish("run findPeaks in Background...");
+        publish("run ExtractRegions in Background...");
         setProgress(progressState = 0);
 
         publish("get Quality factor (MAD) ");
@@ -110,9 +110,9 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
         //chip.setIfCbs(true);
 
         if (error) {
-            publish("Error running find Peaks - see logfile for details");
+            publish("Error running Extract Regions - see logfile for details");
         } else {
-            publish("Congratulations! Find Peaks succesfully finished");
+            publish("Congratulations! Extract Regions succesfully finished");
         }
         return newChip;
     // update the progress
@@ -241,10 +241,10 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
                                     if (abDuplication != null && isCBS) {
                                         // save old Duplication
                                         ((ChipPeaks) newChip).addPeak(abDuplication, mad);
-                                        publish("Add Peak: " + abDuplication.toString());
+                                        publish("extract Region: " + abDuplication.toString());
                                     }
                                     abDuplication = new AberrationCNVCAT(
-                                            new String("Peak" + ++i),
+                                            new String("Region" + ++i),
                                             parentChip.getDataEntity().getName(),
                                             Aberration.DUPLICATION,
                                             f.getChrom(),
@@ -275,11 +275,11 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
                                     if (abDeletion != null && isCBS) {
                                         // save old Deletion
                                         ((ChipPeaks) newChip).addPeak(abDeletion, mad);
-                                        publish("Add Peak: " + abDeletion.toString());
+                                        publish("extract Region: " + abDeletion.toString());
                                     }
 
                                     abDeletion = new AberrationCNVCAT(
-                                            new String("Peak" + ++i),
+                                            new String("Region" + ++i),
                                             parentChip.getDataEntity().getName(),
                                             Aberration.DELETION,
                                             f.getChrom(),
@@ -319,9 +319,9 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
 
                             // valid aberration size reached
                             //save Duplication
-                            publish("Add Peak: " + abDuplication.toString());
+                            publish("extract Region: " + abDuplication.toString());
                             ((ChipPeaks) newChip).addPeak(abDuplication, mad);
-                            
+
                         }
                         flagWindowDup = 1;
                         flagOutDup = 0;
@@ -340,7 +340,7 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
                             //valid aberration size reached
                             //save Deletion
                             ((ChipPeaks) newChip).addPeak(abDeletion, mad);
-                            publish("Add Peak: " + abDeletion.toString());
+                            publish("extract Region: " + abDeletion.toString());
                         }
                         flagWindowDel = 1;
                         abDeletion = null;
@@ -357,12 +357,12 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
                 if (abDeletion != null && flagWindowDel >= window) {
                     // save Deletion
                     ((ChipPeaks) newChip).addPeak(abDeletion, mad);
-                    publish("Add Peak: " + abDeletion.toString());
+                    publish("extract Region: " + abDeletion.toString());
                 }
                 if (abDuplication != null && flagWindowDup >= window) {
                     // save Duplication
                     ((ChipPeaks) newChip).addPeak(abDuplication, mad);
-                    publish("Add Peak: " + abDuplication.toString());
+                    publish("extract Region: " + abDuplication.toString());
                 }
             }
 
@@ -370,7 +370,7 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
             if (fakePeak) {
 
                 AberrationCNVCAT fake = new AberrationCNVCAT(
-                        new String("Peak0"),
+                        new String("Region0"),
                         parentChip.getDataEntity().getName(),
                         "",
                         "chr0",
@@ -378,7 +378,7 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
                         new Long(0),
                         0.0, "");
                 ((ChipPeaks) newChip).addPeak(fake, 1);
-                publish("Add Peak: " + fake.toString());
+                publish("extract Region: " + fake.toString());
             }
             return newChip;
 

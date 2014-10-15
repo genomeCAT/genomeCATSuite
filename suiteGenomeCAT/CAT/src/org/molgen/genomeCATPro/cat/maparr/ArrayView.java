@@ -19,7 +19,6 @@ import javax.swing.BorderFactory;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import java.awt.Point;
 import java.util.Vector;
 import java.util.Collections;
 import javax.swing.JPanel;
@@ -41,7 +40,6 @@ import org.molgen.genomeCATPro.cat.util.*;
 
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
-import org.molgen.genomeCATPro.guimodul.data.ZoomYAction;
 
 /**
  * Basic class to display array data
@@ -49,7 +47,7 @@ import org.molgen.genomeCATPro.guimodul.data.ZoomYAction;
  *	todo: for bac arrays there are more than one row per id
  * 260612   kt  bug mouseMove showData
  * 280612   kt  add Menu (zoom  ShowData )  
- *                  
+ * 141014   kt  no zoom popup                
  * 
  */
 public class ArrayView extends JPanel {
@@ -61,14 +59,8 @@ public class ArrayView extends JPanel {
     Defaults.GenomeRelease release = null;
     /* maximal ratio value */
     double pos_max_y = 0;
-    /** maximal chromosomal position acc. to real data */
-    double pos_real_max_x = 0;
     /** define view dimension */
     int view_max_y = Defines.ARRAY_HEIGTH - (Defines.ARRAY_OFFSET * 2);           // height
-
-    static final int off_legend = Defines.ARRAY_WIDTH / 20;		// space for legend (i.e. color scale)
-
-    static final double view_max_x = Defines.ARRAY_WIDTH - (2 * off_legend);                  // width
 
     final static DecimalFormat myFormatter = new DecimalFormat("0.###");
     /** define offset as real start of chromsomal region */
@@ -107,20 +99,27 @@ public class ArrayView extends JPanel {
     long secondPos = 0;
     private JPopupMenu popup;
     private JMenuItem menuShowData;
-    private JMenuItem menuItemZoomIn;
-    private JMenuItem menuItemZoomOut;
-
     // current user focus position at the image
+    ArrayFrame parent = null;
+
+    public void addParent(ArrayFrame al) {
+        this.parent = al;
+    }
+
+    public void removeParent(ArrayFrame al) {
+        this.parent = null;
+    }
+
+    public Integer getDataSize() {
+        return this.arrayName.size();
+    }
+
     /**
      * default constructor 
      */
     public ArrayView() {
         super();
 
-    }
-
-    public Integer getDataSize() {
-        return this.arrayName.size();
     }
 
     /**
@@ -292,15 +291,16 @@ public class ArrayView extends JPanel {
         pos_max_y = Math.max(Math.abs(minRatio), Math.abs(maxRatio));
         //pos_max_y = (pos_max_y > 1) ? pos_max_y : 1.0;
 
-        chromtab.pos_max_x = Math.max(chromtab.pos_max_x, CytoBandManagerImpl.getLast(
+        chromtab.pos_max_x = Math.max(chromtab.pos_max_x, 
+                CytoBandManagerImpl.getLast(
                 this.release, this.chromtab.chrom).getChromEnd());
 
 
 
         if (arrayStop.size() > 0) {
-            pos_real_max_x = Collections.max(arrayStop);
+            chromtab.pos_real_max_x = Collections.max(arrayStop);
         } else {
-            pos_real_max_x = 1;
+            chromtab.pos_real_max_x = 1;
         }
 
         chromtab.pos_off_x = Math.min(chromtab.pos_off_x, CytoBandManagerImpl.getFirst(
@@ -342,7 +342,7 @@ public class ArrayView extends JPanel {
         chromtab.pos_off_x = begin;
         //      begin <  chromtab.pos_off_x ? begin : chromtab.pos_off_x;
 
-        pos_real_max_x = end;
+        chromtab.pos_real_max_x = end;
 
         //pos_max_x = ((Integer) Collections.max(arrayStop)).intValue();	
         //pos_off_x = ((Integer) arrayStart.get(0)).intValue();	
@@ -357,7 +357,7 @@ public class ArrayView extends JPanel {
     void setScale() {
         // start-ende daten
 
-        chromtab.scale_x = (chromtab.pos_max_x - (chromtab.pos_off_x)) / (view_max_x);
+        chromtab.scale_x = (chromtab.pos_max_x - (chromtab.pos_off_x)) / (ChromTab.view_max_x);
         scale_y = (this.view_max_y / 2) / pos_max_y;
         Logger.getLogger(ArrayView.class.getName()).log(
                 Level.FINE, "set scale: scale_x = " + chromtab.scale_x + ", scale_y = " + scale_y);
@@ -388,22 +388,6 @@ public class ArrayView extends JPanel {
         this.scale_y = (this.view_max_y / 2) / fixY;
         this.pos_max_y = fixY;
 
-    }
-
-    /**
-     * map absolute at relative scale position 
-     */
-    public Long mapPosition(long mousePos) {
-
-        if (mousePos < off_legend) {
-            return new Long(chromtab.pos_off_x);
-        }
-        if ((mousePos - off_legend) > view_max_x) {
-            //return (pos_off_x + ((int) Math.floor(scale_x * (view_max_x ))));
-            return new Long((long) Math.max(chromtab.pos_max_x, pos_real_max_x));
-        }
-
-        return new Long((long) (chromtab.pos_off_x + (chromtab.scale_x * new Double(mousePos - off_legend))));
     }
 
     Double getMinRatio() {
@@ -460,9 +444,9 @@ public class ArrayView extends JPanel {
             iColor = ArrayViewBase.mapColorGradient(this.posThreshold, pos_max_y);
             g.setColor(ArrayViewBase.getColor(iColor,
                     parent != null ? parent.isColorScaleRedGreen() : true));
-            g.drawLine(off_legend,
+            g.drawLine(ChromTab.off_legend,
                     center - (int) (scale_y * this.posThreshold),
-                    off_legend + (int) view_max_x,
+                    ChromTab.off_legend + (int) ChromTab.view_max_x,
                     center - (int) (scale_y * this.posThreshold));
         } 	// center line
 
@@ -470,16 +454,16 @@ public class ArrayView extends JPanel {
             iColor = ArrayViewBase.mapColorGradient(this.negThreshold, pos_max_y);
             g.setColor(ArrayViewBase.getColor(iColor,
                     parent != null ? parent.isColorScaleRedGreen() : true));
-            g.drawLine(off_legend,
+            g.drawLine(ChromTab.off_legend,
                     center + (int) (scale_y * (-1 * this.negThreshold)),
-                    off_legend + (int) view_max_x,
+                    ChromTab.off_legend + (int) ChromTab.view_max_x,
                     center + (int) (scale_y * (-1 * this.negThreshold)));
         }
 
 
         //g.drawRect(first, (Defines.ARRAY_OFFSET), second - first, view_max_y);
         //img x, y
-        g.drawImage(color, (int) (off_legend + view_max_x + Defines.ARRAY_OFFSET), (Defines.ARRAY_OFFSET), this);
+        g.drawImage(color, (int) (ChromTab.off_legend + ChromTab.view_max_x + Defines.ARRAY_OFFSET), (Defines.ARRAY_OFFSET), this);
         paintArrayView(g);
         Font defFont = g.getFont();
         g.setColor(Color.black);
@@ -488,9 +472,9 @@ public class ArrayView extends JPanel {
         //g.setColor(ArrayViewBase.getColor(iColor));
         g.setColor(Color.lightGray);
         g.drawLine(
-                off_legend, //x
+                ChromTab.off_legend, //x
                 Defines.ARRAY_OFFSET, //y
-                off_legend + (int) view_max_x,
+                ChromTab.off_legend + (int) ChromTab.view_max_x,
                 Defines.ARRAY_OFFSET);
 
 
@@ -500,34 +484,36 @@ public class ArrayView extends JPanel {
         DecimalFormat f = new DecimalFormat("#0.00");
 
 
-        g.drawString(f.format(this.pos_max_y), ((off_legend / 2) + 1), (Defines.ARRAY_OFFSET));
+        g.drawString(f.format(this.pos_max_y), ((ChromTab.off_legend / 2) + 1), (Defines.ARRAY_OFFSET));
 
         g.setColor(Color.black);
-        g.drawLine(off_legend, center, off_legend + (int) view_max_x, center); 	// center line
+        g.drawLine(ChromTab.off_legend, center, ChromTab.off_legend + (int) ChromTab.view_max_x, center); 	// center line
 
-        g.drawString("0", ((off_legend / 2) + 1), center + 10 / 2);
+        g.drawString("0", ((ChromTab.off_legend / 2) + 1), center + 10 / 2);
 
         //iColor = ArrayViewBase.mapColorGradient(this.legend_minRatio, pos_max_y);
         //g.setColor(ArrayViewBase.getColor(iColor));
         g.setColor(Color.lightGray);
         g.drawLine(
-                off_legend,
+                ChromTab.off_legend,
                 (Defines.ARRAY_HEIGTH - Defines.ARRAY_OFFSET), // height,
-                off_legend + (int) view_max_x,
+                ChromTab.off_legend + (int) ChromTab.view_max_x,
                 (Defines.ARRAY_HEIGTH - Defines.ARRAY_OFFSET));
         g.setColor(Color.black);
         g.drawString(f.format(-this.pos_max_y),
-                ((off_legend / 2) + 1),
+                ((ChromTab.off_legend / 2) + 1),
                 Defines.ARRAY_HEIGTH - (Defines.ARRAY_OFFSET) + 10);
         g.setFont(defFont);
         /*
          * x1 - the first point's x coordinate. y1 - the first point's y coordinate. x2 - the second point's x coordinate. y2 - the second point's y coordinate.
          */
-        //int pix_x = ArrayView.off_legend + (int) Math.round((this.chromtab.pos_ruler - chromtab.pos_off_x) / this.chromtab.scale_x);
+        //int pix_x = ArrayView.ChromTab.off_legend + (int) Math.round((this.chromtab.pos_ruler - chromtab.pos_off_x) / this.chromtab.scale_x);
         if (this.parent.isShowRuler()) {
             g.drawLine(
                     (int) ArrayView.this.chromtab.getMousepos(), 0,
                     (int) ArrayView.this.chromtab.getMousepos(), Defines.ARRAY_HEIGTH);
+
+
         }
         // plot dragged detail window        
         if (showDetailFrame) {
@@ -586,12 +572,12 @@ public class ArrayView extends JPanel {
                         parent != null ? parent.isColorScaleRedGreen() : true));
                 if (ratio > 0) {
 
-                    g.drawRect(off_legend + (int) Math.round(_start / chromtab.scale_x),
+                    g.drawRect(ChromTab.off_legend + (int) Math.round(_start / chromtab.scale_x),
                             center - (int) (ratio * scale_y),
                             (int) Math.round(_width / chromtab.scale_x),
                             (int) Math.round(ratio * scale_y));
                     if (((int) ((stop - start) / chromtab.scale_x)) >= 1) {
-                        g.fillRect(off_legend +
+                        g.fillRect(ChromTab.off_legend +
                                 (int) Math.round(_start / chromtab.scale_x),
                                 center - (int) (ratio * scale_y),
                                 (int) Math.round(_width / chromtab.scale_x),
@@ -599,12 +585,12 @@ public class ArrayView extends JPanel {
                     }
                 } else {
 
-                    g.drawRect(off_legend + (int) Math.round(_start / chromtab.scale_x),
+                    g.drawRect(ChromTab.off_legend + (int) Math.round(_start / chromtab.scale_x),
                             center,
                             (int) Math.round(_width / chromtab.scale_x),
                             -(int) Math.round(ratio * scale_y));
                     if (((int) ((stop - start) / chromtab.scale_x)) >= 1) {
-                        g.fillRect(off_legend + (int) Math.round(_start / chromtab.scale_x),
+                        g.fillRect(ChromTab.off_legend + (int) Math.round(_start / chromtab.scale_x),
                                 center,
                                 (int) Math.round(_width / chromtab.scale_x),
                                 -(int) Math.round(ratio * scale_y));
@@ -654,60 +640,61 @@ public class ArrayView extends JPanel {
 
                     public void actionPerformed(ActionEvent e) {
 
-                        long pos = mapPosition(parent.getMousePos());
+                        long pos = chromtab.mapPosition(parent.getMousePos());
                         showDetailData(pos);
                     }
                 });
         popup.add(menuShowData);
-        /*this.menuItemSetStart = new JMenuItem("set global start");
-        this.menuItemSetStart.addActionListener(
-        new ActionListener() {
-        
-        public void actionPerformed(ActionEvent e) {
-        long pos = mapYPosition(firstPixY, true);
-        WebPositionPanel.setWebPositionChrom(chromId);
-        WebPositionPanel.setWebPositionStart(Long.toString(pos));
-        }
-        });
-        
-        popup.add(menuItemSetStart);
-        this.menuItemSetEnd = new JMenuItem("set global end");
-        this.menuItemSetEnd.addActionListener(
-        new ActionListener() {
-        
-        public void actionPerformed(ActionEvent e) {
-        
-        long pos = mapYPosition(secondPixY, true);
-        WebPositionPanel.setWebPositionEnd(Long.toString(pos));
-        }
-        });
-        popup.add(menuItemSetEnd);
-         */
-        this.menuItemZoomIn = new JMenuItem("ZoomIn");
-        this.menuItemZoomIn.addActionListener(
-                new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-
-
-                        ZoomYAction.getInstance().doZoom(+1);
-                    }
-                });
-
-        popup.add(menuItemZoomIn);
-        this.menuItemZoomOut = new JMenuItem("ZoomOut");
-        this.menuItemZoomOut.addActionListener(
-                new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-
-
-                        ZoomYAction.getInstance().doZoom(-1);
-                    }
-                });
-
-        popup.add(menuItemZoomOut);
-
+    /*this.menuItemSetStart = new JMenuItem("set global start");
+    this.menuItemSetStart.addActionListener(
+    new ActionListener() {
+    
+    public void actionPerformed(ActionEvent e) {
+    long pos = mapYPosition(firstPixY, true);
+    WebPositionPanel.setWebPositionChrom(chromId);
+    WebPositionPanel.setWebPositionStart(Long.toString(pos));
+    }
+    });
+    
+    popup.add(menuItemSetStart);
+    this.menuItemSetEnd = new JMenuItem("set global end");
+    this.menuItemSetEnd.addActionListener(
+    new ActionListener() {
+    
+    public void actionPerformed(ActionEvent e) {
+    
+    long pos = mapYPosition(secondPixY, true);
+    WebPositionPanel.setWebPositionEnd(Long.toString(pos));
+    }
+    });
+    popup.add(menuItemSetEnd);
+     */
+    /*
+    this.menuItemZoomIn = new JMenuItem("ZoomIn");
+    this.menuItemZoomIn.addActionListener(
+    new ActionListener() {
+    
+    public void actionPerformed(ActionEvent e) {
+    
+    
+    ZoomYAction.getInstance().doZoom(+1);
+    }
+    });
+    
+    popup.add(menuItemZoomIn);
+    this.menuItemZoomOut = new JMenuItem("ZoomOut");
+    this.menuItemZoomOut.addActionListener(
+    new ActionListener() {
+    
+    public void actionPerformed(ActionEvent e) {
+    
+    
+    ZoomYAction.getInstance().doZoom(-1);
+    }
+    });
+    
+    popup.add(menuItemZoomOut);
+     */
     }
 
     void showDetailData(long pos) {
@@ -750,7 +737,7 @@ public class ArrayView extends JPanel {
         public void mouseMoved(MouseEvent e) {
 
             parent.setMousePos(e.getPoint().x);
-            long pos = mapPosition(e.getPoint().x);
+            long pos = chromtab.mapPosition(e.getPoint().x);
             parent.setPosition(ArrayView.this.chromtab.chrom, pos);
             if (!parent.isShowRuler() && !parent.isShowData()) {
                 return;
@@ -799,8 +786,10 @@ public class ArrayView extends JPanel {
             //int width = first - second;
 
 
-            Long _firstPos = mapPosition(firstPixX);
-            Long _secondPos = mapPosition(secondPixX);
+            Long _firstPos = chromtab.mapPosition(firstPixX);
+            Long _secondPos = chromtab.mapPosition(secondPixX);
+            if(Math.abs(_firstPos - _secondPos) < 10)
+                return;
             Logger.getLogger(ArrayView.class.getName()).log(Level.INFO,
                     "Detail: begin: " + _firstPos + " end: " + _secondPos);
 
@@ -813,14 +802,4 @@ public class ArrayView extends JPanel {
 
         }
     }
-
-    public void addParent(ArrayFrame al) {
-        this.parent = al;
-
-    }
-
-    public void removeParent(ArrayFrame al) {
-        this.parent = null;
-    }
-    ArrayFrame parent = null;
 }	

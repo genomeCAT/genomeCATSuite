@@ -12,8 +12,11 @@
         </folder>
     </folder>
     <folder name="Menu">
-        <folder name="App">
-            <folder name="CAT">
+        <folder name="Modules">
+            <file name="ROIview_hidden"/>
+        </folder>
+        <folder name="Modules">
+            <folder name="ComparativeView">
                 <file name="org-molgen-genomeCATPro-cat-CATAction.shadow">
                     <attr name="position" intvalue="1"/>
                     <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-CATAction.instance"/>
@@ -27,6 +30,11 @@
                     <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-ArrayFramePropsAction.instance"/>
                 </file>
             </folder>
+            <folder name="ROIview">
+                <file name="org-molgen-genomeCATPro-selector-SelectorAction.shadow" url="org-molgen-genomeCATPro-selector-SelectorAction_1.shadow">
+                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-selector-SelectorAction.instance"/>
+                </file>
+            </folder>
         </folder>
         <folder name="View">
             <file name="org-molgen-genomeCATPro-cat-MapTreeAction-MapTreeAction.shadow">
@@ -36,7 +44,7 @@
         </folder>
     </folder>
     <folder name="Toolbars">
-        <folder name="App">
+        <folder name="Modules">
             <attr name="position" intvalue="2"/>
             <file name="org-molgen-genomeCATPro-cat-CATAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-CATAction.instance"/>

@@ -581,7 +581,6 @@ public class CGHPROFrame extends BasicFrame
         cbHideOriginalData = new javax.swing.JCheckBox();
         jPanelGenome = new javax.swing.JPanel();
         jComboBoxHistory = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
         jRadioButtonChrom = new javax.swing.JRadioButton();
         jRadioButtonRegion = new javax.swing.JRadioButton();
         jPanelChroms = new javax.swing.JPanel();
@@ -616,14 +615,13 @@ public class CGHPROFrame extends BasicFrame
         jScrollPaneAnnotation = new javax.swing.JScrollPane();
         jPanelPlotAnno = new javax.swing.JPanel();
 
+        jToolBar1.setBorder(null);
         jToolBar1.setBorderPainted(false);
+        jToolBar1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
-        jPanelAddData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, this.release, javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(255, 51, 102))); // NOI18N
         jPanelAddData.setMaximumSize(new java.awt.Dimension(1200, 200));
-        jPanelAddData.setOpaque(false);
         jPanelAddData.setLayout(new java.awt.GridLayout(1, 0, 10, 10));
 
-        jPanelAnno.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jPanelAnno.setMaximumSize(new java.awt.Dimension(200, 50));
         jPanelAnno.setMinimumSize(new java.awt.Dimension(200, 50));
         jPanelAnno.setOpaque(false);
@@ -648,7 +646,6 @@ public class CGHPROFrame extends BasicFrame
 
     jPanelAddData.add(jPanelAnno);
 
-    jPanelTracks.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
     jPanelTracks.setMaximumSize(new java.awt.Dimension(200, 100));
     jPanelTracks.setMinimumSize(new java.awt.Dimension(200, 100));
     jPanelTracks.setOpaque(false);
@@ -703,6 +700,7 @@ public class CGHPROFrame extends BasicFrame
 
     jPanelAddData.add(jPanelAddView);
 
+    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder("detail history"));
     jPanelGenome.setMaximumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setMinimumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setOpaque(false);
@@ -718,8 +716,6 @@ public class CGHPROFrame extends BasicFrame
         }
     });
 
-    jLabel4.setText("selected region:");
-
     buttonGroupSelectedView.add(jRadioButtonChrom);
     jRadioButtonChrom.setSelected(true);
     jRadioButtonChrom.setText("full chrom");
@@ -730,7 +726,7 @@ public class CGHPROFrame extends BasicFrame
     });
 
     buttonGroupSelectedView.add(jRadioButtonRegion);
-    jRadioButtonRegion.setText("region");
+    jRadioButtonRegion.setText("detail");
     jRadioButtonRegion.setEnabled(false);
 
     javax.swing.GroupLayout jPanelGenomeLayout = new javax.swing.GroupLayout(jPanelGenome);
@@ -740,19 +736,17 @@ public class CGHPROFrame extends BasicFrame
         .addGroup(jPanelGenomeLayout.createSequentialGroup()
             .addGap(32, 32, 32)
             .addGroup(jPanelGenomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jLabel4)
                 .addGroup(jPanelGenomeLayout.createSequentialGroup()
                     .addComponent(jRadioButtonChrom, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jRadioButtonRegion))
                 .addComponent(jComboBoxHistory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addContainerGap(14, Short.MAX_VALUE))
+            .addContainerGap(19, Short.MAX_VALUE))
     );
     jPanelGenomeLayout.setVerticalGroup(
         jPanelGenomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGenomeLayout.createSequentialGroup()
-            .addComponent(jLabel4)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jComboBoxHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanelGenomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1102,18 +1096,20 @@ public class CGHPROFrame extends BasicFrame
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 896, Short.MAX_VALUE)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanelChroms, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanelChroms, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(33, Short.MAX_VALUE))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap()
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(7, 7, 7)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanelChroms, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
@@ -1228,7 +1224,6 @@ if (this.jRadioButtonChrom.isSelected()) {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanelAddData;
     private javax.swing.JPanel jPanelAddView;
     private javax.swing.JPanel jPanelAnno;

@@ -535,7 +535,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
     jPanelTop.add(AnnotationPanel);
 
-    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder("selected Region"));
+    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder("detail history"));
     jPanelGenome.setMaximumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setMinimumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setOpaque(false);
@@ -554,7 +554,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jRadioButtonFullChrom.setText("full chrom");
 
     buttonGroupSelectedView.add(jRadioButtonRegion);
-    jRadioButtonRegion.setText(" region");
+    jRadioButtonRegion.setText("detail");
     jRadioButtonRegion.setEnabled(false);
 
     javax.swing.GroupLayout jPanelGenomeLayout = new javax.swing.GroupLayout(jPanelGenome);
@@ -712,7 +712,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
             .addGap(18, 18, 18)
             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(109, 109, 109))
@@ -838,7 +838,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
                 .addComponent(textSelStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(textSelEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1))
-            .addGap(68, 68, 68))
+            .addGap(69, 69, 69))
     );
 
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -873,7 +873,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-            .addContainerGap(182, Short.MAX_VALUE)
+            .addContainerGap(181, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()

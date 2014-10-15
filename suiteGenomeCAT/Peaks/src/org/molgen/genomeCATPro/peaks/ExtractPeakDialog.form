@@ -86,7 +86,7 @@
                       </Group>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jTextFieldSampleName" alignment="0" min="-2" pref="501" max="-2" attributes="0"/>
+                  <Component id="jTextFieldSampleName" alignment="0" min="-2" pref="565" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -103,7 +103,7 @@
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="jPanel1" alignment="2" min="-2" pref="78" max="-2" attributes="0"/>
+                  <Component id="jPanel1" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="fieldThreshold" linkSize="6" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -227,7 +227,9 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbFakePeaks">
       <Properties>
-        <Property name="text" type="java.lang.String" value="create dataset even without Peaks"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/molgen/genomeCATPro/peaks/Bundle.properties" key="ExtractPeakDialog.cbFakePeaks.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbFakePeaksActionPerformed"/>

@@ -21,6 +21,7 @@ import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
 public class MapCATDetailAction extends AbstractAction implements LookupListener, ContextAwareAction {
@@ -34,7 +35,7 @@ public class MapCATDetailAction extends AbstractAction implements LookupListener
 
     // open with certain lookup context
     private MapCATDetailAction(Lookup context) {
-        super("open in MapCAT...");
+        super(NbBundle.getMessage(CATAction.class, "CTL_MapCATDataAction"));
         this.context = context;
     }
 

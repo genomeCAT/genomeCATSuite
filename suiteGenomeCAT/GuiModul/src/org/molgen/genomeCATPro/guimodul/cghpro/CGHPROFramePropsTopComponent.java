@@ -1,4 +1,5 @@
 package org.molgen.genomeCATPro.guimodul.cghpro;
+
 /**
  * @name CGHPROFramePropsTopComponent
  *
@@ -279,6 +280,9 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
 
         setName("Properties CGHPro "); // NOI18N
 
+        Color.setMinimumSize(new java.awt.Dimension(90, 80));
+        Color.setPreferredSize(new java.awt.Dimension(100, 100));
+
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CGHPROFramePropsTopComponent.class, "CGHPROFramePropsTopComponent.jPanel4.border.title"))); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel13, org.openide.util.NbBundle.getMessage(CGHPROFramePropsTopComponent.class, "CGHPROFramePropsTopComponent.jLabel13.text")); // NOI18N
@@ -312,7 +316,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fieldPosLine, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldNegLine, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +370,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxChips, 0, 191, Short.MAX_VALUE)
+                    .addComponent(jComboBoxChips, 0, 215, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -390,7 +394,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
                     .addComponent(fieldThresholdGain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxChips, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -510,7 +514,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
                     .addComponent(jButtonColorAbbPosSpot, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                     .addComponent(jButtonColorChip1, 0, 0, Short.MAX_VALUE)
                     .addComponent(jButtonColorChip2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonColorAbbNegSpot, jButtonColorAbbPosSpot, jButtonColorChip1, jButtonColorChip2, jButtonColorTrack});
@@ -538,7 +542,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel12)
                     .addComponent(jButtonColorTrack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonColorAbbNegSpot, jButtonColorAbbPosSpot, jButtonColorChip1, jButtonColorChip2, jButtonColorTrack});
@@ -749,7 +753,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
             jPanelAnnoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAnnoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelAnnoLayout.setVerticalGroup(
@@ -757,7 +761,7 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
             .addGroup(jPanelAnnoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Color.addTab(org.openide.util.NbBundle.getMessage(CGHPROFramePropsTopComponent.class, "CGHPROFramePropsTopComponent.jPanelAnno.TabConstraints.tabTitle"), jPanelAnno); // NOI18N
@@ -773,24 +777,15 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(jButtonApply))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Color, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jButtonApply, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+            .addComponent(Color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(Color, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonApply)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Color, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         bindingGroup.bind();
@@ -799,9 +794,9 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
 private void jButtonColorAbbNegSpotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorAbbNegSpotActionPerformed
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
-    JColorChooser colorChooser = new JColorChooser();
     this.frame.setAbberantNegColor(
             JColorChooser.showDialog(
             this,
@@ -812,9 +807,10 @@ private void jButtonColorAbbNegSpotActionPerformed(java.awt.event.ActionEvent ev
 private void jButtonColorAbbPosSpotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorAbbPosSpotActionPerformed
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
-    JColorChooser colorChooser = new JColorChooser();
+
     this.frame.setAberrantPosColor(
             JColorChooser.showDialog(
             this,
@@ -825,9 +821,10 @@ private void jButtonColorAbbPosSpotActionPerformed(java.awt.event.ActionEvent ev
 private void jButtonColorChip1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorChip1ActionPerformed
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
-    JColorChooser colorChooser = new JColorChooser();
+
     this.frame.setChip1Color(
             JColorChooser.showDialog(
             this,
@@ -838,9 +835,10 @@ private void jButtonColorChip1ActionPerformed(java.awt.event.ActionEvent evt) {/
 private void jButtonColorChip2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorChip2ActionPerformed
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
-    JColorChooser colorChooser = new JColorChooser();
+
     this.frame.setChip2Color(
             JColorChooser.showDialog(
             this,
@@ -851,6 +849,7 @@ private void jButtonColorChip2ActionPerformed(java.awt.event.ActionEvent evt) {/
 private void fieldSpotWidthPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldSpotWidthPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setSpotWidth(((Number) fieldSpotWidth.getValue()).intValue());
@@ -860,6 +859,7 @@ private void fieldSpotWidthPropertyChange(java.beans.PropertyChangeEvent evt) {/
 private void fieldMinSpotHeightPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldMinSpotHeightPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setMinSpotHeight(((Number) this.fieldMinSpotHeight.getValue()).intValue());
@@ -868,7 +868,7 @@ private void fieldMinSpotHeightPropertyChange(java.beans.PropertyChangeEvent evt
     private DefaultComboBoxModel initChipList() {
 
         DefaultComboBoxModel listModel = new DefaultComboBoxModel();
-        listModel.addElement(CGHPROFrame.EMPTY_SAMPLE);
+        //listModel.addElement(CGHPROFrame.EMPTY_SAMPLE);
         for (Chip c : this.frame.getChipList()) {
             if (c instanceof ChipFeature) {
                 listModel.addElement(c.getName());
@@ -893,12 +893,15 @@ private void jComboBoxChipsActionPerformed(java.awt.event.ActionEvent evt) {//GE
     if (c != null) {//GEN-LAST:event_jComboBoxChipsActionPerformed
             this.frame.resetAberrantSpots(c);
             c = null;
+        } else {
+            this.jButtonApply.setForeground(java.awt.Color.RED);
         }
     }
     Chip c = null;
 private void jButtonApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyActionPerformed
 
     if (this.frame == null) {
+
         return;
     }
     c = this.getChip();
@@ -909,11 +912,13 @@ private void jButtonApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             "jButtonApplyActionPerformed" +
             (c != null ? c.getName() : "none"));
     this.frame.refreshMatrixView();
+    this.jButtonApply.setForeground(java.awt.Color.BLACK);
 }//GEN-LAST:event_jButtonApplyActionPerformed
 
 private void fieldThresholdLossPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldThresholdLossPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setThresholdLoss(((Number) this.fieldThresholdLoss.getValue()).doubleValue());
@@ -922,6 +927,7 @@ private void fieldThresholdLossPropertyChange(java.beans.PropertyChangeEvent evt
 private void fieldThresholdGainPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldThresholdGainPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setThresholdGain(((Number) this.fieldThresholdGain.getValue()).doubleValue());
@@ -930,6 +936,7 @@ private void fieldThresholdGainPropertyChange(java.beans.PropertyChangeEvent evt
 private void fieldAnnoWidthPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldAnnoWidthPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setPlotAnnoWidth(((Number) this.fieldAnnoWidth.getValue()).intValue());
@@ -938,9 +945,10 @@ private void fieldAnnoWidthPropertyChange(java.beans.PropertyChangeEvent evt) {/
 private void jButtonColorTrackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorTrackActionPerformed
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
-    JColorChooser colorChooser = new JColorChooser();
+
     this.frame.setChipTrackColor(
             JColorChooser.showDialog(
             this,
@@ -951,6 +959,7 @@ private void jButtonColorTrackActionPerformed(java.awt.event.ActionEvent evt) {/
 private void fieldNegLinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldNegLinePropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setNegThresholdLine(((Number) this.fieldNegLine.getValue()).doubleValue());
@@ -960,6 +969,7 @@ private void fieldNegLinePropertyChange(java.beans.PropertyChangeEvent evt) {//G
 private void fieldPosLinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldPosLinePropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setPosThresholdLine(((Number) this.fieldPosLine.getValue()).doubleValue());
@@ -969,6 +979,7 @@ private void fieldPosLinePropertyChange(java.beans.PropertyChangeEvent evt) {//G
 private void fieldPlotHeightPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldPlotHeightPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setPlotPanelHeight(((Number) this.fieldPlotHeight.getValue()).intValue());
@@ -977,6 +988,7 @@ private void fieldPlotHeightPropertyChange(java.beans.PropertyChangeEvent evt) {
 private void fieldPlotWidthPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldPlotWidthPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setPlotPanelWidth(((Number) this.fieldPlotWidth.getValue()).intValue());
@@ -989,6 +1001,7 @@ private void fieldPlotHeightMousePressed(java.awt.event.MouseEvent evt) {//GEN-F
 private void fieldAnnoGapPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fieldAnnoGapPropertyChange
 
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setPlotAnnoGap(((Number) this.fieldAnnoGap.getValue()).intValue());

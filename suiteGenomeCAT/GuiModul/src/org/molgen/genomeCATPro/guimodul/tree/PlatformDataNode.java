@@ -36,7 +36,7 @@ import org.openide.util.lookup.Lookups;
 
 /**
  *
- * @author tebel
+ * 141014 no menue item Properties
  */
 public class PlatformDataNode extends BeanNode<PlatformData> {
 
@@ -51,7 +51,7 @@ public class PlatformDataNode extends BeanNode<PlatformData> {
     @Override
     public Action[] getActions(boolean arg0) {
         List<Action> actions = new ArrayList<Action>();
-        actions.addAll(Arrays.asList(super.getActions(arg0)));
+        //actions.addAll(Arrays.asList(super.getActions(arg0)));
         actions.add(new ViewPlatformDataAction());
         actions.add(new ViewDataAction());        
         actions.add(new ConvertPlatformAction());
@@ -60,6 +60,10 @@ public class PlatformDataNode extends BeanNode<PlatformData> {
         return actions.toArray(
                 new Action[]{});
 
+    }
+    @Override
+    public Action getPreferredAction(){
+        return new ViewPlatformDataAction();
     }
 }
 

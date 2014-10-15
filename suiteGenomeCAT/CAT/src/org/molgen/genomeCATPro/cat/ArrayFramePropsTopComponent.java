@@ -1,4 +1,5 @@
 package org.molgen.genomeCATPro.cat;
+
 /**
  * @name ArrayFramePropsTopComponent
  *
@@ -45,10 +46,10 @@ import org.openide.util.Utilities;
 import org.openide.windows.Mode;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+
 /**
  * 260612 kt  initComponents() rulerSpinner.stateChanged check if frame != null
  */
-
 final class ArrayFramePropsTopComponent extends TopComponent implements LookupListener {
 
     private Lookup.Result result = null;
@@ -93,8 +94,8 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
         try {
             CATPropertiesMod.save();
         } catch (Exception e) {
-              Logger.getLogger(CATTopComponent.class.getName()).log(
-                Level.INFO, "",e);
+            Logger.getLogger(CATTopComponent.class.getName()).log(
+                    Level.INFO, "", e);
         }
 
     }
@@ -103,7 +104,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
 
         Lookup.Result r = (Lookup.Result) lookupEvent.getSource();
         Collection _c = r.allInstances();
-        
+
         if (!_c.isEmpty()) {
             this.frame = (ArrayFrame) _c.iterator().next();
         }
@@ -164,6 +165,9 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
 
         setName("Properties CAT"); // NOI18N
 
+        Props.setMinimumSize(new java.awt.Dimension(90, 80));
+        Props.setPreferredSize(new java.awt.Dimension(100, 100));
+
         buttonGroupColorScale.add(cbColorScaleRG);
         cbColorScaleRG.setSelected(CATPropertiesMod.props().isColorScaleRedGreen() );
         org.openide.awt.Mnemonics.setLocalizedText(cbColorScaleRG, org.openide.util.NbBundle.getMessage(ArrayFramePropsTopComponent.class, "ArrayFramePropsTopComponent.cbColorScaleRG.text")); // NOI18N
@@ -215,7 +219,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
                     .addGroup(jPanelColorLayout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addComponent(jLabelColorImgRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jPanelColorLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbColorScaleRG, cbColorScaleYB});
@@ -236,7 +240,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
                         .addComponent(jLabelColorImgRG, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelColorLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, jLabelColorImgRG});
@@ -256,7 +260,9 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
                 if(frame != null){
                     frame.setRulerStepSize(rulerStepSize);
                 }
-
+                else{
+                    jButtonApply.setForeground(java.awt.Color.RED);
+                }
             }
         });
         rulerSpinner.setValue(CATPropertiesMod.props().getRulerStepSize());
@@ -314,6 +320,9 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
                     frame.setScaleFactor(scaleFactor);
                     frame.scaleArrayViewInterFrame(CATPropertiesMod.props().getScaleFactor());
                 }
+                else{
+                    jButtonApply.setForeground(java.awt.Color.RED);
+                }
             }
         });
 
@@ -341,7 +350,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(scaleSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         checkScale.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(ArrayFramePropsTopComponent.class, "ArrayFramePropsTopComponent.checkScale.AccessibleContext.accessibleName")); // NOI18N
@@ -368,12 +377,12 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
             .addGroup(jPanelLayoutLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
             .addGroup(jPanelLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelLayoutLayout.createSequentialGroup()
                     .addGap(88, 88, 88)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(78, Short.MAX_VALUE)))
+                    .addContainerGap(25, Short.MAX_VALUE)))
         );
 
         Props.addTab("Layout", jPanelLayout);
@@ -389,24 +398,15 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(jButtonApply))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Props, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(Props, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+            .addComponent(jButtonApply, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(Props, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonApply)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Props, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -416,10 +416,12 @@ private void jButtonApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         return;
     }
     this.frame.repaint();
+    this.jButtonApply.setForeground(java.awt.Color.BLACK);
 }//GEN-LAST:event_jButtonApplyActionPerformed
 
 private void checkScalePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_checkScalePropertyChange
     if (this.frame == null) {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
         return;
     }
     this.frame.setGlobalScale(this.checkScale.isSelected());
@@ -428,12 +430,16 @@ private void checkScalePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN
 private void cbColorScaleRGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbColorScaleRGActionPerformed
     if (this.frame != null) {
         this.frame.setColorScaleRedGreen(this.cbColorScaleRG.isSelected());
+    } else {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
     }
 }//GEN-LAST:event_cbColorScaleRGActionPerformed
 
 private void cbColorScaleYBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbColorScaleYBActionPerformed
     if (this.frame != null) {
         this.frame.setColorScaleRedGreen(this.cbColorScaleRG.isSelected());
+    } else {
+        this.jButtonApply.setForeground(java.awt.Color.RED);
     }
 }//GEN-LAST:event_cbColorScaleYBActionPerformed
 
@@ -474,8 +480,6 @@ private void cbColorScaleYBActionPerformed(java.awt.event.ActionEvent evt) {//GE
         }
         return instance;
     }
-    
-    
 
     /**
      * Obtain the ArrayFramePropsTopComponent instance. Never call {@link #getDefault} directly!

@@ -700,9 +700,7 @@ public class Map {
      * @param arrayList
      * @return valid data list
      */
-    /**
-     * @deprecated 
-     **/
+    @Deprecated
     static List<Data> validateMapAtGene(List<Data> arrayList) {
 
 
@@ -728,9 +726,8 @@ public class Map {
      * base for mapping is Gene, that means new table (mapId) is created, 
      * reference id is Gene, for each array extra column
      */
-    /**
-     * @deprecated 
-     **/
+    
+    @Deprecated
     public static List<MapData> mapAtGene(
             GenomeRelease release,
             List<Data> arrayList,

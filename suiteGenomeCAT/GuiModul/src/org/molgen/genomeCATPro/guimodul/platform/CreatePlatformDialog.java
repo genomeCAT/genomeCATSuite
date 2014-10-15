@@ -622,7 +622,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addComponent(platformDetailView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPlatformLayout.createSequentialGroup()
-                .addContainerGap(631, Short.MAX_VALUE)
+                .addContainerGap(659, Short.MAX_VALUE)
                 .addComponent(detailsOKButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonResetDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -632,7 +632,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbRelease, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(371, Short.MAX_VALUE))
+                .addContainerGap(393, Short.MAX_VALUE))
         );
         jPanelPlatformLayout.setVerticalGroup(
             jPanelPlatformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -777,7 +777,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanelTableFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTableMap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelTableMap, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanelMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMapLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -789,7 +789,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                     .addGroup(jPanelMapLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBoxPositionField)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jTabbedPaneMain.addTab(org.openide.util.NbBundle.getMessage(CreatePlatformDialog.class, "CreatePlatformDialog.jPanelMap.TabConstraints.tabTitle"), jPanelMap); // NOI18N
@@ -818,7 +818,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addComponent(platformDataView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jTabbedPaneMain.addTab(org.openide.util.NbBundle.getMessage(CreatePlatformDialog.class, "CreatePlatformDialog.jPanelPlatformData.TabConstraints.tabTitle"), jPanelPlatformData); // NOI18N

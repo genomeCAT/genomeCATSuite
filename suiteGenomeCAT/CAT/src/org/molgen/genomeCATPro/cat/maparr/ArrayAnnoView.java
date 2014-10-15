@@ -20,7 +20,6 @@ package org.molgen.genomeCATPro.cat.maparr;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -128,7 +127,7 @@ public class ArrayAnnoView extends ArrayView {
             System.out.println("no anno manager");
             return;
         }
-        g.drawLine(off_legend, Defines.ARRAY_HEIGTH / 4, off_legend + (int) view_max_x, Defines.ARRAY_HEIGTH / 4);
+        g.drawLine(ChromTab.off_legend, Defines.ARRAY_HEIGTH / 4, ChromTab.off_legend + (int) ChromTab.view_max_x, Defines.ARRAY_HEIGTH / 4);
         Graphics2D g2 = (Graphics2D) g;
         //gm.rotate(Math.toRadians(90), Defines.ARRAY_WIDTH/2, Defines.ARRAY_HEIGTH/2);
 
@@ -152,7 +151,7 @@ public class ArrayAnnoView extends ArrayView {
         affineTransform.translate(0, Defines.ARRAY_HEIGTH * 0.5 / 2);
         affineTransform.rotate(-Math.toRadians(90));
         
-        affineTransform.translate(-Defines.ARRAY_HEIGTH * 0.5 / 2, off_legend);
+        affineTransform.translate(-Defines.ARRAY_HEIGTH * 0.5 / 2, ChromTab.off_legend);
 
         g2.drawImage(anno, affineTransform, this);
         if (this.parent.isShowRuler()) {

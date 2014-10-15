@@ -74,7 +74,7 @@ public class ExperimentDetailView extends javax.swing.JPanel {
         myInit();
         Logger.getLogger(ExperimentDetailView.class.getName()).log(Level.INFO,
                 "constructor called: " + this.experiment.toFullString());
-
+                
     }
 
     public void clear() {
@@ -134,13 +134,14 @@ public class ExperimentDetailView extends javax.swing.JPanel {
     static void view(ExperimentDetail e, boolean edit) {
         JDialog d = new JDialog();
         d.setTitle("Experiment Detail View");
-        d.setLocationRelativeTo(null);
+       
 
 
         ExperimentDetailView v = new ExperimentDetailView(e, false);
         d.add(v);
         d.pack();
         d.setVisible(true);
+         d.setLocationRelativeTo(null);
     }
 
     public ExperimentDetail getExperiment() {

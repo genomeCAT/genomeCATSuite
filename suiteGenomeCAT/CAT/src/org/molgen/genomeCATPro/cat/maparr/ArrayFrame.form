@@ -153,7 +153,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="selected region"/>
+                <TitledBorder title="detail history"/>
               </Border>
             </Property>
           </Properties>
@@ -226,7 +226,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroupSelectedChrom"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="region"/>
+                <Property name="text" type="java.lang.String" value="detail"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>

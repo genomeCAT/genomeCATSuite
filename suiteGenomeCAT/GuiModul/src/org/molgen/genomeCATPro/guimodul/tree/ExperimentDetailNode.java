@@ -33,6 +33,10 @@ import org.openide.util.lookup.Lookups;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+/**
+ * 141014   kt    no menue item Properties
+ * 
+ */
 public class ExperimentDetailNode extends BeanNode<ExperimentDetail> {
 
     public ExperimentDetailNode(ExperimentDetail bean) throws IntrospectionException {
@@ -47,13 +51,17 @@ public class ExperimentDetailNode extends BeanNode<ExperimentDetail> {
     @Override
     public Action[] getActions(boolean arg0) {
         List<Action> actions = new ArrayList<Action>();
-        actions.addAll(Arrays.asList(super.getActions(arg0)));
+        //actions.addAll(Arrays.asList(super.getActions(arg0)));
         actions.add(new ViewExperimentAction());
         actions.add(new ProjectExperimentAction());
         actions.add(new DeleteDetailAction());
         return actions.toArray(
                 new Action[]{});
 
+    }
+    @Override
+    public Action getPreferredAction(){
+        return new ViewExperimentAction();
     }
 }
 

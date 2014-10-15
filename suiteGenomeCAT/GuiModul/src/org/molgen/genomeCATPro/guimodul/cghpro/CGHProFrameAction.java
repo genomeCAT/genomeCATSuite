@@ -30,7 +30,7 @@ public class CGHProFrameAction extends AbstractAction implements LookupListener,
 
     // open with certain lookup context
     private CGHProFrameAction(Lookup context) {
-        super("open in CGHPRO...");
+        super("open in SingleView");
         this.context = context;
     }
 

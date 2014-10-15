@@ -122,6 +122,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
         //this.jPanelMenue.add(this.topMenu);
 
         this.setRelease(release);
+        
         this.vChromTabs = ChromTab.createChromTabs(this);
         initMyComponents();
         this.addData(list);
@@ -285,7 +286,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     void initChromPane() {
         for (int i = 0; i < vChromTabs.size(); i++) {
             this.panelChroms.add(vChromTabs.get(i), vChromTabs.get(i).chrom);
-            this.jPanelRuler.add(vChromTabs.get(i).getRuler(Defines.ARRAY_HEIGTH / 20), vChromTabs.get(i).chrom);
+            this.jPanelRuler.add(vChromTabs.get(i).getRuler(Defines.ARRAY_HEIGTH / 20, this), vChromTabs.get(i).chrom);
 
             //setPreferredSize(new Dimension(0, 0));
             this.tabbedPane.add(vChromTabs.get(i).chrom, null);
@@ -894,7 +895,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
         sPane.setViewportView(jSplitPane);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("selected region"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("detail history"));
 
         jComboBoxHistory.setEditable(true);
         jComboBoxHistory.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -909,7 +910,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
         });
 
         buttonGroupSelectedChrom.add(jRadioButtonRegion);
-        jRadioButtonRegion.setText("region");
+        jRadioButtonRegion.setText("detail");
         jRadioButtonRegion.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1129,6 +1130,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
      * @param end
      * @param parent 
      */
+    @Deprecated
     public void cropChromTab(Integer begin, Integer end, ChromTab chromtab) {
         Logger.getLogger(ArrayFrame.class.getName()).log(
                 Level.INFO, "create zoom chrom tab for chrom " + chromtab.chrom);
@@ -1364,7 +1366,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
         this.showRuler = showRuler;
 
         changeSupport.firePropertyChange(PROP_SHOWRULER, old, this.showRuler);
-        repaint();
+        this.repaint();
     }
 
     public void showRuler(boolean show) {
@@ -1377,11 +1379,12 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
     }
 
     public void setRulerStepSize(double rulerStepSize) {
-        double old = CATPropertiesMod.props().getRulerStepSize();
+        /*double old = CATPropertiesMod.props().getRulerStepSize();
         CATPropertiesMod.props().setRulerStepSize(rulerStepSize);
 
         changeSupport.firePropertyChange(PROP_CHANGE_RULER, old, CATPropertiesMod.props().getRulerStepSize());
-        repaint();
+        this.repaint();*/
+        
     }
     Region r = new RegionImpl();
 

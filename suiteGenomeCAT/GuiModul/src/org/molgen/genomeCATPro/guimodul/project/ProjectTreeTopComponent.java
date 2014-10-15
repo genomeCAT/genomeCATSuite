@@ -61,7 +61,7 @@ public final class ProjectTreeTopComponent extends TopComponent
 
         beanTreeView1 = new org.openide.explorer.view.BeanTreeView();
         jPanel1 = new javax.swing.JPanel();
-        jButtonApplyFilter = new javax.swing.JButton();
+        filter = new javax.swing.JButton();
         jButtonNoFilter = new javax.swing.JButton();
         cbRelease = new javax.swing.JComboBox();
         checkRelease = new javax.swing.JCheckBox();
@@ -71,7 +71,7 @@ public final class ProjectTreeTopComponent extends TopComponent
         cbProject = new javax.swing.JComboBox();
         checkSample = new javax.swing.JCheckBox();
         cbSample = new javax.swing.JComboBox();
-        cbFilter = new javax.swing.JCheckBox();
+        jLabelFilter = new javax.swing.JLabel();
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -82,10 +82,10 @@ public final class ProjectTreeTopComponent extends TopComponent
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectTreeTopComponent.class, "ProjectTreeTopComponent.jPanel1.border.title"))); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 200));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButtonApplyFilter, org.openide.util.NbBundle.getMessage(ProjectTreeTopComponent.class, "ProjectTreeTopComponent.jButtonApplyFilter.text")); // NOI18N
-        jButtonApplyFilter.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(filter, "filter");
+        filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApplyFilterActionPerformed(evt);
+                filterActionPerformed(evt);
             }
         });
 
@@ -152,8 +152,8 @@ public final class ProjectTreeTopComponent extends TopComponent
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(cbFilter, org.openide.util.NbBundle.getMessage(ProjectTreeTopComponent.class, "ProjectTreeTopComponent.cbFilter.text")); // NOI18N
-        cbFilter.setEnabled(false);
+        jLabelFilter.setForeground(new java.awt.Color(255, 51, 102));
+        org.openide.awt.Mnemonics.setLocalizedText(jLabelFilter, org.openide.util.NbBundle.getMessage(ProjectTreeTopComponent.class, "ProjectTreeTopComponent.jLabelFilter.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,13 +166,13 @@ public final class ProjectTreeTopComponent extends TopComponent
                     .addComponent(checkOwner)
                     .addComponent(checkProject)
                     .addComponent(checkSample)
-                    .addComponent(cbFilter))
-                .addGap(33, 33, 33)
+                    .addComponent(jLabelFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonNoFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonApplyFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cbSample, 0, 159, Short.MAX_VALUE)
                     .addComponent(cbProject, 0, 159, Short.MAX_VALUE)
                     .addComponent(cbOwner, 0, 159, Short.MAX_VALUE)
@@ -180,7 +180,7 @@ public final class ProjectTreeTopComponent extends TopComponent
                 .addGap(68, 68, 68))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonApplyFilter, jButtonNoFilter});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {filter, jButtonNoFilter});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,9 +202,9 @@ public final class ProjectTreeTopComponent extends TopComponent
                     .addComponent(cbSample, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cbFilter)
                     .addComponent(jButtonNoFilter)
-                    .addComponent(jButtonApplyFilter))
+                    .addComponent(filter)
+                    .addComponent(jLabelFilter))
                 .addContainerGap())
         );
 
@@ -217,14 +217,14 @@ public final class ProjectTreeTopComponent extends TopComponent
 
     public void setIsFilter(boolean _isFilter) {
         ProjectTreeTopComponent.isFilter = _isFilter;
-        this.cbFilter.setSelected(ProjectTreeTopComponent.isFilter);
+        this.jLabelFilter.setText(ProjectTreeTopComponent.isFilter ? "filter set" : "");
     }
 
-private void jButtonApplyFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyFilterActionPerformed
+private void filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterActionPerformed
     this.setIsFilter(true);
     this.dbChanged();
 //ExperimentService.notifyListener();
-}//GEN-LAST:event_jButtonApplyFilterActionPerformed
+}//GEN-LAST:event_filterActionPerformed
 
 private void checkReleaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkReleaseActionPerformed
     if (checkRelease.isSelected() && this.cbRelease.getSelectedIndex() >= 0) {
@@ -298,7 +298,6 @@ private void cbSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.openide.explorer.view.BeanTreeView beanTreeView1;
-    private javax.swing.JCheckBox cbFilter;
     private javax.swing.JComboBox cbOwner;
     private javax.swing.JComboBox cbProject;
     private javax.swing.JComboBox cbRelease;
@@ -307,8 +306,9 @@ private void cbSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JCheckBox checkProject;
     private javax.swing.JCheckBox checkRelease;
     private javax.swing.JCheckBox checkSample;
-    private javax.swing.JButton jButtonApplyFilter;
+    private javax.swing.JButton filter;
     private javax.swing.JButton jButtonNoFilter;
+    private javax.swing.JLabel jLabelFilter;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 

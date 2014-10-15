@@ -151,7 +151,7 @@ public class ExtractPeakDialog extends javax.swing.JDialog {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("<html>Percentage of<br/> Outliers [%]</html>");
 
-        cbFakePeaks.setText("create dataset even without Peaks");
+        cbFakePeaks.setText(org.openide.util.NbBundle.getMessage(ExtractPeakDialog.class, "ExtractPeakDialog.cbFakePeaks.text")); // NOI18N
         cbFakePeaks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbFakePeaksActionPerformed(evt);
@@ -312,7 +312,7 @@ public class ExtractPeakDialog extends javax.swing.JDialog {
                                 .addComponent(fieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextFieldSampleName, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldSampleName, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -332,7 +332,7 @@ public class ExtractPeakDialog extends javax.swing.JDialog {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -400,7 +400,7 @@ private void jButtonRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             jTextAreaMsg.append(message + "\n");
         }
     };
-    informable.messageChanged("Start find Peaks....");
+    informable.messageChanged("Start Extract Regions....");
     informable.messageChanged("Get Data for " + sample.getName());
     this.repaint();
 
@@ -409,7 +409,7 @@ private void jButtonRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     this.win = CGHProTopComponent.findInstance(sample);
 
     Logger.getLogger(ExtractPeakDialog.class.getName()).log(
-            Level.INFO, "Start find Peaks for: " +
+            Level.INFO, "Start Extract Regions for: " +
             win.getChip().getDataEntity().getName());
     this.jButtonClose.setEnabled(false);
     this.jButtonRun.setEnabled(false);

@@ -20,7 +20,6 @@ package org.molgen.genomeCATPro.cat.maparr;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 import java.sql.*;
 import java.util.Vector;
 import java.awt.Color;
@@ -60,7 +59,7 @@ public class ArrayViewBase {
             oargs[4] = data;
             cargs[5] = ChromTab.class;
             oargs[5] = chromtab;
-            java.lang.reflect.Constructor c =  d.getArrayClazz().getConstructor(cargs);
+            java.lang.reflect.Constructor c = d.getArrayClazz().getConstructor(cargs);
             a = (ArrayView) c.newInstance(oargs);
         } catch (Exception e) {
             Logger.getLogger(ArrayViewBase.class.getName()).log(Level.SEVERE,

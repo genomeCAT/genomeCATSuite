@@ -137,24 +137,24 @@ public class ArrayTrackView extends ArrayView {
 
                 g.setColor(ArrayViewBase.getColor(iColor,
                         parent != null ? parent.isColorScaleRedGreen() : true));
-                g.drawRect(off_legend +
+                g.drawRect(ChromTab.off_legend +
                         (int) Math.round(_start / chromtab.scale_x),
                         center - (int) Math.round(ratio * scale_y) - 5,
                         (int) Math.round(_width / chromtab.scale_x),
                         10);
                 //g.setColor(ArrayViewBase.getColor(iColor));
 
-                g.fillRect(off_legend +
+                g.fillRect(ChromTab.off_legend +
                         (int) Math.round(_start / chromtab.scale_x),
                         center - (int) Math.round(ratio * scale_y) - 5,
                         (int) Math.round(_width / chromtab.scale_x),
                         10);
                 g.setColor(Color.black);
-                g.drawRect(off_legend + (int) Math.round(_start / chromtab.scale_x),
+                g.drawRect(ChromTab.off_legend + (int) Math.round(_start / chromtab.scale_x),
                         center - (int) Math.round(ratio * scale_y) - 1,
                         (int) Math.round(_width / chromtab.scale_x),
                         2);
-                g.fillRect(off_legend + (int) Math.round(_start / chromtab.scale_x),
+                g.fillRect(ChromTab.off_legend + (int) Math.round(_start / chromtab.scale_x),
                         center - (int) Math.round(ratio * scale_y) - 1,
                         (int) Math.round(_width / chromtab.scale_x),
                         2);

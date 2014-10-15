@@ -17,9 +17,9 @@
                 <attr name="position" intvalue="22"/>
             </file>
         </folder>
-        <folder name="App">
+        <folder name="Modules">
             <attr name="position" intvalue="4"/>
-            <folder name="CNVCAT">
+            <folder name="GroupExplorer">
                 <attr name="position" intvalue="1"/>
                 <file name="CNVCATAction.shadow">
                     <attr name="position" intvalue="1"/>
@@ -31,6 +31,7 @@
                 </file>
             </folder>
         </folder>
+        <file name="GoTo_hidden"/>
         <folder name="Window">
         </folder>
     </folder>
@@ -40,7 +41,7 @@
                 <attr name="originalFile" stringvalue="Actions/Peaks/org-molgen-genomeCATPro-peaks-ExtractPeaksAction.instance"/>
             </file>
         </folder>
-        <folder name="App">
+        <folder name="Modules">
             <file name="CNVCATAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-peaks-CNVCATAction.instance"/>
             </file>

@@ -7,6 +7,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+      <ResourceString bundle="org/molgen/genomeCATPro/cat/maparr/Bundle.properties" key="FilterExperimentsDialog.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+    </Property>
     <Property name="name" type="java.lang.String" value="Filter Experiments" noResource="true"/>
   </Properties>
   <SyntheticProperties>
@@ -73,7 +76,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jPanel3" min="0" pref="108" max="32767" attributes="1"/>
+                          <Component id="jPanel3" min="0" pref="109" max="32767" attributes="1"/>
                           <Component id="jPanel2" alignment="0" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -82,7 +85,7 @@
                           <Component id="jPanel5" max="32767" attributes="1"/>
                       </Group>
                   </Group>
-                  <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
+                  <Component id="jPanel1" min="-2" pref="193" max="-2" attributes="1"/>
               </Group>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -331,7 +334,7 @@
                       <Component id="jLabel5" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="fieldSamplePhenotype" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="11" max="32767" attributes="0"/>
+                  <EmptySpace pref="12" max="32767" attributes="0"/>
                   <Component id="jCheckBoxInclSample" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -569,7 +572,7 @@
                       <Component id="jComboBoxStudy" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -628,7 +631,7 @@
                       <Component id="jComboBoxRelease" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel8" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

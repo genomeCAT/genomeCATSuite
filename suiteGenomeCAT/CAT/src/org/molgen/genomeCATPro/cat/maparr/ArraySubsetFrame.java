@@ -27,6 +27,7 @@ public class ArraySubsetFrame extends ArrayFrame {
      * @param begin
      * @param end
      */
+    @Deprecated
     public ArraySubsetFrame(String chrom, int begin, int end, GenomeRelease release) {
         super();
 

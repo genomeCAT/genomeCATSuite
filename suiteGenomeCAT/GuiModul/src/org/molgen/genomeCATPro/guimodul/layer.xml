@@ -54,7 +54,7 @@
     <folder name="Menu">
         <folder name="Calculate">
             <attr name="position" intvalue="225"/>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.shadow" >
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance"/>
                 <attr name="position" intvalue="10"/>
             </file>
@@ -113,9 +113,9 @@
                 <attr name="position" intvalue="3"/>
             </file>
         </folder>
-        <folder name="App">
+        <folder name="Modules">
             <attr name="position" intvalue="50"/>
-            <folder name="CGHPRO">
+            <folder name="SingleView">
                 <attr name="position" intvalue="1"/>
                 <file name="CGHProFrameAction.shadow">
                     <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>
@@ -127,11 +127,30 @@
                 </file>
             </folder>
         </folder>
-        <folder name="Tools">
-            <attr name="position" intvalue="400"/>
-            <file name="Separator2.instance_hidden"/>
-            <file name="org-netbeans-modules-favorites-templates-TemplatesAction.instance_hidden"/>
+        <folder name="Settings">
+            <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.core.Bundle"/>
+            <attr name="position" intvalue="1000"/>
+            <file name="Separator2.instance" url="Separator2.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                <attr name="position" intvalue="1300"/>
+            </file>
+            <file name="Separator3.instance" url="Separator3.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                <attr name="position" intvalue="1500"/>
+            </file>
+            <file name="org-netbeans-modules-autoupdate-ui-actions-PluginManagerAction.shadow" url="org-netbeans-modules-autoupdate-ui-actions-PluginManagerAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/System/org-netbeans-modules-autoupdate-ui-actions-PluginManagerAction.instance"/>
+                <attr name="position" intvalue="1400"/>
+            </file>
+            <file name="org-netbeans-modules-options-OptionsWindowAction.shadow" url="org-netbeans-modules-options-OptionsWindowAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-netbeans-modules-options-OptionsWindowAction.instance"/>
+                <attr name="position" intvalue="1700"/>
+            </file>
+            <file name="org-openide-actions-ToolsAction.instance" url="org-openide-actions-ToolsAction.instance">
+                <attr name="position" intvalue="100"/>
+            </file>
         </folder>
+        <file name="Tools_hidden"/>
         <folder name="View">
             <attr name="position" intvalue="500"/>
             <file name="InfoAction.shadow">
@@ -206,7 +225,7 @@
                 <attr name="position" intvalue="-400"/>
             </file>
         </folder>
-        <folder name="App">
+        <folder name="Modules">
             <attr name="position" intvalue="2"/>
             <file name="CGHProFrameAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>

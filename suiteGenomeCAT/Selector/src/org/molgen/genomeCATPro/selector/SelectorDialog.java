@@ -314,7 +314,7 @@ public class SelectorDialog extends javax.swing.JDialog {
 
         jTableRegions.setAutoCreateRowSorter(true);
         jTableRegions.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jTableRegions.setFont(new java.awt.Font("Dialog", 0, 14));
+        jTableRegions.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTableRegions.setGridColor(new java.awt.Color(204, 204, 204));
         jTableRegions.setName("data"); // NOI18N
         jTableRegions.setRowHeight(30);

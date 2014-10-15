@@ -41,6 +41,10 @@ import org.openide.util.lookup.Lookups;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+/**
+ * 
+ * 141014 kt    no menue item Properties
+ */
 public class TrackNode extends BeanNode<Track> {
 
     public TrackNode(Track bean) throws IntrospectionException {
@@ -91,7 +95,7 @@ public class TrackNode extends BeanNode<Track> {
         _actions.add(null);
         _actions.addAll(TrackNode.actionsCalculate);
         _actions.add(null);
-        _actions.addAll(Arrays.asList(super.getActions(arg0)));
+        //_actions.addAll(Arrays.asList(super.getActions(arg0)));
         _actions.addAll(TrackNode.actionsData);
         _actions.add(null);
 
@@ -99,5 +103,9 @@ public class TrackNode extends BeanNode<Track> {
         return _actions.toArray(
                 new Action[]{});
 
+    }
+    @Override
+    public Action getPreferredAction(){
+        return new ViewTrackDataAction();
     }
 }

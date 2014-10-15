@@ -41,6 +41,7 @@ import org.openide.util.lookup.Lookups;
 /**
  *
  * 230413   kt  addAction
+ * 141014   kt  no menue item Properties
  */
 public class ProjectNode extends BeanNode<Study> {
 
@@ -53,18 +54,23 @@ public class ProjectNode extends BeanNode<Study> {
         setIconBaseWithExtension(bean.getIconPath());
     }
     static List<Action> actionsData = new ArrayList<Action>(
-            Arrays.asList(new ViewExperimentAction(),
+            Arrays.asList(
             new AddExperimentAction(),
             new AddTrackAction()));
 
     @Override
     public Action[] getActions(boolean arg0) {
         List<Action> actions = new ArrayList<Action>();
-        actions.addAll(Arrays.asList(super.getActions(arg0)));
+        //actions.addAll(Arrays.asList(super.getActions(arg0)));
         actions.addAll(actionsData);
         return actions.toArray(
                 new Action[]{});
 
+    }
+
+    @Override
+    public Action getPreferredAction() {
+        return new AddExperimentAction();
     }
 
     static public void addAction(Action a) {

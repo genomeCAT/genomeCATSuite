@@ -106,7 +106,7 @@ public class ExperimentDataNode extends BeanNode<Data> {
         _actions.add(null);
         _actions.addAll(ExperimentDataNode.actionsCalculate);
         _actions.add(null);
-        _actions.addAll(Arrays.asList(super.getActions(arg0)));
+        //_actions.addAll(Arrays.asList(super.getActions(arg0)));
         _actions.addAll(ExperimentDataNode.actionsData);
         _actions.add(null);
 
@@ -115,5 +115,9 @@ public class ExperimentDataNode extends BeanNode<Data> {
         return _actions.toArray(
                 new Action[]{});
 
+    }
+    @Override
+    public Action getPreferredAction(){
+        return new ViewExperimentDataAction();
     }
 }
