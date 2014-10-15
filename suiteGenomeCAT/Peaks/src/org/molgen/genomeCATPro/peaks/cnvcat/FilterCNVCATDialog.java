@@ -16,12 +16,10 @@ import org.molgen.genomeCATPro.annotation.CytoBandManagerImpl;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
-import org.molgen.genomeCATPro.guimodul.data.WebPositionPanel;
 import org.molgen.genomeCATPro.peaks.CNVCATTopComponent;
 import org.molgen.genomeCATPro.peaks.cnvcat.util.ColorEditor;
 import org.molgen.genomeCATPro.peaks.cnvcat.util.ColorRenderer;
 import org.openide.windows.TopComponent;
-import org.molgen.genomeCATPro.annotation.Region;
 
 /**
  * @name FilterCNVCATDialog
@@ -60,9 +58,9 @@ public class FilterCNVCATDialog extends javax.swing.JDialog {
     public void setAberrationManagerCGH(AberrationManagerCNVCAT _mng) {
         this.aberrationManager = _mng;
     }
-    private String selectCaseId = "one for each track";
-    private String selectPhenotype = "group by track criteria";
-    private String selectNone = "one group";
+    private String selectCaseId = "distinct for each track";
+    private String selectPhenotype = "grouped by track criteria";
+    private String selectNone = "all into one group";
     private List groupListNew = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector());
     Vector colnames = new Vector();
     String release = Defaults.GenomeRelease.hg18.toString();
