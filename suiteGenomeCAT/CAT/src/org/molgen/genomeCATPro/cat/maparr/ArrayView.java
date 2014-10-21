@@ -303,7 +303,7 @@ public class ArrayView extends JPanel {
             chromtab.pos_real_max_x = 1;
         }
 
-        chromtab.pos_off_x = Math.min(chromtab.pos_off_x, CytoBandManagerImpl.getFirst(
+        chromtab.pos_first_x = Math.min(chromtab.pos_first_x, CytoBandManagerImpl.getFirst(
                 this.release, this.chromtab.chrom).getChromStart());
 
         setScale();
@@ -311,7 +311,7 @@ public class ArrayView extends JPanel {
 
 
         Logger.getLogger(ArrayView.class.getName()).log(
-                Level.INFO, "set range: center: " + center + " pos_off_x: " + chromtab.pos_off_x + " pos_max_x: " + chromtab.pos_max_x + "  pos_max_y: " + pos_max_y);
+                Level.INFO, "set range: center: " + center + " pos_off_x: " + chromtab.pos_first_x + " pos_max_x: " + chromtab.pos_max_x + "  pos_max_y: " + pos_max_y);
     }
 
     /**
@@ -339,7 +339,7 @@ public class ArrayView extends JPanel {
         chromtab.pos_max_x = end;
         //      end >  chromtab.pos_max_x ? end : chromtab.pos_max_x;
 
-        chromtab.pos_off_x = begin;
+        chromtab.pos_first_x = begin;
         //      begin <  chromtab.pos_off_x ? begin : chromtab.pos_off_x;
 
         chromtab.pos_real_max_x = end;
@@ -347,7 +347,7 @@ public class ArrayView extends JPanel {
         //pos_max_x = ((Integer) Collections.max(arrayStop)).intValue();	
         //pos_off_x = ((Integer) arrayStart.get(0)).intValue();	
         Logger.getLogger(ArrayView.class.getName()).log(
-                Level.INFO, " set range_begin_end: pos_off_x: " + chromtab.pos_off_x + " pos_max_x: " + chromtab.pos_max_x);
+                Level.INFO, " set range_begin_end: pos_off_x: " + chromtab.pos_first_x + " pos_max_x: " + chromtab.pos_max_x);
         setScale();
     }
 
@@ -357,7 +357,7 @@ public class ArrayView extends JPanel {
     void setScale() {
         // start-ende daten
 
-        chromtab.scale_x = (chromtab.pos_max_x - (chromtab.pos_off_x)) / (ChromTab.view_max_x);
+        chromtab.scale_x = (chromtab.pos_max_x - (chromtab.pos_first_x)) / (ChromTab.view_max_x);
         scale_y = (this.view_max_y / 2) / pos_max_y;
         Logger.getLogger(ArrayView.class.getName()).log(
                 Level.FINE, "set scale: scale_x = " + chromtab.scale_x + ", scale_y = " + scale_y);
@@ -555,12 +555,12 @@ public class ArrayView extends JPanel {
                 start = arrayStart.get(i).longValue();
                 stop = arrayStop.get(i).longValue();
 
-                _start = (start - chromtab.pos_off_x) > 0 ? start - chromtab.pos_off_x : 1;
-                _width = (stop > chromtab.pos_max_x ? (chromtab.pos_max_x - chromtab.pos_off_x) - _start : (stop - chromtab.pos_off_x) - _start);
+                _start = (start - chromtab.pos_first_x) > 0 ? start - chromtab.pos_first_x : 1;
+                _width = (stop > chromtab.pos_max_x ? (chromtab.pos_max_x - chromtab.pos_first_x) - _start : (stop - chromtab.pos_first_x) - _start);
 
 
                 ratio = arrayRatio.get(i).doubleValue();
-                if (stop < chromtab.pos_off_x) {
+                if (stop < chromtab.pos_first_x) {
                     continue;
                 }
                 if (start > chromtab.pos_max_x) {

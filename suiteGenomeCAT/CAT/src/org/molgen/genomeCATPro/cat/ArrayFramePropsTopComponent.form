@@ -31,7 +31,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jButtonApply" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="Props" pref="232" max="32767" attributes="0"/>
+              <Component id="Props" pref="157" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,42 +61,36 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cbColorScaleYB" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbColorScaleRG" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="cbColorScaleYB" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="72" pref="72" max="72" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Component id="jLabel3" linkSize="10" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="cbColorScaleRG" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="72" pref="72" max="72" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Component id="jLabelColorImgRG" linkSize="10" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="59" max="32767" attributes="0"/>
+                      <EmptySpace pref="69" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="cbColorScaleRG" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabelColorImgRG" linkSize="12" min="-2" pref="21" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                              <Component id="cbColorScaleYB" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="cbColorScaleYB" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jLabelColorImgRG" linkSize="12" min="-2" pref="21" max="-2" attributes="0"/>
-                              <EmptySpace min="66" pref="66" max="66" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="jLabel3" linkSize="12" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -196,94 +190,22 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" linkSize="9" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel2" linkSize="9" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace pref="121" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                          <Component id="jPanel2" min="-2" max="-2" attributes="1"/>
-                          <EmptySpace pref="25" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="jPanel2" min="-2" max="-2" attributes="1"/>
+                      <EmptySpace pref="13" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel1">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="ruler ">
-                      <ResourceString PropertyName="titleX" bundle="org/molgen/genomeCATPro/cat/Bundle.properties" key="ArrayFramePropsTopComponent.jPanel1.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                    </TitledBorder>
-                  </Border>
-                </Property>
-              </Properties>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="rulerSpinner" min="-2" pref="41" max="-2" attributes="0"/>
-                          <EmptySpace pref="37" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rulerSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="27" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Component class="javax.swing.JSpinner" name="rulerSpinner">
-                  <Properties>
-                    <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="CATPropertiesMod.props().getRulerStepSize()" type="code"/>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(ruleModel)"/>
-                    <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="SpinnerModel ruleModel = new SpinnerNumberModel(1, 0.01, 10.0, 0.1);"/>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rulerSpinner.addChangeListener(new ChangeListener() {&#xa;&#xa;            public void stateChanged(ChangeEvent e) {&#xa;                //System.out.println(&quot;state changed r spinner&quot;);&#xa;                JSpinner rulerSpinner = (JSpinner) (e.getSource());&#xa;                SpinnerNumberModel rulerModel = (SpinnerNumberModel) rulerSpinner.getModel();&#xa;                double rulerStepSize = rulerModel.getNumber().doubleValue();&#xa;                &#xa;                &#xa;                &#xa;                if(frame != null){&#xa;                    frame.setRulerStepSize(rulerStepSize);&#xa;                }&#xa;                else{&#xa;                    jButtonApply.setForeground(java.awt.Color.RED);&#xa;                }&#xa;            }&#xa;        });"/>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel2">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/molgen/genomeCATPro/cat/Bundle.properties" key="ArrayFramePropsTopComponent.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
             <Container class="javax.swing.JPanel" name="jPanel2">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -319,7 +241,7 @@
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="scaleSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                          <EmptySpace pref="22" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

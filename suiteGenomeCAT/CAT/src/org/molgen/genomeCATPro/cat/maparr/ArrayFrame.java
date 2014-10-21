@@ -1229,6 +1229,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
                 a.repaint();
             }
         }
+        this.repaint();
     }
 
     JComboBox getCBHistory() {

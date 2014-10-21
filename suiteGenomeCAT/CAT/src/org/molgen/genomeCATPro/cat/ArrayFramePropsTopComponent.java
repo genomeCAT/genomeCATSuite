@@ -152,10 +152,6 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
         jLabelColorImgRG = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanelLayout = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        SpinnerModel ruleModel = new SpinnerNumberModel(1, 0.01, 10.0, 0.1);
-        rulerSpinner = new javax.swing.JSpinner(ruleModel);
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         checkScale = new javax.swing.JCheckBox();
@@ -207,19 +203,17 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
         jPanelColorLayout.setHorizontalGroup(
             jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelColorLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
                 .addGroup(jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbColorScaleYB)
                     .addGroup(jPanelColorLayout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbColorScaleYB)
-                            .addComponent(cbColorScaleRG)))
-                    .addGroup(jPanelColorLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
+                        .addGap(15, 15, 15)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbColorScaleRG)
                     .addGroup(jPanelColorLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
+                        .addGap(15, 15, 15)
                         .addComponent(jLabelColorImgRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jPanelColorLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbColorScaleRG, cbColorScaleYB});
@@ -229,16 +223,15 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
         jPanelColorLayout.setVerticalGroup(
             jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelColorLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addContainerGap()
                 .addComponent(cbColorScaleRG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelColorImgRG, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbColorScaleYB)
                     .addGroup(jPanelColorLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(cbColorScaleYB))
-                    .addGroup(jPanelColorLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelColorImgRG, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66)
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -246,48 +239,6 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
         jPanelColorLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, jLabelColorImgRG});
 
         Props.addTab("Color", jPanelColor);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ArrayFramePropsTopComponent.class, "ArrayFramePropsTopComponent.jPanel1.border.title"))); // NOI18N
-
-        rulerSpinner.addChangeListener(new ChangeListener() {
-
-            public void stateChanged(ChangeEvent e) {
-                //System.out.println("state changed r spinner");
-                JSpinner rulerSpinner = (JSpinner) (e.getSource());
-                SpinnerNumberModel rulerModel = (SpinnerNumberModel) rulerSpinner.getModel();
-                double rulerStepSize = rulerModel.getNumber().doubleValue();
-
-                if(frame != null){
-                    frame.setRulerStepSize(rulerStepSize);
-                }
-                else{
-                    jButtonApply.setForeground(java.awt.Color.RED);
-                }
-            }
-        });
-        rulerSpinner.setValue(CATPropertiesMod.props().getRulerStepSize());
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(ArrayFramePropsTopComponent.class, "ArrayFramePropsTopComponent.jLabel2.text")); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rulerSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(rulerSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("scale views"));
 
@@ -350,7 +301,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(scaleSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         checkScale.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(ArrayFramePropsTopComponent.class, "ArrayFramePropsTopComponent.checkScale.AccessibleContext.accessibleName")); // NOI18N
@@ -361,28 +312,15 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
             jPanelLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayoutLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanelLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelLayoutLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-
-        jPanelLayoutLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel1, jPanel2});
-
         jPanelLayoutLayout.setVerticalGroup(
             jPanelLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayoutLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
-            .addGroup(jPanelLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelLayoutLayout.createSequentialGroup()
-                    .addGap(88, 88, 88)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(25, Short.MAX_VALUE)))
+                .addGap(20, 20, 20)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         Props.addTab("Layout", jPanelLayout);
@@ -406,7 +344,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButtonApply)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Props, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
+                .addComponent(Props, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -458,14 +396,11 @@ private void cbColorScaleYBActionPerformed(java.awt.event.ActionEvent evt) {//GE
     public javax.swing.JCheckBox checkScale;
     private javax.swing.JButton jButtonApply;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelColorImgRG;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelColor;
     private javax.swing.JPanel jPanelLayout;
-    public javax.swing.JSpinner rulerSpinner;
     public javax.swing.JSpinner scaleSpinner;
     // End of variables declaration//GEN-END:variables
 

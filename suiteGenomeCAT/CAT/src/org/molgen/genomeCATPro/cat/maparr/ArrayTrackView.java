@@ -118,7 +118,7 @@ public class ArrayTrackView extends ArrayView {
                  */
                 start =  arrayStart.get(i).longValue();
                 stop =  arrayStop.get(i).longValue();
-                if (stop < chromtab.pos_off_x) {
+                if (stop < chromtab.pos_first_x) {
                     continue;
                 }
                 if (start > chromtab.pos_max_x) {
@@ -131,8 +131,8 @@ public class ArrayTrackView extends ArrayView {
                 iColor = ArrayViewBase.mapColorGradient(ratio, pos_max_y);
                 // relate genome selected area (pos_off_x... pos_max_x) to print area 0 ... width)
 
-                _start = (start - chromtab.pos_off_x) > 0 ? start - chromtab.pos_off_x : 1;
-                _width = (stop > chromtab.pos_max_x ? (chromtab.pos_max_x - chromtab.pos_off_x) - _start : (stop - chromtab.pos_off_x) - _start);
+                _start = (start - chromtab.pos_first_x) > 0 ? start - chromtab.pos_first_x : 1;
+                _width = (stop > chromtab.pos_max_x ? (chromtab.pos_max_x - chromtab.pos_first_x) - _start : (stop - chromtab.pos_first_x) - _start);
 
 
                 g.setColor(ArrayViewBase.getColor(iColor,

@@ -139,7 +139,7 @@ public class ArrayAnnoView extends ArrayView {
         am.plot(gm,
                 this.chromtab.chrom,
                 true,
-                this.chromtab.pos_off_x, chromtab.pos_max_x,
+                this.chromtab.pos_first_x, chromtab.pos_max_x,
                 Defines.ARRAY_HEIGTH / 8, //left
                 0, // top,
                 Defines.ARRAY_HEIGTH / 4, // width -- no zoom

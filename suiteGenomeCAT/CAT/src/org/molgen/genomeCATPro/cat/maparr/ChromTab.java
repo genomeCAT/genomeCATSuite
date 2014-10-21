@@ -56,7 +56,7 @@ public class ChromTab extends JPanel {
     public Defaults.GenomeRelease release;
     /** this chrom index */
     int i;
-    long pos_off_x = Long.MAX_VALUE;
+    long pos_first_x = Long.MAX_VALUE;
     long pos_max_x = 0;
     double scale_x = 0.0;
     long pos_ruler = 0;
@@ -478,14 +478,14 @@ public class ChromTab extends JPanel {
     public Long mapPosition(long mousePos) {
 
         if (mousePos < off_legend) {
-            return new Long(pos_off_x);
+            return new Long(pos_first_x);
         }
         if ((mousePos - off_legend) > view_max_x) {
             //return (pos_off_x + ((int) Math.floor(scale_x * (view_max_x ))));
             return new Long((long) Math.max(this.pos_max_x, pos_real_max_x));
         }
 
-        return new Long((long) (pos_off_x + (scale_x * new Double(mousePos - off_legend))));
+        return new Long((long) (pos_first_x + (scale_x * new Double(mousePos - off_legend))));
     }
 
     /**
@@ -546,6 +546,9 @@ public class ChromTab extends JPanel {
         }
 
         @Override
+        /**
+         * adapt ruler and ruler legend to detail range
+         */
         public void paint(Graphics g) {
             Color c = this.getBackground();
             setBackground(c);
@@ -553,87 +556,79 @@ public class ChromTab extends JPanel {
             //long l = 1000 * 1000; // 
 
 
-
+            System.out.println("paint ruler");
 
 
             g.setColor(Color.black);
             g.setFont(new Font("Monospaced", Font.BOLD, 9));
 
-            this.genomPosStart = (long) ChromTab.this.pos_off_x;
+            this.genomPosStart = (long) ChromTab.this.pos_first_x;
             this.genomPosEnd = (long) Math.max(pos_max_x, pos_real_max_x);
 
-            int diffLog = (int) Math.log10(this.genomPosEnd - this.genomPosStart);
-            /*int stepLog = (int) Math.floor(Math.log10(parent.getRulerStepSize())) + 6;
-            stepLog = Math.min(diffLog, stepLog);
-             */
-            int stepLog = diffLog - 1;
-            String unity = "";
-            int unityLog = 0;
-            switch (diffLog) {
-                case 0:
-                    unity = "1000*kbp";
-                    unityLog = 3;
-                    break;
-                case 1:
-                    unity = "100*kbp";
-                    unityLog = 3;
-                    break;
-                case 2:
-                    unity = "10*kbp";
-                    unityLog = 3;
-                    break;
-                case 3:
-                    unity = "kbp";
-                    unityLog = 3;
-                    break;
-                case 4:
-                    unity = "10*kbp";
-                    unityLog = 3;
-                    break;
-                case 5:
-                    unity = "100*kbp";
-                    unityLog = 6;
-                    break;
+            int stepLog = (int) Math.log10(this.genomPosEnd - this.genomPosStart);
 
-                case 6:
-                    unity = "MB";
-                    unityLog = 6;
-                    break;
-                case 7:
-                    unity = "10*MB";
-                    unityLog = 6;
 
-                    break;
+            String unity = (stepLog < 6 ? "[kbp]" : "[MB]");
+            int unityLog = (stepLog < 6 ? 3 : 6);
 
-            }
-            this.genomPosStart = (long) Math.floor(this.genomPosStart / Math.pow(10, stepLog));
-            this.genomPosEnd = (long) Math.ceil(this.genomPosEnd / Math.pow(10, stepLog));
-            g.drawString(
-                    Long.toString((long) (this.genomPosStart / Math.pow(10, unityLog))),
-                    0,(int) ((int) (this.getHeight() * 0.3) / Math.pow(10, unityLog)));
-            g.drawString(
-                    Long.toString(this.genomPosEnd),
-                    Defines.ARRAY_WIDTH - off_legend + 2, (int) (this.getHeight() * 0.3));
+
+
+
             g.drawString(
                     unity,
-                    Defines.ARRAY_WIDTH - off_legend + 2, (int) (this.getHeight()));
+                    Defines.ARRAY_WIDTH - (off_legend - 2), (int) (this.getHeight() * 0.3));
+            g.drawString(Long.toString(stepLog),
+                    Defines.ARRAY_WIDTH - (off_legend - 2), (int) (this.getHeight() * 0.8));
             g.setColor(Color.black);
+            this.genomPosStart = (long) (Math.floor(this.genomPosStart / Math.pow(10, stepLog)));
+            this.genomPosEnd = (long) (Math.ceil(this.genomPosEnd / Math.pow(10, stepLog)));
             int pix_x;
             int pix_xx;
-            for (long i = this.genomPosStart; i < this.genomPosEnd - 1; i++) {
-                pix_x = off_legend + (int) (((i * Math.pow(10, stepLog)) - ChromTab.this.pos_off_x) / scale_x);
-                for (int j = 1; j < 10; j++) {
-                    pix_xx = off_legend + (int) (((i * Math.pow(10, stepLog)) +
-                            ((j * Math.pow(10, stepLog - 1)) - ChromTab.this.pos_off_x)) / scale_x);
-                    if (pix_xx > pos_max_x) {
+            int pix_xxx;
+
+            for (long i = this.genomPosStart; i < this.genomPosEnd; i++) {
+
+                for (int j = 0; j < 10; j++) {
+                    if (Math.pow(10, stepLog - 2) / scale_x > 3) {
+                        for (int k = 0; k < 10; k++) {
+
+                            pix_xxx = off_legend + (int) (((i * Math.pow(10, stepLog)) + (j * Math.pow(10, stepLog - 1) + (k * Math.pow(10, stepLog - 2)) - ChromTab.this.pos_first_x)) / scale_x);
+
+                            if (pix_xxx > (pos_real_max_x - off_legend)) {
+                                break;
+                            }
+                            g.drawLine(pix_xxx, (int) (this.getHeight() * 0.95), pix_xxx, this.getHeight());
+                        }
+                    }
+                    pix_xx = off_legend + (int) (((i * Math.pow(10, stepLog)) + ((j * Math.pow(10, stepLog - 1)) - ChromTab.this.pos_first_x)) / scale_x);
+                    if (pix_xx > (pos_real_max_x - off_legend)) {
                         break;
                     }
                     g.drawLine(pix_xx, (int) (this.getHeight() * 0.8), pix_xx, this.getHeight());
+                    // if resolution is low enough  print labels
+                    if (Math.pow(10, stepLog - 1) / scale_x > 50) {
+
+                        g.drawString(
+                                Long.toString(
+                                (long) (stepLog > unityLog ? (long) ((i * Math.pow(10, stepLog - unityLog)) +
+                                (j * Math.pow(10, stepLog - 1 - unityLog))) : 
+                                    (j * Math.pow(10, stepLog - 1)))),
+                                pix_xx, (int) (this.getHeight() * 0.3));
+                    }
                 }
-
+                pix_x = off_legend + (int) (((i * Math.pow(10, stepLog)) - ChromTab.this.pos_first_x) / scale_x);
+                // print Labels
+                if (pix_x > (pos_real_max_x - off_legend)) {
+                    break;
+                }
                 g.drawString(
-                        Long.toString(i - this.genomPosStart), pix_x - 2, (int) (this.getHeight() * 0.3));
-
+                        Long.toString(
+                        (long) (stepLog >= unityLog ? (i * Math.pow(10, stepLog - unityLog)) : i * Math.pow(10, stepLog))),
+                        pix_x, (int) (this.getHeight() * 0.3));
+                /*g.drawString(
+                Long.toString((long) (i * Math.pow(10, stepLog - unityLog))),
+                pix_x - 2, (int) (this.getHeight() * 0.3));
+                 */
                 g.drawLine(pix_x, (int) (this.getHeight() * 0.5), pix_x, this.getHeight());
             }
 
