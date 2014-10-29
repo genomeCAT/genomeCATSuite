@@ -7,7 +7,7 @@
         </folder>
     </folder>
     <folder name="Menu">
-        <folder name="App">
+        <folder name="Modules">
             <folder name="ROIview">
                 <file name="org-molgen-genomeCATPro-selector-SelectorAction.shadow">
                     <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-selector-SelectorAction.instance"/>

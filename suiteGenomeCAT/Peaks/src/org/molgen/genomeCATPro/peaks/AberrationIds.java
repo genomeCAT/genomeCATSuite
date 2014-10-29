@@ -10,6 +10,7 @@ package org.molgen.genomeCATPro.peaks;
  */
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  * @name AberrationIds
@@ -51,8 +52,6 @@ public interface AberrationIds extends Comparable {
 
     Long getId();
 
-   
-
     void setSelected(boolean selected);
 
     void setXDispColumn(int XDispColumn);
@@ -70,6 +69,14 @@ public interface AberrationIds extends Comparable {
     Integer getCountAberrations();
 
     void setCountAberrations(Integer c);
+
+    List<String> getSampleNames();
+
+    List<String> getPhenotypes();
+
+    void setSampleNames(List<String> d);
+
+    void setPhenotypes(List<String> d);
 };
 
 

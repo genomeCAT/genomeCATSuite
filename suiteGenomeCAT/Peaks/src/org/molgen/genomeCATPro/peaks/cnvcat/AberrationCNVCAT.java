@@ -50,6 +50,206 @@ import org.molgen.genomeCATPro.peaks.Aberration;
 @Entity(name = "AberrationCGH")
 public class AberrationCNVCAT implements Aberration, RegionArray, java.io.Serializable {
 
+    /**
+     * default constructor
+     */
+    public AberrationCNVCAT() {
+    }
+
+    /**
+     * create new AberrationCNVCAT with initial start, end
+     * @param posStart
+     * @param posEnd
+     */
+    AberrationCNVCAT(long posStart, long posEnd) {
+        this.chromEnd = posEnd;
+        this.chromStart = posStart;
+    }
+
+    /**
+     * construct new AberrationCNVCAT 
+     * @param peakId
+     * @param trackId
+     * @param type
+     * @param chrom
+     * @param chromStart
+     * @param chromEnd
+     * @param ratio
+     * @param startFeature
+     */
+    public AberrationCNVCAT(
+            String peakId, String trackId,
+            String type,
+            String chrom, Long chromStart, Long chromEnd,
+            double ratio, String startFeature) {
+        this.peakId = peakId;
+        this.trackId = trackId;
+        this.type = type;
+        this.chrom = chrom;
+        this.chromStart = chromStart;
+        this.chromEnd = chromEnd;
+        this.firstPeakId = startFeature;
+        this.count = 1;
+        this.ratio = ratio;
+        this.quality = 0.0;
+    /*
+    if (this.type.contentEquals(Aberration.DUPLICATION)) {
+    this.iAberrant = 1;
+    }
+    if (this.type.contentEquals(Aberration.DELETION)) {
+    this.iAberrant = -1;
+    }*/
+
+    }
+
+    /**
+     * construct new AberrationCNVCAT 
+     * @param iid
+     * @param peakId
+     * @param type
+     * @param chrom
+     * @param chromStart
+     * @param chromEnd
+     * @param ratio
+     * @param quality
+     * @param count
+     * @param firstPeakId
+     * @param lastPeakId
+     */
+    public AberrationCNVCAT(
+            Long iid, String peakId, String type,
+            String chrom, long chromStart, long chromEnd,
+            double ratio, double quality, int count,
+            String firstPeakId, String lastPeakId) {
+        this.iid = iid;
+        this.peakId = peakId;
+        this.type = type;
+        this.chrom = chrom;
+        this.chromStart = chromStart;
+        this.chromEnd = chromEnd;
+        this.firstPeakId = firstPeakId;
+        this.lastPeakId = lastPeakId;
+        this.ratio = ratio;
+        this.quality = quality;
+        /*if (this.type.contentEquals(Aberration.DUPLICATION)) {
+        this.iAberrant = 1;
+        }
+        if (this.type.contentEquals(Aberration.DELETION)) {
+        this.iAberrant = -1;
+        }*/
+        this.count = count;
+    }
+
+    /**
+     * construct new AberrationCNVCAT 
+     * @param iid
+     * @param peakId
+     * @param chrom
+     * @param chromStart
+     * @param chromEnd
+     * @param ratio
+     * @param count
+     */
+    public AberrationCNVCAT(
+            Long iid, String peakId,
+            String chrom, long chromStart, long chromEnd,
+            double ratio, int count) {
+        this.iid = iid;
+        this.peakId = peakId;
+        if (this.peakId == null || this.peakId.contentEquals("")) {
+            this.peakId = Long.toString(this.iid);
+        }
+        this.chrom = chrom;
+        this.chromStart = chromStart;
+        this.chromEnd = chromEnd;
+        this.firstPeakId = "";
+        this.lastPeakId = "";
+        this.ratio = ratio;
+        this.quality = 1.0;
+
+        if (this.ratio < 0) {
+            this.type = Aberration.DELETION;
+        } else {
+            this.type = Aberration.DUPLICATION;
+        }
+        /*
+        if (this.type.contentEquals(Aberration.DUPLICATION)) {
+        this.iAberrant = 1;
+        }
+        if (this.type.contentEquals(Aberration.DELETION)) {
+        this.iAberrant = -1;
+        }*/
+        this.count = count;
+    }
+    /**
+     * load records from database for a specific data instance
+     * @param d  - object of type Data containing meta information
+     * @return data from database - one object of type Feature for each region
+     * @throws java.lang.Exception
+     */
+    public List<? extends Feature> loadFromDB(Data d) throws Exception {
+
+        Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, d.getName());
+        /* if (!(chipPeaks instanceof ChipPeaks) || !(chipPeaks instanceof ChipFeature)) {
+        Logger.getLogger(AberrationCGH.class.getName()).log(Level.SEVERE,
+        "dbLoadFeatures: Chip class not valid " + chipPeaks.getClass().getName());
+        return;
+        }*/
+        AberrationCNVCAT acgh = null;
+        Connection con = null;
+        List<AberrationCNVCAT> list = new Vector<AberrationCNVCAT>();
+        try {
+            con = Database.getDBConnection(Defaults.localDB);
+
+            Statement s = con.createStatement();
+
+            ResultSet rs = s.executeQuery(
+                    "Select " +
+                    "id, name,  chrom, chromStart, chromEnd, " +
+                    " ratio, quality, " +
+                    " count, type, firstPeakId, lastPeakId " +
+                    " from " + d.getTableData() +
+                    " where chrom != \'\' " +
+                    " order by chrom, chromStart");
+
+
+            while (rs.next()) {
+
+                acgh = new AberrationCNVCAT(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("type"),
+                        rs.getString("chrom"),
+                        rs.getLong("chromStart"),
+                        rs.getLong("chromEnd"),
+                        rs.getDouble("ratio"),
+                        rs.getDouble("quality"),
+                        rs.getInt("count"),
+                        rs.getString("firstPeakId"),
+                        rs.getString("lastPeakId"));
+                list.add(acgh);
+            }
+            return list;
+        } catch (Exception e) {
+            Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, "Error: ", e);
+            throw e;
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, "Error: ", ex);
+                }
+            }
+        }
+    }
+
+    /**
+     * load records from database for a specific data instance
+     * @param d  - object of type Data containing meta information
+     * @return data from database - one object of type AberrationCNVCAT for each region
+     * @throws java.lang.Exception
+     */
     public static List<AberrationCNVCAT> loadCNVFromDB(Data d) throws Exception {
         Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, d.getName());
 
@@ -105,11 +305,11 @@ public class AberrationCNVCAT implements Aberration, RegionArray, java.io.Serial
         }
     }
 
-    AberrationCNVCAT(long posStart, long posEnd) {
-        this.chromEnd = posEnd;
-        this.chromStart = posStart;
-    }
-
+    /**
+     * table creation sql statement for this type
+     * @param d object of type Data containing meta information
+     * @return
+     */
     public String getCreateTableSQL(Data d) {
         String sql = "CREATE  TABLE IF NOT EXISTS " + d.getTableData() + " (" +
                 "id INT NOT NULL AUTO_INCREMENT ," +
@@ -127,6 +327,11 @@ public class AberrationCNVCAT implements Aberration, RegionArray, java.io.Serial
         return sql;
     }
 
+    /**
+     * insert table sql statement for this type
+     * @param d object of type Data containing meta information
+     * @return
+     */
     public String getInsertSQL(Data d) {
         String sql = "INSERT INTO " + d.getTableData() +
                 " (name, chrom, chromStart, chromEnd, ratio, quality," +
@@ -174,90 +379,6 @@ public class AberrationCNVCAT implements Aberration, RegionArray, java.io.Serial
     private int iAberrant = 0;
     @Transient
     String trackId;
-
-    public AberrationCNVCAT() {
-    }
-
-    public AberrationCNVCAT(
-            Long iid, String peakId, String type,
-            String chrom, long chromStart, long chromEnd,
-            double ratio, double quality, int count,
-            String firstPeakId, String lastPeakId) {
-        this.iid = iid;
-        this.peakId = peakId;
-        this.type = type;
-        this.chrom = chrom;
-        this.chromStart = chromStart;
-        this.chromEnd = chromEnd;
-        this.firstPeakId = firstPeakId;
-        this.lastPeakId = lastPeakId;
-        this.ratio = ratio;
-        this.quality = quality;
-        /*if (this.type.contentEquals(Aberration.DUPLICATION)) {
-        this.iAberrant = 1;
-        }
-        if (this.type.contentEquals(Aberration.DELETION)) {
-        this.iAberrant = -1;
-        }*/
-        this.count = count;
-    }
-
-    public AberrationCNVCAT(
-            Long iid, String peakId,
-            String chrom, long chromStart, long chromEnd,
-            double ratio, int count) {
-        this.iid = iid;
-        this.peakId = peakId;
-        if (this.peakId == null || this.peakId.contentEquals("")) {
-            this.peakId = Long.toString(this.iid);
-        }
-        this.chrom = chrom;
-        this.chromStart = chromStart;
-        this.chromEnd = chromEnd;
-        this.firstPeakId = "";
-        this.lastPeakId = "";
-        this.ratio = ratio;
-        this.quality = 1.0;
-
-        if (this.ratio < 0) {
-            this.type = Aberration.DELETION;
-        } else {
-            this.type = Aberration.DUPLICATION;
-        }
-        /*
-        if (this.type.contentEquals(Aberration.DUPLICATION)) {
-        this.iAberrant = 1;
-        }
-        if (this.type.contentEquals(Aberration.DELETION)) {
-        this.iAberrant = -1;
-        }*/
-        this.count = count;
-    }
-
-    public AberrationCNVCAT(
-            String peakId, String trackId,
-            String type,
-            String chrom, Long chromStart, Long chromEnd,
-            double ratio, String startFeature) {
-        this.peakId = peakId;
-        this.trackId = trackId;
-        this.type = type;
-        this.chrom = chrom;
-        this.chromStart = chromStart;
-        this.chromEnd = chromEnd;
-        this.firstPeakId = startFeature;
-        this.count = 1;
-        this.ratio = ratio;
-        this.quality = 0.0;
-    /*
-    if (this.type.contentEquals(Aberration.DUPLICATION)) {
-    this.iAberrant = 1;
-    }
-    if (this.type.contentEquals(Aberration.DELETION)) {
-    this.iAberrant = -1;
-    }*/
-
-    }
 
     public Long getIid() {
         return iid;
@@ -525,63 +646,6 @@ public class AberrationCNVCAT implements Aberration, RegionArray, java.io.Serial
 
     public void setName(String name) {
         this.setPeakId(name);
-    }
-
-    public List<? extends Feature> loadFromDB(Data d) throws Exception {
-
-        Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, d.getName());
-        /* if (!(chipPeaks instanceof ChipPeaks) || !(chipPeaks instanceof ChipFeature)) {
-        Logger.getLogger(AberrationCGH.class.getName()).log(Level.SEVERE,
-        "dbLoadFeatures: Chip class not valid " + chipPeaks.getClass().getName());
-        return;
-        }*/
-        AberrationCNVCAT acgh = null;
-        Connection con = null;
-        List<AberrationCNVCAT> list = new Vector<AberrationCNVCAT>();
-        try {
-            con = Database.getDBConnection(Defaults.localDB);
-
-            Statement s = con.createStatement();
-
-            ResultSet rs = s.executeQuery(
-                    "Select " +
-                    "id, name,  chrom, chromStart, chromEnd, " +
-                    " ratio, quality, " +
-                    " count, type, firstPeakId, lastPeakId " +
-                    " from " + d.getTableData() +
-                    " where chrom != \'\' " +
-                    " order by chrom, chromStart");
-
-
-            while (rs.next()) {
-
-                acgh = new AberrationCNVCAT(
-                        rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getString("type"),
-                        rs.getString("chrom"),
-                        rs.getLong("chromStart"),
-                        rs.getLong("chromEnd"),
-                        rs.getDouble("ratio"),
-                        rs.getDouble("quality"),
-                        rs.getInt("count"),
-                        rs.getString("firstPeakId"),
-                        rs.getString("lastPeakId"));
-                list.add(acgh);
-            }
-            return list;
-        } catch (Exception e) {
-            Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, "Error: ", e);
-            throw e;
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AberrationCNVCAT.class.getName()).log(Level.INFO, "Error: ", ex);
-                }
-            }
-        }
     }
 
     public boolean equalsByPos(Region r2) {

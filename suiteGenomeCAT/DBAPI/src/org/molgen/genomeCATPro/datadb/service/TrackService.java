@@ -87,15 +87,14 @@ public class TrackService {
      * @param parentTrack
      * @param em
      */
+    @Deprecated
     public static void detachFromParentExperimentData(Track t, ExperimentData p, EntityManager em) {
 
         if (!em.contains(t)) {
             t = em.merge(t); // detached -> managed
 
         }
-        ExperimentData dummy = t.getParentExperiment(); // workaround lazy
-        //Track mt = em.find(Track.class, t.getTrackID());
-        // Track mParent = em.find(Track.class,parentTrack.getTrackID());
+
 
         t.setParentExperiment(null);
     }
@@ -136,8 +135,8 @@ public class TrackService {
 
         Study project = null;
 
-        if (s.getParentExperiment() != null ){
-              //  && !moveToStudy) {
+        if (s.getParentExperiment() != null) {
+            //  && !moveToStudy) {
             ExperimentData parent = s.getParentExperiment();
 
 
@@ -190,6 +189,11 @@ public class TrackService {
         return true;
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     */
     public static Track getTrackById(
             Long id) {
         EntityManager em = DBService.getEntityManger();
@@ -207,15 +211,12 @@ public class TrackService {
                 "getTrackById: " + (d != null ? d.toFullString() : " not found " + id));
 
 
-
-
-
         return d;
 
     }
 
     /**
-     * list root (witouth parent track) only
+     * list root nodes only (i.e. witouth parent track) 
      * @param e
      * @return
      */
@@ -254,6 +255,55 @@ public class TrackService {
 
     }
 
+    /**
+     * get indirekt samples (attached to parent experiment) for a track
+     * @param t Track
+     * @return
+     */
+    public static List<SampleDetail> getIndirektSampleInformationForTrack(Track t) {
+
+        if (t == null || t.getId() == null) {
+            return Collections.EMPTY_LIST;
+        }
+        EntityManager em = DBService.getEntityManger();
+        if (em == null) {
+            return Collections.EMPTY_LIST;
+        }
+        try {
+
+            Query query = em.createQuery(
+                    "SELECT sample FROM  " +
+                    " SampleInExperiment as sie, ExperimentDetail detail , " +
+                    " SampleDetail as sample , Track t " +
+                    " where sie.sampleDetailID = sample.sampleDetailID " +
+                    " and sie.experimentDetailID = detail.experimentDetailID " +
+                    " and t.parentExperiment.experiment = detail.experimentDetailID " +
+                    " and t.trackID = ?1");
+
+
+            query.setParameter(1, t.getId());
+            Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
+                    "getIndirektSampleInformationForTrack:" +
+                    query.getResultList().toString());
+            List<SampleDetail> list = query.getResultList();
+
+            return list;
+        } catch (Exception ex) {
+            Logger.getLogger(TrackService.class.getName()).log(Level.SEVERE,
+                    "getIndirektSampleInformationForTrack:", ex);
+            return Collections.EMPTY_LIST;
+        } finally {
+            em.close();
+        }
+
+
+    }
+
+    /**
+     * get all direct chilren  of a track
+     * @param e
+     * @return
+     */
     public static List<Track> listChildrenForTrack(Track e) {
         if (e.getId() == null) {
             return Collections.EMPTY_LIST;
@@ -324,7 +374,7 @@ public class TrackService {
             List<Track> listTracks = track.getChildrenList();
             for (Track ct : listTracks) {
                 try {
-                    TrackService.deleteTrack(ct,moveToStudy, em);
+                    TrackService.deleteTrack(ct, moveToStudy, em);
                 } catch (Error error) {
                     // try to remove from subtree
                     if (!TrackService.moveTrack(ct, moveToStudy, em)) {
@@ -395,12 +445,6 @@ public class TrackService {
         Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
                 query.getResultList().toString());
 
-
-
-
-
-
-
         return query.getResultList();
     }
 
@@ -432,6 +476,13 @@ public class TrackService {
         return query.getResultList();
     }
 
+    /**
+     * attach samples from list to an other track
+     * @param samples
+     * @param track
+     * @param em
+     * @throws java.lang.Exception
+     */
     public static void forwardSamples(List<SampleInTrack> samples, Track track, EntityManager em) throws Exception {
         if (!em.isOpen()) {
             throw new RuntimeException("importSamples method meant to be inside open em/transaction!!");
@@ -470,6 +521,15 @@ public class TrackService {
 
     }
 
+    /**
+     * attach samples from list to a track
+     * @param samples
+     * @param track
+     * @param isNewTrack
+     * @param em
+     * @return
+     * @throws java.lang.Exception
+     */
     public static List<SampleInTrack> importSamples(
             List<SampleInTrack> samples, Track track, boolean isNewTrack, EntityManager em) throws Exception {
         // sample existiert bereits ?  merge : create
@@ -538,6 +598,12 @@ public class TrackService {
 
     }
 
+    /**
+     * make track instance persistent
+     * @param t
+     * @param em
+     * @throws java.lang.Exception
+     */
     public static void persistsTrack(Track t, EntityManager em) throws Exception {
         if (em == null) {
             em = DBService.getEntityManger();
@@ -556,9 +622,6 @@ public class TrackService {
 
         } catch (Exception ex) {
             Logger.getLogger(TrackService.class.getName()).log(Level.SEVERE, null, ex);
-
-
-
 
             throw ex;
 
@@ -597,9 +660,13 @@ public class TrackService {
         }
     }
 
+    /**
+     * get all types of data contained in db
+     * @return
+     */
     public static Vector<String> getAllDataTypes() {
 
-        String[] values = null;
+
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
         Connection con = Database.getDBConnection(Defaults.localDB);
@@ -623,9 +690,12 @@ public class TrackService {
         return vValues;
     }
 
+    /**
+     * get all methods of processing contained in db
+     */
     public static Vector<String> getAllProcs() {
 
-        String[] values = null;
+
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
         Connection con = Database.getDBConnection(Defaults.localDB);

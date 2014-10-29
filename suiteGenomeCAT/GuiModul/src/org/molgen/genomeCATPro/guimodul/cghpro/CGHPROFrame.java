@@ -394,7 +394,7 @@ public class CGHPROFrame extends BasicFrame
 
         this.jPanelPlotAnno.add(cytoband);
         this.jPanelPlotAnno.setPreferredSize(
-                new Dimension(this.getPlotAnnoWidth(), this.getPlotPanelHeight()));
+                new Dimension(this.getPlotAnnoWidth() , this.getPlotPanelHeight()));
 
     }
 

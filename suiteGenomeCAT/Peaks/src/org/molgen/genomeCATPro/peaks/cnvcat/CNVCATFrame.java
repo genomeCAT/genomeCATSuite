@@ -352,23 +352,17 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
         jRadioButtonRegion = new javax.swing.JRadioButton();
         jPanelMain = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableHeader = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         buttonAddActive = new javax.swing.JButton();
         buttonClearActive = new javax.swing.JButton();
         jButtonPrintFreq = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableData = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        textSelChrom = new javax.swing.JTextField();
-        textSelStart = new javax.swing.JTextField();
-        textSelEnd = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableHeader = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanelRight = new javax.swing.JPanel();
         jScrollPaneMatrix = new javax.swing.JScrollPane();
@@ -410,7 +404,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
         jPanelTop.setPreferredSize(new java.awt.Dimension(800, 95));
         jPanelTop.setLayout(new java.awt.GridLayout(1, 1));
 
-        ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Layout"));
+        ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Layout", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
         ModePanel.setMinimumSize(new java.awt.Dimension(0, 0));
         ModePanel.setLayout(new javax.swing.BoxLayout(ModePanel, javax.swing.BoxLayout.Y_AXIS));
 
@@ -444,7 +438,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
         jPanelTop.add(ModePanel);
 
-        TransparancyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Transparency"));
+        TransparancyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transparency", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
 
         buttonGroupTransparency.add(jRadioButtonTransNone);
         jRadioButtonTransNone.setText("None");
@@ -495,7 +489,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
         jPanelTop.add(TransparancyPanel);
 
-        AnnotationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Annotation"));
+        AnnotationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Annotation", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(
             this.listAnnotations));
@@ -535,7 +529,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
     jPanelTop.add(AnnotationPanel);
 
-    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder("detail history"));
+    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "detail history", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
     jPanelGenome.setMaximumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setMinimumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setOpaque(false);
@@ -599,59 +593,6 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jSplitPane1.setOneTouchExpandable(true);
     jSplitPane1.setPreferredSize(new java.awt.Dimension(800, 600));
 
-    jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
-    jTabbedPane1.setMinimumSize(new java.awt.Dimension(100, 400));
-
-    jTableHeader.setAutoCreateRowSorter(true);
-    jTableHeader.setName("jTableHeader");
-    jTableHeader.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
-    org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${aberrationManager.activeCases}");
-    org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTableHeader);
-    org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${trackId}"));
-    columnBinding.setColumnName("Track Id");
-    columnBinding.setColumnClass(String.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${paramAsString}"));
-    columnBinding.setColumnName("Parameter");
-    columnBinding.setColumnClass(String.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${color}"));
-    columnBinding.setColumnName("Color");
-    columnBinding.setColumnClass(java.awt.Color.class);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${countAberrations}"));
-    columnBinding.setColumnName("# CNV");
-    columnBinding.setColumnClass(Integer.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${noHiddenCNV}"));
-    columnBinding.setColumnName("# Hidden CNV");
-    columnBinding.setColumnClass(Integer.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${XDispColumn}"));
-    columnBinding.setColumnName("Column");
-    columnBinding.setColumnClass(Integer.class);
-    bindingGroup.addBinding(jTableBinding);
-    jTableBinding.bind();
-    jTableHeader.getModel().addTableModelListener(new TableModelListener() {
-
-        public void tableChanged(TableModelEvent e) {
-
-            int row = e.getFirstRow();
-            int column = e.getColumn();
-            //System.out.println("source:  " + e.getSource() + " type " + e.getType() + " row " + row + " col " + column);
-            //AberrationJFrame.this.updateDisplayMatrix();
-        }
-    });
-    jTableHeader.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-        public void propertyChange(java.beans.PropertyChangeEvent evt) {
-            jTableHeaderPropertyChange(evt);
-        }
-    });
-    jTableHeader.setDefaultEditor(Color.class,  new ColorEditor());
-    jTableHeader.setDefaultRenderer(Color.class, new ColorRenderer(true));
-    jScrollPane1.setViewportView(jTableHeader);
-    jTableHeader.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
     buttonAddActive.setText("Add");
     buttonAddActive.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -678,7 +619,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanel5Layout.setHorizontalGroup(
         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-            .addContainerGap(82, Short.MAX_VALUE)
+            .addContainerGap(145, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                 .addComponent(jButtonPrintFreq, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createSequentialGroup()
@@ -699,26 +640,8 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
             .addContainerGap())
     );
 
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
-    jPanel1Layout.setHorizontalGroup(
-        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addContainerGap(35, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-    );
-    jPanel1Layout.setVerticalGroup(
-        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-            .addGap(18, 18, 18)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(109, 109, 109))
-    );
-
-    jTabbedPane1.addTab("ID", jPanel1);
+    jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
+    jTabbedPane1.setMinimumSize(new java.awt.Dimension(100, 400));
 
     jScrollPane2.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
@@ -726,8 +649,8 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jTableData.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     jTableData.getTableHeader().setReorderingAllowed(false);
 
-    jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listDispAberrations, jTableData);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${trackId}"));
+    org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listDispAberrations, jTableData);
+    org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${trackId}"));
     columnBinding.setColumnName("TrackID");
     columnBinding.setColumnClass(String.class);
     columnBinding.setEditable(false);
@@ -801,89 +724,97 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     // selected Item propagating to tableHeader
     jTableData.getSelectionModel().addListSelectionListener(new DataListSelectionHandler());
 
-    jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("selected CNV"));
+    jTabbedPane1.addTab("Tracks", jScrollPane2);
 
-    textSelChrom.setEditable(false);
-    textSelChrom.setMinimumSize(new java.awt.Dimension(100, 10));
+    jTableHeader.setAutoCreateRowSorter(true);
+    jTableHeader.setColumnSelectionAllowed(true);
+    jTableHeader.setName("jTableHeader");
+    jTableHeader.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-    textSelStart.setEditable(false);
-    textSelStart.setMinimumSize(new java.awt.Dimension(100, 10));
+    org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${aberrationManager.activeCases}");
+    jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTableHeader);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${trackId}"));
+    columnBinding.setColumnName("Track Id");
+    columnBinding.setColumnClass(String.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sampleNames}"));
+    columnBinding.setColumnName("Sample Names");
+    columnBinding.setColumnClass(java.util.List.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${phenotypes}"));
+    columnBinding.setColumnName("Phenotypes");
+    columnBinding.setColumnClass(java.util.List.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${paramAsString}"));
+    columnBinding.setColumnName("Param As String");
+    columnBinding.setColumnClass(String.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${color}"));
+    columnBinding.setColumnName("Color");
+    columnBinding.setColumnClass(java.awt.Color.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${countAberrations}"));
+    columnBinding.setColumnName("Count Aberrations");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${noHiddenCNV}"));
+    columnBinding.setColumnName("No Hidden CNV");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${XDispColumn}"));
+    columnBinding.setColumnName("XDisp Column");
+    columnBinding.setColumnClass(Integer.class);
+    bindingGroup.addBinding(jTableBinding);
+    jTableBinding.bind();
+    jTableHeader.getModel().addTableModelListener(new TableModelListener() {
 
-    textSelEnd.setEditable(false);
-    textSelEnd.setMinimumSize(new java.awt.Dimension(100, 10));
+        public void tableChanged(TableModelEvent e) {
 
-    jLabel1.setText("CNV:");
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            //System.out.println("source:  " + e.getSource() + " type " + e.getType() + " row " + row + " col " + column);
+            //AberrationJFrame.this.updateDisplayMatrix();
+        }
+    });
+    jTableHeader.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            jTableHeaderPropertyChange(evt);
+        }
+    });
+    jTableHeader.setDefaultEditor(Color.class,  new ColorEditor());
+    jTableHeader.setDefaultRenderer(Color.class, new ColorRenderer(true));
+    jScrollPane1.setViewportView(jTableHeader);
+    jTableHeader.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-    javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-    jPanel6.setLayout(jPanel6Layout);
-    jPanel6Layout.setHorizontalGroup(
-        jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel6Layout.createSequentialGroup()
-            .addGap(29, 29, 29)
-            .addComponent(jLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(textSelChrom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(6, 6, 6)
-            .addComponent(textSelStart, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(textSelEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(41, 41, 41))
-    );
-    jPanel6Layout.setVerticalGroup(
-        jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel6Layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(textSelChrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(textSelStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(textSelEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1))
-            .addGap(69, 69, 69))
-    );
-
-    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-    jPanel4.setLayout(jPanel4Layout);
-    jPanel4Layout.setHorizontalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel4Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(13, Short.MAX_VALUE))
-    );
-    jPanel4Layout.setVerticalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-            .addContainerGap(219, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
-    );
+    jTabbedPane1.addTab("Data", jScrollPane1);
 
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel2Layout.createSequentialGroup()
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addContainerGap())
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                .addContainerGap()))
+        .addGap(0, 413, Short.MAX_VALUE)
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-            .addContainerGap(181, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE)))
+        .addGap(0, 366, Short.MAX_VALUE)
     );
 
-    jTabbedPane1.addTab("CNV", jPanel2);
+    jTabbedPane1.addTab("Regions", jPanel2);
 
-    jSplitPane1.setLeftComponent(jTabbedPane1);
+    javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+    jPanel3.setLayout(jPanel3Layout);
+    jPanel3Layout.setHorizontalGroup(
+        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
+    jPanel3Layout.setVerticalGroup(
+        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
+    );
+
+    jSplitPane1.setLeftComponent(jPanel3);
 
     jSplitPane2.setDividerLocation(100);
     jSplitPane2.setDividerSize(5);
@@ -1309,13 +1240,10 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     javax.swing.JButton jButtonPrintFreq;
     javax.swing.JComboBox jComboBox2;
     javax.swing.JComboBox jComboBoxHistory;
-    javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel8;
-    javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
-    javax.swing.JPanel jPanel4;
+    javax.swing.JPanel jPanel3;
     javax.swing.JPanel jPanel5;
-    javax.swing.JPanel jPanel6;
     javax.swing.JPanel jPanelChroms;
     javax.swing.JPanel jPanelGenome;
     javax.swing.JPanel jPanelMain;
@@ -1369,9 +1297,6 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     javax.swing.JRadioButton rbChromY;
     javax.swing.ButtonGroup rbGroupChroms;
     javax.swing.ButtonGroup rbGroupView;
-    javax.swing.JTextField textSelChrom;
-    javax.swing.JTextField textSelEnd;
-    javax.swing.JTextField textSelStart;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     MatrixAberration matrix;
@@ -1392,20 +1317,11 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
         super.refreshMatrixView();
 
         try {
-            this.textSelChrom.setText("");
-            this.textSelStart.setText("");
-            this.textSelEnd.setText("");
-
+           
             if (this.AberrationManager() == null) {
                 return;
             }
-            for (Aberration a : this.AberrationManager().getDispAberrations()) {
-                if (a.isSelected()) {
-                    this.textSelChrom.setText(a.getChrom());
-                    this.textSelStart.setText(Long.toString(a.getChromStart()));
-                    this.textSelEnd.setText(Long.toString(a.getChromEnd()));
-                }
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error: " + (e.getMessage() != null ? e.getMessage() : "undefined"));
@@ -1429,9 +1345,7 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     public void updateMatrixView() {
 
         super.updateMatrixView();
-        this.textSelChrom.setText("");
-        this.textSelStart.setText("");
-        this.textSelEnd.setText("");
+       
 
         if (this.AberrationManager() == null) {
             return;

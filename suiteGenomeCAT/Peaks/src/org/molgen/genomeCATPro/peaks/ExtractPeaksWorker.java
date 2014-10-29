@@ -142,7 +142,7 @@ public class ExtractPeaksWorker extends SwingWorker<ChipFeature, String> {
         try {
             // new chip to hold peak data
 
-
+            
             newChip = new ChipPeaks(
                     new Track(trackId,
                     this.parentChip.getDataEntity().getGenomeRelease(),

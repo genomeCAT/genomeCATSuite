@@ -39,6 +39,7 @@ import org.molgen.dblib.DBService;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.data.DataService;
 import org.molgen.genomeCATPro.data.Feature;
+import org.molgen.genomeCATPro.datadb.dbentities.SampleDetail;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
 
@@ -47,7 +48,12 @@ import org.molgen.genomeCATPro.peaks.Aberration;
 import org.molgen.genomeCATPro.peaks.AberrationIds;
 import org.openide.util.Lookup;
 import org.openide.util.Lookup.Result;
+
 /**
+ * 
+ * maintain instances,  filter, group  track data 
+ * 
+ * 
  * 081013    kt  filterLocation tolearate  exception  table not exists
  * 
  */
@@ -56,10 +62,30 @@ public class AberrationManagerCNVCAT extends AberrationManager {
     private boolean groupByCaseID = false;
     private boolean groupByParam = false;
     private boolean groupByNone = false;
+    private boolean groupBySample = false;
+    private boolean groupByPhenotype = false;
     //EntityManager em = DBService.getEntityManger( );
     static Lookup.Template<Aberration> tmplAberration = new Lookup.Template<Aberration>(
             org.molgen.genomeCATPro.peaks.Aberration.class);
 
+    /**
+     * init manager
+     */
+    public AberrationManagerCNVCAT() {
+        super();
+
+
+        activeCases = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrantRegions>());
+        allAberrationIds = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrantRegions>());
+        dispAberrations = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrationCNVCAT>());
+
+    }
+
+    /**
+     * get for each type  of data object (within module peak) class to handle it
+     * @param clazz - type of data object
+     * @return  object instance
+     */
     public static Feature getAberrationClazz(String clazz) {
 
         //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
@@ -80,16 +106,10 @@ public class AberrationManagerCNVCAT extends AberrationManager {
         return null;
     }
 
-    public AberrationManagerCNVCAT() {
-        super();
-
-
-        activeCases = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrantRegions>());
-        allAberrationIds = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrantRegions>());
-        dispAberrations = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrationCNVCAT>());
-
-    }
-
+    /**
+     * query database , apply filter, update local object stores
+     * @param filter
+     */
     @Override
     public void filterAberrationIds(String[] filter) {
         String _release = filter[0];
@@ -130,6 +150,11 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    /**
+     * query database , apply filter, update local object stores
+     * including associated samples 
+     * @param filter
+     */
     public void filterAberrationIdsPlusSample(String[] filter) {
         String _release = filter[0];
         String name = filter[1];
@@ -170,12 +195,13 @@ public class AberrationManagerCNVCAT extends AberrationManager {
                     " and sie.experimentDetailID = detail.experimentDetailID " +
                     " and sie.sampleDetailID = sample.sampleDetailID ) " +
                     " or  exists ( " +
-                    " select 1 from SampleInTrack as sit, SampleDetail as sample " +
+                    " select 1 from SampleInTrack as sit , SampleDetail as sample " +
                     " where sit.trackID = t.trackID " +
                     " and sample.name like \'" + sample + "\'" +
                     " and sample.phenotype like \'" + phenotype + "\'" +
                     " and sit.sampleDetailID = sample.sampleDetailID ) " +
                     ") ";
+
             Logger.getLogger(AberrationManager.class.getName()).log(Level.INFO,
                     "filter sql: " + sql);
             javax.persistence.Query q = em.createNativeQuery(sql, Track.class);
@@ -186,6 +212,11 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
 
             for (Track t : (List<Track>) q.getResultList()) {
+                if(t.getSamples() == null || t.getSamples().size() == 0){
+                    for( SampleDetail s : TrackService.getIndirektSampleInformationForTrack(t)){
+                        t.addSample(s, false);
+                    }
+                }
                 resultlist.add(new AberrantRegions(t));
             }
             setAllAberrationIds(resultlist);
@@ -195,6 +226,13 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    /**
+     * query database , apply filter, update local object stores
+     * including associated samples 
+     * @param chrom
+     * @param start
+     * @param end
+     */
     void filterLocation(String chrom, Long start, Long end) {
         List<AberrantRegions> list = new Vector<AberrantRegions>();
         if (this.getAllAberrationIds().size() <= 0) {
@@ -244,6 +282,11 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    /**
+     * 
+     * @param abc
+     * @return
+     */
     @Override
     public AberrantRegions getIdForAberration(Aberration abc) {
         AberrationCNVCAT ab = (AberrationCNVCAT) abc;
@@ -325,7 +368,15 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
                 list = this.getDistinctSelectedParam();
             } else {
-                list = getDistinctAll();
+                if (this.isGroupBySample()) {
+                    list = this.getDistinctSelectedSampleNames();
+                } else {
+                    if (this.isGroupByPhenotype()) {
+                        list = this.getDistinctSelectedPhenotypes();
+                    } else {
+                        list = getDistinctAll();
+                    }
+                }
             }
         }
 
@@ -339,6 +390,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
         for (int i = 0; i < groupList.size(); i++) {
             ((Vector) groupList.get(i)).add(colors[i % 10]);
+             ((Vector) groupList.get(i)).add(new Boolean(false));
         }
 
         System.out.println("getColorGroupList: " + groupList.toString());
@@ -363,7 +415,27 @@ public class AberrationManagerCNVCAT extends AberrationManager {
     }
 
     public void setGroupByPhenotype(boolean b) {
-        this.groupByParam = b;
+        this.groupByPhenotype = b;
+    }
+
+    public boolean isGroupBySample() {
+        return groupBySample;
+    }
+
+    public void setGroupByParam(boolean groupByParam) {
+        this.groupByParam = groupByParam;
+    }
+
+    public boolean isGroupByNone() {
+        return groupByNone;
+    }
+
+    public void setGroupBySample(boolean groupBySample) {
+        this.groupBySample = groupBySample;
+    }
+
+    public boolean isGroupByPhenotype() {
+        return this.groupByPhenotype;
     }
 
     private List<String> getDistinctAll() {
@@ -400,6 +472,44 @@ public class AberrationManagerCNVCAT extends AberrationManager {
         System.out.println("getDistinctSelectedParameter: " + Paramlist.toString());
 
         return Paramlist;
+
+    }
+
+    private List<String> getDistinctSelectedSampleNames() {
+
+        List<String> sampleList = new Vector();
+        List<AberrantRegions> list = (List<AberrantRegions>) getSelectedAberrationIds();
+        for (AberrantRegions a : list) {
+            for (String s : a.getSampleNames()) {
+                if (!sampleList.contains(s)) {
+                    sampleList.add(s);
+                }
+
+            }
+        }
+        System.out.println("getDistinctSelectedSampleName: " + sampleList.toString());
+
+        return sampleList;
+
+    }
+
+    private List<String> getDistinctSelectedPhenotypes() {
+
+        List<String> phenotypeList = new Vector();
+        List<AberrantRegions> list = (List<AberrantRegions>) getSelectedAberrationIds();
+        for (AberrantRegions a : list) {
+            for (String s : a.getPhenotypes()) {
+
+
+                if (!phenotypeList.contains(s)) {
+                    phenotypeList.add(s);
+                }
+
+            }
+        }
+        System.out.println("getDistinctSelectedPhenotypes: " + phenotypeList.toString());
+
+        return phenotypeList;
 
     }
 
@@ -444,6 +554,8 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     @Override
     protected void loadAberrationForActiveCaseIds() {
+
+
         if (this.activeCases.isEmpty()) {
             return;
         }
@@ -526,7 +638,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
         } finally {
             // em.close();
-        }
+            }
     }
 
     /**
@@ -550,7 +662,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
             }
         } finally {
             //em.close();
-        }
+            }
         return (List<AberrationIds>) aberrationIds;
     }
 
@@ -633,7 +745,9 @@ public class AberrationManagerCNVCAT extends AberrationManager {
     }*/
     @Override
     public String exportIntoFile(List<? extends AberrationIds> aList,
-            String sOutfile) throws IOException, Exception {
+            String sOutfile)
+            throws IOException,
+            Exception {
         /* if (CNVCATPropertiesMod.props().isExportMRNET()) {
         return this.exportIntoFileMRNET(aList, sOutfile);
         }

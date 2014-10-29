@@ -56,6 +56,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import org.molgen.genomeCATPro.annotation.AnnotationManager;
 import org.molgen.genomeCATPro.annotation.AnnotationManagerImpl;
+import org.molgen.genomeCATPro.annotation.CytoBandManagerImpl;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.annotation.RegionImpl;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
@@ -137,7 +138,7 @@ public abstract class BasicFrame extends JPanel {
         }
         if (rr instanceof String) {
             String str = (String) rr;
-            System.out.println("isString: "+ str);
+            System.out.println("isString: " + str);
 
             if (str.matches("chr[1-9XY]{1,2}:[0-9]{1,20}-[0-9]{1,20}")) {
                 try {
@@ -145,11 +146,11 @@ public abstract class BasicFrame extends JPanel {
                     Long from = Long.parseLong(str.substring(str.indexOf(":") + 1, str.indexOf("-")));
                     Long to = Long.parseLong(str.substring(str.indexOf("-") + 1, str.length()));
 
-                    if ((from >= 0 )&& to > from && to <= getChromLength(chrom)) {
+                    if ((from >= 0) && to > from && to <= getChromLength(chrom)) {
                         ract = new RegionImpl("", chrom, from, to);
                     } else {
-                        System.out.println("chr: " + chrom + " from: " + from + " to: " + to + 
-                                "("+getChromLength(chrom)+")");
+                        System.out.println("chr: " + chrom + " from: " + from + " to: " + to +
+                                "(" + getChromLength(chrom) + ")");
                         return;
                     }
                 } catch (Exception e) {
@@ -281,7 +282,12 @@ public abstract class BasicFrame extends JPanel {
         if (this.listAnnoLabels.containsKey(anno)) {
             return;
         }
-        AnnotationManager am = new AnnotationManagerImpl(GenomeRelease.toRelease(this.release), anno);
+        AnnotationManager am = null;
+        if (!anno.contentEquals(CytoBandManagerImpl.name)) {
+            am = new AnnotationManagerImpl(GenomeRelease.toRelease(this.release), anno);
+        } else {
+            am = new CytoBandManagerImpl(GenomeRelease.toRelease(this.release));
+        }
         this.addAnnotation(am);
     }
     /*
@@ -308,7 +314,8 @@ public abstract class BasicFrame extends JPanel {
     abstract public JScrollPane getScrollPanelMatrix();
 
     abstract public JRadioButton getCBFullChrom();
-    abstract public JRadioButton  getCBRegion();
+
+    abstract public JRadioButton getCBRegion();
 
     abstract public void propertyChange(PropertyChangeEvent evt);
 
