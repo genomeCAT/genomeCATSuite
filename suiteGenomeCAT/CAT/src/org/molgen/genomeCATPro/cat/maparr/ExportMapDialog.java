@@ -83,6 +83,8 @@ public class ExportMapDialog extends javax.swing.JDialog {
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(ExportMapDialog.class, "ExportMapDialog.jLabel1.text")); // NOI18N
 
+        jTextFieldMapName.setEditable(false);
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mapDetail.mapName}"), jTextFieldMapName, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -96,7 +98,7 @@ public class ExportMapDialog extends javax.swing.JDialog {
 
         textFileName.setText(org.openide.util.NbBundle.getMessage(ExportMapDialog.class, "ExportMapDialog.textFileName.text")); // NOI18N
 
-        jButtonBrowse.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        jButtonBrowse.setFont(new java.awt.Font("Dialog", 1, 10));
         jButtonBrowse.setText(org.openide.util.NbBundle.getMessage(ExportMapDialog.class, "ExportMapDialog.jButtonBrowse.text")); // NOI18N
         jButtonBrowse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,7 +120,7 @@ public class ExportMapDialog extends javax.swing.JDialog {
             }
         });
 
-        textMsg.setFont(new java.awt.Font("Dialog", 3, 12)); // NOI18N
+        textMsg.setFont(new java.awt.Font("Dialog", 3, 12));
         textMsg.setForeground(java.awt.Color.red);
         textMsg.setText(org.openide.util.NbBundle.getMessage(ExportMapDialog.class, "ExportMapDialog.textMsg.text")); // NOI18N
 

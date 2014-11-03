@@ -305,7 +305,20 @@ public class MatrixAberration extends JLabel
     public void matrixPaint(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
+        g.setColor(Color.BLACK);
+        labelFont = "PLAIN-BOLD-" + (int) this.parentFrame.getOffY() * 0.5;
+        //labelFont = "PLAIN-" + (int) this.parentFrame.getOffY() / 2;
+        g.setFont(Font.decode(labelFont));
+        defFont = g.getFont();
+        fm = g.getFontMetrics();
 
+        labelPosition = chromId + "-" + this.firstPos + ":" + this.secondPos;
+
+        g.drawString(labelPosition,
+                this.imageWidht / 2 - fm.stringWidth(labelPosition) / 2,
+                this.parentFrame.getOffY() / 2);
+
+        g.setFont(defFont);
         if (parentFrame.CytoBandManager() != null) {
             parentFrame.CytoBandManager().plot(
                     (Graphics2D) g,
@@ -326,6 +339,7 @@ public class MatrixAberration extends JLabel
                     parentFrame.getOffY(),
                     this.displayWidth / 4, false, 0, null, false);
         } else {
+
             printAberration(
                     (Graphics2D) g,
                     this.chromId,
@@ -333,19 +347,7 @@ public class MatrixAberration extends JLabel
                     (this.imageWidht / 2) + ideogramWidth,
                     parentFrame.getOffY(), this.getColNumbers(iActivePhenotypes));
         }
-        g.setColor(Color.BLACK);
-        labelFont = "PLAIN-" + (int) this.parentFrame.getOffY() / 2;
-        g.setFont(Font.decode(labelFont));
-        defFont = g.getFont();
-        fm = g.getFontMetrics();
 
-        labelPosition = chromId + "-" + this.firstPos + ":" + this.secondPos;
-
-        g.drawString(labelPosition,
-                this.imageWidht / 2 - fm.stringWidth(labelPosition) / 2,
-                this.parentFrame.getOffY() * 3 / 4);
-
-        g.setFont(defFont);
         if (showDetailFrame) {
             g.setColor(Color.RED);
             //x - the x coordinate of the rectangle to be drawn. 
@@ -559,7 +561,7 @@ public class MatrixAberration extends JLabel
                     groupname = this.parentFrame.getColorName(groups.get(i));
                     //absFreq = groupFreq.get(groups.get(i));
                     if (groupname == null) {
-                        groupname = "group"+Integer.toString(++ci);
+                        groupname = "group" + Integer.toString(++ci);
                     }
                     out.write("\tnof_all_" + groupname + "\tnof_pos_" + groupname + "\tfreq_pos_" + groupname + "\tnof_neg_" + groupname + "\tfreq_neg_" + groupname);
 
@@ -781,9 +783,8 @@ public class MatrixAberration extends JLabel
         float[] rgb;
         AberrationIds aberrationId;
 
-        Aberration lastDeletion;
-
-        Aberration lastDuplication;
+        Logger.getLogger(MatrixAberration.class.getName()).log(
+                Level.INFO, "Plot Data for  " + chromId + " y0: " + y0);
 
         java.util.List<? extends Aberration> aberrations = (List<Aberration>) parentFrame.AberrationManager().getAberrationsAtChrom(chromId);
         Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
@@ -813,8 +814,7 @@ public class MatrixAberration extends JLabel
         }
 
         Collections.sort(aberrations, Aberration.compByStart);
-        lastDeletion = aberrations.get(0);
-        lastDuplication = aberrations.get(0);
+
         Vector<Aberration> stack;
         Vector<Aberration> stackDel = new Stack();
         Vector<Aberration> stackDup = new Stack();
@@ -1454,17 +1454,6 @@ public class MatrixAberration extends JLabel
                 break;
 
             }
-
-
-
-
-
-
-
-
-
-
-
 
         }
     }

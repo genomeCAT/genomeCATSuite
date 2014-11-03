@@ -71,7 +71,7 @@ import org.molgen.genomeCATPro.datadb.service.PlatformService;
  * 010313   kt  mapAtAnnotation use annotationfield
  * 130213   kt  mapAtAnnotation insteadof MapAtGene
  * 180912   kt  mapAtLocation use spatial index, Thread pro Chromome, temp table
-                mapAtRegion use spatial index
+mapAtRegion use spatial index
  * 190912   kt  mapAtLocationBin new (old bsc version only center is binned,faster!!)
  */
 public class Map {
@@ -726,7 +726,6 @@ public class Map {
      * base for mapping is Gene, that means new table (mapId) is created, 
      * reference id is Gene, for each array extra column
      */
-    
     @Deprecated
     public static List<MapData> mapAtGene(
             GenomeRelease release,
@@ -1696,13 +1695,10 @@ public class Map {
 
 
         try {
-            java.util.Map<String, String> meta = new java.util.HashMap<String, String>();
-
+            
             Utils.deleteFile(filename);
-            Vector<String> arrays = new Vector<String>();
-
-            con =
-                    Database.getDBConnection(Defaults.localDB);
+            
+            con =    Database.getDBConnection(Defaults.localDB);
 
             Statement s = con.createStatement();
             //String colname;

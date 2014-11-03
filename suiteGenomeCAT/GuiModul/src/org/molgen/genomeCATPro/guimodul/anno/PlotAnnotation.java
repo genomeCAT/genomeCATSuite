@@ -254,7 +254,7 @@ public class PlotAnnotation extends JLabel
 
         // print number as label
         g.setColor(Color.BLACK);
-        labelFont = "PLAIN-BOLD-" + (int) this.parentFrame.getOffY() / 2;
+        labelFont = "PLAIN-BOLD-" + (int) this.parentFrame.getOffY() *0.5;
         g.setFont(Font.decode(labelFont));
         defFont = g.getFont();
         fm = g.getFontMetrics();
@@ -282,7 +282,7 @@ public class PlotAnnotation extends JLabel
 
         g.setFont(defFont);
 
-        Color c = Color.BLACK;
+        
 
         manager.plot((Graphics2D) g,
                 this.chromId,
