@@ -584,7 +584,7 @@ public class FilterCNVCATDialog extends javax.swing.JDialog {
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jButtonFilter)
                             .addComponent(jButtonReset)))
@@ -681,7 +681,7 @@ public class FilterCNVCATDialog extends javax.swing.JDialog {
                 jPanel2Layout.setVerticalGroup(
                     jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelCountSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -705,13 +705,18 @@ public class FilterCNVCATDialog extends javax.swing.JDialog {
                 jTableSetGroupColor.setName("jTableSetGroupColor");
                 jScrollPane2.setViewportView(jTableSetGroupColor);
 
-                jComboBoxGroupColor.setSelectedIndex(0);
                 jComboBoxGroupColor.setName("jComboBoxGroupColor"); // NOI18N
+                jComboBoxGroupColor.addItemListener(new java.awt.event.ItemListener() {
+                    public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                        jComboBoxGroupColorItemStateChanged(evt);
+                    }
+                });
                 jComboBoxGroupColor.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         jComboBoxGroupColorActionPerformed(evt);
                     }
                 });
+                jComboBoxGroupColor.setSelectedIndex(0);
 
                 jButtonSetColor.setText("Set Color");
                 jButtonSetColor.setName("jButtonSetColor"); // NOI18N
@@ -723,6 +728,11 @@ public class FilterCNVCATDialog extends javax.swing.JDialog {
 
                 jButtonResetColor.setText("Reset Color");
                 jButtonResetColor.setName("jButtonResetColor"); // NOI18N
+                jButtonResetColor.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButtonResetColorActionPerformed(evt);
+                    }
+                });
 
                 jLabel7.setText("set Color...");
                 jLabel7.setName("jLabel7"); // NOI18N
@@ -868,6 +878,7 @@ private void jTextFieldTrackIdActionPerformed(java.awt.event.ActionEvent evt) {/
 
 private void jButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFilterActionPerformed
     doFilter();
+    this.jComboBoxGroupColor.setSelectedIndex(0);
     updateGroupColorList();
 }//GEN-LAST:event_jButtonFilterActionPerformed
 
@@ -876,6 +887,7 @@ private void jButtonSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//
     for (int i = 0; i < aberrationList.size(); i++) {
         aberrationList.get(i).setSelected(true);
     }
+
     updateGroupColorList();
 }//GEN-LAST:event_jButtonSelectAllActionPerformed
 
@@ -943,46 +955,50 @@ private void jButtonSetColorActionPerformed(java.awt.event.ActionEvent evt) {//G
 }//GEN-LAST:event_jButtonSetColorActionPerformed
 
 private void jComboBoxGroupColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGroupColorActionPerformed
-    String selected = this.jComboBoxGroupColor.getSelectedItem().toString();
-
-    if (selected.compareTo(this.selectCaseId) == 0) {
-        this.aberrationManager.setGroupByCaseID(true);
-        this.aberrationManager.setGroupByPhenotype(false);
-        this.aberrationManager.setGroupByNone(false);
-        this.aberrationManager.setGroupBySample(false);
-        this.aberrationManager.setGroupByParam(false);
-    } else if (selected.compareTo(this.selectPhenotype) == 0) {
-        this.aberrationManager.setGroupByCaseID(false);
-        this.aberrationManager.setGroupByPhenotype(true);
-        this.aberrationManager.setGroupByNone(false);
-        this.aberrationManager.setGroupBySample(false);
-        this.aberrationManager.setGroupByParam(false);
-    } else if (selected.compareTo(this.selectSampleName) == 0) {
-        this.aberrationManager.setGroupByCaseID(false);
-        this.aberrationManager.setGroupByPhenotype(false);
-        this.aberrationManager.setGroupByNone(false);
-        this.aberrationManager.setGroupBySample(true);
-        this.aberrationManager.setGroupByParam(false);
-    } else if (selected.compareTo(this.selectTrackParam) == 0) {
-        this.aberrationManager.setGroupByCaseID(false);
-        this.aberrationManager.setGroupByPhenotype(false);
-        this.aberrationManager.setGroupByNone(false);
-        this.aberrationManager.setGroupBySample(false);
-        this.aberrationManager.setGroupByParam(true);
-    } else if (selected.compareTo(this.selectNone) == 0) {
-        this.aberrationManager.setGroupByCaseID(false);
-        this.aberrationManager.setGroupByPhenotype(false);
-        this.aberrationManager.setGroupByNone(true);
+        this.setComboBoxGroupColor();
     }
 
-    // kt 16.09.09 doFilter(); 
-    // kt 16.09.09 reset all  color
-    List<AberrantRegions> aberrationList = (List<AberrantRegions>) this.aberrationManager.getAllAberrationIds();
-    for (AberrantRegions a : aberrationList) {
-        a.setColor(Color.black);
-    }
+    private void setComboBoxGroupColor() {
+        String selected = this.jComboBoxGroupColor.getSelectedItem().toString();
 
-    updateGroupColorList();
+        if (selected.compareTo(this.selectCaseId) == 0) {
+            this.aberrationManager.setGroupByCaseID(true);
+            this.aberrationManager.setGroupByPhenotype(false);
+            this.aberrationManager.setGroupByNone(false);
+            this.aberrationManager.setGroupBySample(false);
+            this.aberrationManager.setGroupByParam(false);
+        } else if (selected.compareTo(this.selectPhenotype) == 0) {
+            this.aberrationManager.setGroupByCaseID(false);
+            this.aberrationManager.setGroupByPhenotype(true);
+            this.aberrationManager.setGroupByNone(false);
+            this.aberrationManager.setGroupBySample(false);
+            this.aberrationManager.setGroupByParam(false);
+        } else if (selected.compareTo(this.selectSampleName) == 0) {
+            this.aberrationManager.setGroupByCaseID(false);
+            this.aberrationManager.setGroupByPhenotype(false);
+            this.aberrationManager.setGroupByNone(false);
+            this.aberrationManager.setGroupBySample(true);
+            this.aberrationManager.setGroupByParam(false);
+        } else if (selected.compareTo(this.selectTrackParam) == 0) {
+            this.aberrationManager.setGroupByCaseID(false);
+            this.aberrationManager.setGroupByPhenotype(false);
+            this.aberrationManager.setGroupByNone(false);
+            this.aberrationManager.setGroupBySample(false);
+            this.aberrationManager.setGroupByParam(true);
+        } else if (selected.compareTo(this.selectNone) == 0) {
+            this.aberrationManager.setGroupByCaseID(false);
+            this.aberrationManager.setGroupByPhenotype(false);
+            this.aberrationManager.setGroupByNone(true);
+        }
+
+        // kt 16.09.09 doFilter(); 
+        // kt 16.09.09 reset all  color
+        List<AberrantRegions> aberrationList = (List<AberrantRegions>) this.aberrationManager.getAllAberrationIds();
+        for (AberrantRegions a : aberrationList) {
+            a.setColor(Color.black);
+        }
+
+        updateGroupColorList();
 }//GEN-LAST:event_jComboBoxGroupColorActionPerformed
 
 private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
@@ -1124,6 +1140,25 @@ private void jComboBoxReleaseActionPerformed(java.awt.event.ActionEvent evt) {//
         this.setChromList(this.jComboBoxRelease.getSelectedItem().toString());
     }
 }//GEN-LAST:event_jComboBoxReleaseActionPerformed
+
+private void jComboBoxGroupColorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxGroupColorItemStateChanged
+    this.setComboBoxGroupColor();
+}//GEN-LAST:event_jComboBoxGroupColorItemStateChanged
+
+private void jButtonResetColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetColorActionPerformed
+
+    List<AberrantRegions> aberrationList = (List<AberrantRegions>) ((AberrationManagerCNVCAT) this.aberrationManager).getSelectedAberrationIds();
+
+
+    setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    for (AberrantRegions a : aberrationList) {
+
+        a.setColor(Color.BLACK);
+    }
+
+
+    this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+}//GEN-LAST:event_jButtonResetColorActionPerformed
     @Deprecated
     private void setGlobalPosition() {
         System.out.println("check");
@@ -1201,6 +1236,7 @@ private void jComboBoxReleaseActionPerformed(java.awt.event.ActionEvent evt) {//
         this.jTableSetGroupColor.setModel(new GroupColorTableModel((Vector) groupListNew));
         this.jLabelCountSelected.setText("Selected: " +
                 (this.aberrationManager != null ? this.aberrationManager.getSelectedAberrationIds().size() : 0));
+
     }
 
     class GroupColorTableModel extends DefaultTableModel {

@@ -18,9 +18,9 @@
             </file>
         </folder>
         <folder name="Modules">
-            <attr name="position" intvalue="4"/>
+            
             <folder name="GroupExplorer">
-                <attr name="position" intvalue="1"/>
+                <attr name="position" intvalue="3"/>
                 <file name="CNVCATAction.shadow">
                     <attr name="position" intvalue="1"/>
                     <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-peaks-CNVCATAction.instance"/>

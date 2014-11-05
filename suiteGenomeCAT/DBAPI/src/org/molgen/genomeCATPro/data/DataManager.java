@@ -1677,9 +1677,9 @@ public class DataManager {
     }
     static Lookup.Template<Spot> tmplSpot = new Lookup.Template<Spot>(
             org.molgen.genomeCATPro.data.Spot.class);
-    final static String procDoFilter = DataManager.class.getName() + ".filter";
-    final static String procDoConvert = DataManager.class.getName() + ".convert";
-    final static String procDoAnnotate = DataManager.class.getName() + ".annotate";
+    final static String procDoFilter = DataManager.class.getName() + "Filtered";
+    final static String procDoConvert = DataManager.class.getName() + "Converted";
+    final static String procDoAnnotate = "Annotated";
 
     public static Spot getSpotClazz(String clazz) {
 

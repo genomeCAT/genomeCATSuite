@@ -163,7 +163,7 @@ final class CATFramePropsTopComponent extends TopComponent implements LookupList
         jButtonColorOverlap = new javax.swing.JButton();
         jButtonColorSelected = new javax.swing.JButton();
 
-        setName("CNVCAT Properties"); // NOI18N
+        setName(org.openide.util.NbBundle.getMessage(CATFramePropsTopComponent.class, "CATFramePropsTopComponent.name")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jButtonApply, "refresh view");
         jButtonApply.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +210,7 @@ final class CATFramePropsTopComponent extends TopComponent implements LookupList
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel3))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextMinQuality, jTextMinRatio});

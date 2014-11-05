@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 OpenIDE-Module: org.molgen.genomeCATPro.guimodul
-OpenIDE-Module-Implementation-Version: 3
+OpenIDE-Module-Implementation-Version: 0
 OpenIDE-Module-Install: org/molgen/genomeCATPro/guimodul/Installer.class
 OpenIDE-Module-Layer: org/molgen/genomeCATPro/guimodul/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/guimodul/Bundle.properties

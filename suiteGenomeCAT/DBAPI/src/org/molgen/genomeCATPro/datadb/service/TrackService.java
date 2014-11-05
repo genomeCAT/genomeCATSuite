@@ -699,7 +699,7 @@ public class TrackService {
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
         Connection con = Database.getDBConnection(Defaults.localDB);
-        String sqlstmt = "select distinct procProcessing from TrackList ";
+        String sqlstmt = "select distinct procProcessing from TrackList  where procProcessing is not null ";
         try {
             Statement s = con.createStatement();
 

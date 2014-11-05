@@ -113,8 +113,7 @@
                 <attr name="position" intvalue="3"/>
             </file>
         </folder>
-        <folder name="Modules">
-            <attr name="position" intvalue="50"/>
+        <folder name="Modules">            
             <folder name="SingleView">
                 <attr name="position" intvalue="1"/>
                 <file name="CGHProFrameAction.shadow">

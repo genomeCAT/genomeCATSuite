@@ -175,7 +175,7 @@
                       <Component id="jPanel7" alignment="0" max="32767" attributes="1"/>
                       <Component id="jPanel5" alignment="0" pref="217" max="32767" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace pref="13" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jButtonFilter" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonReset" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -634,7 +634,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="jScrollPane1" pref="98" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="101" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabelCountSelected" min="-2" pref="23" max="-2" attributes="0"/>
@@ -871,11 +871,12 @@
             <Property name="name" type="java.lang.String" value="jComboBoxGroupColor" noResource="true"/>
           </Properties>
           <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxGroupColorItemStateChanged"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxGroupColorActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(&#xa;    new javax.swing.DefaultComboBoxModel(&#xa;        new String[]{&#xa;            selectPhenotype,&#xa;            selectSampleName,&#xa;            selectTrackParam,&#xa;            selectCaseId,&#xa;&#xa;            selectNone}&#xa;    ) )"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jComboBoxGroupColor.setSelectedIndex(0);"/>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jComboBoxGroupColor.setSelectedIndex(0);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonSetColor">
@@ -892,6 +893,9 @@
             <Property name="text" type="java.lang.String" value="Reset Color"/>
             <Property name="name" type="java.lang.String" value="jButtonResetColor" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonResetColorActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
