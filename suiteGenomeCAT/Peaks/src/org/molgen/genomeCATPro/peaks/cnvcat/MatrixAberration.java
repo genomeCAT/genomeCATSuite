@@ -907,10 +907,18 @@ public class MatrixAberration extends JLabel
             rgb = c.getRGBColorComponents(null);
 
             //g.setColor(new Color(rgb[0], rgb[1], rgb[2], ratioAlpha));
-            y1 = (int) (y0 + ((currentAberration.getChromStart() - firstPos) / yScale));
-            y2 = (int) (y0 + ((currentAberration.getChromEnd() - firstPos) / yScale));
+            // kt 05112014
+            y1 = (int)  (
+                    (currentAberration.getChromStart() > firstPos ? (currentAberration.getChromStart()-firstPos) : 0)
+                    / yScale);
+            
+            y2 = (int)  + (
+                    (currentAberration.getChromEnd() < secondPos ? (currentAberration.getChromEnd() -firstPos) : secondPos-firstPos)
+                    / yScale);
 
-            length1 = y2 - y1 > this.parentFrame.getMinSpotHeight() ? (int) (y2 - y1) : this.parentFrame.getMinSpotHeight();
+            length1 = (y2 - y1 ) > this.parentFrame.getMinSpotHeight() ? (int) (y2 - y1) : this.parentFrame.getMinSpotHeight();
+            y1 += y0;
+            y2 += y0;
             if (isDeletion) {
 
                 currentAberration.setXDispColumn(-dispColumnDeletion);

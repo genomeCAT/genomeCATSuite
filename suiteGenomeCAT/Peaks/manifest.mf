@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 OpenIDE-Module: org.molgen.genomeCATPro.peaks
-OpenIDE-Module-Implementation-Version: 0
+OpenIDE-Module-Implementation-Version: 1
 OpenIDE-Module-Install: org/molgen/genomeCATPro/peaks/Installer.class
 OpenIDE-Module-Layer: org/molgen/genomeCATPro/peaks/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/peaks/Bundle.properties

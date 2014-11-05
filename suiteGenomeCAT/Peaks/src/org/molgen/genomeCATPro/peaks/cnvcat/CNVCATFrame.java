@@ -268,6 +268,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
     public void writeFrequencies(int binsize, String filepath) throws Exception {
         //String filepath = "./test.txt";
+        String oldChrom = this.chromId;
         File outFile = new File(filepath);
         FileWriter out = null;
         try {
@@ -287,6 +288,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
                     continue;
                 }
                 this.chromId = d.getActionCommand();
+                this.updateMatrixView();
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "writeFrequencies " + chromId);
 
 
@@ -301,7 +303,8 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
                         null, this.chromId, 0, 0, 0, 0, true, binsize, out, first);
                 first = false;
             }
-
+            this.chromId = oldChrom;
+            this.updateMatrixView();
         } catch (Exception e) {
             //  JOptionPane.showMessageDialog(this, "Error: " + (e.getMessage() != null ? e.getMessage() : "undefined"));
             Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "", e);
@@ -547,6 +550,11 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     buttonGroupSelectedView.add(jRadioButtonFullChrom);
     jRadioButtonFullChrom.setSelected(true);
     jRadioButtonFullChrom.setText("full chrom");
+    jRadioButtonFullChrom.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jRadioButtonFullChromActionPerformed(evt);
+        }
+    });
 
     buttonGroupSelectedView.add(jRadioButtonRegion);
     jRadioButtonRegion.setText("detail");
@@ -1221,6 +1229,16 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     ExportFrequenciesDialog.ExportFrequencies(this);
 }//GEN-LAST:event_jButtonPrintFreqActionPerformed
 
+private void jRadioButtonFullChromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonFullChromActionPerformed
+        // kt 05112014
+    if (this.jRadioButtonFullChrom.isSelected()) {
+
+        
+        this.getCBHistory().setSelectedItem(null);
+        this.updateMatrixView();
+    }
+}//GEN-LAST:event_jRadioButtonFullChromActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel AnnotationPanel;
     javax.swing.JPanel ModePanel;
@@ -1551,10 +1569,9 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
 
     class DataListSelectionHandler implements ListSelectionListener {
 
-       
         public void valueChanged(ListSelectionEvent e) {
             System.out.println("list selection event");
-           
+
             int j;
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             // clear all selections
