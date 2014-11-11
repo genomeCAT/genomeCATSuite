@@ -91,9 +91,19 @@ public final class ImportFileVisualPanel4 extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jButtonSelectSample1, org.openide.util.NbBundle.getMessage(ImportFileVisualPanel4.class, "ImportFileVisualPanel4.jButtonSelectSample1.text")); // NOI18N
         jButtonSelectSample1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonSelectSample1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSelectSample1ActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(jButtonSelectSample2, org.openide.util.NbBundle.getMessage(ImportFileVisualPanel4.class, "ImportFileVisualPanel4.jButtonSelectSample2.text")); // NOI18N
         jButtonSelectSample2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonSelectSample2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSelectSample2ActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(jButtonEditSample1, org.openide.util.NbBundle.getMessage(ImportFileVisualPanel4.class, "ImportFileVisualPanel4.jButtonEditSample1.text")); // NOI18N
         jButtonEditSample1.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -123,9 +133,9 @@ public final class ImportFileVisualPanel4 extends JPanel {
                             .addComponent(fieldSample1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(hintSample1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                            .addComponent(hintSample2, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(hintSample1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                            .addComponent(hintSample2, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButtonEditSample1)
@@ -134,31 +144,36 @@ public final class ImportFileVisualPanel4 extends JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButtonEditSample2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonSelectSample2)))
-                        .addGap(68, 68, 68))
+                                .addComponent(jButtonSelectSample2))))
                     .addComponent(fieldExperimentName, javax.swing.GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(fieldExperimentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelSampl1)
-                    .addComponent(fieldSample1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hintSample1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonEditSample1)
-                    .addComponent(jButtonSelectSample1))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(fieldSample2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hintSample2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonEditSample2)
-                    .addComponent(jButtonSelectSample2)
-                    .addComponent(jLabelSample2))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(fieldExperimentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                .addComponent(jLabelSampl1)
+                                .addComponent(fieldSample1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(hintSample1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                .addComponent(jButtonEditSample1)
+                                .addComponent(jButtonSelectSample1)))
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(fieldSample2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hintSample2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonEditSample2)
+                            .addComponent(jButtonSelectSample2)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabelSample2)))
                 .addGap(15, 15, 15))
         );
 
@@ -219,6 +234,14 @@ public final class ImportFileVisualPanel4 extends JPanel {
 private void fieldSample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSample1ActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_fieldSample1ActionPerformed
+
+private void jButtonSelectSample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectSample1ActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_jButtonSelectSample1ActionPerformed
+
+private void jButtonSelectSample2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectSample2ActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_jButtonSelectSample2ActionPerformed
 
     public JCheckBox getJCheckBoxCenterMean() {
         return jCheckBoxCenterMean;

@@ -89,10 +89,10 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="hintSample1" pref="268" max="32767" attributes="0"/>
-                              <Component id="hintSample2" pref="268" max="32767" attributes="0"/>
+                              <Component id="hintSample1" pref="292" max="32767" attributes="0"/>
+                              <Component id="hintSample2" pref="292" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jButtonEditSample1" min="-2" max="-2" attributes="0"/>
@@ -105,7 +105,6 @@
                                   <Component id="jButtonSelectSample2" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                       </Group>
                       <Component id="fieldExperimentName" pref="652" max="32767" attributes="1"/>
                   </Group>
@@ -116,25 +115,36 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fieldExperimentName" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jLabelSampl1" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="fieldSample1" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="hintSample1" alignment="2" min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="jButtonEditSample1" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonSelectSample1" alignment="2" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="fieldSample2" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="hintSample2" alignment="2" min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="jButtonEditSample2" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonSelectSample2" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelSample2" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="fieldExperimentName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="2" attributes="0">
+                                  <Component id="jLabelSampl1" alignment="2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fieldSample1" alignment="2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="hintSample1" alignment="2" min="-2" pref="31" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" alignment="0" groupAlignment="2" attributes="0">
+                                  <Component id="jButtonEditSample1" alignment="2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonSelectSample1" alignment="2" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="fieldSample2" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="hintSample2" alignment="2" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jButtonEditSample2" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonSelectSample2" alignment="2" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="2" attributes="0">
+                          <EmptySpace min="80" pref="80" max="80" attributes="0"/>
+                          <Component id="jLabelSample2" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
@@ -207,6 +217,9 @@
               <Insets value="[0, 0, 0, 0]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSelectSample1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonSelectSample2">
           <Properties>
@@ -217,6 +230,9 @@
               <Insets value="[0, 0, 0, 0]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSelectSample2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonEditSample1">
           <Properties>

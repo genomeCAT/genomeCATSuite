@@ -410,7 +410,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
                 String sampleName = (index == 0 ? ((ImportFileVisualPanel4) getComponent()).getFieldSample1().getText() : ((ImportFileVisualPanel4) getComponent()).getFieldSample2().getText());
                 sampleName = (String) JOptionPane.showInputDialog(null,
                         "enter new name",
-                        "edit sample name",
+                        "create/edit sample",
                         JOptionPane.QUESTION_MESSAGE,
                         null, null, sampleName);
                 if (sampleName == null) {

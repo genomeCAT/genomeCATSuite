@@ -29,6 +29,7 @@ import org.molgen.genomeCATPro.datadb.dbentities.SampleInExperiment;
 import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.guimodul.SwingUtils;
 import org.molgen.genomeCATPro.guimodul.platform.PlatformDetailView;
+
 /**
  * @name ExperimentDetailView
  *
@@ -51,7 +52,7 @@ import org.molgen.genomeCATPro.guimodul.platform.PlatformDetailView;
  */
 /**
  * 21.05.12 kt ExperimentDetailView.buttonShowSampleActionPerformed
-	update Sample (remove/add) abhängig vom edit state
+update Sample (remove/add) abhängig vom edit state
  * 
  */
 public class ExperimentDetailView extends javax.swing.JPanel {
@@ -74,7 +75,7 @@ public class ExperimentDetailView extends javax.swing.JPanel {
         myInit();
         Logger.getLogger(ExperimentDetailView.class.getName()).log(Level.INFO,
                 "constructor called: " + this.experiment.toFullString());
-                
+
     }
 
     public void clear() {
@@ -134,14 +135,14 @@ public class ExperimentDetailView extends javax.swing.JPanel {
     static void view(ExperimentDetail e, boolean edit) {
         JDialog d = new JDialog();
         d.setTitle("Experiment Detail View");
-       
+
 
 
         ExperimentDetailView v = new ExperimentDetailView(e, false);
         d.add(v);
         d.pack();
         d.setVisible(true);
-         d.setLocationRelativeTo(null);
+        d.setLocationRelativeTo(null);
     }
 
     public ExperimentDetail getExperiment() {
@@ -686,7 +687,7 @@ private void buttonShowSampleActionPerformed(java.awt.event.ActionEvent evt) {//
     sview.getNameField1().setEditable(false);
     d.add(sview);
     d.setVisible(true);
-    if (this.edit){//workaround  to update list view
+    if (this.edit) {//workaround  to update list view
 
         boolean isCy3 = sie.isIsCy3();
         this.experiment.removeSample(sie);

@@ -61,7 +61,7 @@ import org.openide.util.NbPreferences;
  * 
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * 
- * This file is part of the GenomeCAT software package.
+ * 
  * 
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common

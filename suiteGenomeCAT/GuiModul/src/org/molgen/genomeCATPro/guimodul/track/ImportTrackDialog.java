@@ -55,7 +55,6 @@ import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
-import org.openide.util.Exceptions;
 import org.openide.util.NbPreferences;
 
 /**
