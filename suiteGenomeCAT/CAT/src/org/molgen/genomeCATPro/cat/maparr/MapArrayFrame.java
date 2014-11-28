@@ -103,6 +103,7 @@ public class MapArrayFrame extends ArrayFrame {
 
         } finally {
             //ArrayFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            this.repaint();
             }
     }
 

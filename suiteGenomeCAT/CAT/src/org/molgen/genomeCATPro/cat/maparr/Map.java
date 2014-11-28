@@ -503,6 +503,7 @@ public class Map {
                             r.getChromStart() + " , " + r.getChromEnd() +
                             //" , avg(" + dcolName + ") as ratio " +
                             " FROM " + currData.getTableData() +
+                            " FORCE INDEX (gc_position) " + // kt 251114
                             " WHERE " +
                             " MBRIntersects( gc_position," +
                             " LineString(" +

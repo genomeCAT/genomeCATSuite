@@ -81,14 +81,14 @@ public class SampleDetailView extends javax.swing.JPanel {
 
         d.setSize(new Dimension(900, 600));
         d.setLocationRelativeTo(null);
-      
+
         if (s == null) {
             s = new SampleDetail();
-            }
-        oldSample  = new SampleDetail(s);
-        
+        }
+        oldSample = new SampleDetail(s);
+
         final SampleDetailView sview = new SampleDetailView(s, edit);
-        
+
 
         JPanel pp = new JPanel();
         pp.setLayout(new BoxLayout(pp, BoxLayout.PAGE_AXIS));
@@ -137,7 +137,7 @@ public class SampleDetailView extends javax.swing.JPanel {
     }
 
     static void cancelButtonActionPerformed(java.awt.event.ActionEvent evt, JDialog d) {
-       
+
         Logger.getLogger(SampleDetailView.class.getName()).log(Level.FINE,
                 "cancel: " + oldSample.toFullString());
         d.setVisible(false);

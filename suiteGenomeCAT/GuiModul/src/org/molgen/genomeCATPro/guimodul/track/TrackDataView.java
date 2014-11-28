@@ -1,6 +1,5 @@
 package org.molgen.genomeCATPro.guimodul.track;
 
-import java.awt.Dimension;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -56,6 +54,7 @@ public class TrackDataView extends javax.swing.JPanel {
     boolean edit = false;
 
     /** Creates new form TrackDataView */
+    @Deprecated
     public TrackDataView() {
         this.track = new Track();
         edit = false;
@@ -66,7 +65,10 @@ public class TrackDataView extends javax.swing.JPanel {
                 "constructor called");
     }
 
-    /** Creates new form TrackDataView */
+    /**
+     * 
+     * @param _edit
+     */
     public TrackDataView(boolean _edit) {
         this.track = new Track();
         this.edit = _edit;
@@ -75,6 +77,11 @@ public class TrackDataView extends javax.swing.JPanel {
         this.buttonShowSample.setText((edit ? "edit " : "show") + "selected Sample");
     }
 
+    /**
+     * 
+     * @param _data
+     * @param _edit
+     */
     public TrackDataView(Track _data, boolean _edit) {
         this.track = new Track();
         this.track.copy(_data);
@@ -767,11 +774,11 @@ private void buttonShowSampleActionPerformed(java.awt.event.ActionEvent evt) {//
     }
     SampleInTrack sie = this.track.getSamples().get(
             this.tableSamples.convertRowIndexToModel(index));
-   
+
     SampleDetailView.SampleDetailViewDialog(sie.getSample(), edit);
     /*JDialog d = new JDialog((JFrame) null, true);
     d.setTitle("Sample Details");
-
+    
     d.setSize(new Dimension(900, 600));
     d.setLocationRelativeTo(null);
     SampleDetailView sview = new SampleDetailView(sie.getSample(), this.edit);
@@ -786,15 +793,12 @@ private void buttonShowSampleActionPerformed(java.awt.event.ActionEvent evt) {//
         this.track.removeSample(sie);
         // 270313
         this.track.addSample(sie.getSample(), isInverse);
-        //this.track.addSample(sview.getSample(), isInverse);
+    //this.track.addSample(sview.getSample(), isInverse);
     }
 }//GEN-LAST:event_buttonShowSampleActionPerformed
     static void view(Track e, boolean edit) {
         JDialog d = new JDialog();
         d.setTitle("Track Data View ");
-
-
-
         TrackDataView v = new TrackDataView(e, false);
         d.add(v);
         d.pack();

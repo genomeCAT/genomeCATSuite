@@ -31,6 +31,7 @@ public class SelectSampleDialog extends javax.swing.JDialog {
     List<SampleDetail> list = null;
     Vector<String> names = new Vector<String>();
     private SampleDetail sample = null;
+
     /** Creates new form SelectSampleDialog */
     public SelectSampleDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -138,9 +139,10 @@ public class SelectSampleDialog extends javax.swing.JDialog {
      * @return
      */
     public static SampleDetail getSampleSelection() {
-        SelectSampleDialog d = new SelectSampleDialog(null, false);
+        SelectSampleDialog d = new SelectSampleDialog(null, true);
         d.setLocationRelativeTo(null);
         d.setVisible(true);
+        //System.out.println("return " + (d.sample != null ? d.sample.toFullString() : "NULL"));
         return d.sample;
 
     }
@@ -151,27 +153,30 @@ public class SelectSampleDialog extends javax.swing.JDialog {
 private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
     this.sample = null;
     this.setVisible(false);
+    //System.out.println("cancel " );
 
 }//GEN-LAST:event_jButtonCancelActionPerformed
     /**
      * return with selected sample
      */
 private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
+
     this.setVisible(false);
-    
+    //System.out.println("ok " + sample.toFullString());
 }//GEN-LAST:event_jButtonOKActionPerformed
 
 private void jComboBoxSamplesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSamplesItemStateChanged
-// TODO add your handling code here:
-}//GEN-LAST:event_jComboBoxSamplesItemStateChanged
-
-private void jComboBoxSamplesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSamplesActionPerformed
     if (this.jComboBoxSamples.getSelectedIndex() < 0) {
         return;
     }
-    this.sample = 
-    this.sampleDetailView1.setSample(this.list.get(this.jComboBoxSamples.getSelectedIndex()));
 
+    this.sample = this.list.get(this.jComboBoxSamples.getSelectedIndex());
+    //System.out.println("changed " + sample.toFullString());
+    this.sampleDetailView1.setSample(this.sample);
+
+}//GEN-LAST:event_jComboBoxSamplesItemStateChanged
+
+private void jComboBoxSamplesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSamplesActionPerformed
 }//GEN-LAST:event_jComboBoxSamplesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

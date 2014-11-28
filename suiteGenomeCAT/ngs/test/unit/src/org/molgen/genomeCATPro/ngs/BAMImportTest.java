@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.molgen.dblib.DBService;
 import org.molgen.dblib.Database;
@@ -46,9 +47,9 @@ public class BAMImportTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
+        Database.setDBParams(Defaults.localDB, "genomeCAT", "senilebettflucht", "3306", "user", "user");
 
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
+        DBService.setConnection("senilebettflucht", "3306", "genomeCAT", "user", "user");
 
         System.setProperty("netbeans.dirs", "/scratch/local/katrin/devel/src/suiteGenomeCAT/build/cluster");
     }
@@ -79,8 +80,7 @@ public class BAMImportTest {
             System.out.println(chrom + " : " + sum);
         }
     }
-    //@Test
-
+    @Test
     @SuppressWarnings("empty-statement")
     public void testBAMImportGUI() throws InterruptedException {
         XPortNGS mod = new BAMImport();
@@ -99,6 +99,7 @@ public class BAMImportTest {
     }
 
     @Test
+    @Ignore
     @SuppressWarnings("empty-statement")
     public void testBAMImportGUIImport() throws InterruptedException {
         BAMImport mod = new BAMImport();

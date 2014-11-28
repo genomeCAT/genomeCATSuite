@@ -822,7 +822,7 @@ private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         JOptionPane.showMessageDialog(MapDialog.this, e.getMessage());
         setCursor(null);
     }
-    dispose();
+    this.setVisible(false);
 
     return;
 

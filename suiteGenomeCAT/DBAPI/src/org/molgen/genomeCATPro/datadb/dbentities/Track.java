@@ -56,6 +56,7 @@ import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
 
 /**
+ * 271114   kt  removeSamples
  * 270313   kt  new transient member: nofImportData
  * 270313   kt  new transient member: nofImportErrors
  * @author tebel
@@ -117,11 +118,11 @@ public class Track implements Serializable, Data {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentExperimentID")
     private ExperimentData parentExperiment;
-
     @Transient
     private int nofImportErrors = 0;
     @Transient
     private int nofImportData = 0;
+
     public Track() {
         this.samples = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<SampleInTrack>());
 
@@ -183,7 +184,7 @@ public class Track implements Serializable, Data {
     public boolean allowSegmentation() {
         if (this.getDataType().contentEquals(Defaults.DataType.SEGMENTS.toString())) {
             return false;
-        }     
+        }
 
         return true;
 
@@ -231,6 +232,10 @@ public class Track implements Serializable, Data {
                     "remove: " + this.samples.get(index));
             this.samples.remove(index);
         }
+    }
+
+    public void removeSamples() {
+        this.samples.clear();
     }
 
     public List<SampleInTrack> getSamples() {
@@ -283,7 +288,7 @@ public class Track implements Serializable, Data {
     public void setNofImportErrors(int nofImportErrors) {
         this.nofImportErrors = nofImportErrors;
     }
-    
+
     public String getOriginalFile() {
         return originalFile;
     }
@@ -331,7 +336,7 @@ public class Track implements Serializable, Data {
         this.setStddev(s.getStddev());
         this.setVariance(s.getVariance());
         this.setOriginalFile(s.getOriginalFile());
-        List<SampleInTrack> list = new Vector<SampleInTrack>(s.getSamples());
+        List<SampleInTrack> list = new Vector<SampleInTrack>(s.getSamples().size());
         Collections.copy(list, s.getSamples());
         this.setSamples(list);
 
@@ -369,7 +374,7 @@ public class Track implements Serializable, Data {
         //kt 170613 name without .
         String oldName = this.name;
         this.name = name.replace('.', '_');
-        
+
 
         changeSupport.firePropertyChange("name", oldName, name);
 
@@ -462,7 +467,7 @@ public class Track implements Serializable, Data {
 
     public void setParamProcessing(String paramProcessing) {
         String oldparamProcessing = this.paramProcessing;
-         this.paramProcessing = paramProcessing;
+        this.paramProcessing = paramProcessing;
 
         changeSupport.firePropertyChange("paramProcessing", oldparamProcessing, paramProcessing);
     }
