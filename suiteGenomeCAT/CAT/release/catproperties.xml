@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_02" class="java.beans.XMLDecoder"> 
+ <object class="org.molgen.genomeCATPro.cat.CATPropertiesMod$CATProperties"> 
+  <void property="rulerStepSize"> 
+   <double>10.0</double> 
+  </void> 
+ </object> 
+</java> 

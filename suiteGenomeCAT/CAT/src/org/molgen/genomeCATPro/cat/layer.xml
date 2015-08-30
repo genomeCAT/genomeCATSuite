@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="CAT">
+            <file name="org-molgen-genomeCATPro-cat-CATDataAction.instance"/>
+            <file name="org-molgen-genomeCATPro-cat-CATAction.instance"/>
+            <file name="org-molgen-genomeCATPro-cat-MapCATAction.instance"/>
+            <file name="org-molgen-genomeCATPro-cat-ArrayFramePropsAction.instance"/>
+            <file name="org-molgen-genomeCATPro-cat-MappingAction.instance"/>
+            <file name="org-molgen-genomeCATPro-cat-MapTreeAction.instance"/>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Modules">
+            <folder name="ComparativeView">
+                <attr name="position" intvalue="2"/>
+                <file name="org-molgen-genomeCATPro-cat-CATAction.shadow">
+                    <attr name="position" intvalue="1"/>
+                    <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-CATAction.instance"/>
+                </file>
+                <file name="org-molgen-genomeCATPro-cat-MapCATAction.shadow">
+                    <attr name="position" intvalue="2"/>
+                    <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-MapCATAction.instance"/>
+                </file>
+                <file name="org-molgen-genomeCATPro-cat-ArrayFramePropsAction.shadow">
+                    <attr name="position" intvalue="3"/>
+                    <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-ArrayFramePropsAction.instance"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="View">
+            <file name="org-molgen-genomeCATPro-cat-MapTreeAction-MapTreeAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-MapTreeAction.instance"/>
+                <attr name="position" intvalue="130"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="Modules">
+            <attr name="position" intvalue="2"/>
+            <file name="org-molgen-genomeCATPro-cat-CATAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-CATAction.instance"/>
+                <attr name="position" intvalue="40"/>
+            </file>
+        </folder>
+        <folder name="globalmenu1">
+            <file name="org-molgen-genomeCATPro-cat-MappingAction.shadow">
+                <attr name="position" intvalue="3"/>
+                <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-MappingAction.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="CATTopComponent.settings" url="CATTopComponentSettings.xml"/>
+            <file name="MapCATTopComponent.settings" url="MapCATTopComponentSettings.xml"/>
+            <file name="MapTreeTopComponent.settings" url="MapTreeTopComponentSettings.xml"/>
+            <file name="ArrayFramePropsTopComponent.settings" url="ArrayFramePropsTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <file name="mynav.wsmode" url="mynav.wsmode"/>
+            <folder name="editor">
+                <file name="CATTopComponent.wstcref" url="CATTopComponentWstcref.xml"/>
+                <file name="MapCATTopComponent.wstcref" url="MapCATTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="mynav">
+                <file name="ArrayFramePropsTopComponent.wstcref" url="ArrayFramePropsTopComponentWstcref.xml"/>
+            </folder>
+            <folder name="explorer">
+                <file name="MapTreeTopComponent.wstcref" url="MapTreeTopComponentWstcref.xml">
+                    <attr name="position" intvalue="300"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

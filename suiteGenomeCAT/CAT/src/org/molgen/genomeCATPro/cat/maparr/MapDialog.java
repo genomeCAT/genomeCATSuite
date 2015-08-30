@@ -1,0 +1,911 @@
+package org.molgen.genomeCATPro.cat.maparr;
+
+/**
+ * @name  MapDialog.java
+ * Created on August 19, 2011, 2:51 PM
+ * 
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ * 
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the
+ * License. 
+ * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
+ * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
+ * specific language governing permissions and limitations under the
+ * License.  
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+import java.awt.Cursor;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.molgen.genomeCATPro.annotation.AnnotationManagerImpl;
+import org.molgen.genomeCATPro.annotation.RegionAnnotation;
+import org.molgen.genomeCATPro.annotation.RegionImpl;
+import org.molgen.genomeCATPro.annotation.ServiceAnnotationManager;
+import org.molgen.genomeCATPro.cat.util.Defines;
+import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
+import org.molgen.genomeCATPro.common.Utils;
+import org.molgen.genomeCATPro.data.DataService;
+import org.molgen.genomeCATPro.datadb.dbentities.AnnotationList;
+import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
+import org.molgen.genomeCATPro.datadb.dbentities.MapData;
+import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
+import org.molgen.genomeCATPro.datadb.service.DBUtils;
+import org.molgen.genomeCATPro.datadb.service.PlatformService;
+import org.openide.util.NbPreferences;
+
+/**
+ *
+ *  010313   kt  mapAtAnnotation use annotationfield
+ */
+public class MapDialog extends javax.swing.JDialog {
+
+    List<Data> list = null;
+    List<MapData> mapData;
+    String szplatformDetail = "";
+    String release = "";
+    String field = null;
+    private Vector<String> fieldList;
+    private AnnotationManagerImpl am;
+
+    /** Creates new form MapDialog */
+    public MapDialog(List<Data> _list, String _release) {
+
+        super((JFrame) null, true);
+        this.fieldList = new Vector<String>();
+        this.am = null;
+        this.field = null;
+
+        this.release = _release;
+        this.list = new Vector<Data>();
+        this.list.addAll(_list);
+        PlatformDetail d = this.getPlatformDetail();
+        this.szplatformDetail = (d != null ? d.getName() : "unknown");
+        initComponents();
+        this.mapName.setText("");
+
+    }
+
+    public String getSzplatformDetail() {
+        return szplatformDetail;
+    }
+
+    public void setSzplatformDetail(String szplatformDetail) {
+        this.szplatformDetail = szplatformDetail;
+    }
+
+    public List<MapData> getMapData() {
+        return mapData;
+    }
+
+    public void setMapData(List<MapData> mapData) {
+        this.mapData = mapData;
+    }
+
+    public List<Data> getList() {
+        return list;
+    }
+
+    public void setList(List<Data> list) {
+        if (this.list == null) {
+            this.list = new Vector<Data>();
+        } else {
+            this.list.clear();
+        }
+        this.list.addAll(list);
+    }
+
+    public String getRelease() {
+        return release;
+    }
+
+    public void setRelease(String release) {
+        this.release = release;
+    }
+
+    /**
+     * encapsulate mapdata into arrayData
+     * @return
+     */
+    public static List<ArrayData> getArrayMappedData(List<MapData> mapList) {
+        List<ArrayData> arrayList = new Vector<ArrayData>();
+
+        for (MapData md : mapList) {
+            arrayList.add(ArrayData.createArrayData(ArrayViewMap.class, md));
+        }
+        return arrayList;
+    }
+
+    private String getMapName() {
+        return this.mapName.getText();
+    }
+
+    private PlatformDetail getPlatformDetail() {
+        if (list == null) {
+            return null;
+        }
+        ExperimentData currData = null;
+        try {
+            currData = (ExperimentData) this.list.get(0);
+
+            if (currData.getPlatformdata() == null) {
+                PlatformService.getPlatformDataByExperimentData(currData);
+            }
+            return currData.getPlatformdata().getPlattform();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        buttonGroupMapType = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        rbAnno = new javax.swing.JRadioButton();
+        rbProbe = new javax.swing.JRadioButton();
+        rbRegion = new javax.swing.JRadioButton();
+        rbIntervall = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        rbIntervallBIN = new javax.swing.JRadioButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        cbGenomeRelease = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
+        cbIntervallSize = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        bedFile = new javax.swing.JTextField();
+        mapName = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jButtonBrowse = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        platformDetail = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        cbAnnotation = new javax.swing.JComboBox();
+        jLabel14 = new javax.swing.JLabel();
+        jComboBoxAnnoField = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButtonOK = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.title")); // NOI18N
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jPanel1.border.title"))); // NOI18N
+
+        buttonGroupMapType.add(rbAnno);
+        rbAnno.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.rbAnno.text")); // NOI18N
+        rbAnno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbAnnoActionPerformed(evt);
+            }
+        });
+        rbAnno.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    cbGenomeRelease.setEnabled(true);
+
+                    cbAnnotation.setEnabled(true);
+                    jComboBoxAnnoField.setEnabled(true);
+                }
+                else{
+                    cbGenomeRelease.setEnabled(false);
+                    cbAnnotation.setEnabled(false);
+                    jComboBoxAnnoField.setEnabled(false);
+                }
+            }
+        });
+
+        buttonGroupMapType.add(rbProbe);
+        rbProbe.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.rbProbe.text")); // NOI18N
+        rbProbe.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    cbGenomeRelease.setEnabled(true);
+
+                    MapDialog.this.platformDetail.setEnabled(true);
+
+                }
+                else {
+                    cbGenomeRelease.setEnabled(false);
+                    MapDialog.this.platformDetail.setEnabled(false);
+                }
+
+            }
+        });
+
+        buttonGroupMapType.add(rbRegion);
+        rbRegion.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.rbRegion.text")); // NOI18N
+        rbRegion.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    cbGenomeRelease.setEnabled(true);
+
+                    bedFile.setEnabled(true);
+                    jButtonBrowse.setEnabled(true);
+                }
+                else{
+                    cbGenomeRelease.setEnabled(false);
+
+                    //this.cbIntervallSize.setEnabled(false);
+                    bedFile.setEnabled(false);
+                    jButtonBrowse.setEnabled(false);
+                }
+            }});
+
+            buttonGroupMapType.add(rbIntervall);
+            rbIntervall.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.rbIntervall.text")); // NOI18N
+            rbIntervall.addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent e) {
+                    if(e.getStateChange() == ItemEvent.SELECTED){
+                        cbGenomeRelease.setEnabled(true);
+                        cbIntervallSize.setEnabled(true);
+
+                    }
+                    else{
+                        cbGenomeRelease.setEnabled(false);
+                        cbIntervallSize.setEnabled(false);
+                    }
+                }});
+
+                jLabel1.setFont(new java.awt.Font("Dialog", 2, 12));
+                jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                jLabel1.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel1.text")); // NOI18N
+                jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+                jLabel2.setFont(new java.awt.Font("Dialog", 2, 12));
+                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                jLabel2.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel2.text")); // NOI18N
+                jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+                jLabel3.setFont(new java.awt.Font("Dialog", 2, 12));
+                jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                jLabel3.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel3.text")); // NOI18N
+                jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+                jLabel4.setFont(new java.awt.Font("Dialog", 2, 12));
+                jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                jLabel4.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel4.text")); // NOI18N
+                jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+                jLabel11.setFont(new java.awt.Font("Dialog", 2, 12));
+                jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+                jLabel11.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel11.text")); // NOI18N
+                jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+                buttonGroupMapType.add(rbIntervallBIN);
+                rbIntervallBIN.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.rbIntervallBIN.text")); // NOI18N
+                rbIntervallBIN.addItemListener(new ItemListener() {
+                    public void itemStateChanged(ItemEvent e) {
+                        if(e.getStateChange() == ItemEvent.SELECTED){
+                            cbGenomeRelease.setEnabled(true);
+                            cbIntervallSize.setEnabled(true);
+
+                        }
+                        else{
+                            cbGenomeRelease.setEnabled(false);
+                            cbIntervallSize.setEnabled(false);
+                        }
+                    }});
+
+                    jLabel12.setFont(new java.awt.Font("Dialog", 2, 12));
+                    jLabel12.setForeground(new java.awt.Color(255, 0, 153));
+                    jLabel12.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel12.text")); // NOI18N
+
+                    jLabel10.setFont(new java.awt.Font("Dialog", 2, 12));
+                    jLabel10.setForeground(new java.awt.Color(255, 0, 153));
+                    jLabel10.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel10.text")); // NOI18N
+
+                    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+                    jPanel1.setLayout(jPanel1Layout);
+                    jPanel1Layout.setHorizontalGroup(
+                        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(46, 46, 46)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(rbAnno)
+                                .addComponent(rbProbe)
+                                .addComponent(rbRegion)
+                                .addComponent(rbIntervall)
+                                .addComponent(rbIntervallBIN))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addComponent(jLabel12)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)))
+                            .addGap(208, 208, 208))
+                    );
+                    jPanel1Layout.setVerticalGroup(
+                        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(rbAnno)
+                                        .addComponent(jLabel1))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(rbProbe)
+                                        .addComponent(jLabel2))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(rbRegion)
+                                        .addComponent(jLabel3))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(rbIntervall)
+                                        .addComponent(jLabel4))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(rbIntervallBIN)
+                                        .addComponent(jLabel11)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12)
+                                    .addGap(25, 25, 25)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel10)
+                            .addContainerGap())
+                    );
+
+                    jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jPanel2.border.title"))); // NOI18N
+
+                    cbGenomeRelease.setModel(new javax.swing.DefaultComboBoxModel( DBUtils.getAllReleases()));
+                    cbGenomeRelease.setEnabled(false);
+
+                    org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${release}"), cbGenomeRelease, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                    bindingGroup.addBinding(binding);
+
+                    jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                    jLabel5.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel5.text")); // NOI18N
+                    jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+                    cbIntervallSize.setModel(new javax.swing.DefaultComboBoxModel(Defines.TITEL_SEGMENT_INTS));
+                    cbIntervallSize.setEnabled(false);
+
+                    jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                    jLabel6.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel6.text")); // NOI18N
+                    jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+                    jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                    jLabel7.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel7.text")); // NOI18N
+                    jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+                    bedFile.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.bedFile.text")); // NOI18N
+                    bedFile.setEnabled(false);
+
+                    mapName.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.mapName.text")); // NOI18N
+
+                    jLabel8.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel8.text")); // NOI18N
+
+                    jButtonBrowse.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jButtonBrowse.text")); // NOI18N
+                    jButtonBrowse.setEnabled(false);
+                    jButtonBrowse.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            jButtonBrowseActionPerformed(evt);
+                        }
+                    });
+
+                    jLabel9.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel9.text")); // NOI18N
+
+                    platformDetail.setEnabled(false);
+
+                    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${szplatformDetail}"), platformDetail, org.jdesktop.beansbinding.BeanProperty.create("text"));
+                    bindingGroup.addBinding(binding);
+
+                    jLabel13.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel13.text")); // NOI18N
+
+                    cbAnnotation.setModel(new javax.swing.DefaultComboBoxModel(this.cbGenomeRelease.getSelectedIndex() < 0 ? new Vector() : AnnotationManagerImpl.listAnnotationsNames((Defaults.GenomeRelease.toRelease(this.cbGenomeRelease.getSelectedItem().toString()))) ));
+                    cbAnnotation.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            cbAnnotationActionPerformed(evt);
+                        }
+                    });
+
+                    jLabel14.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jLabel14.text")); // NOI18N
+
+                    jComboBoxAnnoField.setModel(
+
+                        new javax.swing.DefaultComboBoxModel(this.fieldList));
+                    jComboBoxAnnoField.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            jComboBoxAnnoFieldActionPerformed(evt);
+                        }
+                    });
+
+                    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+                    jPanel2.setLayout(jPanel2Layout);
+                    jPanel2Layout.setHorizontalGroup(
+                        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(85, 85, 85)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(platformDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                                        .addComponent(bedFile, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(mapName, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(cbGenomeRelease, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cbIntervallSize, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(10, 10, 10)
+                                    .addComponent(jButtonBrowse)
+                                    .addGap(231, 231, 231))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(cbAnnotation, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel14)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jComboBoxAnnoField, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())))
+                    );
+
+                    jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {mapName, platformDetail});
+
+                    jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbAnnotation, cbGenomeRelease, cbIntervallSize, jComboBoxAnnoField});
+
+                    jPanel2Layout.setVerticalGroup(
+                        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                .addComponent(cbGenomeRelease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbIntervallSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(platformDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                .addComponent(jLabel13)
+                                .addComponent(cbAnnotation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel14)
+                                .addComponent(jComboBoxAnnoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                .addComponent(jLabel7)
+                                .addComponent(jButtonBrowse)
+                                .addComponent(bedFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(3, 3, 3)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(mapName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8))
+                            .addGap(19, 19, 19))
+                    );
+
+                    org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+                    org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
+                    org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
+                    columnBinding.setColumnName("Id");
+                    columnBinding.setColumnClass(Long.class);
+                    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+                    columnBinding.setColumnName("Name");
+                    columnBinding.setColumnClass(String.class);
+                    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${genomeRelease}"));
+                    columnBinding.setColumnName("Genome Release");
+                    columnBinding.setColumnClass(String.class);
+                    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataType}"));
+                    columnBinding.setColumnName("Data Type");
+                    columnBinding.setColumnClass(String.class);
+                    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${metaText}"));
+                    columnBinding.setColumnName("Meta Text");
+                    columnBinding.setColumnClass(StringBuffer.class);
+                    bindingGroup.addBinding(jTableBinding);
+                    jTableBinding.bind();
+                    jScrollPane1.setViewportView(jTable1);
+                    jTable1.getColumnModel().getColumn(0).setHeaderValue(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jTable1.columnModel.title0")); // NOI18N
+                    jTable1.getColumnModel().getColumn(1).setHeaderValue(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jTable1.columnModel.title1")); // NOI18N
+                    jTable1.getColumnModel().getColumn(2).setHeaderValue(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jTable1.columnModel.title2")); // NOI18N
+                    jTable1.getColumnModel().getColumn(3).setHeaderValue(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jTable1.columnModel.title3")); // NOI18N
+                    jTable1.getColumnModel().getColumn(4).setHeaderValue(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jTable1.columnModel.title4")); // NOI18N
+
+                    jButtonOK.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.shadow"));
+                    jButtonOK.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jButtonOK.text")); // NOI18N
+                    jButtonOK.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            jButtonOKActionPerformed(evt);
+                        }
+                    });
+
+                    jButtonCancel.setText(org.openide.util.NbBundle.getMessage(MapDialog.class, "MapDialog.jButtonCancel.text")); // NOI18N
+                    jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            jButtonCancelActionPerformed(evt);
+                        }
+                    });
+
+                    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+                    getContentPane().setLayout(layout);
+                    layout.setHorizontalGroup(
+                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(338, 338, 338)
+                                    .addComponent(jButtonOK)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButtonCancel))
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1054, Short.MAX_VALUE))
+                            .addContainerGap())
+                    );
+                    layout.setVerticalGroup(
+                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButtonOK)
+                                .addComponent(jButtonCancel))
+                            .addContainerGap())
+                    );
+
+                    bindingGroup.bind();
+
+                    pack();
+                }// </editor-fold>//GEN-END:initComponents
+
+private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseActionPerformed
+    String path = NbPreferences.forModule(MapDialog.class).get("pathPreference", "");
+    JFileChooser importFileChooser = new JFileChooser(path);
+    //importFileChooser.setSelectedFile(new File(this.dataExport.getTableData() + ".bed"));
+
+    int returnVal = importFileChooser.showOpenDialog(this);
+    if (returnVal != JFileChooser.APPROVE_OPTION) {
+        return;
+    }
+
+    this.bedFile.setText(importFileChooser.getSelectedFile().getPath());
+    Logger.getLogger(MapDialog.class.getName()).log(Level.INFO,
+            "You chose to export to: " +
+            this.bedFile.getText());
+
+
+    NbPreferences.forModule(MapDialog.class).put("pathPreference", this.bedFile.getText());
+}//GEN-LAST:event_jButtonBrowseActionPerformed
+    /**
+     * do Mapping, return list of arrays
+     **/
+    static List<MapData> getMapping(List<Data> list, String release) {
+        MapDialog d = new MapDialog(list, release);
+
+        d.setLocationRelativeTo(null);
+        d.setVisible(true);
+        if (d.getMapName() != null) {
+            return d.getMapData();
+        // return Mapping.getMapping(d.getMapName(), d.getMapType());
+        } else {
+            return null;
+        }
+    }
+private void rbAnnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAnnoActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_rbAnnoActionPerformed
+
+private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+    this.mapName.setText(null);
+    this.mapData = null;
+    this.am = null;
+    this.field = null;
+
+    this.fieldList.clear();
+    this.setVisible(false);
+}//GEN-LAST:event_jButtonCancelActionPerformed
+    private boolean checkRealList(List<Data> list, List<Data> realList) {
+        if (realList == null) {
+            JOptionPane.showMessageDialog(MapDialog.this,
+                    "no valid data to map");
+            return false;
+        }
+
+
+        int next = JOptionPane.YES_OPTION;
+        //sMapType = Defaults.MAP_OLIGO;
+        if (realList.size() != list.size()) {
+            for (Data d : this.list) {
+                if (!realList.contains(d)) {
+                    JOptionPane.showMessageDialog(MapDialog.this,
+                            "error: not able to map data " + d.getName() + " \n see logfile for more infos!");
+                }
+            }
+            next = JOptionPane.showConfirmDialog(MapDialog.this,
+                    "map remaining data?",
+                    "do mapping",
+                    JOptionPane.YES_NO_OPTION);
+        }
+        if (next == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void jComboBoxFieldActionPerformed(java.awt.event.ActionEvent evt) {
+        if (this.jComboBoxAnnoField.getSelectedIndex() < 0) {
+            this.field = null;
+        } else {
+            this.field = "get" + jComboBoxAnnoField.getSelectedItem().toString();
+        }
+    }
+private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
+    /*if (mapName.getText().toString().length() == 0) {
+    JOptionPane.showMessageDialog(MapDialog.this,
+    "Please enter unique name for mapping table!");
+    return;
+    }*/
+    List<MapData> mapList = null;
+    List<Data> realList = null;
+    try {
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+        // map at Probe Identifier
+
+        if (this.rbProbe.isSelected()) {
+            this.mapName.setText(Utils.getUniquableName("map" + Defines.MAP_ID));
+            // map at probe level
+            if (this.cbGenomeRelease.getSelectedIndex() < 0) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select release to reference a plattform version!");
+                return;
+            }
+            GenomeRelease _release = Defaults.GenomeRelease.toRelease(this.cbGenomeRelease.getSelectedItem().toString());
+
+            PlatformDetail p = this.getPlatformDetail();
+            realList = Map.validateMapAtId(list, p);
+            if (this.checkRealList(list, realList)) {
+                mapList = Map.mapAtId(_release, realList, p, this.mapName.getText().toString());
+            }
+        }
+
+        // map at Gene
+
+        if (this.rbAnno.isSelected()) {
+            this.mapName.setText(Utils.getUniquableName("map" + Defines.MAP_ANNO));
+            if (this.cbGenomeRelease.getSelectedIndex() < 0) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select genome release!");
+                return;
+            }
+            if (this.cbAnnotation.getSelectedIndex() < 0) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select annotation (i.e. gene)!");
+                return;
+            }
+            if (this.field == null) {
+                JOptionPane.showMessageDialog(this, "Please choose annotation and field! ");
+                return;
+            }
+            GenomeRelease _release = Defaults.GenomeRelease.toRelease(this.cbGenomeRelease.getSelectedItem().toString());
+
+            realList = Map.validateMapAtAnnotate(this.list,
+                    _release);
+            if (this.checkRealList(list, realList)) {
+                mapList = Map.mapAtAnnotation(_release,
+                        this.cbAnnotation.getSelectedItem().toString(),
+                        this.field,
+                        realList, this.mapName.getText().toString());
+            }
+        }
+
+        // map at Region
+
+        if (this.rbRegion.isSelected()) {
+            this.mapName.setText(Utils.getUniquableName("map" + Defines.MAP_REGION));
+            if (this.bedFile.getText().toString() == null ||
+                    this.bedFile.getText().toString().contentEquals("")) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select bed file containing defined regions to map \n" +
+                        " format: <chrom><start><stop>");
+                return;
+            }
+            if (this.cbGenomeRelease.getSelectedIndex() < 0) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select genome release! Must be valid for defined regions choosen and data sets!");
+                return;
+            }
+            GenomeRelease _release = Defaults.GenomeRelease.toRelease(this.cbGenomeRelease.getSelectedItem().toString());
+            realList = Map.validateMapAtRegion(this.list, _release);
+            if (!this.checkRealList(list, realList)) {
+                return;
+            }
+            Integer error = 0;
+            List<RegionImpl> posList = new Vector<RegionImpl>();
+            error = Map.importBED(posList, this.bedFile.getText().toString());
+            int next = JOptionPane.showConfirmDialog(MapDialog.this,
+                    "bed file imported with " + error + " number of errors, continue?",
+                    "do mapping",
+                    JOptionPane.YES_NO_OPTION);
+            if (next == JOptionPane.YES_OPTION) {
+                mapList = Map.mapAtRegion(_release, posList, this.bedFile.getText(), list, this.mapName.getText().toString());
+            } else {
+                return;
+            }
+        }
+
+        // map at intervall
+
+        if (this.rbIntervall.isSelected() || this.rbIntervallBIN.isSelected()) {
+            this.mapName.setText(Utils.getUniquableName("map" + Defines.MAP_LOCATION));
+            if (this.cbGenomeRelease.getSelectedIndex() < 0) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select genome release! Must be valid for defined regions choosen and data sets!");
+                return;
+            }
+            if (this.cbIntervallSize.getSelectedIndex() < 0) {
+                JOptionPane.showMessageDialog(MapDialog.this,
+                        "Please select inverall size!");
+                return;
+            }
+            GenomeRelease _release = Defaults.GenomeRelease.toRelease(this.cbGenomeRelease.getSelectedItem().toString());
+
+            realList = Map.validateMapAtLocation(this.list, _release);
+            if (this.rbIntervall.isSelected()) {
+                mapList = Map.mapAtLocation(
+                        list,
+                        Defines.getSegmentIntByTitel(this.cbIntervallSize.getSelectedItem().toString()),
+                        _release,
+                        this.mapName.getText().toString());
+            } else {
+                mapList = Map.mapAtLocationBin(
+                        list,
+                        Defines.getSegmentIntByTitel(this.cbIntervallSize.getSelectedItem().toString()),
+                        _release,
+                        this.mapName.getText().toString());
+            }
+        }
+        // create mapData from Data *
+        // save mapping *
+        // create ArrayData from MapData
+        this.mapData = mapList;
+
+        setCursor(null);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(MapDialog.this, e.getMessage());
+        setCursor(null);
+    }
+    this.setVisible(false);
+
+    return;
+
+}//GEN-LAST:event_jButtonOKActionPerformed
+
+private void cbAnnotationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAnnotationActionPerformed
+    if (this.cbAnnotation.getSelectedIndex() < 0) {
+        return;
+    }
+    this.am = new AnnotationManagerImpl(
+            GenomeRelease.toRelease(this.cbGenomeRelease.getSelectedItem().toString()),
+            this.cbAnnotation.getSelectedItem().toString());
+    this.updateFieldList();
+    jComboBoxAnnoField.setModel(new DefaultComboBoxModel(this.fieldList));
+}//GEN-LAST:event_cbAnnotationActionPerformed
+
+private void jComboBoxAnnoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAnnoFieldActionPerformed
+    if (this.jComboBoxAnnoField.getSelectedIndex() < 0) {
+        this.field = null;
+    } else {
+        this.field = "get" + jComboBoxAnnoField.getSelectedItem().toString();
+    }
+}//GEN-LAST:event_jComboBoxAnnoFieldActionPerformed
+    public void updateFieldList() {
+        AnnotationList anno = this.am.getAnnotation();
+        RegionAnnotation ar = ServiceAnnotationManager.getRegionInstance(
+                anno.getClazz());
+        this.setFieldList(DataService.getFieldList(ar));
+        for (String f : this.getFieldList()) {
+            int i = this.getFieldList().indexOf(f);
+            f = f.substring(0, 1).toUpperCase() + f.substring(1);
+            this.getFieldList().set(i, f);
+        }
+        this.getFieldList().add("Name");
+
+    }
+
+    public List<String> getFieldList() {
+        return fieldList;
+    }
+
+    public void setFieldList(List<String> _fieldList) {
+        if (this.fieldList != null) {
+            this.fieldList.clear();
+        }
+        this.fieldList.addAll(_fieldList);
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField bedFile;
+    private javax.swing.ButtonGroup buttonGroupMapType;
+    private javax.swing.JComboBox cbAnnotation;
+    private javax.swing.JComboBox cbGenomeRelease;
+    private javax.swing.JComboBox cbIntervallSize;
+    private javax.swing.JButton jButtonBrowse;
+    private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonOK;
+    private javax.swing.JComboBox jComboBoxAnnoField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField mapName;
+    private javax.swing.JTextField platformDetail;
+    private javax.swing.JRadioButton rbAnno;
+    private javax.swing.JRadioButton rbIntervall;
+    private javax.swing.JRadioButton rbIntervallBIN;
+    private javax.swing.JRadioButton rbProbe;
+    private javax.swing.JRadioButton rbRegion;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+}

@@ -1,0 +1,3 @@
+org.molgen.genomeCATPro.xportagilent.SpotAgilent
+org.molgen.genomeCATPro.xportagilent.SpotAgilentAnno
+org.molgen.genomeCATPro.xportagilent.SpotAgilentAnnoGene

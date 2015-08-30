@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_02" class="java.beans.XMLDecoder"> 
+ <object class="org.molgen.genomeCATPro.peaks.CNVCATPropertiesMod$CNVCATProperties"> 
+  <void property="colorBackGround"> 
+   <object class="java.awt.Color"> 
+    <int>128</int> 
+    <int>128</int> 
+    <int>128</int> 
+    <int>255</int> 
+   </object> 
+  </void> 
+  <void property="colorOverlap"> 
+   <object class="java.awt.Color"> 
+    <int>153</int> 
+    <int>153</int> 
+    <int>153</int> 
+    <int>255</int> 
+   </object> 
+  </void> 
+  <void property="colorSelected"> 
+   <object class="java.awt.Color"> 
+    <int>204</int> 
+    <int>204</int> 
+    <int>255</int> 
+    <int>255</int> 
+   </object> 
+  </void> 
+  <void property="maxQuality"> 
+   <double>2.0</double> 
+  </void> 
+  <void property="maxRatio"> 
+   <double>2.0</double> 
+  </void> 
+  <void property="nofCols"> 
+   <int>20</int> 
+  </void>
+  <void property="minHeight"> 
+   <int>1</int> 
+  </void> 
+  <void property="probeWidth"> 
+   <int>4</int> 
+  </void> 
+  <void property="selectionTolerance"> 
+   <int>10</int> 
+  </void> 
+  <void property="transAberrations"> 
+   <double>0.2</double> 
+  </void> 
+  <void property="transFrequencies"> 
+   <double>0.8</double> 
+  </void> 
+  <void property="transVariations"> 
+   <double>0.2</double> 
+  </void> 
+ </object> 
+</java> 
