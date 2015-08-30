@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: org.molgen.genomeCATPro.cat
-OpenIDE-Module-Implementation-Version: 2
-OpenIDE-Module-Install: org/molgen/genomeCATPro/cat/Installer.class
-OpenIDE-Module-Layer: org/molgen/genomeCATPro/cat/layer.xml
-OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/cat/Bundle.properties
-

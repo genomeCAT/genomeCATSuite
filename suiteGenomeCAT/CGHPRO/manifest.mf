@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: org.molgen.genomeCATPro.cghpro
-OpenIDE-Module-Implementation-Version: 2
-OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/cghpro/Bundle.properties
-

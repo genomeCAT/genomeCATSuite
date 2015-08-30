@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: oracle.toplink.essentials.internal.ejb.cmp3
-OpenIDE-Module-Localizing-Bundle: oracle/toplink/essentials/internal/ejb/cmp3/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
