@@ -1,13 +1,154 @@
-<!DOCTYPE HTML>
- 
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="55; URL=http://www.molgen.mpg.de/204904/GenomeCAT">
- 
-<script>
-  window.location.href = "http://www.molgen.mpg.de/204904/GenomeCAT"
-</script>
- 
-<title>Page Redirection</title>
- 
-<!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
-If you are not redirected automatically, follow the <a href='http://www.molgen.mpg.de/204904/GenomeCAT'</a>
+<head>
+    <meta name="keywords" content="CNV, integrative analysis, NGS, array CGH,
+          multidimensional data">
+    <title> genomeCAT </title>
+    <style>
+        p {font-family: Verdana,Arial,Helvetica,sans-serif;}
+        body {color: darkslategray; background-color: teal; 
+              font-family: Verdana,Arial,Helvetica,sans-serif; font-size: small}
+        table { background-color: white; border-spacing: 20px;  margin: 1px; width: 800px}
+        td,tr { vertical-align: text-top ; padding: 10px;}
+        a:link {color: teal; font-weight: bold}
+        td.text { background-color: whitesmoke; width: 150px; border-bottom:  red dotted 1px}
+        div.subline {padding-bottom:  10px; padding-top: 10px; border-bottom:  dotted 1px}
+        header { background-color:   darkturquoise; padding: 20px; font-size:  20px; font-weight: bold;   }
+
+        aside { margin: 1px; float:left; width: 150px;  }
+        section {float: right; margin: 1px;  }
+
+        nav {background-color: powderblue; font-weight: bold;
+             font-size:  medium; float: right; margin: 1px; width: 20% }
+
+
+        div.left {padding: 10px; background-color: whitesmoke; position: absolute; bottom: 3%;  
+                  vertical-align:text-top; width: 150px}
+
+    </style>
+</head>
+<body>  
+    <header>
+        GenomeCAT - a versatile tool for the visualization and integrative analysis of array CGH data
+    </header>
+    <aside>
+        
+        <div class="left"> 
+            Source Repository on GitHub 
+            <a href="https://github.com/genomeCAT/genomeCATSuite" target="_blank">here</a>
+            
+               
+            
+            <hr style="height: 10px;  border: none ">
+            <a href="http://www.dfg.de/index.jsp"  target="_blank"  title="" >
+                <img src="DFG_klein.jpg" alt="dfg"> 
+            </a>
+            <br>This project is funded by the DFG <br>(UL 342/2-1)
+
+        </div>
+    </aside>
+
+    <nav>
+        <div style="padding: 10px">
+            <p style=" text-transform: uppercase">New features</p>         
+
+
+            <div class="subline">
+                + implementation of new R-packages for "NGS import"</div>
+
+            <div class="subline">+ automatic search for software updates</div>
+
+            <div class="subline">+ optimzed menu navigation</div>
+            <div class="subline">+ export relative frequencies. <br/>
+            </div>
+
+            <div class="subline">+ import of data in BED, BedGraph, WIG format. <br/>
+                <br>Click 
+                <a href="http://www.molgen.mpg.de/%7eabt_rop/molecular_cytogenetics/GenomeCAT_Downloads/BED_Import.avi">
+                    here</a> for a demonstration (20,9Mb)</div>
+
+
+        </div>
+    </nav>
+
+
+
+    <section> 
+        <table>
+            <colgroup span="3"></colgroup>
+
+            <tr>
+                <td colspan="3" >
+
+                    <span>
+                        <strong>Starting from <a href="http://www.biomedcentral.com/1471-2105/6/85">CGHPRO</a>, 
+                            a software for the analysis and visualization of array CGH data, we are creating 
+                            a program for the integrative analysis of genetic and epigenetic changes identified
+                            by array and sequencing based experiment types, respectively. The current version of 
+                            the software can be downloaded <a href="install_CAT_v_2_7.zip">here</a>. 
+                            A video demonstrating the installation process can be downloaded 
+                            <a href="HowToInstalGenomeCAT.avi">here</a> (150Mb). 
+                            A zip-file of this video is available <a href="HowToInstalGenomeCAT.zip">here</a> (10Mb). 
+                            If you encounter any problems or have some comments that could help us to improve the software, 
+                            please don't hesitate to contact <a href="mailto:%k.tebel@gmx.de">Katrin Tebel</a> or 
+                            <a href="mailto:ullmann@molgen.mpg.de">Reinhard Ullmann.</a></strong></span>                          
+
+                </td>
+            </tr>
+
+
+            <tr style="text-align: center">
+                <td>
+                    <a  href="single_view.jpg" title="">
+                        <img src="teaser_single_view.jpg" height="188" alt="single_view" width="143" />
+                    </a>
+                </td>
+                <td>
+                    <a  href="cat_view.jpg" title="">
+                        <img src="teaser_cat_view.jpg" height="188" alt="single_view" width="143" />
+                    </a>
+                </td>
+                <td>
+                    <a  href="group_view.jpg" title="">
+                        <img src="teaser_group_view.jpg" height="188" alt="single_view" width="143" />
+                    </a>
+                </td>
+            </tr>
+            <tr >
+                <td class="text">
+
+                    <span>
+                        <strong>Single View</strong><br/>A tool to visualize and explore single 
+                        array CGH experiments. A short video introducing the features of this tool can be downloaded 
+                        <a href="" >here</a> (309Mb). For a zipped file click <a href="">here</a> (24,5Mb).
+                    </span>
+
+
+                </td>
+                <td class="text">
+                    <span>
+                        <strong>Comparative View</strong><br/>
+                        A tool to compare data from the same or different experiment types. 
+                        Data can be averaged over genes, fixed genomic intervals or regions of 
+                        interest to enable follow up statistical analysis. 
+                        A video demonstrating the workflow in CAT is available 
+                        <a href="">here</a> (182Mb). A zipped version of this file can be downloaded 
+                        <a href="">here</a> (14,6Mb)</span>
+
+                </td>
+                <td class="text">
+
+                    <span>
+                        <strong>Group Explorer</strong><br />A tool to identify recurrent aberrations in
+                        large cohorts and to compare patterns of chromosomal aberrations between groups of patients. 
+                        Videos demonstrating the workflow can be downloaded <a href="">here</a> and 
+                        <a href="">here</a> (410Mb). Compressed versions of these files are available 
+                        <a href="">here</a> (25,7Mb) and <a href="">here</a> (40,7Mb). </span>
+
+                </td>
+            </tr>
+
+
+        </table>
+    </section>
+
+
+</body>
