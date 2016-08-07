@@ -11,32 +11,72 @@
         a:link {color: darkred; font-weight: bold}
         td.text { background-color: whitesmoke; width: 150px; border-bottom:  red dotted 1px}
         div.subline {padding-bottom:  10px; padding-top: 10px; border-bottom:  dotted 1px}
-        header { background-color:   darkturquoise; padding: 20px; font-size:  20px; font-weight: bold;   }
+        header { background-color:   darkturquoise; padding: 10px; font-size:  20px; font-weight: bold;   }
 
         aside { margin: 1px; float:left; width: 150px;  }
         section {float: right; margin: 1px;  }
 
+		
         nav {background-color: powderblue; font-weight: bold;
              font-size:  medium; float: right; margin: 1px; width: 20% }
 
 
         div.left {padding: 10px; background-color: whitesmoke; position: absolute; bottom: 3%;  
                   vertical-align:text-top; width: 150px}
+		
+		#topnava{			
+			letter-spacing: 3px;
+			font-size:  10px;
+			vertical-align:bottom;
+			}
+
+		#topnava ul {
+			list-style-type:none;
+			margin:0;
+			padding:0;
+			}			
+
+		#topnava li {
+			padding: 0 6px 0 8px;
+			border-left: 1px solid #c6cbdd;
+			display:inline;
+			}
+
+		#topnava a {
+			margin: 0;
+			padding: 2px;
+			text-transform: capitalize;
+			text-decoration:none;
+			}
+
+		#topnava a:hover {
+			background-color: powderblue;;
+			text-decoration:none;
+			}
 
     </style>
 </head>
 <body>  
     <header>
-        GenomeCAT - a versatile tool for the visualization and integrative analysis of DNA copy number variants
-    </header>
+        <div>GenomeCAT - a versatile tool for the analysis and integrative visualization of DNA copy number variants<br/><br/></div> 
+	 
+		<div id="topnava">
+		<ul>
+		<li><a href="http://genomecat.github.io/genomeCATSuite" title="Home">Intro</a></li>
+		<li><a href="http://genomecat.github.io/genomeCATSuite/download.html" title="Download">Download</a></li>
+		<li><a href="http://genomecat.github.io/genomeCATSuite/doc.html" target="_self" title="DOCUMENTATION">Documentation</a></li>
+		<li><a href="https://github.com/genomeCAT/genomecatPub/raw/master/resources/faqs.html" target="self" title="FAQs" target="_self">FAQs</a></li>
+		<li><a href="https://github.com/genomeCAT/genomeCATSuite" title="Source Repository" target="_blank">Source Repository</a></li>
+		</ul></div>
+	</header>
+    
+  
     <aside>
         
         <div class="left"> 
 		
 		 
-		 Software full installation package current version: <a href="https://github.com/genomeCAT/genomecatPub/raw/master/updates/install_genomecat_4_2.zip">DOWNLOAD</a>.
-            <br/><br/>
-            
+		  
             <a href="https://github.com/genomeCAT/genomeCATSuite" target="_blank">Source Repository</a> on GitHub.         
                
             
@@ -66,10 +106,13 @@
 
             <div class="subline">+ import of data in BED, BedGraph, WIG format. <br/>
                 Click <a href="https://github.com/genomeCAT/genomecatPub/blob/master/resources/BED_Import.zip?raw=true">
-                    here</a> for a demonstration</div></div>
-
-
-        </div>
+                    here</a> for a demonstration</div>
+			
+			<div class="subline"><br/><br/>
+                            If you encounter any problems or have some comments that could help us to improve the software, 
+                            please don't hesitate to contact <a href="mailto:tebel@molgen.mpg.de">Katrin Tebel</a> or 
+                            <a href="mailto:ullmann@molgen.mpg.de">Reinhard Ullmann.</a></div>
+			</div>
     </nav>
 
 
@@ -86,7 +129,7 @@
                             a software for the analysis and visualization of array CGH data, we are creating 
                             a program for the integrative analysis of genetic and epigenetic changes identified
                             by array and sequencing based experiment types, respectively.<br/>The full installation package can be downloaded 
-							<a href="https://github.com/genomeCAT/genomecatPub/raw/master/updates/install_genomecat_4_2.zip">here</a> (zip file 350 MB).
+							<a href="https://github.com/genomeCAT/genomecatPub/raw/master/updates/download.html">here</a>.
                             A video demonstrating the installation process can be downloaded 
                             <a href="https://github.com/genomeCAT/genomecatPub/blob/master/resources/HowToInstalGenomeCAT.zip?raw=true">here</a>.
                             </strong></span>                          
@@ -119,7 +162,8 @@
                         <strong>Single View</strong><br/>A tool to visualize and explore single 
                         array CGH experiments. 
                         A short video introducing the features of this tool can be downloaded 
-                         <a href="https://github.com/genomeCAT/genomecatPub/raw/master/resources/single_view.zip?raw=true">here</a>.
+                         <a href="https://github.com/genomeCAT/genomecatPub/raw/master/resources/single_view.zip?raw=true">here.</a>. 
+						 Please also consult our <a href="https://github.com/genomeCAT/genomecatPub/raw/master/resources/SingleView.pdf" target="_blank">Manual</a>.
                     </span>
 
 
@@ -129,8 +173,9 @@
                         <strong>Comparative View</strong><br/>
                         A tool to compare data from the same or different experiment types. 
                         Data can be averaged over genes, fixed genomic intervals or regions of 
-                        interest to enable follow up statistical analysis. 
-                        A video demonstrating the workflow in CAT is available 
+                        interest to enable follow up statistical analysis (see 
+						<a href="https://github.com/genomeCAT/genomecatPub/raw/master/resources/ComparativeView.pdf" target="_blank">Manual</a>).
+                        A video demonstrating the workflow is available 
                         <a href="https://github.com/genomeCAT/genomecatPub/blob/master/resources/comparative_view.zip?raw=true">here</a>.
 						</span>
 
@@ -142,20 +187,17 @@
                         large cohorts and to compare patterns of chromosomal aberrations between groups of patients. 
                         A Video demonstrating the workflow can be downloaded 
 						<a href="https://github.com/genomeCAT/genomecatPub/blob/master/resources/group_explorer.zip?raw=true">here</a>.</span>
-
+						Please also consult our <a href="https://github.com/genomeCAT/genomecatPub/raw/master/resources/GroupExplorer.pdf" target="_blank">Manual</a>.
+                   
                 </td>
-            </tr>
- <tr>
+            </tr><!-- <tr>
                 <td colspan="3" >
 
                     <span>
-                        <strong>
-                            If you encounter any problems or have some comments that could help us to improve the software, 
-                            please don't hesitate to contact <a href="mailto:tebel@molgen.mpg.de">Katrin Tebel</a> or 
-                            <a href="mailto:ullmann@molgen.mpg.de">Reinhard Ullmann.</a></strong></span>                          
+                        </span>                          
 
                 </td>
-            </tr>
+            </tr>-->
 
         </table>
     </section>
