@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_07" class="java.beans.XMLDecoder"> 
+    <object class="org.molgen.genomeCATPro.appconf.CorePropertiesMod$CoreProperties">  
+        <void property="db"> 
+            <string>genomecat</string> 
+        </void>   
+        <void property="host"> 
+            <string>localhost</string> 
+        </void>  
+        <void property="port"> 
+            <string>3306</string> 
+        </void> 
+        <void property="pwd"> 
+            <string>test</string> 
+        </void>   
+        <void property="user"> 
+            <string>test</string> 
+        </void> 
+    </object> 
+</java> 

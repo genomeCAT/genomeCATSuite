@@ -1,0 +1,6 @@
+suiteGenomeCAT/build
+suiteGenomeCAT/dist
+suiteGenomeCAT/**/profiler
+suiteGenomeCAT/**/depcache
+suiteGenomeCAT/**/test
+suiteGenomeCAT/**/*.class

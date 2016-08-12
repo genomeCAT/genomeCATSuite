@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN"
+                            "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CGHPROFramePropsAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsAction-->
+                <attr name="displayName" stringvalue="Properties"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-InfoTopComponent.instance">
+                <!--org.molgen.genomeCATPro.guimodul.InfoTopComponent-->
+                <attr
+                    methodvalue="org.openide.windows.TopComponent.openAction" name="instanceCreate"/>
+                <attr name="component" newvalue="org.molgen.genomeCATPro.guimodul.InfoTopComponent"/>
+                <attr name="preferredID" stringvalue="InfoTopComponent"/>
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.Bundle#CTL_InfoAction" name="displayName"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Modules">
+            <folder name="SingleView">
+                <file name="CGHPROFramePropsAction.shadow">
+                    <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsAction-->
+                    <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-guimodul-cghpro-CGHPROFramePropsAction.instance"/>
+                    <attr intvalue="200" name="position"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="Window">
+            <file name="org-molgen-genomeCATPro-guimodul-InfoTopComponent.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.InfoTopComponent-->
+                <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-guimodul-InfoTopComponent.instance"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-ProjectTreeTopComponent.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.project.ProjectTreeTopComponent-->
+                <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-guimodul-project-ProjectTreeTopComponent.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="InfoTopComponent.settings">
+                <!--org.molgen.genomeCATPro.guimodul.InfoTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+  <instance class="org.molgen.genomeCATPro.guimodul.InfoTopComponent"/>
+</settings>
+]]></file>
+            <file name="CGHPROFramePropsTopComponent.settings">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+  <instance class="org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsTopComponent"/>
+</settings>
+]]></file>
+            <file name="ProjectTreeTopComponent.settings">
+                <!--org.molgen.genomeCATPro.guimodul.project.ProjectTreeTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+  <instance class="org.molgen.genomeCATPro.guimodul.project.ProjectTreeTopComponent"/>
+</settings>
+]]></file>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="InfoTopComponent.wstcref">
+                    <!--org.molgen.genomeCATPro.guimodul.InfoTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tc-ref PUBLIC "-//NetBeans//DTD Top Component in Mode Properties 2.0//EN" "http://www.netbeans.org/dtds/tc-ref2_0.dtd">
+<tc-ref version="2.0">
+  <tc-id id="InfoTopComponent"/>
+  <state opened="true"/>
+</tc-ref>
+]]></file>
+            </folder>
+            <folder name="navigator">
+                <file name="CGHPROFramePropsTopComponent.wstcref">
+                    <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tc-ref PUBLIC "-//NetBeans//DTD Top Component in Mode Properties 2.0//EN" "http://www.netbeans.org/dtds/tc-ref2_0.dtd">
+<tc-ref version="2.0">
+  <tc-id id="CGHPROFramePropsTopComponent"/>
+  <state opened="false"/>
+</tc-ref>
+]]></file>
+            </folder>
+            <folder name="explorer">
+                <file name="ProjectTreeTopComponent.wstcref">
+                    <!--org.molgen.genomeCATPro.guimodul.project.ProjectTreeTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tc-ref PUBLIC "-//NetBeans//DTD Top Component in Mode Properties 2.0//EN" "http://www.netbeans.org/dtds/tc-ref2_0.dtd">
+<tc-ref version="2.0">
+  <tc-id id="ProjectTreeTopComponent"/>
+  <state opened="true"/>
+</tc-ref>
+]]></file>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

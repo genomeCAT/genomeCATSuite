@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: swinglayout
+OpenIDE-Module-Implementation-Version: 3
+OpenIDE-Module-Localizing-Bundle: swinglayout/Bundle.properties
+OpenIDE-Module-Specification-Version: 4
+
