@@ -3,6 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/build/cluster/config/Modules/org-molgen-genomeCATPro-cat.xml</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/build/cluster/update_tracking/org-molgen-genomeCATPro-cat.xml</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/release/catproperties.xml</file>
+        </group>
     </open-files>
 </project-private>

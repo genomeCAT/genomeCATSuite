@@ -1,8 +1,8 @@
-suiteGenomeCAT/build
 suiteGenomeCAT/dist
+suiteGenomeCAT/build/
 suiteGenomeCAT/**/profiler
 suiteGenomeCAT/**/depcache
-suiteGenomeCAT/**/test
+**/*test/
 suiteGenomeCAT/**/*.class
 suiteGenomeCAT/**/*~
 *gitignore*
