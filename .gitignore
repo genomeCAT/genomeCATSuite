@@ -4,3 +4,5 @@ suiteGenomeCAT/**/profiler
 suiteGenomeCAT/**/depcache
 suiteGenomeCAT/**/test
 suiteGenomeCAT/**/*.class
+suiteGenomeCAT/**/*~
+*gitignore*
