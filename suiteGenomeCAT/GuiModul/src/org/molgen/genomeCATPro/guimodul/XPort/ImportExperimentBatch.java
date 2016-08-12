@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.guimodul.XPort;
+
 /**
  * @name ImportExperimentBatch
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.util.List;
 import java.util.Vector;
@@ -70,10 +69,15 @@ public class ImportExperimentBatch {
                         Level.WARNING, msg);
             }
             detail = PlatformService.getPlatformDetailByName(platformname);
+            if (detail == null) {
+                Logger.getLogger(ImportExperimentBatch.class.getName()).log(
+                        Level.SEVERE, " no platform detail found: " + platformname);
+                return null;
+            }
             data = PlatformService.getPlatformForRelease(detail.getPlatformID(), release);
             if (data == null) {
-                Logger.getLogger(ImportExperimentBatch.class.getName()).log(
-                        Level.SEVERE, " no platform data found: " + msg);
+                Logger.getLogger(ImportExperimentBatch.class.getName()).log(Level.SEVERE, 
+                        " no platform data found: {0} {1}", new String[]{platformname, release});
                 return null;
             }
             importModul.setPlatformdetail(detail);
@@ -102,7 +106,7 @@ public class ImportExperimentBatch {
                 SampleInExperiment sieCy3 = experimentdetail.addSample(sdCy3, true, false);
             }
             if (sampleCy5 != null) {
-                
+
                 if (s2 != null) {
                     experimentdetail.removeSample(s2);
                 }
@@ -116,7 +120,6 @@ public class ImportExperimentBatch {
             importModul.setExperimentDetail(experimentdetail);
 
             experimentdata = importModul.getExperimentData();
-
 
             InformableHandler informable = new InformableHandler() {
 
@@ -136,7 +139,6 @@ public class ImportExperimentBatch {
                     Level.SEVERE, "", ex);
             return null;
         }
-
 
     }
 }

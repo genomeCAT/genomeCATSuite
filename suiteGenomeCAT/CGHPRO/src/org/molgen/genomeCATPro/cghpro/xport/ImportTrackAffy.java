@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportTrackCNV
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -51,7 +48,6 @@ public class ImportTrackAffy extends ImportTrack implements XPortTrack {
         super.newImport(filename);
         this.hasHeader = true;
 
-
     }
 
     @Override
@@ -59,10 +55,6 @@ public class ImportTrackAffy extends ImportTrack implements XPortTrack {
     public List<String[]> getDefaultMappingFile2DBColNames() {
         List<String[]> _map = new Vector<String[]>();
         String[] entry = new String[2];
-
-
-
-
 
         entry = new String[2];
         entry[ind_db] = "chrom";
@@ -90,8 +82,6 @@ public class ImportTrackAffy extends ImportTrack implements XPortTrack {
         entry[ind_db] = "ratio";
         entry[ind_file] = hasHeader ? (this.fileColNames[1]) : "field4";
         _map.add(entry);
-
-
 
         return _map;
     }
@@ -136,8 +126,6 @@ public class ImportTrackAffy extends ImportTrack implements XPortTrack {
                 }
             }
         }
-
-
 
         return tmp;
 

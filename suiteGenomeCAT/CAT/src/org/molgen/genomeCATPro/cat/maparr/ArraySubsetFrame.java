@@ -1,4 +1,5 @@
-/** * @(#)ExtractAberrationView.java * * Copyright (c) 2007 by Katrin Tebel
+/**
+ * * @(#)ExtractAberrationView.java * * Copyright (c) 2007 by Katrin Tebel
  * * This program is free software; you can redistribute it and/or
  * * modify it under the terms of the GNU General Public License
  * * as published by the Free Software Foundation; either version 2
@@ -7,7 +8,8 @@
  * * This program is distributed in the hope that it will be useful,
  * * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * * GNU General Public License for more details at http://www.gnu.org * * */
+ * * GNU General Public License for more details at http://www.gnu.org * *
+ */
 package org.molgen.genomeCATPro.cat.maparr;
 
 import java.util.logging.Level;
@@ -22,11 +24,12 @@ public class ArraySubsetFrame extends ArrayFrame {
     String chrom;
 
     /**
-     * 
+     *
      * @param chrom
      * @param begin
      * @param end
      */
+    @Deprecated
     public ArraySubsetFrame(String chrom, int begin, int end, GenomeRelease release) {
         super();
 
@@ -45,10 +48,10 @@ public class ArraySubsetFrame extends ArrayFrame {
 
     /**
      * create Menu Bar for subview of arrays
+     *
      * @see ArrayFrame
      * @return MenuBar
      */
-    
     /*protected  createMenu() {
         //Where the GUI is created:
 
@@ -71,6 +74,3 @@ public class ArraySubsetFrame extends ArrayFrame {
         return _menuBar;
     }*/
 }
-
-
-

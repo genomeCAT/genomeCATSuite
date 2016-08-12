@@ -17,6 +17,7 @@ import org.molgen.genomeCATPro.guimodul.data.GlobalPositionDataPanel;
 import org.molgen.genomeCATPro.guimodul.data.ShowDataAction;
 import org.molgen.genomeCATPro.guimodul.data.ShowRulerAction;
 import org.openide.awt.ToolbarPool;
+import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -45,7 +46,7 @@ final class CATTopComponent extends TopComponent {
         associateLookup(new AbstractLookup(ic));
         setName(NbBundle.getMessage(CATTopComponent.class, "CTL_CATTopComponent"));
         setToolTipText(NbBundle.getMessage(CATTopComponent.class, "HINT_CATTopComponent"));
-        setIcon(Utilities.loadImage(ICON_PATH, true));
+        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
     }
 
     private CATTopComponent(Data d, GenomeRelease s) {
@@ -57,7 +58,7 @@ final class CATTopComponent extends TopComponent {
         associateLookup(new AbstractLookup(ic));
         setName(NbBundle.getMessage(CATTopComponent.class, "CTL_CATTopComponent"));
         setToolTipText(NbBundle.getMessage(CATTopComponent.class, "HINT_CATTopComponent"));
-        setIcon(Utilities.loadImage(ICON_PATH, true));
+        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
     }
 

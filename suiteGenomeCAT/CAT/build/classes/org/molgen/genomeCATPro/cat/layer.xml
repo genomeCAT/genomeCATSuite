@@ -3,25 +3,15 @@
 <filesystem>
     <folder name="Actions">
         <folder name="CAT">
-            <file name="org-molgen-genomeCATPro-cat-CATDataAction.instance"/>
-            <file name="org-molgen-genomeCATPro-cat-CATAction.instance"/>
-            <file name="org-molgen-genomeCATPro-cat-MapCATAction.instance"/>
             <file name="org-molgen-genomeCATPro-cat-ArrayFramePropsAction.instance"/>
             <file name="org-molgen-genomeCATPro-cat-MappingAction.instance"/>
             <file name="org-molgen-genomeCATPro-cat-MapTreeAction.instance"/>
         </folder>
     </folder>
     <folder name="Menu">
-        <folder name="App">
-            <folder name="CAT">
-                <file name="org-molgen-genomeCATPro-cat-CATAction.shadow">
-                    <attr name="position" intvalue="1"/>
-                    <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-CATAction.instance"/>
-                </file>
-                <file name="org-molgen-genomeCATPro-cat-MapCATAction.shadow">
-                    <attr name="position" intvalue="2"/>
-                    <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-MapCATAction.instance"/>
-                </file>
+        <folder name="Modules">
+            <folder name="ComparativeView">
+                <attr name="position" intvalue="2"/>
                 <file name="org-molgen-genomeCATPro-cat-ArrayFramePropsAction.shadow">
                     <attr name="position" intvalue="3"/>
                     <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-ArrayFramePropsAction.instance"/>
@@ -36,13 +26,14 @@
         </folder>
     </folder>
     <folder name="Toolbars">
-        <folder name="App">
+        <file name="Build_hidden"/>
+        <file name="Clipboard_hidden"/>
+        <file name="Debug_hidden"/>
+        <file name="Memory_hidden"/>
+        <folder name="Modules">
             <attr name="position" intvalue="2"/>
-            <file name="org-molgen-genomeCATPro-cat-CATAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/CAT/org-molgen-genomeCATPro-cat-CATAction.instance"/>
-                <attr name="position" intvalue="40"/>
-            </file>
         </folder>
+        <file name="UndoRedo_hidden"/>
         <folder name="globalmenu1">
             <file name="org-molgen-genomeCATPro-cat-MappingAction.shadow">
                 <attr name="position" intvalue="3"/>
@@ -56,21 +47,28 @@
             <file name="MapCATTopComponent.settings" url="MapCATTopComponentSettings.xml"/>
             <file name="MapTreeTopComponent.settings" url="MapTreeTopComponentSettings.xml"/>
             <file name="ArrayFramePropsTopComponent.settings" url="ArrayFramePropsTopComponentSettings.xml"/>
+            <file name="Welcome.settings_hidden"/>
         </folder>
         <folder name="Modes">
-            <file name="mynav.wsmode" url="mynav.wsmode"/>
+            <file name="anonymousMode_1.wsmode" url="anonymousMode_1Wsmode.xml"/>
+            <file name="bottomSlidingSide.wsmode" url="bottomSlidingSideWsmode.xml"/>
+            <file name="code_evaluator.wsmode" url="code_evaluatorWsmode.xml"/>
+            <file name="commonpalette.wsmode" url="commonpaletteWsmode.xml"/>
+            <file name="editor.wsmode" url="editorWsmode.xml"/>
+            <file name="explorer.wsmode" url="explorerWsmode.xml"/>
+            <file name="leftSlidingSide.wsmode" url="leftSlidingSideWsmode.xml"/>
+            
             <folder name="editor">
                 <file name="CATTopComponent.wstcref" url="CATTopComponentWstcref.xml"/>
                 <file name="MapCATTopComponent.wstcref" url="MapCATTopComponentWstcref.xml"/>
             </folder>
-            <folder name="mynav">
-                <file name="ArrayFramePropsTopComponent.wstcref" url="ArrayFramePropsTopComponentWstcref.xml"/>
-            </folder>
-            <folder name="explorer">
-                <file name="MapTreeTopComponent.wstcref" url="MapTreeTopComponentWstcref.xml">
-                    <attr name="position" intvalue="300"/>
-                </file>
-            </folder>
+            
+            
+            <file name="navigator.wsmode" url="navigatorWsmode.xml"/>
+            <file name="properties.wsmode" url="propertiesWsmode.xml"/>
+            <file name="rightSlidingSide.wsmode" url="rightSlidingSideWsmode.xml"/>
+            <file name="topSlidingSide.wsmode" url="topSlidingSideWsmode.xml"/>
+            <file name="webpreview.wsmode" url="webpreviewWsmode.xml"/>
         </folder>
     </folder>
 </filesystem>

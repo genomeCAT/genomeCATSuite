@@ -1,22 +1,19 @@
 /**
  * @name ArrayFrame
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * This file is part of the GenomeCAT software package.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * This file is part of the GenomeCAT software package. The contents of this
+ * file are subject to the terms of either the GNU General Public License
+ * Version 2 only ("GPL") or the Common Development and Distribution
+ * License("CDDL") (collectively, the "License"). You may not use this file
+ * except in compliance with the License. You can obtain a copy of the License
+ * at http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 package org.molgen.genomeCATPro.cat.maparr;
 
@@ -60,7 +57,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
 import org.molgen.genomeCATPro.annotation.AnnotationManagerImpl;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.annotation.RegionImpl;
@@ -80,13 +76,11 @@ import org.molgen.genomeCATPro.guimodul.data.WebPositionPanel;
 import org.openide.util.NbPreferences;
 
 /**
- * 200213   kt  modify chrom/region from history (bug)
- * 290612   kt  add  getChromRBList() + getCBHistory();
- * 190912   kt  initMyComponents scaleArrays()  
- * 210912   kt  bug scale at view change
- * 210912   kt  bug open map set position
- * 280912   kt  add addAnno
- * 
+ * 200213 kt modify chrom/region from history (bug) 290612 kt add
+ * getChromRBList() + getCBHistory(); 190912 kt initMyComponents scaleArrays()
+ * 210912 kt bug scale at view change 210912 kt bug open map set position 280912
+ * kt add addAnno
+ *
  */
 public class ArrayFrame extends JPanel implements AppInterface {
 
@@ -106,11 +100,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
     JMenuItem menuCloseArrays;
     PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     static Color colorScale[] = null;
-    
-    
-    
 
-    /** Creates new form NewJFrame */
+    /**
+     * Creates new form NewJFrame
+     */
     public ArrayFrame(Data[] list, GenomeRelease release) {
         super();
 
@@ -120,8 +113,9 @@ public class ArrayFrame extends JPanel implements AppInterface {
         //this.createMenu();
         initComponents();
         //this.jPanelMenue.add(this.topMenu);
-
+       
         this.setRelease(release);
+
         this.vChromTabs = ChromTab.createChromTabs(this);
         initMyComponents();
         this.addData(list);
@@ -129,10 +123,11 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
         setVisible(true);
 
-
     }
 
-    /** Creates new form NewJFrame */
+    /**
+     * Creates new form NewJFrame
+     */
     public ArrayFrame(List<ArrayData> list, GenomeRelease release) {
         super();
 
@@ -144,7 +139,6 @@ public class ArrayFrame extends JPanel implements AppInterface {
                 this.release);
         initComponents();
         //this.jPanelMenue.add(this.topMenu);
-
 
         this.vChromTabs = ChromTab.createChromTabs(this);
         initMyComponents();
@@ -200,8 +194,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
         this.jComboBoxAnno.setModel(new javax.swing.DefaultComboBoxModel(
                 this.listAnnotations));
 
-    //this.jLabelRelease.setText(this.release != null ? this.release.toString() : "");
-
+        //this.jLabelRelease.setText(this.release != null ? this.release.toString() : "");
     }
 
     public void setScaleFactor(double scaleFactor) {
@@ -219,7 +212,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     }
 
     public void scaleArrays() {
-        if (this.isGlobalScale()){
+        if (this.isGlobalScale()) {
             this.scaleArrayViewInterFrame(CATPropertiesMod.props().getScaleFactor());
         } else {
             reScaleArrayViewInterChrom();
@@ -259,15 +252,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
         background = new JLabel(back);
         cp.add(background, c);
          */
-
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-
-
-
 
         // attach chromtabs to parent panel
         // create tabs at tabbed pane
-
         this.initChromPane();
 
         legendPanel.setLayout(new GridLayout(1, 2));
@@ -276,16 +264,14 @@ public class ArrayFrame extends JPanel implements AppInterface {
         legendPanel.add(arrayPanel);
 
         this.getPositionToHistory();
-    //this.scaleArrays();
-
-
+        //this.scaleArrays();
 
     }
 
     void initChromPane() {
         for (int i = 0; i < vChromTabs.size(); i++) {
             this.panelChroms.add(vChromTabs.get(i), vChromTabs.get(i).chrom);
-            this.jPanelRuler.add(vChromTabs.get(i).getRuler(Defines.ARRAY_HEIGTH / 20), vChromTabs.get(i).chrom);
+            this.jPanelRuler.add(vChromTabs.get(i).getRuler(Defines.ARRAY_HEIGTH / 20, this), vChromTabs.get(i).chrom);
 
             //setPreferredSize(new Dimension(0, 0));
             this.tabbedPane.add(vChromTabs.get(i).chrom, null);
@@ -313,7 +299,6 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
         jMenuView.add(menuViewArrays);
 
-
         menuCloseArrays = new JMenuItem("Close Array");
         menuCloseArrays.addActionListener(new CloseArray());
         menuCloseArrays.setText("close");
@@ -322,7 +307,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
         this.topMenu.add(jMenuView);
 
-    /*
+        /*
     this.jButtonMenueData = DropDownButtonFactory.createDropDownButton(
     new ImageIcon(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB)),
     this.jPopupMenuData);
@@ -330,22 +315,18 @@ public class ArrayFrame extends JPanel implements AppInterface {
     jButtonMenueData.setIcon(
     new javax.swing.ImageIcon(getClass().getResource(
     "/org/molgen/genomeCATPro/cat/maparr/genomeCATLogo.jpg")));
-     */
-    /*
+         */
+ /*
     JMenu menuImport = new JMenu("Import");
     menuImport.getAccessibleContext().setAccessibleDescription("Import");
     menuBar.add(menuImport);
-     */
-
-
-
-
-    /*JMenuItem menuImportNew = new JMenuItem("new Import FE");
+         */
+ /*JMenuItem menuImportNew = new JMenuItem("new Import FE");
     menuImportNew.addActionListener(new ImportNewFE());
     
     menuImport.add(menuImportNew);
-     */
-    /*
+         */
+ /*
     JMenu menuMap = new JMenu("Mapping");
     menuBar.add(menuMap);
     
@@ -356,14 +337,14 @@ public class ArrayFrame extends JPanel implements AppInterface {
     
     JMenuItem menuMapOpen = new JMenuItem("map open arrays");
     //update menuMapOpen.addActionListener(new MapArrays());
-     */
-    //menuMap.add(menuMapOpen);
+         */
+        //menuMap.add(menuMapOpen);
         /*
     JMenuItem menuExportMap = new JMenuItem("Export Mapping");
     menuExportMap.addActionListener(new ExportMap());
     menuMap.add(menuExportMap);
-     */
-    /*
+         */
+ /*
     JMenu menuExport = new JMenu("Export");
     menuBar.add(menuExport);
     
@@ -382,9 +363,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     
     
     
-     */
-
-
+         */
     }
 
     public void addData(Data[] list) {
@@ -396,7 +375,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
             setRelease((Defaults.GenomeRelease.toRelease(list[0].getGenomeRelease())));
 
             ArrayData[] adList = ChooseArrayViewDialog.getArrayDataList(list);
-            ArrayFrame.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             for (ArrayData ad : adList) {
                 ArrayFrame.this.addArray(ad);
             }
@@ -405,7 +384,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
                     "AddData:", ex);
 
         } finally {
-            ArrayFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -442,7 +421,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
         } finally {
             //ArrayFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
+        }
     }
     long mousePosition = 0;
 
@@ -489,7 +468,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     }
     }
      */
-    /*update
+ /*update
     class MapFilterArrays implements ActionListener {
     
     public void actionPerformed(ActionEvent e) {
@@ -538,8 +517,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
         String tmpname = c.chrom + ".png";
         // Create image
         System.out.println("export Image: " + tmpname);
-        final BufferedImage img =
-                new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_RGB);
+        final BufferedImage img
+                = new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_RGB);
         c.paint(img.getGraphics());
         String path = NbPreferences.forModule(ArrayFrame.class).get("pathPreference", "");
         JFileChooser fileExportChooser = new javax.swing.JFileChooser(path);
@@ -565,8 +544,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
             ImageIO.write(img, suffix, f);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error exporting image: " +
-                    e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error exporting image: "
+                    + e.getMessage());
         }
         c.setBackground(oldcolor);
         NbPreferences.forModule(ArrayFrame.class).put("pathPreference", f.getPath());
@@ -574,6 +553,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
     /**
      * add arrays to the main array frame to be displayed
+     *
      * @param arrays List of identifier for arrays
      * @param type Class for each of the arrays
      */
@@ -588,7 +568,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
     /**
      * add new Array
-     * @param d 
+     *
+     * @param d
      */
     void addArray(ArrayData d) {
         Logger.getLogger(ArrayFrame.class.getName()).log(Level.INFO,
@@ -599,15 +580,12 @@ public class ArrayFrame extends JPanel implements AppInterface {
             this.initChromPane();
         }
 
-
-
-
         try {
 
             ArrayView[] list = ChromTab.addArray(d, this.vChromTabs, this.release);
             for (ArrayView v : list) {
                 v.addParent(this);
-            // create array legend view
+                // create array legend view
             }
             this.arrayPanel.addArray(d);
 
@@ -633,7 +611,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     }
 
     /**
-     * 
+     *
      * @param id
      */
     public void filterArray(Long id) {
@@ -683,13 +661,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
                 v.chromtab.add(vNeu);
             }
 
-
-        //ArrayStats s = new ArrayStats(0.0, 0.0, posThreshold, negThreshold);
-
-
-
-
-
+            //ArrayStats s = new ArrayStats(0.0, 0.0, posThreshold, negThreshold);
         } catch (Exception ex) {
             Logger.getLogger(ArrayFrame.class.getName()).log(
                     Level.SEVERE, "filterArray", ex);
@@ -711,8 +683,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
 
         for (int i = 0; i < v.arrayRatio.size(); i++) {
             ratio = v.arrayRatio.get(i);
-            if ((ratio < 0 && ratio <= d.getFilterNeg()) ||
-                    (ratio > 0 && ratio >= d.getFilterPos())) {
+            if ((ratio < 0 && ratio <= d.getFilterNeg())
+                    || (ratio > 0 && ratio >= d.getFilterPos())) {
                 filterRatio.add(new Double(ratio));
                 filterName.add(new String(v.arrayName.get(i)));
                 filterStart.add(new Long(v.arrayStart.get(i)));
@@ -720,7 +692,6 @@ public class ArrayFrame extends JPanel implements AppInterface {
             }
 
         }
-
 
         Double minY = 0.0;
         try {
@@ -740,12 +711,12 @@ public class ArrayFrame extends JPanel implements AppInterface {
         ArrayView a = ArrayViewBase.getView(d,
                 filterName, filterStart, filterStop, filterRatio, v.chromtab);
 
-
         return a;
     }
 
     /**
      * filter data by thresholds persistent to db
+     *
      * @param id
      * @param d
      * @return
@@ -756,10 +727,9 @@ public class ArrayFrame extends JPanel implements AppInterface {
         }
         String newName = org.molgen.genomeCATPro.common.Utils.getUniquableName(d.getName());
 
-
         newName = (String) JOptionPane.showInputDialog(null,
-                "enter name for filtered data :\n" +
-                "note: must be less than " + Defaults.MAX_TABLE_NAME + " characters ",
+                "enter name for filtered data :\n"
+                + "note: must be less than " + Defaults.MAX_TABLE_NAME + " characters ",
                 " save filtered data",
                 JOptionPane.QUESTION_MESSAGE,
                 null, null, newName);
@@ -767,7 +737,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
             Logger.getLogger(ArrayFrame.class.getName()).log(
                     Level.INFO, "save filtered data into db",
                     newName);
-        //return arrayFrame.filterArrayAtDB(pos, id, arraylabel.m);
+            //return arrayFrame.filterArrayAtDB(pos, id, arraylabel.m);
 
         }
         try {
@@ -777,8 +747,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
             ArrayData ad = ArrayData.createArrayData(d.getArrayClazz(), newData);
             this.addArray(ad);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error filter data: " +
-                    e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error filter data: "
+                    + e.getMessage());
         }
 
     }
@@ -797,8 +767,9 @@ public class ArrayFrame extends JPanel implements AppInterface {
     }
 
     /**
-     * scale all ArrayViews within the frame moreover for each Chromosome
-     * to a fix maximum y value
+     * scale all ArrayViews within the frame moreover for each Chromosome to a
+     * fix maximum y value
+     *
      * @param fixY
      */
     public void scaleArrayViewInterFrame(double fixY) {
@@ -816,7 +787,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     /**
      * reset scale all ArrayViews within one Array, i.e. for each Chromosome
      * optimized by the arraywide maximum y value
-     * 
+     *
      */
     void reScaleArrayViewInterChrom() {
 
@@ -830,13 +801,14 @@ public class ArrayFrame extends JPanel implements AppInterface {
     }
 
     /**
-     * scale all ArrayViews within one Array, i.e. for each Chromosome 
-     * with a given factor
-     * @param pos               Position of Array in frame
-     * @param scaleFactor       Factor to scale arrays
+     * scale all ArrayViews within one Array, i.e. for each Chromosome with a
+     * given factor
+     *
+     * @param pos Position of Array in frame
+     * @param scaleFactor Factor to scale arrays
      */
     public void scaleArrayViewInterChrom(int pos, double scaleFactor) {
-        
+
         ArrayView[] arrayList = ChromTab.getArrayViewsByPos(pos, this.vChromTabs, this.release);
         for (int i = 0; i < arrayList.length; i++) {
             arrayList[i].scaleHeight(scaleFactor);
@@ -845,10 +817,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
         repaint();
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -870,31 +842,42 @@ public class ArrayFrame extends JPanel implements AppInterface {
         jPanelRuler = new javax.swing.JPanel();
         tabbedPane = new javax.swing.JTabbedPane();
 
+        setAutoscrolls(true);
+        setPreferredSize(new java.awt.Dimension(1000, 600));
+        setRequestFocusEnabled(false);
+
+        sPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        sPane.setPreferredSize(new java.awt.Dimension(1000, 550));
+        sPane.setRequestFocusEnabled(false);
+
         jSplitPane.setDividerLocation(900);
         jSplitPane.setDividerSize(1);
         jSplitPane.setLastDividerLocation(900);
+        jSplitPane.setPreferredSize(new java.awt.Dimension(13, 600));
 
         panelChroms.setMinimumSize(new Dimension(org.molgen.genomeCATPro.cat.util.Defines.ARRAY_WIDTH, (int) ( org.molgen.genomeCATPro.cat.util.Defines.ARRAY_HEIGTH*0.5) ));
         panelChroms.setPreferredSize(new Dimension(org.molgen.genomeCATPro.cat.util.Defines.ARRAY_WIDTH, org.molgen.genomeCATPro.cat.util.Defines.ARRAY_HEIGTH));
         panelChroms.setLayout(new java.awt.CardLayout());
         jSplitPane.setLeftComponent(panelChroms);
 
+        legendPanel.setPreferredSize(new java.awt.Dimension(0, 600));
+
         javax.swing.GroupLayout legendPanelLayout = new javax.swing.GroupLayout(legendPanel);
         legendPanel.setLayout(legendPanelLayout);
         legendPanelLayout.setHorizontalGroup(
             legendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 115, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         legendPanelLayout.setVerticalGroup(
             legendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 703, Short.MAX_VALUE)
+            .addGap(0, 598, Short.MAX_VALUE)
         );
 
         jSplitPane.setRightComponent(legendPanel);
 
         sPane.setViewportView(jSplitPane);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("selected region"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("detail history"));
 
         jComboBoxHistory.setEditable(true);
         jComboBoxHistory.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -909,7 +892,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
         });
 
         buttonGroupSelectedChrom.add(jRadioButtonRegion);
-        jRadioButtonRegion.setText("region");
+        jRadioButtonRegion.setText("detail");
         jRadioButtonRegion.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -962,7 +945,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
                 .addComponent(jComboBoxAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(361, 361, 361)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(180, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     topPanelLayout.setVerticalGroup(
         topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -972,6 +955,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
                 .addGroup(topPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
                     .addComponent(jComboBoxAnno, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
@@ -987,6 +971,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
     jPanelRuler.setLayout(new java.awt.CardLayout());
 
     tabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+    tabbedPane.setPreferredSize(new java.awt.Dimension(5, 600));
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -997,10 +982,9 @@ public class ArrayFrame extends JPanel implements AppInterface {
             .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanelRuler, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap())
-                .addComponent(sPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1020, Short.MAX_VALUE)))
+                .addComponent(jPanelRuler, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1009,9 +993,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanelRuler, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
-                .addComponent(sPane, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(sPane, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap())
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1093,6 +1078,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
             return this.vChromTabs.get(i);
         }
     }
+
     /*
     public ArrayView cropArrayView(ArrayView v, ArrayData d, Integer begin, Integer end, ChromTab chromtab) {
     int beginIndex = Collections.binarySearch(v.arrayStart, begin);
@@ -1120,15 +1106,15 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
     return a;
     }
      */
-
     /**
      * create new chromtab (just one chromosome) as a result of a zooming event
      *
      * @param chrom
      * @param begin
      * @param end
-     * @param parent 
+     * @param parent
      */
+    @Deprecated
     public void cropChromTab(Integer begin, Integer end, ChromTab chromtab) {
         Logger.getLogger(ArrayFrame.class.getName()).log(
                 Level.INFO, "create zoom chrom tab for chrom " + chromtab.chrom);
@@ -1154,7 +1140,6 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
         // }
         //newFrame.addArrays(arraysId, clazzId, begin, end);
 
-
         ArrayView newView = null;
 
         for (int i = 0; i < vList.length; i++) {
@@ -1170,12 +1155,10 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
 
             newFrame.arrayPanel.addArray(fm);
 
-
             //newView = this.cropArrayView(v, fm, begin, end, newFrame.chromtab);
             newView.addParent(newFrame);
 
             newFrame.chromtab.add(newView);
-
 
         }
 
@@ -1227,6 +1210,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
                 a.repaint();
             }
         }
+        this.repaint();
     }
 
     JComboBox getCBHistory() {
@@ -1270,7 +1254,6 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
 
         // combobox hat position durch updateView vergessen
         //this.getCBHistory().setSelectedItem(ract);
-
         ChromTab c = this.getSelectedChromTab();
         if (c == null) {
             this.changePosition = false;
@@ -1308,14 +1291,15 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
 
     /**
      * change view to cut-out
+     *
      * @param firstPos
      * @param secondPos
      */
     void showDetails(long firstPos, long secondPos, ChromTab chromtab) {
         int n = JOptionPane.showConfirmDialog(
                 this,
-                "would you like to zoom in to region?  \n" +
-                Long.toString(firstPos) + "-" + Long.toString(secondPos),
+                "would you like to zoom in to region?  \n"
+                + Long.toString(firstPos) + "-" + Long.toString(secondPos),
                 "Show Details",
                 JOptionPane.YES_NO_OPTION);
         for (ArrayView a : ChromTab.getArrayViews(chromtab)) {
@@ -1364,7 +1348,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
         this.showRuler = showRuler;
 
         changeSupport.firePropertyChange(PROP_SHOWRULER, old, this.showRuler);
-        repaint();
+        this.repaint();
     }
 
     public void showRuler(boolean show) {
@@ -1377,11 +1361,12 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
     }
 
     public void setRulerStepSize(double rulerStepSize) {
-        double old = CATPropertiesMod.props().getRulerStepSize();
+        /*double old = CATPropertiesMod.props().getRulerStepSize();
         CATPropertiesMod.props().setRulerStepSize(rulerStepSize);
 
         changeSupport.firePropertyChange(PROP_CHANGE_RULER, old, CATPropertiesMod.props().getRulerStepSize());
-        repaint();
+        this.repaint();*/
+
     }
     Region r = new RegionImpl();
 
@@ -1431,8 +1416,8 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
         CATPropertiesMod.props().setColorScaleRedGreen(_colorScaleRedGreen);
 
         Logger.getLogger(ArrayFrame.class.getName()).log(
-                Level.INFO, "set " +
-                (CATPropertiesMod.props().isColorScaleRedGreen() ? "red/green " : "yellow/blue") + " color ");
+                Level.INFO, "set "
+                + (CATPropertiesMod.props().isColorScaleRedGreen() ? "red/green " : "yellow/blue") + " color ");
         ArrayViewBase.resetColorScale();
         this.updateView(true, "");
     }

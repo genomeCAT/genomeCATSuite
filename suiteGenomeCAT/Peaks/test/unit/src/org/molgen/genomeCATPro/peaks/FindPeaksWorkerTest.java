@@ -9,8 +9,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.cghpro.chip.ChipFeature;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
@@ -28,7 +28,7 @@ public class FindPeaksWorkerTest {
     @BeforeClass
     public static void setUpClass() throws Exception {
         DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
-        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306",  "user", "user");
+        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
 
     }
 

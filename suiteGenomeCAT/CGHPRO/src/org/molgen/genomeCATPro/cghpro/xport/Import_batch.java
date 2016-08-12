@@ -19,51 +19,60 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
 /**
  * @name Import_batch
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- *  140513 kt   readData this.getEndMetaDataTag() or hasHeader
- *  070513 kt  input format  error leads to print out message
- *  030513 kt  allow read data shorter than mapping
- *  170413 kt   importdata: 
- *                  throw exception at error; 
- *                  nosucc, noprocc, error
- *                  finished tag
- *  090413 kt   noHeaderLine (importData)
- *  020413 kt   clear insert count inside thread (importData)
- *  260313 kt   getNoimp
- *  260313 kt   read file col names meta end
- *  130313 kt   user setting if has header
- *  120313 kt   getError
- *  150812 kt   importData in with thread pool (10)
- *              http://thegreyblog.blogspot.de/2011/12/using-threadpoolexecutor-to-parallelize.html#!/2011/12/using-threadpoolexecutor-to-parallelize.html 
+ * 100716 kt review add nofSkipLines 140513 kt readData this.getEndMetaDataTag()
+ * or hasHeader 070513 kt input format error leads to print out message 030513
+ * kt allow read data shorter than mapping 170413 kt importdata: throw exception
+ * at error; nosucc, noprocc, error finished tag 090413 kt noHeaderLine
+ * (importData) 020413 kt clear insert count inside thread (importData) 260313
+ * kt getNoimp 260313 kt read file col names meta end 130313 kt user setting if
+ * has header 120313 kt getError 150812 kt importData in with thread pool (10)
+ * http://thegreyblog.blogspot.de/2011/12/using-threadpoolexecutor-to-parallelize.html#!/2011/12/using-threadpoolexecutor-to-parallelize.html
  *
- *  
- *  191212  kt   introduce mySep as Separator to be overloaded
- *  191212  kt  importData: emergency exit: if modify returns null ignore line
+ *
+ * 191212 kt introduce mySep as Separator to be overloaded 191212 kt importData:
+ * emergency exit: if modify returns null ignore line
  */
 public abstract class Import_batch implements XPortImport {
+
+    protected abstract boolean isHeaderLine(String is);
+
+    protected abstract String[] modify(List<String[]> map, String[] tmp);
+
+    protected abstract void readRelease();
+
+    protected abstract List<String[]> setSplitFieldCols(List<String[]> map);
+    public final static String SPLITFIELD = "SPLITFIELD";
+
+    protected abstract String getEndMetaDataTag();
+
+    protected abstract String getEndDataTag();
+
+    
+
+    protected abstract boolean isCommentLine(String is);
 
     static final int noBatch = 100;
     static final String field_not_mapped = "unmapped";
@@ -85,6 +94,8 @@ public abstract class Import_batch implements XPortImport {
     Integer nosucc = 0;
     Integer noprocc = 0;
 
+    Integer nofSkipLines = 0;
+
     public String getMySep() {
         return mySep;
     }
@@ -105,12 +116,21 @@ public abstract class Import_batch implements XPortImport {
         return nosucc;
     }
 
-    public void  newImport(String filename) throws Exception {
+    public Integer getNofSkipLines() {
+        return nofSkipLines;
+    }
+
+    public void setNofSkipLines(Integer nofSkipLines) {
+        this.nofSkipLines = nofSkipLines;
+    }
+
+    public void newImport(String filename) throws Exception {
         this.inFile = null;
         this.release = null;
         this.map = null;
         //this.file_field_position = null;
         this.fileColNames = null;
+        nofSkipLines = 0;
         try {
             inFile = new File(filename);
 
@@ -123,11 +143,18 @@ public abstract class Import_batch implements XPortImport {
         this.error = 0;
     }
 
+    @Override
     public File getImportFile() {
         return this.inFile;
     }
 
+    /**
+     * initialize prior mapping (file to database columns), redefined by user
+     *
+     * @return
+     */
     @SuppressWarnings("empty-statement")
+    @Override
     public List<String[]> getDefaultMappingFile2DBColNames() {
         List<String[]> _map = new Vector<String[]>();
         for (int i = 0; i < this.getDBColNames().length; i++) {
@@ -148,15 +175,22 @@ public abstract class Import_batch implements XPortImport {
         return _map;
     }
 
+    /**
+     *
+     * @return @throws Exception
+     */
+    @Override
     public String[] getFileColNames() throws Exception {
 
-
         this.readFileColNames();
-
 
         return this.fileColNames;
     }
 
+    /**
+     *
+     * @return
+     */
     protected Hashtable<String, Integer> getFileIndexMapping() {
         Hashtable<String, Integer> indmap = new Hashtable<String, Integer>();
         List<String> real = new Vector<String>();
@@ -194,6 +228,11 @@ public abstract class Import_batch implements XPortImport {
         return indmap;
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public List<String[]> getMappingFile2DBColNames() {
         if (this.map == null) {
             this.map = this.getDefaultMappingFile2DBColNames();
@@ -202,6 +241,7 @@ public abstract class Import_batch implements XPortImport {
         return this.map;
     }
 
+    @Override
     public String getRelease() {
         if (this.release == null) {
             try {
@@ -268,15 +308,15 @@ public abstract class Import_batch implements XPortImport {
 
     synchronized void addInserts(int count, int succ, int err, int iBatch) {
         Logger.getLogger(Import.class.getName()).log(Level.INFO,
-                " add inserts (" + iBatch + ")  count: " + count + " succ: " + succ +
-                " err: " + err);
+                " add inserts (" + iBatch + ")  count: " + count + " succ: " + succ
+                + " err: " + err);
         this.noprocc += count;
         this.nosucc += succ;
         this.error += err;
         Logger.getLogger(Import.class.getName()).log(Level.INFO,
-                " add inserts (" + iBatch + ")  noproc: " + this.noprocc +
-                " nofsucc: " + this.nosucc +
-                " error: " + this.error);
+                " add inserts (" + iBatch + ")  noproc: " + this.noprocc
+                + " nofsucc: " + this.nosucc
+                + " error: " + this.error);
 
     }
 
@@ -288,7 +328,7 @@ public abstract class Import_batch implements XPortImport {
 
         this.error = 0;
         this.nosucc = 0;
-        boolean data = (this.isHasHeader() ? false : true);
+        boolean data = (!this.isHasHeader());
         Hashtable<String, Integer> indexFileDBcolMapping = getFileIndexMapping();
         try {
             int c_batch = 10;
@@ -320,8 +360,6 @@ public abstract class Import_batch implements XPortImport {
             Integer ind = 0;
             boolean splitdone = false;
 
-
-
             s[iRead] = con.createStatement();
             tstamp[iRead] = new Date().getTime();
             insert_count[iRead] = 0;
@@ -333,7 +371,7 @@ public abstract class Import_batch implements XPortImport {
                     // 200612 kt skip empty lines
                     if (is.contentEquals("")) {
                         continue;
-                    //header
+                        //header
                     }
                     // 260313 we have meta data
                     if (this.getEndMetaDataTag() != null && is.indexOf(this.getEndMetaDataTag()) == 0) {
@@ -355,7 +393,7 @@ public abstract class Import_batch implements XPortImport {
                     // kt 090413
                     if (data && !this.isCommentLine(is) && !this.isHeaderLine(is)) {
                         try {
-                            
+
                             iss = is.split(this.getMySep(), this.fileColNames.length);
 
                             i = 0;
@@ -385,12 +423,10 @@ public abstract class Import_batch implements XPortImport {
                                 if (iss.length <= (ind == null ? 0 : ind)) {
                                     //System.out.println("do nothing");
                                     //030513    kt  allow read data shorter than mapping
+                                } else if (ind != null && ind >= 0) {
+                                    tmp[i++] = iss[ind];
                                 } else {
-                                    if (ind != null && ind >= 0) {
-                                        tmp[i++] = iss[ind];
-                                    } else {
-                                        tmp[i++] = null;
-                                    }
+                                    tmp[i++] = null;
                                 }
 
                             }
@@ -403,13 +439,13 @@ public abstract class Import_batch implements XPortImport {
                                 // next line
                                 continue;
                             }
-                        //Logger.getLogger(Import.class.getName()).log(Level.INFO,
-                        //       "importData: tmp: " + Arrays.deepToString(tmp));
+                            //Logger.getLogger(Import.class.getName()).log(Level.INFO,
+                            //       "importData: tmp: " + Arrays.deepToString(tmp));
                         } catch (Exception e) {
                             //070513    kt  input format  error leads to print out message
                             Logger.getLogger(Import_batch.class.getName()).log(
-                                    Level.WARNING, "error: " + Arrays.deepToString(iss) + " \n" +
-                                    Arrays.deepToString(tmp) + "\n");
+                                    Level.WARNING, "error: " + Arrays.deepToString(iss) + " \n"
+                                    + Arrays.deepToString(tmp) + "\n");
                             this.error++;
                             this.noprocc++;
                             continue;
@@ -418,7 +454,8 @@ public abstract class Import_batch implements XPortImport {
 
                         sql = Import_batch.loadDataLine(spotTable, tmp, dbCols);
                         if (sql == null) {
-                            Logger.getLogger(Import_batch.class.getName()).log(Level.WARNING, "error: " + Arrays.deepToString(tmp) + "\n");
+                            Logger.getLogger(Import_batch.class.getName()).log(Level.WARNING, 
+                                    "error: " + Arrays.deepToString(tmp) + "\n");
                             this.error++;
                             this.noprocc++;
                             continue;
@@ -434,9 +471,9 @@ public abstract class Import_batch implements XPortImport {
                             "importData: tmp (" + iRead + ") : " + Arrays.deepToString(tmp));
 
                     Logger.getLogger(Import_batch.class.getName()).log(
-                            Level.INFO, "Read time (" + iRead + ") : " +
-                            df.format(new Date(tstamp[iRead])) + " -  " +
-                            df.format(new Date()));
+                            Level.INFO, "Read time (" + iRead + ") : "
+                            + df.format(new Date(tstamp[iRead])) + " -  "
+                            + df.format(new Date()));
 
                     iBatch = iRead;
 
@@ -449,7 +486,7 @@ public abstract class Import_batch implements XPortImport {
                     }
 
                     // oldest insert finished -> keep results
-                            /*
+                    /*
                     020413 kt
                     if (insert_count[iNextRead] > 0) {
                     noimp = this.addInserts(noimp, insert_count[iNextRead]);
@@ -458,17 +495,13 @@ public abstract class Import_batch implements XPortImport {
                     error += (insert_count[iNextRead] * -1);
                     }
                      */
-
-
                     // start new insert batch 
-
                     // next batch
-
                     // starte new read
                     //insert_count[iRead] = 0;
                     tstamp[iRead] = new Date().getTime();
                     if (c[iRead] == null) {
-                        c[iRead] = Database.getDBConnection(Defaults.localDB);
+                        c[iRead] = Database.getDBConnection(CorePropertiesMod.props().getDb());
                     }
                     //c[iRead].setAutoCommit(false);
                     if (s[iRead] == null) {
@@ -476,7 +509,7 @@ public abstract class Import_batch implements XPortImport {
                     } else {
                         s[iRead].clearBatch();
 
-                    // new thread insert batch 
+                        // new thread insert batch 
                     }
                     _batch[iBatch] = new Thread(new Runnable() {
 
@@ -497,25 +530,23 @@ public abstract class Import_batch implements XPortImport {
 
                                 tstamp[_iBatch] = new Date().getTime();
                                 Logger.getLogger(Import_batch.class.getName()).log(
-                                        Level.INFO, "start Thread insert (" + _iBatch + ") : " +
-                                        df.format(new Date(tstamp[_iBatch])));
+                                        Level.INFO, "start Thread insert (" + _iBatch + ") : "
+                                        + df.format(new Date(tstamp[_iBatch])));
 
                                 s[_iBatch].executeBatch();
 
-
-
                                 //s[_iBatch].close();
                                 Logger.getLogger(Import_batch.class.getName()).log(
-                                        Level.INFO, "end Thread insert (" + _iBatch + ") : " +
-                                        df.format(new Date(tstamp[_iBatch])) + " -  " +
-                                        df.format(new Date()));
+                                        Level.INFO, "end Thread insert (" + _iBatch + ") : "
+                                        + df.format(new Date(tstamp[_iBatch])) + " -  "
+                                        + df.format(new Date()));
                                 // 020413   kt  clear insert count inside thread
 
                                 Import_batch.this.addInserts(insert_count[_iBatch], insert_count[_iBatch], err, _iBatch);
 
                                 s[_iBatch].clearBatch();
                                 insert_count[_iBatch] = 0;
-                            //c[_iBatch].commit();
+                                //c[_iBatch].commit();
                             } catch (BatchUpdateException sQLException) {
                                 //170413    kt  throw exception at error
                                 //Logger.getLogger(Import.class.getName()).log(Level.WARNING, "sql error: " + Arrays.deepToString(tmp) + "\n");
@@ -542,7 +573,6 @@ public abstract class Import_batch implements XPortImport {
                                 }
 
                                 // 020413   kt  clear insert count inside thread
-
                                 Import_batch.this.addInserts(insert_count[_iBatch], succ, err, _iBatch);
                                 try {
                                     //c[_iBatch].rollback();
@@ -553,18 +583,15 @@ public abstract class Import_batch implements XPortImport {
                                 }
                                 insert_count[_iBatch] = 0;
                                 Logger.getLogger(Import_batch.class.getName()).log(
-                                        Level.INFO, "end Thread insert (" + _iBatch + ") : " +
-                                        df.format(new Date(tstamp[_iBatch])) + " -  " +
-                                        df.format(new Date()));
+                                        Level.INFO, "end Thread insert (" + _iBatch + ") : "
+                                        + df.format(new Date(tstamp[_iBatch])) + " -  "
+                                        + df.format(new Date()));
                                 throw new RuntimeException("Error");
-
-
 
                             } catch (Exception ex1) {
                                 Logger.getLogger(Import_batch.class.getName()).log(Level.WARNING,
                                         "", ex1);
                             }
-
 
                         }
                     }.init(iBatch));
@@ -573,7 +600,6 @@ public abstract class Import_batch implements XPortImport {
                             "start Read: (" + iRead + ") " + df.format(new Date(tstamp[iRead])));
                 }
             }
-
 
             // keep all results
             for (int j = 0; j < c_batch; j++) {
@@ -619,7 +645,6 @@ public abstract class Import_batch implements XPortImport {
             }
              */
 
-
             Logger.getLogger(Import_batch.class.getName()).log(Level.INFO, " processed " + spotTable + ": " + this.noprocc);
             Logger.getLogger(Import_batch.class.getName()).log(Level.INFO, " successfully processed " + spotTable + ": " + this.nosucc);
             Logger.getLogger(Import_batch.class.getName()).log(Level.INFO, " error " + spotTable + ": " + this.error);
@@ -642,17 +667,12 @@ public abstract class Import_batch implements XPortImport {
             String[] iss,
             String[] colnames) {
 
-
-
-        String sqlinsert = "",sqlvalues  = "";
-
+        String sqlinsert = "", sqlvalues = "";
 
         try {
 
-            for (int i = 0; i <
-                    iss.length; i++) {
-
-
+            for (int i = 0; i
+                    < iss.length; i++) {
 
                 if (colnames[i] == null) {
                     // skip column, no input fields at file-> db defaults
@@ -664,7 +684,6 @@ public abstract class Import_batch implements XPortImport {
                     //empty values, skip column -> db defaults
                     continue;
                 }
-
 
 // mask special characters ' " \ with \
                 Matcher matcher = Pattern.compile("([\'\"\\\\])").matcher(iss[i]);
@@ -682,50 +701,53 @@ public abstract class Import_batch implements XPortImport {
                 sqlvalues += "\'" + iss[i] + "\'";
             }
 
-
-
         } catch (Exception e) {
             Logger.getLogger(Import_batch.class.getName()).log(Level.WARNING, "", e);
             //Logger.getLogger(ImportUtil.class.getName()).log(Level.INFO, "", e);
 
-
-
-
-
             return null;
         }
-        String sql = "INSERT INTO " + spotTable + " (" + sqlinsert + ") " +
-                " VALUES ( " + sqlvalues + " )";
+        String sql = "INSERT INTO " + spotTable + " (" + sqlinsert + ") "
+                + " VALUES ( " + sqlvalues + " )";
         return sql;
     }
 
+    /**
+     * actual reading data file to present into gui
+     *
+     * @param nofLines
+     * @return
+     */
+    @Override
     public Vector<Vector<String>> readData(int nofLines) {
 
         // meta - end meta data
         // hasHeader  - user defined single header line
         // 
-        Vector<Vector<String>> dataList = new Vector<Vector<String>>();
+        Vector<Vector<String>> dataList = new Vector<>();
         int lines = 0;
-        boolean data = (this.isHasHeader() ? false : true);
+        boolean data = (!this.isHasHeader());
         String[] iss = null;
         Vector<String> dataLine;
         String is = null;
         try {
             inBuffer = new BufferedReader(new FileReader(inFile));
 
-
             while ((is = inBuffer.readLine()) != null) {
-
-
+                // 100716  kt skip empty lines
+                if (is.contentEquals("")) {
+                    continue;
+                    //header
+                }
                 if (this.getEndMetaDataTag() != null && is.indexOf(this.getEndMetaDataTag()) == 0) {
                     data = true;
                     continue;
 
                 }
                 // kt 120313
-                
-                if (!data && this.isHasHeader() && !this.isCommentLine(is) && 
-                        // kt 140513
+
+                if (!data && this.isHasHeader() && !this.isCommentLine(is)
+                        && // kt 140513
                         this.getEndMetaDataTag() == null) {
                     // swap from header to data
                     data = true;
@@ -733,22 +755,17 @@ public abstract class Import_batch implements XPortImport {
 
                 }
 
-
-
-
-
-                if (data && is != null &&  !this.isHeaderLine(is) // kt 120313
+                if (data && is != null && !this.isHeaderLine(is) // kt 120313
                         && !this.isCommentLine(is)) {
                     if (++lines > nofLines) {
                         break;
                     }
 
                     iss = is.split(getMySep());
-                    dataLine =
-                            new Vector<String>(Arrays.asList(iss));
+                    dataLine
+                            = new Vector<String>(Arrays.asList(iss));
                     dataList.add(dataLine);
                 }
-
 
             }
 
@@ -768,21 +785,4 @@ public abstract class Import_batch implements XPortImport {
         return dataList;
     }
 
-    protected abstract boolean isCommentLine(String is);
-
-    protected abstract boolean isHeaderLine(String is);
-
-    protected abstract String[] modify(List<String[]> map, String[] tmp);
-
-    protected abstract void readRelease();
-
-    protected abstract List<String[]> setSplitFieldCols(List<String[]> map);
-    public final static String SPLITFIELD = "SPLITFIELD";
-
-    protected abstract String getEndMetaDataTag();
-
-    protected abstract String getEndDataTag();
-
-    protected abstract String getCreateTableSQL(
-            String tableData);
 }

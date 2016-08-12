@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.datadb.service;
 /**
  * @name TrackService
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,9 +29,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
-import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.SampleDetail;
 import org.molgen.genomeCATPro.datadb.dbentities.SampleInTrack;
@@ -42,12 +40,11 @@ import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.dbentities.TrackAtStudy;
 
 /**
- * 010612 kt    moveTrack, deleteTrack
- * 050612 kt    deprecate TrackServiceListener
- *              call ExperimentService.Listener
- * 120612 kt    redefine moveTrack
+ * 010612 kt moveTrack, deleteTrack 050612 kt deprecate TrackServiceListener
+ * call ExperimentService.Listener 120612 kt redefine moveTrack
  */
 public class TrackService {
+
     /* 050612 kt
     static List<ServiceListener> _listener = Collections.synchronizedList(new ArrayList<ServiceListener>());
     
@@ -79,48 +76,42 @@ public class TrackService {
     }
     }
      */
-
     /**
      * 060612 kt
-     * 
+     *
      * @param t
-     * @param parentTrack
      * @param em
      */
+    @Deprecated
     public static void detachFromParentExperimentData(Track t, ExperimentData p, EntityManager em) {
 
         if (!em.contains(t)) {
             t = em.merge(t); // detached -> managed
 
         }
-        ExperimentData dummy = t.getParentExperiment(); // workaround lazy
-        //Track mt = em.find(Track.class, t.getTrackID());
-        // Track mParent = em.find(Track.class,parentTrack.getTrackID());
 
         t.setParentExperiment(null);
     }
 
     /**
-     * 120612 kt
-     * try to move track upwards in hierarchy to top experimentdata or project
-     * if  track parent has experimentdata move it to top level parent data
-     *     if already at top level -  move to project
-     *     if movetostudy required -  move to project
-     * 
-     * if no parent exp data 
-     *    if project in upward hierarchy found 
-     *      move track to project
-     * release parent track
-     * otherwise     return false
-     * 
-     * @param moveToStudy - true: try not to move to top experimentdata - move to study
-     * @return 
-     *      true:   succesfully moved 
-     *      false:  track is at top level or  no study in hierarchy
+     * 120612 kt try to move track upwards in hierarchy to top experimentdata or
+     * project if track parent has experimentdata move it to top level parent
+     * data if already at top level - move to project if movetostudy required -
+     * move to project
+     *
+     * if no parent exp data if project in upward hierarchy found move track to
+     * project release parent track otherwise return false
+     *
+     * @param s Track
+     * @param moveToStudy - true: try not to move to top experimentdata - move
+     * to study
+     * @param em EntityManager holding transaction
+     * @return true: succesfully moved false: track is at top level or no study
+     * in hierarchy
      */
     public static boolean moveTrack(Track s, boolean moveToStudy, EntityManager em) {
         Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
-                "moveTrack: " + s.toString() + (moveToStudy ? " to Study " : " to top Exp"));
+                "moveTrack: {0}{1}", new Object[]{s.toString(), moveToStudy ? " to Study " : " to top Exp"});
         boolean commit = false;
         if (em == null) {
             em = DBService.getEntityManger();
@@ -136,10 +127,9 @@ public class TrackService {
 
         Study project = null;
 
-        if (s.getParentExperiment() != null ){
-              //  && !moveToStudy) {
+        if (s.getParentExperiment() != null) {
+            //  && !moveToStudy) {
             ExperimentData parent = s.getParentExperiment();
-
 
             while (parent.getParent() != null) {
                 parent = parent.getParent();
@@ -162,7 +152,7 @@ public class TrackService {
             if (parent.equals(s)) {
                 // already at top level - nothing to move
                 Logger.getLogger(TrackService.class.getName()).log(Level.WARNING,
-                        "moveTrack: already at very top " + s.toString());
+                        "moveTrack: already at very top {0}", s.toString());
                 return false;
             } else {
                 project = ProjectService.getProjectForTrack(parent);
@@ -182,7 +172,6 @@ public class TrackService {
 
         s.setParentTrack(null);
 
-
         if (commit) {
             em.flush();
             em.getTransaction().commit();
@@ -190,6 +179,11 @@ public class TrackService {
         return true;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static Track getTrackById(
             Long id) {
         EntityManager em = DBService.getEntityManger();
@@ -197,25 +191,19 @@ public class TrackService {
             return null;
         }
 
-
-
         Track d = em.find(Track.class, id);
 
         //ExperimentDetail dd = d.getExperiment();
-
         Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
-                "getTrackById: " + (d != null ? d.toFullString() : " not found " + id));
-
-
-
-
+                "getTrackById: {0}", (d != null ? d.toFullString() : " not found " + id));
 
         return d;
 
     }
 
     /**
-     * list root (witouth parent track) only
+     * list root nodes only (i.e. witouth parent track)
+     *
      * @param e
      * @return
      */
@@ -229,14 +217,13 @@ public class TrackService {
         }
         try {
             Query query = em.createQuery(
-                    "SELECT t FROM Track t " +
-                    " where t.parentExperiment.experimentListID = ?1" +
-                    " and t.parentTrack is null order by t.created");
+                    "SELECT t FROM Track t "
+                    + " where t.parentExperiment.experimentListID = ?1"
+                    + " and t.parentTrack is null order by t.created");
 
             query.setParameter(1, e.getId());
             Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
-                    "listChildrenExperimentData:" +
-                    query.getResultList().toString());
+                    "listChildrenExperimentData:{0}", query.getResultList().toString());
             List<Track> list = query.getResultList();
             for (Track d : list) {
                 // force loading 
@@ -254,6 +241,54 @@ public class TrackService {
 
     }
 
+    /**
+     * get indirekt samples (attached to parent experiment) for a track
+     *
+     * @param t Track
+     * @return
+     */
+    public static List<SampleDetail> getIndirektSampleInformationForTrack(Track t) {
+
+        if (t == null || t.getId() == null) {
+            return Collections.EMPTY_LIST;
+        }
+        EntityManager em = DBService.getEntityManger();
+        if (em == null) {
+            return Collections.EMPTY_LIST;
+        }
+        try {
+
+            Query query = em.createQuery(
+                    "SELECT sample FROM  "
+                    + " SampleInExperiment as sie, ExperimentDetail detail , "
+                    + " SampleDetail as sample , Track t "
+                    + " where sie.sampleDetailID = sample.sampleDetailID "
+                    + " and sie.experimentDetailID = detail.experimentDetailID "
+                    + " and t.parentExperiment.experiment.experimentDetailID = detail.experimentDetailID "
+                    + " and t.trackID = ?1");
+
+            query.setParameter(1, t.getId());
+            Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
+                    "getIndirektSampleInformationForTrack:{0}", query.getResultList().toString());
+            List<SampleDetail> list = query.getResultList();
+
+            return list;
+        } catch (Exception ex) {
+            Logger.getLogger(TrackService.class.getName()).log(Level.SEVERE,
+                    "getIndirektSampleInformationForTrack:", ex);
+            return Collections.EMPTY_LIST;
+        } finally {
+            em.close();
+        }
+
+    }
+
+    /**
+     * get all direct chilren of a track
+     *
+     * @param e
+     * @return
+     */
     public static List<Track> listChildrenForTrack(Track e) {
         if (e.getId() == null) {
             return Collections.EMPTY_LIST;
@@ -264,13 +299,12 @@ public class TrackService {
         }
         try {
             Query query = em.createQuery(
-                    "SELECT t FROM Track t " +
-                    " where t.parentTrack.trackID = ?1 order by t.created ");
+                    "SELECT t FROM Track t "
+                    + " where t.parentTrack.trackID = ?1 order by t.created ");
 
             query.setParameter(1, e.getId());
             Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
-                    "listChildrenForTrack: " +
-                    query.getResultList().toString());
+                    "listChildrenForTrack: {0}", query.getResultList().toString());
             List<Track> list = query.getResultList();
             for (Track d : list) {
                 // force loading 
@@ -289,11 +323,12 @@ public class TrackService {
     }
 
     /**
-     * 010612 kt
-     * delete track and subtree
-     * if track is not deletable (user is not owner) move track upwards (first up Exp, then study)
+     * 010612 kt delete track and subtree if track is not deletable (user is not
+     * owner) move track upwards (first up Exp, then study)
+     *
      * @param track
-     * @param moveToStudy if delete is called from deleteExperiment move not owned tracks to top projcect
+     * @param moveToStudy if delete is called from deleteExperiment move not
+     * owned tracks to top projcect
      * @param em
      * @throws java.lang.Exception, java.lang.Error if track is not deletable
      */
@@ -305,8 +340,7 @@ public class TrackService {
             em.getTransaction().begin();
             commit = true;
         }
-        Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
-                "deleteTrack: " + track.toString());
+        Logger.getLogger(TrackService.class.getName()).log(Level.INFO, "deleteTrack: {0}", track.toString());
 
         try {
             if (!em.contains(track)) {
@@ -314,8 +348,7 @@ public class TrackService {
 
             }
             if (!track.getOwner().equals(ExperimentService.getUser())) {
-                Logger.getLogger(TrackService.class.getName()).log(Level.WARNING,
-                        ExperimentService.getUser() + " is not owner for " + track.toFullString());
+                Logger.getLogger(TrackService.class.getName()).log(Level.WARNING, "{0} is not owner for {1}", new Object[]{ExperimentService.getUser(), track.toFullString()});
 
                 String msg = ExperimentService.getUser() + " is not owner for " + track.toString() + " !";
                 throw new Error(msg);
@@ -324,7 +357,7 @@ public class TrackService {
             List<Track> listTracks = track.getChildrenList();
             for (Track ct : listTracks) {
                 try {
-                    TrackService.deleteTrack(ct,moveToStudy, em);
+                    TrackService.deleteTrack(ct, moveToStudy, em);
                 } catch (Error error) {
                     // try to remove from subtree
                     if (!TrackService.moveTrack(ct, moveToStudy, em)) {
@@ -336,10 +369,8 @@ public class TrackService {
             Query query;
 
             //track.setParentExperiment(null);
-
             query = em.createNativeQuery("DROP TABLE if EXISTS " + track.getTableData());
             query.executeUpdate();
-
 
             List<SampleInTrack> listSamples = track.getSamples();
             for (SampleInTrack sit : listSamples) {
@@ -352,8 +383,8 @@ public class TrackService {
             Study p = ProjectService.getProjectForTrack(track);
             if (p != null) {
                 query = em.createQuery(
-                        "SELECT tas FROM TrackAtStudy tas " +
-                        " WHERE tas.studyID = ?1 and tas.trackID = ?2");
+                        "SELECT tas FROM TrackAtStudy tas "
+                        + " WHERE tas.studyID = ?1 and tas.trackID = ?2");
                 query.setParameter(1, p.getStudyID());
                 query.setParameter(2, track.getTrackID());
 
@@ -382,6 +413,7 @@ public class TrackService {
 
     /**
      * no full entities returned
+     *
      * @param em
      * @return
      */
@@ -389,23 +421,18 @@ public class TrackService {
     public static List<Track> getAllTracks(EntityManager em) {
 
         javax.persistence.Query query = em.createNativeQuery(
-                " select t from Track t" +
-                " group by t.genomeRelease, t.name, t.procProcessing, t.paramProcessing ",
+                " select t from Track t"
+                + " group by t.genomeRelease, t.name, t.procProcessing, t.paramProcessing ",
                 Track.class);
         Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
                 query.getResultList().toString());
-
-
-
-
-
-
 
         return query.getResultList();
     }
 
     /**
      * no full entities returned
+     *
      * @param name
      * @param release
      * @param proc
@@ -415,13 +442,11 @@ public class TrackService {
     @SuppressWarnings("unchecked")
     public static List<Track> findTrack(String name, String release, String proc, String param) {
         EntityManager em = DBService.getEntityManger();
-        Query query = em.createQuery("SELECT t FROM Track t" +
-                " where t.name = ?1 " +
-                " and t.genomicRelease = ?2 " +
-                " and t.procProcessing = ?3" +
-                " and t.paramProcessing = ?4");
-
-
+        Query query = em.createQuery("SELECT t FROM Track t"
+                + " where t.name = ?1 "
+                + " and t.genomicRelease = ?2 "
+                + " and t.procProcessing = ?3"
+                + " and t.paramProcessing = ?4");
 
         query.setParameter(1, name);
         query.setParameter(2, release);
@@ -432,6 +457,14 @@ public class TrackService {
         return query.getResultList();
     }
 
+    /**
+     * attach samples from list to an other track
+     *
+     * @param samples
+     * @param track
+     * @param em
+     * @throws java.lang.Exception
+     */
     public static void forwardSamples(List<SampleInTrack> samples, Track track, EntityManager em) throws Exception {
         if (!em.isOpen()) {
             throw new RuntimeException("importSamples method meant to be inside open em/transaction!!");
@@ -439,20 +472,18 @@ public class TrackService {
 
         for (SampleInTrack sie : samples) {
             SampleDetail detail = sie.getSample();
-            if (detail.getSampleDetailID() == null ||
-                    em.find(SampleDetail.class, detail.getSampleDetailID()) == null) {
+            if (detail.getSampleDetailID() == null
+                    || em.find(SampleDetail.class, detail.getSampleDetailID()) == null) {
                 //isNewPlatformDetail = true;
 
                 Logger.getLogger(
                         TrackService.class.getName()).log(Level.INFO,
-                        "importSamples: create sampledetail " + detail.toFullString());
-
+                                "importSamples: create sampledetail " + detail.toFullString());
 
                 // make new sampledetail persistent in db
                 em.persist(detail);  //cascade??
 
-            //em.flush();
-
+                //em.flush();
             } else {
                 // update sample from db with current entity
                 detail = em.merge(detail);
@@ -463,13 +494,23 @@ public class TrackService {
             SampleInTrack sieNeu = track.addSample(detail, sie.isInverse());
             Logger.getLogger(
                     TrackService.class.getName()).log(Level.INFO,
-                    "importSamples: create new SampleInTrack " + sieNeu.toFullString());
+                            "importSamples: create new SampleInTrack " + sieNeu.toFullString());
             em.persist(sieNeu);
 
         }
 
     }
 
+    /**
+     * attach samples from list to a track
+     *
+     * @param samples
+     * @param track
+     * @param isNewTrack
+     * @param em
+     * @return
+     * @throws java.lang.Exception
+     */
     public static List<SampleInTrack> importSamples(
             List<SampleInTrack> samples, Track track, boolean isNewTrack, EntityManager em) throws Exception {
         // sample existiert bereits ?  merge : create
@@ -481,23 +522,19 @@ public class TrackService {
         List<SampleInTrack> new_samples = new Vector<SampleInTrack>();
         for (SampleInTrack sie : samples) {
 
-
-
             SampleDetail detail = sie.getSample();
-            if (detail.getSampleDetailID() == null ||
-                    em.find(SampleDetail.class, detail.getSampleDetailID()) == null) {
+            if (detail.getSampleDetailID() == null
+                    || em.find(SampleDetail.class, detail.getSampleDetailID()) == null) {
                 //isNewPlatformDetail = true;
 
                 Logger.getLogger(
                         TrackService.class.getName()).log(Level.INFO,
-                        "importSamples: create sampledetail " + detail.toFullString());
-
+                                "importSamples: create sampledetail " + detail.toFullString());
 
                 // make new sampledetail persistent in db
                 em.persist(detail);  //cascade??
 
-            //em.flush();
-
+                //em.flush();
             } else {
                 // update sample from db with current entity
                 detail = em.merge(detail);
@@ -509,35 +546,37 @@ public class TrackService {
             sie.setSample(detail);
             sie.setTrack(track);
 
-
-
-
-
-
             if (isNewTrack)// old experiments have samples attached
             {
                 Logger.getLogger(
                         TrackService.class.getName()).log(Level.INFO,
-                        "importSamples: create new SampleInTrack " + sie.toFullString());
+                                "importSamples: create new SampleInTrack " + sie.toFullString());
                 em.persist(sie);
-            //em.flush();
+                //em.flush();
             } else {
                 Logger.getLogger(
                         TrackService.class.getName()).log(Level.INFO,
-                        "importSamples: merge existing SampleInTrack " + sie.toFullString());
+                                "importSamples: merge existing SampleInTrack " + sie.toFullString());
 
                 sie = em.merge(sie);
 
             }
 
             new_samples.add(sie);
-        //em.flush();
+            //em.flush();
         }
 
         return new_samples; // return entities from persistent context
 
     }
 
+    /**
+     * make track instance persistent
+     *
+     * @param t
+     * @param em
+     * @throws java.lang.Exception
+     */
     public static void persistsTrack(Track t, EntityManager em) throws Exception {
         if (em == null) {
             em = DBService.getEntityManger();
@@ -553,12 +592,8 @@ public class TrackService {
 
             em.persist(t);
 
-
         } catch (Exception ex) {
             Logger.getLogger(TrackService.class.getName()).log(Level.SEVERE, null, ex);
-
-
-
 
             throw ex;
 
@@ -573,22 +608,18 @@ public class TrackService {
     public static Track getTrack(
             String name, String genomeRelease) {
         EntityManager em = DBService.getEntityManger();
-        Query query = em.createQuery("SELECT t FROM Track t" +
-                " where t.name = ?1 " +
-                " and t.genomeRelease = ?2 ");
-
+        Query query = em.createQuery("SELECT t FROM Track t"
+                + " where t.name = ?1 "
+                + " and t.genomeRelease = ?2 ");
 
         query.setParameter(1, name);
         query.setParameter(2, genomeRelease);
 
-
         Logger.getLogger(
                 TrackService.class.getName()).log(
-                Level.INFO,
-                query.getResultList().toString());
+                        Level.INFO,
+                        query.getResultList().toString());
         List<Track> list = query.getResultList();
-
-
 
         if (list.size() > 0) {
             return list.get(0);
@@ -597,12 +628,16 @@ public class TrackService {
         }
     }
 
+    /**
+     * get all types of data contained in db
+     *
+     * @return
+     */
     public static Vector<String> getAllDataTypes() {
 
-        String[] values = null;
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct dataType from TrackList ";
         try {
             Statement s = con.createStatement();
@@ -614,7 +649,6 @@ public class TrackService {
 //values = new String[vValues.size()];
 //values = vValues.toArray(values);
 
-
         } catch (Exception e) {
             Logger.getLogger(TrackService.class.getName()).log(Level.SEVERE, null, e);
 
@@ -623,13 +657,15 @@ public class TrackService {
         return vValues;
     }
 
+    /**
+     * get all methods of processing contained in db
+     */
     public static Vector<String> getAllProcs() {
 
-        String[] values = null;
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
-        Connection con = Database.getDBConnection(Defaults.localDB);
-        String sqlstmt = "select distinct procProcessing from TrackList ";
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
+        String sqlstmt = "select distinct procProcessing from TrackList  where procProcessing is not null ";
         try {
             Statement s = con.createStatement();
 
@@ -637,7 +673,6 @@ public class TrackService {
             while (rs.next()) {
                 vValues.add(rs.getString(1));
             }
-
 
         } catch (Exception e) {
             Logger.getLogger(TrackService.class.getName()).log(Level.SEVERE, null, e);

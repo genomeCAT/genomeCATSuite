@@ -29,37 +29,30 @@ import org.molgen.genomeCATPro.annotation.CytoBandManagerImpl;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.cghpro.chip.Chip;
 import org.molgen.genomeCATPro.cghpro.chip.ChipFeature;
-import org.molgen.genomeCATPro.data.Feature;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.guimodul.data.ZoomYAction;
+import org.molgen.genomeCATPro.data.IFeature;
 
 /**
- * @name PlotChipAnChrom.java 
+ * @name PlotChipAnChrom.java
  * @author Wei Chen
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-/**
- * 260612 kt initMenue 
- *              remove globalPositionMenu
- * 270612 kt updatePlot
- *          check if features are empty
- * 280612 kt  initMenu 
- *                  add ShowData 
- * 
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
+ *
+ * /**
+ * 260612 kt initMenue remove globalPositionMenu 270612 kt updatePlot check if
+ * features are empty 280612 kt initMenu add ShowData
+ *
  */
 public class PlotChipAnChrom extends JLabel
         implements PlotPanel, Scrollable, MouseListener, MouseMotionListener {
@@ -116,7 +109,7 @@ public class PlotChipAnChrom extends JLabel
 
         this.xScale = (this.xScale / xZoom);
         this.imageWidht = (int) (this.imageWidht * xZoom);
-    //this.xImagePosition = (int) (this.xImagePosition * xZoom);
+        //this.xImagePosition = (int) (this.xImagePosition * xZoom);
     }
 
     //user setting
@@ -124,10 +117,9 @@ public class PlotChipAnChrom extends JLabel
 
         // this.yScale = (this.yScale / yZoom);
         /*this.yScale = ((this.parentFrame.chromLength.get(chromId) /
-        (this.displayHeight - (this.parentFrame.getOffY() * 2))) / this.yZoom);
+         (this.displayHeight - (this.parentFrame.getOffY() * 2))) / this.yZoom);
         
          */
-
         this.imageHeight = (int) (this.imageHeight * yZoom);
 
         this.rescale();
@@ -136,8 +128,8 @@ public class PlotChipAnChrom extends JLabel
         //this.yImagePosition = (int) (this.yImagePosition * yZoom);
 
         Logger.getLogger(PlotChipAnChrom.class.getName()).log(Level.INFO,
-                "ZoomY " + yZoom + " new height: " + this.imageHeight +
-                " mousepos " + this.parentFrame.getMousePos());
+                "ZoomY " + yZoom + " new height: " + this.imageHeight
+                + " mousepos " + this.parentFrame.getMousePos());
     }
 
     public PlotChipAnChrom() {
@@ -159,13 +151,12 @@ public class PlotChipAnChrom extends JLabel
     public void setChip1(ChipFeature chip) {
         this.chip1 = chip;
 
-    //this.maxChromLength = this.parentFrame.cytoBandManager.getMaxLength(this.chip1.getRelease());
-
-
+        //this.maxChromLength = this.parentFrame.cytoBandManager.getMaxLength(this.chip1.getRelease());
     }
 
     /**
      * set chromid, reset plot view (scaling, zoom, maxvalues)
+     *
      * @param chromId
      */
     public void updatePlot(String chromId) {
@@ -184,20 +175,20 @@ public class PlotChipAnChrom extends JLabel
         } else {
 
             // berechne xscale aus max Ratio
-            List<? extends Feature> copyBacs = null;
+            List<? extends IFeature> copyBacs = null;
 
             if (this.chip1 != null && !this.chip1.getError()) {
                 copyBacs = this.chip1.chrFeatures.get(chromId);
             } else if (this.chip2 != null && !this.chip2.getError()) {
                 copyBacs = this.chip2.chrFeatures.get(chromId);
             } else if (this.chipTrack != null && !this.chipTrack.getError()) {
-                copyBacs = (List<? extends Feature>) this.chipTrack.getData(this.chromId);
+                copyBacs = (List<? extends IFeature>) this.chipTrack.getData(this.chromId);
             } else {
                 maxRatio = -1;
             }
             // 270612 kt check if features are empty
             if (maxRatio != -1 && copyBacs != null && copyBacs.size() > 0) {
-                Collections.sort(copyBacs, Feature.comRatio);
+                Collections.sort(copyBacs, IFeature.comRatio);
                 maxRatio = Math.max(
                         Math.abs(copyBacs.get(copyBacs.size() - 1).getRatio()),
                         Math.abs(copyBacs.get(0).getRatio()));
@@ -211,34 +202,31 @@ public class PlotChipAnChrom extends JLabel
             this.imageHeight = (this.displayHeight);
             this.imageWidht = (this.displayWidth);
 
-            this.xScale = (maxRatio * this.parentFrame.getSpotWidth()) * 2 /
-                    (this.displayWidth - (this.parentFrame.getOffX() * 2));
+            this.xScale = (maxRatio * this.parentFrame.getSpotWidth()) * 2
+                    / (this.displayWidth - (this.parentFrame.getOffX() * 2));
 
             // berechen yScale aus max length
-
             this.firstPos = 0;
             this.secondPos = this.parentFrame.getChromLength(chromId);
             this.rescale();
             /* this.yScale = this.parentFrame.chromLength.get(chromId) /
-            (this.displayHeight - (this.parentFrame.getOffY() * 2));
+             (this.displayHeight - (this.parentFrame.getOffY() * 2));
             
              */
 
             Logger.getLogger(PlotChipAnChrom.class.getName()).log(
                     Level.INFO, "Update Plot: yScale: " + yScale);
 
-
             //this.xImagePosition = this.imageHeight / 2;
             //this.yImagePosition = this.imageWidht / 2;
-
             refreshPlot();
         }
     }
 
     public void rescale() {
-        this.yScale = (this.secondPos - this.firstPos) /
-                (this.imageHeight - (this.parentFrame.getOffY() * 2));
-    //x, y, width, height
+        this.yScale = (this.secondPos - this.firstPos)
+                / (this.imageHeight - (this.parentFrame.getOffY() * 2));
+        //x, y, width, height
 
     }
 
@@ -250,8 +238,8 @@ public class PlotChipAnChrom extends JLabel
     public void refreshPlot() {
 
         // TODO recreate only if needed image == null , image.width != this.width
-        if (imageChip1 != null &&
-                (imageChip1.getWidth() != this.imageWidht || imageChip1.getHeight() != this.imageHeight)) {
+        if (imageChip1 != null
+                && (imageChip1.getWidth() != this.imageWidht || imageChip1.getHeight() != this.imageHeight)) {
             imageChip1 = null;
             System.gc();
         }
@@ -339,34 +327,29 @@ public class PlotChipAnChrom extends JLabel
                     detailX < this.imageWidht / 2 ? (this.imageWidht / 2 - detailX) * 2 : (detailX - this.imageWidht / 2) * 2,
                     (int) (this.secondPixY - this.firstPixY));
 
-        } else {
+        } else if (this.parentFrame.isShowruler()) {
+            g.setColor(Color.BLACK);
+            y1 = this.parentFrame.getMousePos().intValue();
 
-            if (this.parentFrame.isShowruler()) {
-                g.setColor(Color.BLACK);
-                y1 = this.parentFrame.getMousePos().intValue();
-
-                g.drawLine(this.parentFrame.getOffX(), y1,
-                        this.imageWidht - this.parentFrame.getOffX(), y1);
-                g.setColor(Color.BLACK);
-            }
+            g.drawLine(this.parentFrame.getOffX(), y1,
+                    this.imageWidht - this.parentFrame.getOffX(), y1);
+            g.setColor(Color.BLACK);
         }
 
-
-
-
-
-
-    //parentFrame.setStatusBar("Chromosome: " + chromId);
-
+        //parentFrame.setStatusBar("Chromosome: " + chromId);
     }
 
-    /**draw the plot*/
     /**
-     *draw the whole plot to an image, used for report results
-     *@see ReportChip.exportGenomeDisplay();
-     *@param g
-     *@param y0, the start y coordinate
-     **/
+     * draw the plot
+     */
+    /**
+     * draw the whole plot to an image, used for report results
+     *
+     * @see ReportChip.exportGenomeDisplay();
+     * @param g
+     * @param y0, the start y coordinate
+     *
+     */
     public void plotRatios(
             Chip chip,
             Color c,
@@ -378,31 +361,30 @@ public class PlotChipAnChrom extends JLabel
 
         int bacWidth = parentFrame.getSpotWidth();
 
-
         //bacs = chip.chrFeatures[j];
-        List<? extends Feature> features = (List<? extends Feature>) chip.getData(this.chromId);
+        List<? extends IFeature> features = (List<? extends IFeature>) chip.getData(this.chromId);
         if (features == null || features.size() == 0) {
             return;
         }
 
-
         if (!this.parentFrame.isFullChrom()) {
-            features = (List<? extends Feature>) PlotLib.getSublist(features, chromId,
+            features = (List<? extends IFeature>) PlotLib.getSublist(features, chromId,
                     this.firstPos,
                     this.secondPos);
         } else {
             Collections.sort(features, Region.compByStart);
-        //int length = (int) ((chromLength.get(chromId) / yScale) + 2 * bacWidth);
-        //ColorOption.setColor();
+            //int length = (int) ((chromLength.get(chromId) / yScale) + 2 * bacWidth);
+            //ColorOption.setColor();
         }
         g.setColor(c);
         int x1;
 
         int y2;
-        for (Feature aFeature : features) {
+        for (IFeature aFeature : features) {
 
             //System.out.println("Feature: " + aFeature.toString());
-            x1 = (int) (x0 + // center
+            x1 = (int) (x0
+                    + // center
                     //6 * bacWidth +  // gap to center
                     aFeature.getRatio() * bacWidth / xScale);        //?
 
@@ -421,22 +403,19 @@ public class PlotChipAnChrom extends JLabel
             g.drawRect(x1, y1, bacWidth, y2 - y1 > 0 ? y2 - y1 : this.parentFrame.getMinSpotHeight());
             g.fillRect(x1, y1, bacWidth, y2 - y1 > 0 ? y2 - y1 : this.parentFrame.getMinSpotHeight());
 
-
-
         }
 
-    /*
-    if (this.pointedFeature != null) {
-    x1 = (int) (x0 + // center
-    //6 * bacWidth +  // gap to center
-    pointedFeature.getRatio() * bacWidth / xScale);
-    y1 = (int) (y0 + ((pointedFeature.getChromStart() - firstPos) / yScale));
-    y2 = (int) (y0 + ((pointedFeature.getChromEnd() - firstPos) / yScale));
-    g.setColor(Color.MAGENTA);
-    g.drawOval(x1 - 10, y2 + 10, 20, y1 - 10);
-    }
-     */
-
+        /*
+         if (this.pointedFeature != null) {
+         x1 = (int) (x0 + // center
+         //6 * bacWidth +  // gap to center
+         pointedFeature.getRatio() * bacWidth / xScale);
+         y1 = (int) (y0 + ((pointedFeature.getChromStart() - firstPos) / yScale));
+         y2 = (int) (y0 + ((pointedFeature.getChromEnd() - firstPos) / yScale));
+         g.setColor(Color.MAGENTA);
+         g.drawOval(x1 - 10, y2 + 10, 20, y1 - 10);
+         }
+         */
     }
 
     public boolean isShowDetailFrame() {
@@ -461,59 +440,57 @@ public class PlotChipAnChrom extends JLabel
         this.menuShowData.addActionListener(
                 new ActionListener() {
 
-                    public void actionPerformed(ActionEvent e) {
-                        long pos = mapYPosition(parentFrame.getMousePos());
-                        PlotChipAnChrom.this.showDetailData(pos);
-                    }
-                });
+            public void actionPerformed(ActionEvent e) {
+                long pos = mapYPosition(parentFrame.getMousePos());
+                PlotChipAnChrom.this.showDetailData(pos);
+            }
+        });
 
         popup.add(menuShowData);
         /*this.menuItemSetStart = new JMenuItem("set global start");
-        this.menuItemSetStart.addActionListener(
-        new ActionListener() {
+         this.menuItemSetStart.addActionListener(
+         new ActionListener() {
         
-        public void actionPerformed(ActionEvent e) {
-        long pos = mapYPosition(firstPixY);
-        WebPositionPanel.setWebPositionChrom(chromId);
-        WebPositionPanel.setWebPositionStart(Long.toString(pos));
-        }
-        });
+         public void actionPerformed(ActionEvent e) {
+         long pos = mapYPosition(firstPixY);
+         WebPositionPanel.setWebPositionChrom(chromId);
+         WebPositionPanel.setWebPositionStart(Long.toString(pos));
+         }
+         });
         
-        popup.add(menuItemSetStart);
-        this.menuItemSetEnd = new JMenuItem("set global end");
-        this.menuItemSetEnd.addActionListener(
-        new ActionListener() {
+         popup.add(menuItemSetStart);
+         this.menuItemSetEnd = new JMenuItem("set global end");
+         this.menuItemSetEnd.addActionListener(
+         new ActionListener() {
         
-        public void actionPerformed(ActionEvent e) {
+         public void actionPerformed(ActionEvent e) {
         
-        long pos = mapYPosition(secondPixY);
-        WebPositionPanel.setWebPositionEnd(Long.toString(pos));
-        }
-        });
-        popup.add(menuItemSetEnd);
+         long pos = mapYPosition(secondPixY);
+         WebPositionPanel.setWebPositionEnd(Long.toString(pos));
+         }
+         });
+         popup.add(menuItemSetEnd);
          */
         this.menuItemZoomIn = new JMenuItem("ZoomIn");
         this.menuItemZoomIn.addActionListener(
                 new ActionListener() {
 
-                    public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
-
-                        ZoomYAction.getInstance().doZoom(+1);
-                    }
-                });
+                ZoomYAction.getInstance().doZoom(+1);
+            }
+        });
 
         popup.add(menuItemZoomIn);
         this.menuItemZoomOut = new JMenuItem("ZoomOut");
         this.menuItemZoomOut.addActionListener(
                 new ActionListener() {
 
-                    public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
-
-                        ZoomYAction.getInstance().doZoom(-1);
-                    }
-                });
+                ZoomYAction.getInstance().doZoom(-1);
+            }
+        });
 
         popup.add(menuItemZoomOut);
 
@@ -557,12 +534,13 @@ public class PlotChipAnChrom extends JLabel
                     GenomeRelease.toRelease(parentFrame.release),
                     parentFrame.chromId).getChromStart();
         }/*
-        if (mousePos > this.imageHeight - parentFrame.getOffY()) {
-        return this.parentFrame.cytoBandManager.getLast(
-        GenomeRelease.toRelease(parentFrame.release),
-        parentFrame.chromId).getChromEnd();
-        }
+         if (mousePos > this.imageHeight - parentFrame.getOffY()) {
+         return this.parentFrame.cytoBandManager.getLast(
+         GenomeRelease.toRelease(parentFrame.release),
+         parentFrame.chromId).getChromEnd();
+         }
          */
+
         if (this.parentFrame.isFullChrom()) {
             return (long) ((mousePos - this.parentFrame.getOffY()) * yScale);
         } else {
@@ -586,6 +564,7 @@ public class PlotChipAnChrom extends JLabel
     }
     /**
      * get current mouse position
+     *
      * @param e
      */
     String text;
@@ -597,26 +576,23 @@ public class PlotChipAnChrom extends JLabel
         if (chip1 == null) {
             return;
         }
-        List<? extends Feature> features = (List<? extends Feature>) chip1.getData(this.chromId);
+        List<? extends IFeature> features = (List<? extends IFeature>) chip1.getData(this.chromId);
         if (features == null || features.size() == 0) {
             return;
         }
-        Feature curr = (Feature) PlotLib.getDataAtPos(
+        IFeature curr = (IFeature) PlotLib.getDataAtPos(
                 (List<? extends Region>) features, chromId, pos, dist);
         /*if (curr != null) {
-        System.out.println(curr.toHTMLString());
-        }*/
+         System.out.println(curr.toHTMLString());
+         }*/
         this.parentFrame.showDetailData(curr);
     }
 
     public void mouseMoved(MouseEvent e) {
 
-
         //this.xImagePosition = e.getPoint().x;
         //this.yImagePosition = e.getPoint().y;
         this.parentFrame.setMousePos(e.getPoint().y);
-
-
 
         long pos = mapYPosition(e.getPoint().y);
         this.parentFrame.setPosition(pos);
@@ -647,9 +623,8 @@ public class PlotChipAnChrom extends JLabel
     }
 
     /**
-     * paint frame by dragging mouse
-     *  defines genomic region
-     *  update stop position
+     * paint frame by dragging mouse defines genomic region update stop position
+     *
      * @param e
      */
     public void mouseDragged(MouseEvent e) {
@@ -678,10 +653,9 @@ public class PlotChipAnChrom extends JLabel
     }
 
     /**
-     * paint frame by dragging mouse
-     *  defines genomic region
-     * definition finished - update genomic positions (start/stop)
-     * switch to detailled view
+     * paint frame by dragging mouse defines genomic region definition finished
+     * - update genomic positions (start/stop) switch to detailled view
+     *
      * @param e
      */
     public void mouseReleased(MouseEvent e) {
@@ -694,8 +668,6 @@ public class PlotChipAnChrom extends JLabel
 
         }
 
-
-
         long _firstPos = mapYPosition(firstPixY);
         long _secondPos = mapYPosition(secondPixY);
 
@@ -704,10 +676,7 @@ public class PlotChipAnChrom extends JLabel
 
         // yScale = secondPos - firstPos /
         //        (displayHeight - (parentFrame.getOffY() * 2));
-
-
         this.refreshPlot();
-
 
         parentFrame.showDetails(_firstPos, _secondPos);
     }

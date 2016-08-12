@@ -29,13 +29,13 @@ public final class ExportData extends AbstractAction implements LookupListener, 
         this(Utilities.actionsGlobalContext());
         putValue(SMALL_ICON, new ImageIcon(Utilities.loadImage(
                 "org/molgen/genomeCATPro/guimodul/save_download_16.png", true)));
-     
-    //setIcon();
+
+        //setIcon();
     }
 
     private ExportData(Lookup context) {
         super(NbBundle.getMessage(ExportData.class, "CTL_ExportData"));
-        
+
         this.context = context;
 
     }
@@ -70,8 +70,8 @@ public final class ExportData extends AbstractAction implements LookupListener, 
             run(instance);
             return;
         }
-        JOptionPane.showMessageDialog(null, "Export Data: " +
-                "please select data in project tree");
+        JOptionPane.showMessageDialog(null, "Export Data: "
+                + "please select data in project tree");
     }
 
     public void run(Data s) {
@@ -80,7 +80,6 @@ public final class ExportData extends AbstractAction implements LookupListener, 
         // view log panel
 
         ExportDataDialog.exportData(s);
-
 
     }
 
@@ -92,4 +91,3 @@ public final class ExportData extends AbstractAction implements LookupListener, 
         return new ExportData(arg0);
     }
 }
-

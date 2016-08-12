@@ -21,14 +21,10 @@ public interface AnnotationManager {
     public List<? extends RegionAnnotation> getData(String chromId);
 
     //public float getTransparency(GenomeRelease release, String name);
-
     //public void setTransparency();
-
     //public Color getColor(GenomeRelease release, String name);
-
     //public void setColor(Color c);
     //  public String getColorDesc(GenomeRelease release, String name);
-
     //public String getColorDesc(AnnotationList anno);
     public int getMinSpotHeight();
 
@@ -48,5 +44,5 @@ public interface AnnotationManager {
 
     public RegionAnnotation getLast(String chromId);
 
-    public RegionAnnotation getDataAtPos( String chrom, Long pos, Long dist);
+    public RegionAnnotation getDataAtPos(String chrom, Long pos, Long dist);
 }

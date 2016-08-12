@@ -74,9 +74,9 @@ public class MappingAction extends AbstractAction implements
             instance.mapArrays();
             return;
         }
-        JOptionPane.showMessageDialog(null, this.getName() + ": " +
-                " open data in " +
-                NbBundle.getMessage(MappingAction.class, "CTL_CATTopComponent") + " !");
+        JOptionPane.showMessageDialog(null, this.getName() + ": "
+                + " open data in "
+                + NbBundle.getMessage(MappingAction.class, "CTL_CATTopComponent") + " !");
     }
 
     public void resultChanged(LookupEvent ev) {

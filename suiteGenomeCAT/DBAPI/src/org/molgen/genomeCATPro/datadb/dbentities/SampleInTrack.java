@@ -24,13 +24,13 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "SampleInTrack")
 public class SampleInTrack {
+
     /*With the @IdClass annotation, you don't declare an instance variable of 
     type CompoundKey, but instead, just define instance variables for each of 
     the primary key fields. You then mark the corresponding getter tags with 
     standard @Id annotations. 
     http://jpa.ezhibernate.com/Javacode/learn.jsp?tutorial=15usingcompoundprimarykeys
      */
-
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     @Id
@@ -178,11 +178,11 @@ public class SampleInTrack {
 
     public String toFullString() {
         return new String(
-                this.getSampleDetailID() + ":" +
-                (this.getSample() != null ? this.getSample().getName() : "") + "," +
-                this.getTrackID() + "," +
-                (this.getTrack() != null ? this.getTrack().getName() : "") + "," +
-                (this.inverse ? " x " : " 1/x"));
+                this.getSampleDetailID() + ":"
+                + (this.getSample() != null ? this.getSample().getName() : "") + ","
+                + this.getTrackID() + ","
+                + (this.getTrack() != null ? this.getTrack().getName() : "") + ","
+                + (this.inverse ? " x " : " 1/x"));
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

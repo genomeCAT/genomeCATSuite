@@ -11,17 +11,17 @@ import org.openide.util.Lookup;
 
 /**
  *
- * @author tebel
- *  Service-Factory
+ * @author tebel Service-Factory
  */
 public abstract class ServiceAnnotationManager {
 
-    static Lookup.Template<RegionAnnotation> tmpl =
-            new Lookup.Template<RegionAnnotation>(
-            org.molgen.genomeCATPro.annotation.RegionAnnotation.class);
+    static Lookup.Template<RegionAnnotation> tmpl
+            = new Lookup.Template<RegionAnnotation>(
+                    org.molgen.genomeCATPro.annotation.RegionAnnotation.class);
 
     /**
      * get special xport implementation, identified by type
+     *
      * @param type
      * @return
      */
@@ -30,13 +30,12 @@ public abstract class ServiceAnnotationManager {
         //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
         Logger.getLogger(ServiceAnnotationManager.class.getName()).log(Level.INFO, "looking for: " + clazz);
 
-
         Lookup.Result<RegionAnnotation> rslt = Lookup.getDefault().lookup(tmpl);
         for (RegionAnnotation impl : rslt.allInstances()) {
-            Logger.getLogger(ServiceAnnotationManager.class.getName()).log(Level.INFO, 
+            Logger.getLogger(ServiceAnnotationManager.class.getName()).log(Level.INFO,
                     "Found Service: " + impl.getClass().getName());
             if (impl.getClass().getName().equalsIgnoreCase(clazz)) {
-                Logger.getLogger(ServiceAnnotationManager.class.getName()).log(Level.INFO, 
+                Logger.getLogger(ServiceAnnotationManager.class.getName()).log(Level.INFO,
                         "Found Service: " + impl.getClass().getName());
 
                 return impl;

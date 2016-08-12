@@ -3,24 +3,21 @@ package org.molgen.genomeCATPro.cat.maparr;
 /**
  * @name ArrayViewBase
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-
 import java.sql.*;
 import java.util.Vector;
 import java.awt.Color;
@@ -28,14 +25,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.molgen.dblib.Database;
-import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 
 /**
- * basic class to display array data
- * implemtents some static factorylike methods
- * load data 
- *	todo: for bac arrays there are more than one row per id
+ * basic class to display array data implemtents some static factorylike methods
+ * load data todo: for bac arrays there are more than one row per id
  */
 public class ArrayViewBase {
 
@@ -60,7 +55,7 @@ public class ArrayViewBase {
             oargs[4] = data;
             cargs[5] = ChromTab.class;
             oargs[5] = chromtab;
-            java.lang.reflect.Constructor c =  d.getArrayClazz().getConstructor(cargs);
+            java.lang.reflect.Constructor c = d.getArrayClazz().getConstructor(cargs);
             a = (ArrayView) c.newInstance(oargs);
         } catch (Exception e) {
             Logger.getLogger(ArrayViewBase.class.getName()).log(Level.SEVERE,
@@ -105,7 +100,7 @@ public class ArrayViewBase {
     }
 
     /**
-     * factory to create new ArrayView 
+     * factory to create new ArrayView
      */
     static ArrayView getView(ArrayData d, ChromTab chromtab) throws Exception {
         ArrayView a;
@@ -124,7 +119,7 @@ public class ArrayViewBase {
     }
 
     /**
-     * 
+     *
      * @param arrayId
      * @param chrom
      * @param start
@@ -158,7 +153,7 @@ public class ArrayViewBase {
         }
 
         try {
-            Connection con = Database.getDBConnection(Defaults.localDB);
+            Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
             String sql = "SELECT ";
             for (int i = 0; i < cols.length; i++) {
@@ -179,7 +174,6 @@ public class ArrayViewBase {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
 
     }
 
@@ -205,14 +199,14 @@ public class ArrayViewBase {
 
             ArrayFrame.colorScale = new Color[256];
         }
-        for (int i = 0; i <
-                128; i++) {
+        for (int i = 0; i
+                < 128; i++) {
             //scale red from blue to gray
             ArrayFrame.colorScale[i] = new Color(255 - i, 255 - i, i);
         }
 
-        for (int i = 0; i <
-                128; i++) {
+        for (int i = 0; i
+                < 128; i++) {
             //scale yellow to  gray 
             ArrayFrame.colorScale[128 + i] = new Color(128 - i, 128 - i, 128 + i);
 
@@ -238,6 +232,7 @@ public class ArrayViewBase {
 
     /**
      * creating the color scale
+     *
      * @param img image to print
      */
     public static void paintColorScale(BufferedImage img, boolean isRedGreen, boolean horizontal) {
@@ -245,12 +240,12 @@ public class ArrayViewBase {
         int xx = 0;
         if (horizontal) {
             yy = img.getWidth();
-            xx =
-                    img.getHeight();
+            xx
+                    = img.getHeight();
         } else {
             yy = img.getHeight();
-            xx =
-                    img.getWidth();
+            xx
+                    = img.getWidth();
         }
 
         double scale = (new Double(yy / 2) / new Double(255));
@@ -263,14 +258,13 @@ public class ArrayViewBase {
         }
 
         int y = 0;
-        for (int j = 0; j <
-                255; j++) {
-
+        for (int j = 0; j
+                < 255; j++) {
 
             // print farbscale
             g.setColor(ArrayFrame.colorScale[j]);
-            y =
-                    (int) Math.round((j) * 2 * scale);
+            y
+                    = (int) Math.round((j) * 2 * scale);
             //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)-y));
             // x, y, w, h
             if (!horizontal) {
@@ -278,20 +272,20 @@ public class ArrayViewBase {
             } else {
                 g.fillRect(y, 0, 1, img.getHeight());
 
-            //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
-            //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
+                //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
+                //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
             }
 
         }
     }
 
     /**
-     *  map color at ratio within a gradient
-     * @param ratio     value for ratio
+     * map color at ratio within a gradient
+     *
+     * @param ratio value for ratio
      * @param pos_max_y maximal value
-     * @return          adapted color 
-     *                  255-2*255   for positive ratios
-     *                  0 - 255     for negative ratios
+     * @return adapted color 255-2*255 for positive ratios 0 - 255 for negative
+     * ratios
      */
     public static int mapColorGradient(double ratio, double pos_max_y) {
         if (ratio < 0) {
@@ -318,4 +312,4 @@ public class ArrayViewBase {
             return (int) (128 + (128 * (ratio) / pos_max_y));
         }
     }
-}	
+}

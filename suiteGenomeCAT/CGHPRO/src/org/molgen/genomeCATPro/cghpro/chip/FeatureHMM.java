@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.cghpro.chip;
+
 /**
  * @name FeatureHMM
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,15 +29,16 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.RegionLib;
-import org.molgen.genomeCATPro.common.Defaults;
-import org.molgen.genomeCATPro.data.Feature;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.data.FeatureImpl;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.molgen.genomeCATPro.data.IFeature;
+
 /**
- * 
- * 
+ *
+ *
  */
 public class FeatureHMM extends FeatureImpl {
 
@@ -71,34 +71,34 @@ public class FeatureHMM extends FeatureImpl {
 
     @Override
     public String getCreateTableSQL(Data d) {
-        String sql =
-                " CREATE TABLE " + d.getTableData() + " ( " +
-                "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "name varchar(255) NOT NULL, " +
-                "chrom varChar(45) NOT NULL," +
-                "chromStart int(10) unsigned NOT NULL," +
-                "chromEnd int(10) unsigned NOT NULL," +
-                "ratio DOUBLE, " +
-                "predictedRatio DOUBLE, " +
-                "count int , " +
-                "PRIMARY KEY (id)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd) ) " +
-                "TYPE=MyISAM";
+        String sql
+                = " CREATE TABLE " + d.getTableData() + " ( "
+                + "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "name varchar(255) NOT NULL, "
+                + "chrom varChar(45) NOT NULL,"
+                + "chromStart int(10) unsigned NOT NULL,"
+                + "chromEnd int(10) unsigned NOT NULL,"
+                + "ratio DOUBLE, "
+                + "predictedRatio DOUBLE, "
+                + "count int , "
+                + "PRIMARY KEY (id),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd) ) "
+                + "TYPE=MyISAM";
         return sql;
     }
 
     @Override
     public String getInsertSQL(Data d) {
         return new String(
-                "INSERT INTO " + d.getTableData() +
-                "(name, chrom, chromStart, chromEnd, ratio, predictedRatio, count ) " +
-                "values( " +
-                "\'" + this.getId() + "\',\'" + this.getChrom() + "\'," +
-                "\'" + this.getChromStart() + "\',\'" + this.getChromEnd() + "\'," +
-                "\'" + this.getRatio() + "\',\'" + this.getPredictedValue() + "\'," +
-                "\'" + this.getCount() + "\' )");
+                "INSERT INTO " + d.getTableData()
+                + "(name, chrom, chromStart, chromEnd, ratio, predictedRatio, count ) "
+                + "values( "
+                + "\'" + this.getId() + "\',\'" + this.getChrom() + "\',"
+                + "\'" + this.getChromStart() + "\',\'" + this.getChromEnd() + "\',"
+                + "\'" + this.getRatio() + "\',\'" + this.getPredictedValue() + "\',"
+                + "\'" + this.getCount() + "\' )");
     }
 
     @Override
@@ -107,14 +107,15 @@ public class FeatureHMM extends FeatureImpl {
     }
 
     /**
-     * integrate all features with same value into one segment
-     * throws Exception for error on one row
+     * integrate all features with same value into one segment throws Exception
+     * for error on one row
+     *
      * @param resultFile
      * @return
      */
-    public static Hashtable<String, Vector<? extends Feature>> loadFromHMMFile(String resultFile) throws Exception {
-        Hashtable<String, Vector<? extends Feature>> data =
-                new Hashtable<String, Vector<? extends Feature>>();
+    public static Hashtable<String, Vector<? extends IFeature>> loadFromHMMFile(String resultFile) throws Exception {
+        Hashtable<String, Vector<? extends IFeature>> data
+                = new Hashtable<String, Vector<? extends IFeature>>();
         /*
         "0 Clone"	
         "1 Target"	
@@ -138,7 +139,6 @@ public class FeatureHMM extends FeatureImpl {
         column 2 = smoothed value for a clone ~ state medians weighted by the estimated probability of being in each state
          */
         try {
-
 
             // FeatureHMM newF = null;
             FeatureHMM lastF = null;
@@ -169,7 +169,6 @@ public class FeatureHMM extends FeatureImpl {
                 _start = new Integer(par[3]);
                 _end = new Integer(par[4]);
 
-
                 if (lastF != null && _chrom.contentEquals(lastF.chrom) && _mergedValue == lastF.ratio && _segmentValue == lastF.predictedValue) {
                     if (_end > lastF.chromEnd) {
                         lastF.setChromEnd(_end);
@@ -178,7 +177,7 @@ public class FeatureHMM extends FeatureImpl {
                     if (!((Vector<FeatureHMM>) data.get(lastF.chrom)).contains(lastF)) {
                         ((Vector<FeatureHMM>) data.get(lastF.chrom)).add(lastF);
                     }
-                //((Vector<FeatureHMM>) data.get(_chrom)).add(lastF);
+                    //((Vector<FeatureHMM>) data.get(_chrom)).add(lastF);
                 } else {
                     _count = 1;
 
@@ -210,26 +209,27 @@ public class FeatureHMM extends FeatureImpl {
 
     /**
      * load data from db - schema specific sql
+     *
      * @param d - Data Entity
      * @return List of Features
      * @throws java.lang.Exception
      */
     @Override
-    public List<? extends Feature> loadFromDB(Data d) throws Exception {
+    public List<? extends IFeature> loadFromDB(Data d) throws Exception {
         Logger.getLogger(FeatureHMM.class.getName()).log(Level.INFO, "loadFromDB");
         List<FeatureImpl> list = new Vector<FeatureImpl>();
         FeatureImpl f = null;
         Connection con = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
             ResultSet rs = s.executeQuery(
-                    "Select id, name, chrom, chromStart, chromEnd, ratio, predictedRatio, count " +
-                    " from " + d.getTableData() +
-                    " where chrom != \'\' " +
-                    " order by chrom, chromStart");
+                    "Select id, name, chrom, chromStart, chromEnd, ratio, predictedRatio, count "
+                    + " from " + d.getTableData()
+                    + " where chrom != \'\' "
+                    + " order by chrom, chromStart");
 
             String _chrom = "";
             while (rs.next()) {

@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.peaks.cnvcat;
 /**
  * @name AberrationManagerCNVCAT
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -35,54 +33,43 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 import javax.persistence.Query;
-import org.molgen.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.DBService;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.data.DataService;
-import org.molgen.genomeCATPro.data.Feature;
+import org.molgen.genomeCATPro.datadb.dbentities.SampleDetail;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
-
 
 import org.molgen.genomeCATPro.peaks.Aberration;
 import org.molgen.genomeCATPro.peaks.AberrationIds;
 import org.openide.util.Lookup;
 import org.openide.util.Lookup.Result;
+import org.molgen.genomeCATPro.data.IFeature;
+
 /**
- * 081013    kt  filterLocation tolearate  exception  table not exists
- * 
+ *
+ * maintain instances, filter, group track data
+ *
+ *
+ * 081013 kt filterLocation tolearate exception table not exists
+ *
  */
 public class AberrationManagerCNVCAT extends AberrationManager {
 
     private boolean groupByCaseID = false;
     private boolean groupByParam = false;
     private boolean groupByNone = false;
+    private boolean groupBySample = false;
+    private boolean groupByPhenotype = false;
     //EntityManager em = DBService.getEntityManger( );
     static Lookup.Template<Aberration> tmplAberration = new Lookup.Template<Aberration>(
             org.molgen.genomeCATPro.peaks.Aberration.class);
 
-    public static Feature getAberrationClazz(String clazz) {
-
-        //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
-        Logger.getLogger(DataService.class.getName()).log(Level.INFO,
-                "looking for datatype clazz " + clazz);
-
-
-        Result<Aberration> rslt = Lookup.getDefault().lookup(tmplAberration);
-        for (Lookup.Item item : rslt.allItems()) {
-            if (item.getType().getName().contentEquals(clazz)) {
-                Logger.getLogger(DataService.class.getName()).log(Level.INFO,
-                        "return: " + item.getDisplayName());
-                return (Feature) item.getInstance();
-            }
-        }
-        Logger.getLogger(DataService.class.getName()).log(Level.INFO,
-                "return: " + AberrationCNVCAT.class.getName());
-        return null;
-    }
-
+    /**
+     * init manager
+     */
     public AberrationManagerCNVCAT() {
         super();
-
 
         activeCases = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrantRegions>());
         allAberrationIds = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<AberrantRegions>());
@@ -90,13 +77,42 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    /**
+     * get for each type of data object (within module peak) class to handle it
+     *
+     * @param clazz - type of data object
+     * @return object instance
+     */
+    public static IFeature getAberrationClazz(String clazz) {
+
+        //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
+        Logger.getLogger(DataService.class.getName()).log(Level.INFO,
+                "looking for datatype clazz " + clazz);
+
+        Result<Aberration> rslt = Lookup.getDefault().lookup(tmplAberration);
+        for (Lookup.Item item : rslt.allItems()) {
+            if (item.getType().getName().contentEquals(clazz)) {
+                Logger.getLogger(DataService.class.getName()).log(Level.INFO,
+                        "return: " + item.getDisplayName());
+                return (IFeature) item.getInstance();
+            }
+        }
+        Logger.getLogger(DataService.class.getName()).log(Level.INFO,
+                "return: " + AberrationCNVCAT.class.getName());
+        return null;
+    }
+
+    /**
+     * query database , apply filter, update local object stores
+     *
+     * @param filter
+     */
     @Override
     public void filterAberrationIds(String[] filter) {
         String _release = filter[0];
         String name = filter[1];
         String proc = filter[2];
         String param = filter[3];
-
 
         this.allAberrationIds.clear();
         System.gc();
@@ -112,13 +128,12 @@ public class AberrationManagerCNVCAT extends AberrationManager {
         try {
             //javax.persistence.Query q = em.createQuery("SELECT a FROM AberrationIdsMRNET a");
             javax.persistence.Query q = em.createQuery(
-                    " select t from Track t" +
-                    " where t.name like \'" + name + "\'" +
-                    (!proc.contentEquals("%") ? "and t.procProcessing like \'" + proc + "\'" : "") +
-                    (!param.contentEquals("%") ? " and t.paramProcessing like \'" + param + "\'" : "") +
-                    " and t.genomeRelease like \'" + _release + "\'");
+                    " select t from Track t"
+                    + " where t.name like \'" + name + "\'"
+                    + (!proc.contentEquals("%") ? "and t.procProcessing like \'" + proc + "\'" : "")
+                    + (!param.contentEquals("%") ? " and t.paramProcessing like \'" + param + "\'" : "")
+                    + " and t.genomeRelease like \'" + _release + "\'");
             //q.setHint("toplink.refresh", "true");
-
 
             for (Track t : (List<Track>) q.getResultList()) {
                 resultlist.add(new AberrantRegions(t));
@@ -130,6 +145,12 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    /**
+     * query database , apply filter, update local object stores including
+     * associated samples
+     *
+     * @param filter
+     */
     public void filterAberrationIdsPlusSample(String[] filter) {
         String _release = filter[0];
         String name = filter[1];
@@ -150,42 +171,45 @@ public class AberrationManagerCNVCAT extends AberrationManager {
         }
         try {
 
-            String sql =
-                    " select distinct t.* from TrackList as t  " +
-                    //" ExperimentList  as data, ExperimentDetail as detail, " +
+            String sql
+                    = " select distinct t.* from TrackList as t  "
+                    + //" ExperimentList  as data, ExperimentDetail as detail, " +
                     //" SampleInExperiment as sie, SampleDetail as sample " +
-                    " where " +
-                    "  t.name like \'" + name + "\'" +
-                    (!proc.contentEquals("%") ? "and t.procProcessing like \'" + proc + "\'" : "") +
-                    (!param.contentEquals("%") ? " and t.paramProcessing like \'" + param + "\'" : "") +
-                    " and t.genomeRelease like \'" + _release + "\'" +
-                    " and ( " +
-                    "   exists ( select 1 from  " +
-                    " ExperimentList  as data, ExperimentDetail as detail, " +
-                    " SampleInExperiment as sie, SampleDetail as sample " +
-                    " where data.experimentDetailID = detail.experimentDetailID  " +
-                    " and sample.name like \'" + sample + "\'" +
-                    " and sample.phenotype like \'" + phenotype + "\'" +
-                    " and data.experimentListID = t.parentExperimentID" +
-                    " and sie.experimentDetailID = detail.experimentDetailID " +
-                    " and sie.sampleDetailID = sample.sampleDetailID ) " +
-                    " or  exists ( " +
-                    " select 1 from SampleInTrack as sit, SampleDetail as sample " +
-                    " where sit.trackID = t.trackID " +
-                    " and sample.name like \'" + sample + "\'" +
-                    " and sample.phenotype like \'" + phenotype + "\'" +
-                    " and sit.sampleDetailID = sample.sampleDetailID ) " +
-                    ") ";
+                    " where "
+                    + "  t.name like \'" + name + "\'"
+                    + (!proc.contentEquals("%") ? "and t.procProcessing like \'" + proc + "\'" : "")
+                    + (!param.contentEquals("%") ? " and t.paramProcessing like \'" + param + "\'" : "")
+                    + " and t.genomeRelease like \'" + _release + "\'"
+                    + " and ( "
+                    + "   exists ( select 1 from  "
+                    + " ExperimentList  as data, ExperimentDetail as detail, "
+                    + " SampleInExperiment as sie, SampleDetail as sample "
+                    + " where data.experimentDetailID = detail.experimentDetailID  "
+                    + " and sample.name like \'" + sample + "\'"
+                    + " and sample.phenotype like \'" + phenotype + "\'"
+                    + " and data.experimentListID = t.parentExperimentID"
+                    + " and sie.experimentDetailID = detail.experimentDetailID "
+                    + " and sie.sampleDetailID = sample.sampleDetailID ) "
+                    + " or  exists ( "
+                    + " select 1 from SampleInTrack as sit , SampleDetail as sample "
+                    + " where sit.trackID = t.trackID "
+                    + " and sample.name like \'" + sample + "\'"
+                    + " and sample.phenotype like \'" + phenotype + "\'"
+                    + " and sit.sampleDetailID = sample.sampleDetailID ) "
+                    + ") ";
+
             Logger.getLogger(AberrationManager.class.getName()).log(Level.INFO,
                     "filter sql: " + sql);
             javax.persistence.Query q = em.createNativeQuery(sql, Track.class);
             //javax.persistence.Query q = em.createQuery("SELECT a FROM AberrationIdsMRNET a");
 
-
             //q.setHint("toplink.refresh", "true");
-
-
             for (Track t : (List<Track>) q.getResultList()) {
+                if (t.getSamples() == null || t.getSamples().size() == 0) {
+                    for (SampleDetail s : TrackService.getIndirektSampleInformationForTrack(t)) {
+                        t.addSample(s, false);
+                    }
+                }
                 resultlist.add(new AberrantRegions(t));
             }
             setAllAberrationIds(resultlist);
@@ -195,6 +219,14 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    /**
+     * query database , apply filter, update local object stores including
+     * associated samples
+     *
+     * @param chrom
+     * @param start
+     * @param end
+     */
     void filterLocation(String chrom, Long start, Long end) {
         List<AberrantRegions> list = new Vector<AberrantRegions>();
         if (this.getAllAberrationIds().size() <= 0) {
@@ -215,11 +247,11 @@ public class AberrationManagerCNVCAT extends AberrationManager {
             for (AberrantRegions currentAberrationId : (List<AberrantRegions>) this.getAllAberrationIds()) {
 
                 try {
-                    q = em.createNativeQuery(" select count(*) " +
-                            " from " + currentAberrationId.track.getTableData() +
-                            " where chrom = \'" + chrom + "\'" +
-                            " and chromStart < " + end +
-                            " and chromEnd > " + start);
+                    q = em.createNativeQuery(" select count(*) "
+                            + " from " + currentAberrationId.track.getTableData()
+                            + " where chrom = \'" + chrom + "\'"
+                            + " and chromStart < " + end
+                            + " and chromEnd > " + start);
 
                     List<Object> r = (List<Object>) q.getSingleResult();
 
@@ -241,9 +273,13 @@ public class AberrationManagerCNVCAT extends AberrationManager {
             //em.close();
         }
 
-
     }
 
+    /**
+     *
+     * @param abc
+     * @return
+     */
     @Override
     public AberrantRegions getIdForAberration(Aberration abc) {
         AberrationCNVCAT ab = (AberrationCNVCAT) abc;
@@ -312,6 +348,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     /**
      * select distinct values for spezified column (group)
+     *
      * @return
      */
     @Override
@@ -320,15 +357,16 @@ public class AberrationManagerCNVCAT extends AberrationManager {
         List<String> list;
         if (this.isGroupByCaseID()) {
             list = getDistinctSelectedCaseID();
+        } else if (this.isGroupByParam()) {// group by Primary, Secondary, Tertiary
+
+            list = this.getDistinctSelectedParam();
+        } else if (this.isGroupBySample()) {
+            list = this.getDistinctSelectedSampleNames();
+        } else if (this.isGroupByPhenotype()) {
+            list = this.getDistinctSelectedPhenotypes();
         } else {
-            if (this.isGroupByParam()) {// group by Primary, Secondary, Tertiary
-
-                list = this.getDistinctSelectedParam();
-            } else {
-                list = getDistinctAll();
-            }
+            list = getDistinctAll();
         }
-
 
         for (String name : list) {
             @SuppressWarnings("unchecked")
@@ -339,6 +377,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
         for (int i = 0; i < groupList.size(); i++) {
             ((Vector) groupList.get(i)).add(colors[i % 10]);
+            ((Vector) groupList.get(i)).add(new Boolean(false));
         }
 
         System.out.println("getColorGroupList: " + groupList.toString());
@@ -363,7 +402,27 @@ public class AberrationManagerCNVCAT extends AberrationManager {
     }
 
     public void setGroupByPhenotype(boolean b) {
-        this.groupByParam = b;
+        this.groupByPhenotype = b;
+    }
+
+    public boolean isGroupBySample() {
+        return groupBySample;
+    }
+
+    public void setGroupByParam(boolean groupByParam) {
+        this.groupByParam = groupByParam;
+    }
+
+    public boolean isGroupByNone() {
+        return groupByNone;
+    }
+
+    public void setGroupBySample(boolean groupBySample) {
+        this.groupBySample = groupBySample;
+    }
+
+    public boolean isGroupByPhenotype() {
+        return this.groupByPhenotype;
     }
 
     private List<String> getDistinctAll() {
@@ -403,24 +462,63 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     }
 
+    private List<String> getDistinctSelectedSampleNames() {
+
+        List<String> sampleList = new Vector();
+        List<AberrantRegions> list = (List<AberrantRegions>) getSelectedAberrationIds();
+        for (AberrantRegions a : list) {
+            for (String s : a.getSampleNames()) {
+                if (!sampleList.contains(s)) {
+                    sampleList.add(s);
+                }
+
+            }
+        }
+        System.out.println("getDistinctSelectedSampleName: " + sampleList.toString());
+
+        return sampleList;
+
+    }
+
+    private List<String> getDistinctSelectedPhenotypes() {
+
+        List<String> phenotypeList = new Vector();
+        List<AberrantRegions> list = (List<AberrantRegions>) getSelectedAberrationIds();
+        for (AberrantRegions a : list) {
+            for (String s : a.getPhenotypes()) {
+
+                if (!phenotypeList.contains(s)) {
+                    phenotypeList.add(s);
+                }
+
+            }
+        }
+        System.out.println("getDistinctSelectedPhenotypes: " + phenotypeList.toString());
+
+        return phenotypeList;
+
+    }
+
     /**
      * check, if list contains a single caseId more than once
+     *
      * @param conflict1
-     * 
-     * @return vector of aberrations with same caseIds, null if no doubled caseId was found
+     *
+     * @return vector of aberrations with same caseIds, null if no doubled
+     * caseId was found
      */
     @Override
     public List<AberrantRegions> conflictCaseIds(
             List<? extends AberrationIds> list) {
-        Hashtable<String, List<AberrantRegions>> listCaseIDs =
-                new Hashtable<String, List<AberrantRegions>>();
+        Hashtable<String, List<AberrantRegions>> listCaseIDs
+                = new Hashtable<String, List<AberrantRegions>>();
         List<AberrantRegions> conflict1 = (List<AberrantRegions>) list;
         for (AberrantRegions a : conflict1) {
             if (!listCaseIDs.containsKey(a.getTrackId())) {
                 listCaseIDs.put(a.getTrackId(), new Vector());
             }
             listCaseIDs.get(a.getTrackId()).add(a);
-        /*System.out.println("create hashtable: for " + a.getPatID() + 
+            /*System.out.println("create hashtable: for " + a.getPatID() + 
         " size: " +  listPatIDs.get(a.getPatID()).size());
          * */
         }
@@ -444,13 +542,13 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     @Override
     protected void loadAberrationForActiveCaseIds() {
+
         if (this.activeCases.isEmpty()) {
             return;
         }
 
         Logger.getLogger(AberrationManager.class.getName()).log(Level.INFO,
                 "loadAberrations for ActiveIds:");
-
 
         List<List> list;
 
@@ -469,15 +567,12 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
             }
 
-
             for (AberrantRegions currentAberrationId : (List<AberrantRegions>) this.activeCases) {
                 try {
                     currentAberrationId.setXDispColumn(++nr);
 
                     //currentAberrationId.setCountAberrations(0);
-
-
-                    Feature f;
+                    IFeature f;
                     try {
                         // lookup Feature.Clazz
                         f = AberrationManagerCNVCAT.getAberrationClazz(currentAberrationId.track.getClazz());
@@ -513,8 +608,8 @@ public class AberrationManagerCNVCAT extends AberrationManager {
                          */
                         a.setTrackId(currentAberrationId.getTrackId());
                         ((List<AberrationCNVCAT>) this.aberrationTable.get(a.getChrom())).add(a);
-                    //currentAberrationId.setCountAberrations(
-                    //       currentAberrationId.getCountAberrations() + 1);
+                        //currentAberrationId.setCountAberrations(
+                        //       currentAberrationId.getCountAberrations() + 1);
                     }
                     em.clear();
 
@@ -531,6 +626,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
 
     /**
      * get all possible aberrations filtered by distinct caseId and phenotype
+     *
      * @return
      */
     @Override
@@ -633,7 +729,9 @@ public class AberrationManagerCNVCAT extends AberrationManager {
     }*/
     @Override
     public String exportIntoFile(List<? extends AberrationIds> aList,
-            String sOutfile) throws IOException, Exception {
+            String sOutfile)
+            throws IOException,
+            Exception {
         /* if (CNVCATPropertiesMod.props().isExportMRNET()) {
         return this.exportIntoFileMRNET(aList, sOutfile);
         }
@@ -676,23 +774,22 @@ public class AberrationManagerCNVCAT extends AberrationManager {
                 //EntityTransaction userTransaction = em.getTransaction();
 
                 //userTransaction.begin();
-
-                Query q = em.createNativeQuery(" select peakId, " +
-                        " chrom, chromStart, chromEnd, ratio, quality" +
-                        " type, count, firstPeakId, lastPeakId " +
-                        " from " + abID.track.getTableData() +
-                        " order by chrom, chromStart ", AberrationCNVCAT.class);
+                Query q = em.createNativeQuery(" select peakId, "
+                        + " chrom, chromStart, chromEnd, ratio, quality"
+                        + " type, count, firstPeakId, lastPeakId "
+                        + " from " + abID.track.getTableData()
+                        + " order by chrom, chromStart ", AberrationCNVCAT.class);
                 List<AberrationCNVCAT> list = q.getResultList();
 
                 for (AberrationCNVCAT a : list) {
                     out.write(
                             //CNVCATPropertiesMod.props().getMrnetAbr() + ";" + 
-                            abID.getTrackId() + ";" + abID.getParamAsString() + ";" +
-                            a.getFirstPeakId() + ";" + a.getLastPeakId() + ";" + a.getCount() + ";" +
-                            //a.getChrom().substring(3) + ";" +
-                            a.getType() + ";" +
-                            N.format(a.getRatio()) + ";" + N.format(a.getQuality()) + ";" +
-                            a.getChrom() + ";" + a.getChromStart() + ";" + a.getChromEnd());
+                            abID.getTrackId() + ";" + abID.getParamAsString() + ";"
+                            + a.getFirstPeakId() + ";" + a.getLastPeakId() + ";" + a.getCount() + ";"
+                            + //a.getChrom().substring(3) + ";" +
+                            a.getType() + ";"
+                            + N.format(a.getRatio()) + ";" + N.format(a.getQuality()) + ";"
+                            + a.getChrom() + ";" + a.getChromStart() + ";" + a.getChromEnd());
                     out.newLine();
                 }
 
@@ -701,7 +798,7 @@ public class AberrationManagerCNVCAT extends AberrationManager {
             throw e;
         } finally {
             out.close();
-        //em.close();
+            //em.close();
         }
 
         return sOutfile;

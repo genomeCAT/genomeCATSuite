@@ -1,24 +1,20 @@
 package org.molgen.genomeCATPro.cat.maparr;
 
 /**
- * @name  FilterExperimentsDialog.java
- * Created on July 6, 2011, 2:57 PM
- * 
+ * @name FilterExperimentsDialog.java Created on July 6, 2011, 2:57 PM
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * This file is part of the GenomeCA software package.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * This file is part of the GenomeCA software package. The contents of this file
+ * are subject to the terms of either the GNU General Public License Version 2
+ * only ("GPL") or the Common Development and Distribution License("CDDL")
+ * (collectively, the "License"). You may not use this file except in compliance
+ * with the License. You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,7 +32,8 @@ import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.molgen.genomeCATPro.datadb.service.DBUtils;
@@ -44,9 +41,8 @@ import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
 
 /**
- * 250913   kt  add sort according to project
- * 250913   kt  Sample Fields Default %
- * 250913   kt  include project/study as filter criteria
+ * 250913 kt add sort according to project 250913 kt Sample Fields Default %
+ * 250913 kt include project/study as filter criteria
  */
 public class FilterExperimentsDialog extends javax.swing.JDialog {
 
@@ -55,7 +51,9 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
     private final String SOURCE_EXPERIMENT = "Experiment";
     private final String SOURCE_TRACK = "Track";
 
-    /** Creates new form FilterExperimentsDialog */
+    /**
+     * Creates new form FilterExperimentsDialog
+     */
     public FilterExperimentsDialog(java.awt.Frame parent, boolean modal, String release) {
         super(parent, modal);
         this.arrayList = new Vector();
@@ -89,7 +87,6 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         l.setVisible(true);
         return l.getArrayList();
 
-
     }
 
     @SuppressWarnings("unchecked")
@@ -106,7 +103,6 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         for (int i = 0; i < arrayList.size(); i++) {
             v = (Vector) arrayList.get(i);
             Boolean selected = (Boolean) v.get(0);
-
 
             if (selected.booleanValue() == true) {
                 v.remove(0); // selected = true	
@@ -131,7 +127,6 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
                 }
             }
         }
-
 
         Logger.getLogger(FilterExperimentsDialog.class.getName()).log(
                 Level.INFO, "results: " + ids.size());
@@ -170,125 +165,158 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         list.addAll(DBUtils.getAllDataTypes());
         return list;
     }
-    final static String selectExperiment =
-            " select r.experimentListID,   r.data, r.procProcessing, r.method,  " +
-            " '','', r.std as std," +
-            " r.experiment, r.genomeRelease " +
-            " from " +
-            "(select el.experimentListID, ed.experimentDetailID,  el.name as data, " +
-            "ed.method, el.procProcessing, ed.name as experiment, el.genomeRelease, ess.name as std " +
-            " from ExperimentDetail as ed inner join ExperimentList as el " +
-            " on (ed.experimentDetailID = el.experimentDetailID ) " +
-            " left outer join  " +
-            " ( select e.experimentDetailID , s.name from ExperimentAtStudy as es, Study as s, ExperimentDetail as e " +
-            " where s.StudyID = es.StudyID and e.experimentDetailID = es.experimentDetailID " +
-            " and s.name like ? ) as ess " + //1
-            " on (ess.experimentDetailID = ed.experimentDetailID) " +
-            " where ed.name like ? " + //2
-            " and ed.method like ? " + //3
-            " and ed.type like ?     " + //4
-            " and el.genomeRelease like ? " + //5
-            " and el.name like ? " + //6
-            " and ed.nofChannel like ? " + //7
-            " and el.dataType like ? " + //8
+    final static String selectExperiment
+            = " select r.experimentListID,   r.data, r.procProcessing, r.method,  "
+            + " '','', r.std as std,"
+            + " r.experiment, r.genomeRelease "
+            + " from "
+            + "(select el.experimentListID, ed.experimentDetailID,  el.name as data, "
+            + "ed.method, el.procProcessing, ed.name as experiment, el.genomeRelease, ess.name as std "
+            + " from ExperimentDetail as ed inner join ExperimentList as el "
+            + " on (ed.experimentDetailID = el.experimentDetailID ) "
+            + " left outer join  "
+            + " ( select e.experimentDetailID , s.name from ExperimentAtStudy as es, Study as s, ExperimentDetail as e "
+            + " where s.StudyID = es.StudyID and e.experimentDetailID = es.experimentDetailID "
+            + " and s.name like ? ) as ess "
+            + //1
+            " on (ess.experimentDetailID = ed.experimentDetailID) "
+            + " where ed.name like ? "
+            + //2
+            " and ed.method like ? "
+            + //3
+            " and ed.type like ?     "
+            + //4
+            " and el.genomeRelease like ? "
+            + //5
+            " and el.name like ? "
+            + //6
+            " and ed.nofChannel like ? "
+            + //7
+            " and el.dataType like ? "
+            + //8
             //" and r.std like ? " + //8
-            ") as r" +
-            //" where r.std like ? " //8 +
+            ") as r"
+            + //" where r.std like ? " //8 +
             "";
-    final static String selectSampleExperiment =
-            " select r.experimentListID,   r.data, r.procProcessing, r.method,  " +
-            "sample.name as sample, sample.phenotype, r.std as std," +
-            "r.experiment, r.genomeRelease " +
-            "from SampleDetail as sample," +
-            "(select el.experimentListID, ed.experimentDetailID,  el.name as data, " +
-            "ed.method, el.procProcessing, ed.name as experiment, el.genomeRelease, ess.name as std " +
-            " from ExperimentDetail as ed inner join ExperimentList as el " +
-            " on (ed.experimentDetailID = el.experimentDetailID ) " +
-            " left outer join  " +
-            " ( select e.experimentDetailID , s.name from ExperimentAtStudy as es, Study as s, ExperimentDetail as e " +
-            " where s.StudyID = es.StudyID and e.experimentDetailID = es.experimentDetailID" +
-            " and s.name like ? ) as ess " + //1) as ess " +
-            " on (ess.experimentDetailID = ed.experimentDetailID) " +
-            " where ed.name like ? " + //2
-            " and ed.method like ? " + //3
-            "and ed.type like ?     " + //4
-            " and el.genomeRelease like ? " + //5 
-            " and el.name like ? " + //6
-            " and ed.nofChannel like ? " + //7
-            " and el.dataType like ? " + //8
+    final static String selectSampleExperiment
+            = " select r.experimentListID,   r.data, r.procProcessing, r.method,  "
+            + "sample.name as sample, sample.phenotype, r.std as std,"
+            + "r.experiment, r.genomeRelease "
+            + "from SampleDetail as sample,"
+            + "(select el.experimentListID, ed.experimentDetailID,  el.name as data, "
+            + "ed.method, el.procProcessing, ed.name as experiment, el.genomeRelease, ess.name as std "
+            + " from ExperimentDetail as ed inner join ExperimentList as el "
+            + " on (ed.experimentDetailID = el.experimentDetailID ) "
+            + " left outer join  "
+            + " ( select e.experimentDetailID , s.name from ExperimentAtStudy as es, Study as s, ExperimentDetail as e "
+            + " where s.StudyID = es.StudyID and e.experimentDetailID = es.experimentDetailID"
+            + " and s.name like ? ) as ess "
+            + //1) as ess " +
+            " on (ess.experimentDetailID = ed.experimentDetailID) "
+            + " where ed.name like ? "
+            + //2
+            " and ed.method like ? "
+            + //3
+            "and ed.type like ?     "
+            + //4
+            " and el.genomeRelease like ? "
+            + //5 
+            " and el.name like ? "
+            + //6
+            " and ed.nofChannel like ? "
+            + //7
+            " and el.dataType like ? "
+            + //8
             //" and ess.name like ? " + //8  
-            ") as r , SampleInExperiment as sie " +
-            " where sie.experimentDetailID = r.experimentDetailID " +
-            " and sie.sampleDetailID = sample.sampleDetailID  " +
-            //" and r.std like ? " + //8
-            " and sample.name like ? " + // 9 
-            " and sample.phenotype like ? " + // 10
+            ") as r , SampleInExperiment as sie "
+            + " where sie.experimentDetailID = r.experimentDetailID "
+            + " and sie.sampleDetailID = sample.sampleDetailID  "
+            + //" and r.std like ? " + //8
+            " and sample.name like ? "
+            + // 9 
+            " and sample.phenotype like ? "
+            + // 10
             " group by r.experimentListID";
-    final static String selectTrack =
-            " select r.TrackID, r.name as track , r.procProcessing, r.dataType, '','', " +
-            "r.std as study, r.exp as experiment, r.genomeRelease  " +
-            "from (" +
-            "(select '' as exp, null as experimentDetailID, " +
-            " tas.name as std, t.* " +
-            " from TrackList as t left join " +
-            " (select  s.name, ts.* from Study as s, TrackAtStudy as ts " +
-            " where  s.StudyID = ts.StudyID ) as tas " +
-            " on (t.TrackID =  tas.trackID ) where t.parentExperimentID is null " +
-            ") UNION (" +
-            "select e.name as exp, e.experimentDetailID, ess.name as std, t.* " +
-            "from TrackList as t inner join ExperimentDetail as e " +
-            " on (t.parentExperimentID = e.experimentDetailID ) " +
-            " left outer join ( select es.experimentDetailID , s.name " +
-            " from ExperimentAtStudy as es ,Study as s where s.StudyID = es.StudyID) as ess " +
-            " on (ess.experimentDetailID = e.experimentDetailID) " +
-            " where  e.name like ? " + //1
-            " and e.method like ? " + //2
-            " and e.type like ? " + //3
-            " and  e.nofChannel like ?  " + //4
-
-            ") ) as r " +
-            " where r.genomeRelease like ? " + //5
-            " and r.std like ? " + //6
-            " and r.name like ? " + //7
+    final static String selectTrack
+            = " select r.TrackID, r.name as track , r.procProcessing, r.dataType, '','', "
+            + "r.std as study, r.exp as experiment, r.genomeRelease  "
+            + "from ("
+            + "(select '' as exp, null as experimentDetailID, "
+            + " tas.name as std, t.* "
+            + " from TrackList as t left join "
+            + " (select  s.name, ts.* from Study as s, TrackAtStudy as ts "
+            + " where  s.StudyID = ts.StudyID ) as tas "
+            + " on (t.TrackID =  tas.trackID ) where t.parentExperimentID is null "
+            + ") UNION ("
+            + "select e.name as exp, e.experimentDetailID, ess.name as std, t.* "
+            + "from TrackList as t inner join ExperimentDetail as e "
+            + " on (t.parentExperimentID = e.experimentDetailID ) "
+            + " left outer join ( select es.experimentDetailID , s.name "
+            + " from ExperimentAtStudy as es ,Study as s where s.StudyID = es.StudyID) as ess "
+            + " on (ess.experimentDetailID = e.experimentDetailID) "
+            + " where  e.name like ? "
+            + //1
+            " and e.method like ? "
+            + //2
+            " and e.type like ? "
+            + //3
+            " and  e.nofChannel like ?  "
+            + //4
+            ") ) as r "
+            + " where r.genomeRelease like ? "
+            + //5
+            " and r.std like ? "
+            + //6
+            " and r.name like ? "
+            + //7
             " and r.dataType like ? " //8
             ;
-    final static String selectSampleTrack =
-            // kt 220512 update selects 
-            "select r.TrackID, r.name as track , r.procProcessing, " +
-            "r.dataType, sample.name as sample, sample.phenotype, " +
-            "r.std as study, r.exp as experiment, r.genomeRelease " +
-            "from SampleDetail as sample, (" +
-            "(select '' as exp, '' as experimentDetailID, " +
-            " tas.name as std, t.* " +
-            " from TrackList as t left join " +
-            " (select  s.name, ts.* from Study as s, TrackAtStudy as ts " +
-            " where  s.StudyID = ts.StudyID ) as tas " +
-            " on (t.TrackID =  tas.trackID ) where t.parentExperimentID is null " +
-            ") UNION (" +
-            "select e.name as exp, e.experimentDetailID, ess.name as std, t.* " +
-            "from TrackList as t inner join ExperimentDetail as e " +
-            " on (t.parentExperimentID = e.experimentDetailID ) " +
-            " left outer join ( select es.experimentDetailID , s.name " +
-            " from ExperimentAtStudy as es ,Study as s where s.StudyID = es.StudyID) as ess " +
-            " on (ess.experimentDetailID = e.experimentDetailID) " +
-            " where  e.name like ? " + //1
-            " and e.method like ? " + //2
-            " and e.type like ? " + //3
-            " and  e.nofChannel like ?  " + //4
-            ") " +
-            ") as r " +
-            " where r.genomeRelease like ? " + //5
-            " and r.std like ? " + // 6
-            " and r.name like ? " + //7
-            " and r.dataType like ? " +//8
-
-            " and  ( exists (  select 1 from SampleInTrack as sit  " +
-            " where  sit.trackID = r.trackID   and sit.sampleDetailID = sample.sampleDetailID ) " +
-            " or exists ( select 1 from SampleInExperiment as sie  " +
-            " where sie.experimentDetailID = r.experimentDetailID " +
-            " and sie.sampleDetailID = sample.sampleDetailID ) ) " +
-            " and sample.name like ? " + // 9
-            " and sample.phenotype like ? " + //10
+    final static String selectSampleTrack
+            = // kt 220512 update selects 
+            "select r.TrackID, r.name as track , r.procProcessing, "
+            + "r.dataType, sample.name as sample, sample.phenotype, "
+            + "r.std as study, r.exp as experiment, r.genomeRelease "
+            + "from SampleDetail as sample, ("
+            + "(select '' as exp, '' as experimentDetailID, "
+            + " tas.name as std, t.* "
+            + " from TrackList as t left join "
+            + " (select  s.name, ts.* from Study as s, TrackAtStudy as ts "
+            + " where  s.StudyID = ts.StudyID ) as tas "
+            + " on (t.TrackID =  tas.trackID ) where t.parentExperimentID is null "
+            + ") UNION ("
+            + "select e.name as exp, e.experimentDetailID, ess.name as std, t.* "
+            + "from TrackList as t inner join ExperimentDetail as e "
+            + " on (t.parentExperimentID = e.experimentDetailID ) "
+            + " left outer join ( select es.experimentDetailID , s.name "
+            + " from ExperimentAtStudy as es ,Study as s where s.StudyID = es.StudyID) as ess "
+            + " on (ess.experimentDetailID = e.experimentDetailID) "
+            + " where  e.name like ? "
+            + //1
+            " and e.method like ? "
+            + //2
+            " and e.type like ? "
+            + //3
+            " and  e.nofChannel like ?  "
+            + //4
+            ") "
+            + ") as r "
+            + " where r.genomeRelease like ? "
+            + //5
+            " and r.std like ? "
+            + // 6
+            " and r.name like ? "
+            + //7
+            " and r.dataType like ? "
+            +//8
+            " and  ( exists (  select 1 from SampleInTrack as sit  "
+            + " where  sit.trackID = r.trackID   and sit.sampleDetailID = sample.sampleDetailID ) "
+            + " or exists ( select 1 from SampleInExperiment as sie  "
+            + " where sie.experimentDetailID = r.experimentDetailID "
+            + " and sie.sampleDetailID = sample.sampleDetailID ) ) "
+            + " and sample.name like ? "
+            + // 9
+            " and sample.phenotype like ? "
+            + //10
             "group by r.TrackID";
     final static String[] colsExperiment = {
         "load",
@@ -306,13 +334,12 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
 
     @SuppressWarnings("unchecked")
     /**
-     * build filter query resp user input criteria
-     * 2 basic queries against db, one for tracks, one for experiments.
-     * tracks must have study or experiment as parent, experiments can 
-     * exist without such.
-     * 
+     * build filter query resp user input criteria 2 basic queries against db,
+     * one for tracks, one for experiments. tracks must have study or experiment
+     * as parent, experiments can exist without such.
+     *
      * Sample names are only included into the query if really set
-     * 
+     *
      * All criteria (except study) are complemented with pre/post "%"
      */
     public void doFilter() {
@@ -324,14 +351,14 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         if (this.jRadioButtonOneChannel.isSelected()) {
             nofchannel = "1";
         }
-        boolean inclSample = (this.fieldSampleName.getText().contentEquals("%") &&
-                this.fieldSamplePhenotype.getText().contentEquals("%") ? false : true) || this.jCheckBoxInclSample.isSelected();
+        boolean inclSample = (this.fieldSampleName.getText().contentEquals("%")
+                && this.fieldSamplePhenotype.getText().contentEquals("%") ? false : true) || this.jCheckBoxInclSample.isSelected();
         //String[] cols = FilterExperimentsDialog.colsExperiment;
 
         try {
 
             // get data from experiments
-            Connection con = Database.getDBConnection(Defaults.localDB);
+            Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             PreparedStatement s;
             ResultSet r;
 
@@ -341,7 +368,6 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
             } else {
                 s = con.prepareStatement(selectExperiment);
             }
-
 
             s.setString(2, "%" + this.fieldName.getText() + "%");
             s.setString(3, this.jComboBoxMethod.getSelectedItem().toString());
@@ -372,7 +398,6 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
                 v.add(r.getString(7) != null ? r.getString(7) : "");
                 v.add(r.getString(8) != null ? r.getString(8) : "");
                 v.add(r.getString(9) != null ? r.getString(9) : "");
-
 
                 v.add(this.SOURCE_EXPERIMENT);
                 System.out.println(v);
@@ -440,8 +465,8 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         }
         this.jTableResults.setModel(
                 new MyTableModel(
-                arrayList,
-                new Vector(Arrays.asList(FilterExperimentsDialog.colsExperiment))));
+                        arrayList,
+                        new Vector(Arrays.asList(FilterExperimentsDialog.colsExperiment))));
 
         //250913    kt  add sort according to project
         List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
@@ -454,10 +479,10 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -501,6 +526,7 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         jComboBoxRelease = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(org.openide.util.NbBundle.getMessage(FilterExperimentsDialog.class, "FilterExperimentsDialog.title")); // NOI18N
         setName("Filter Experiments"); // NOI18N
 
         jTableResults.setAutoCreateRowSorter(true);
@@ -605,7 +631,7 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
         jLabel4.setText(org.openide.util.NbBundle.getMessage(FilterExperimentsDialog.class, "FilterExperimentsDialog.jLabel4.text_2_1")); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel5.setText(org.openide.util.NbBundle.getMessage(FilterExperimentsDialog.class, "FilterExperimentsDialog.jLabel5.text_2_1")); // NOI18N
 
@@ -638,7 +664,7 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel5)
                     .addComponent(fieldSamplePhenotype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jCheckBoxInclSample))
         );
 
@@ -756,7 +782,7 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxStudy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(FilterExperimentsDialog.class, "FilterExperimentsDialog.jPanel5.border.title"))); // NOI18N
@@ -783,7 +809,7 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jComboBoxRelease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -831,13 +857,13 @@ public class FilterExperimentsDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, 0, 108, Short.MAX_VALUE)
+                            .addComponent(jPanel3, 0, 109, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReset)
@@ -907,13 +933,13 @@ private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_jButtonCancelActionPerformed
 
 private void fieldSampleNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSampleNameActionPerformed
-    this.jCheckBoxInclSample.setSelected(this.fieldSampleName.getText().contentEquals("%") &&
-            this.fieldSamplePhenotype.getText().contentEquals("%") ? false : true);
+    this.jCheckBoxInclSample.setSelected(this.fieldSampleName.getText().contentEquals("%")
+            && this.fieldSamplePhenotype.getText().contentEquals("%") ? false : true);
 }//GEN-LAST:event_fieldSampleNameActionPerformed
 
 private void fieldSamplePhenotypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSamplePhenotypeActionPerformed
-    this.jCheckBoxInclSample.setSelected(this.fieldSampleName.getText().contentEquals("%") &&
-            this.fieldSamplePhenotype.getText().contentEquals("%") ? false : true);
+    this.jCheckBoxInclSample.setSelected(this.fieldSampleName.getText().contentEquals("%")
+            && this.fieldSamplePhenotype.getText().contentEquals("%") ? false : true);
 }//GEN-LAST:event_fieldSamplePhenotypeActionPerformed
     /**
      * my table model, add method to contain rendered fields
@@ -980,4 +1006,4 @@ private void fieldSamplePhenotypeActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableResults;
     // End of variables declaration//GEN-END:variables
-    }
+}

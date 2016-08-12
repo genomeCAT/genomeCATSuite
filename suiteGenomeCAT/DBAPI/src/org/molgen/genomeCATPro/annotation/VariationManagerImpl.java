@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.molgen.genomeCATPro.annotation;
 
 import java.awt.Color;
@@ -13,7 +12,10 @@ import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
  *
  * @author tebel
  */
+@Deprecated
+
 public class VariationManagerImpl extends AnnotationManagerImpl implements VariationManager {
+
     public VariationManagerImpl(GenomeRelease release, String name) {
         super(release, name);
     }

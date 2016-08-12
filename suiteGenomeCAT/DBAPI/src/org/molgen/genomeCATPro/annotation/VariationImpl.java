@@ -18,14 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
 /**
  *
  * @author tebel
  */
-@Entity
+@Deprecated
 public class VariationImpl extends RegionAnnotationImpl implements Variation {
 
     @Column(name = "varType", nullable = false)
@@ -103,8 +104,6 @@ public class VariationImpl extends RegionAnnotationImpl implements Variation {
         return true;
     }
 
-    
-
     @Override
     public String getName() {
         return this.name;
@@ -121,21 +120,19 @@ public class VariationImpl extends RegionAnnotationImpl implements Variation {
 
     public List<? extends RegionAnnotation> dbLoadRegions(String table, String chromId) throws SQLException {
 
-
         Connection con = null;
 
-
-        con = Database.getDBConnection(Defaults.localDB);
+        con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         Statement s = con.createStatement();
 
         ResultSet r = s.executeQuery(
-                "SELECT name, chrom, chromStart, chromEnd," +
-                " varType, reference, method, " +
-                " bin, itemRgb from " +
-                table + " where " +
-                " chrom = \'" + chromId + "\'" +
-                " order by chromEnd");
+                "SELECT name, chrom, chromStart, chromEnd,"
+                + " varType, reference, method, "
+                + " bin, itemRgb from "
+                + table + " where "
+                + " chrom = \'" + chromId + "\'"
+                + " order by chromEnd");
 
         Vector<VariationImpl> _data = new Vector<VariationImpl>();
         while (r.next()) {
@@ -158,8 +155,6 @@ public class VariationImpl extends RegionAnnotationImpl implements Variation {
         return new Color((int) this.color);
     }
 
-  
-
     @Override
     public int compareTo(Object o) {
         Variation r;
@@ -177,14 +172,15 @@ public class VariationImpl extends RegionAnnotationImpl implements Variation {
             return 0;
         }
     }
+
     @Override
     public String toHTMLString() {
         return new String(this.getRefrence() + " " + this.getType());
     }
-    static String _colorDesc = new String("<html>  inversions and inversion breakpoints are purple.<br/>" +
-            "CNVs and InDels are blue if there is a gain in size relative to the reference.<br/>" +
-            "CNVs and InDels are red if there is a loss in size relative to the reference.<br/>" +
-            "CNVs and InDels are brown if there are reports of both a loss and a gain in size relative to the reference.</html>");
+    static String _colorDesc = new String("<html>  inversions and inversion breakpoints are purple.<br/>"
+            + "CNVs and InDels are blue if there is a gain in size relative to the reference.<br/>"
+            + "CNVs and InDels are red if there is a loss in size relative to the reference.<br/>"
+            + "CNVs and InDels are brown if there are reports of both a loss and a gain in size relative to the reference.</html>");
 
     @Override
     public String getColorDesc() {
@@ -225,9 +221,8 @@ public class VariationImpl extends RegionAnnotationImpl implements Variation {
             g.fillRect(x, 0, width, _icon.getHeight());
             x += width;
 
-        //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
-        //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
+            //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
+            //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
         }
     }
 }
-    

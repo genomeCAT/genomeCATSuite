@@ -23,20 +23,20 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "TrackAtStudy")
 public class TrackAtStudy {
+
     /*With the @IdClass annotation, you don't declare an instance variable of 
     type CompoundKey, but instead, just define instance variables for each of 
     the primary key fields. You then mark the corresponding getter tags with 
     standard @Id annotations. 
     http://jpa.ezhibernate.com/Javacode/learn.jsp?tutorial=15usingcompoundprimarykeys
      */
-
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     @Id
     public Long trackID = new Long(0);
     @Id
     public Long studyID = new Long(0);
-    
+
     @ManyToOne()
     @JoinColumn(name = "trackID", insertable = false, updatable = false, nullable = false)
     //@PrimaryKeyJoinColumn(name = "trackID", referencedColumnName = "trackID")
@@ -58,7 +58,7 @@ public class TrackAtStudy {
     private Study study;
 
     public TrackAtStudy() {
-       
+
     }
 
     public Long getTrackID() {
@@ -82,36 +82,29 @@ public class TrackAtStudy {
     }
 
     public void setTrack(Track t) {
-        this.track =t;
+        this.track = t;
         this.trackID = this.track.getTrackID();
     }
-
-    
-
-    
-
-    
 
     public Study getStudy() {
         return this.study;
     }
 
     public void setStudy(Study s) {
-        this.study  = s;
+        this.study = s;
         this.studyID = s.getStudyID();
     }
 
-    
-
     public String toFullString() {
         return new String(
-                this.getStudyID() + ":" +
-                (this.getStudy()!= null ? this.getStudy().getName() : "") + "," +
-                this.getTrackID() + "," +
-                (this.getTrack() != null ? this.getTrack().getName() : "") 
-                );
+                this.getStudyID() + ":"
+                + (this.getStudy() != null ? this.getStudy().getName() : "") + ","
+                + this.getTrackID() + ","
+                + (this.getTrack() != null ? this.getTrack().getName() : "")
+        );
     }
-     public void addPropertyChangeListener(PropertyChangeListener listener) {
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
 

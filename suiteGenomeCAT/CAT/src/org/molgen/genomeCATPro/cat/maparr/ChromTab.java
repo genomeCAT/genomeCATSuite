@@ -3,24 +3,21 @@ package org.molgen.genomeCATPro.cat.maparr;
 /**
  * @name ChromTab
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -33,7 +30,6 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 import java.util.Vector;
 
-
 import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,29 +40,40 @@ import org.molgen.genomeCATPro.cat.util.Defines;
 import org.molgen.genomeCATPro.common.Defaults;
 
 /**
- * 081013    kt  bug empty release
- * class ChromTab
- * tabular view for one chromsome, containing n arrays
+ * 081013 kt bug empty release class ChromTab tabular view for one chromsome,
+ * containing n arrays
  */
 public class ChromTab extends JPanel {
 
-// list of all chromosomes
+    /**
+     * list of all chromosomes
+     */
     private static Hashtable<String, String[]> chroms = new Hashtable<String, String[]>();
-// parent frame
-    //ArrayFrame parentFrame;
-// current chrom name
+    /**
+     * this chrom name
+     */
     public String chrom;
     public Defaults.GenomeRelease release;
-// current chrom index
+    /**
+     * this chrom index
+     */
     int i;
-// cytoband information
-    //public static Cytoband[][] cytobands;
-    long pos_off_x = Long.MAX_VALUE;
+    long pos_first_x = Long.MAX_VALUE;
     long pos_max_x = 0;
-    long pos_ruler = 0;
     double scale_x = 0.0;
-    boolean rulerSelected = false;
-    double stepsize = 1;
+    long pos_ruler = 0;
+    /**
+     * space for legend (i.e. color scale)
+     */
+    static final int off_legend = Defines.ARRAY_WIDTH / 20;
+    /**
+     * view width
+     */
+    static final double view_max_x = Defines.ARRAY_WIDTH - (2 * off_legend);
+    /**
+     * maximal chromosomal position acc. to real data
+     */
+    double pos_real_max_x = 0;
 
     /**
      * create empty new chromtabs
@@ -74,7 +81,6 @@ public class ChromTab extends JPanel {
     public static Vector<ChromTab> createChromTabs(ArrayFrame parent) {
 
         ChromTab chromTab;
-        JPanel pane;
 
         Vector<ChromTab> vChromTabs = new Vector<ChromTab>();
 
@@ -93,6 +99,14 @@ public class ChromTab extends JPanel {
         return vChromTabs;
     }
 
+    /**
+     * create new ChromTab for only one chromosome
+     *
+     * @param chrom
+     * @param parent
+     * @return
+     */
+    @Deprecated
     public static ChromTab createSingleChromTab(String chrom, ArrayFrame parent) {
 
         ChromTab chromTab = new ChromTab(chrom, parent);
@@ -102,11 +116,8 @@ public class ChromTab extends JPanel {
         return chromTab;
     }
 
-    void cropChromTab(Integer firstPos, Integer secondPos) {
-    }
-
-    RulerComponent getRuler(int height) {
-        RulerComponent r = new RulerComponent(height);
+    RulerComponent getRuler(int height, ArrayFrame parent) {
+        RulerComponent r = new RulerComponent(height, parent);
         r.addMouseMotionListener(r);
         return r;
 
@@ -114,7 +125,8 @@ public class ChromTab extends JPanel {
 
     /**
      * get all Chromosome names
-     * @return 
+     *
+     * @return
      */
     public static String[] getChroms(Defaults.GenomeRelease release) {
 
@@ -125,11 +137,12 @@ public class ChromTab extends JPanel {
 
     /**
      * add single new array
+     *
      * @param array
-     * @param minY 
-     * @param maxY 
+     * @param minY
+     * @param maxY
      * @param parent
-     * @param type 
+     * @param type
      */
     public static ArrayView[] addArray(
             ArrayData d,
@@ -168,15 +181,16 @@ public class ChromTab extends JPanel {
 
     /**
      * add single new array, create with data
+     *
      * @param array
-     * @param minY 
-     * @param maxY 
-     * @param names 
-     * @param chromStart 
-     * @param chromEnd 
-     * @param data 
+     * @param minY
+     * @param maxY
+     * @param names
+     * @param chromStart
+     * @param chromEnd
+     * @param data
      * @param parent
-     * @param type 
+     * @param type
      */
     public static ArrayView[] addArray(
             ArrayData d,
@@ -194,7 +208,7 @@ public class ChromTab extends JPanel {
         ArrayView[] list = new ArrayView[size];
 
         for (int i = 0; i < size; i++) {
-            chromTab =  vChromtabs.get(i);
+            chromTab = vChromtabs.get(i);
             try {
                 list[i] = ArrayViewBase.getView(d,
                         names[i], chromStart[i], chromEnd[i], data[i], chromTab);
@@ -210,16 +224,17 @@ public class ChromTab extends JPanel {
 
     /**
      * add single new array, create with 2 data vectors
+     *
      * @param array
-     * @param minY 
-     * @param maxY 
-     * @param names 
-     * @param chromStart 
-     * @param chromEnd 
-     * @param data 
-     * @param data2 
+     * @param minY
+     * @param maxY
+     * @param names
+     * @param chromStart
+     * @param chromEnd
+     * @param data
+     * @param data2
      * @param parent
-     * @param type 
+     * @param type
      */
     public static ArrayView addArray(
             ArrayData d,
@@ -252,7 +267,7 @@ public class ChromTab extends JPanel {
     }
 
     /**
-     * 
+     *
      * @param v
      * @param iChromTab
      * @param parent
@@ -271,8 +286,9 @@ public class ChromTab extends JPanel {
      */
     /**
      * remove array by arrayId
+     *
      * @param arrayId
-     * @param parent 
+     * @param parent
      */
     public static void removeArrayView(
             Long arrayId,
@@ -307,8 +323,9 @@ public class ChromTab extends JPanel {
     }
 
     /**
-     * 
+     *
      * get all arrayviews (one per chrom) for one arrayid
+     *
      * @param arrayId
      * @param vChromtabs
      * @return
@@ -337,7 +354,7 @@ public class ChromTab extends JPanel {
     }
 
     /**
-     * 
+     *
      * @param sourcePos
      * @param destPos
      * @param parent
@@ -362,8 +379,9 @@ public class ChromTab extends JPanel {
 
     /**
      * get list of all arrays in this chromtab
+     *
      * @param chromtab
-     * @return 
+     * @return
      */
     public static ArrayView[] getArrayViews(ChromTab chromtab) {
         Vector<ArrayView> vArrays = new Vector<ArrayView>();
@@ -430,34 +448,29 @@ public class ChromTab extends JPanel {
     
     
      */
-    /** 
-     * construct new chromtab for one chromosome 
+    /**
+     * construct new chromtab for one chromosome
      */
     ChromTab(String chrom, ArrayFrame parent) {
         super();
         parent.addPropertyChangeListener(
                 new PropertyChangeListener() {
 
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if (evt.getPropertyName().equals(ArrayFrame.PROP_SHOWRULER)) {
-                            ChromTab.this.rulerSelected = (Boolean) evt.getNewValue();
-                            Logger.getLogger(ChromTab.class.getName()).log(Level.INFO,
-                                    "ruler " + (ChromTab.this.rulerSelected ? " yes " : "no"));
-                            ChromTab.this.repaint();
-                        }
-                        if (evt.getPropertyName().equals(ArrayFrame.PROP_CHANGE_RULER)) {
-                            ChromTab.this.stepsize = ((Double) evt.getNewValue()).doubleValue();
-                            Logger.getLogger(ChromTab.class.getName()).log(Level.INFO,
-                                    "ruler stepsize " + ChromTab.this.stepsize);
-                            ChromTab.this.repaint();
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals(ArrayFrame.PROP_SHOWRULER)) {
 
-                        }
-                    }
-                });
+                    ChromTab.this.repaint();
+                }
+                if (evt.getPropertyName().equals(ArrayFrame.PROP_CHANGE_RULER)) {
+
+                    ChromTab.this.repaint();
+                }
+            }
+        });
 
         this.release = parent.release;
         this.chrom = chrom;
-        this.stepsize = parent.getRulerStepSize();
+
         //List<String> chroms = ChromTab.getCytoBandManager().getChroms(release);
         for (int j = 0; j < chroms.get(release.toString()).length; j++) {
             if (chroms.get(release.toString())[j].compareTo(chrom) == 0) {
@@ -465,95 +478,173 @@ public class ChromTab extends JPanel {
                 break;
             }
         }
-
+        this.repaint();
 
         Logger.getLogger(ChromTab.class.getName()).log(Level.INFO,
                 "create chromtab: " + chrom + " id: " + i);
 
     }
+
     /*
-    public static int getChromAsInt(String chrom) {
-    for (int i = 0; i < chroms.length; i++) {
-    if (chroms[i].compareTo(chrom) == 0) {
-    return i;
-    
-    }
-    }
-    return -1;
-    }
+     * map mouse to genome position
      */
+    public Long mapPosition(long mousePos) {
+
+        if (mousePos < off_legend) {
+            return new Long(pos_first_x);
+        }
+        if ((mousePos - off_legend) > view_max_x) {
+            //return (pos_off_x + ((int) Math.floor(scale_x * (view_max_x ))));
+            return new Long((long) Math.max(this.pos_max_x, pos_real_max_x));
+        }
+
+        return new Long((long) (pos_first_x + (scale_x * new Double(mousePos - off_legend))));
+    }
 
     /**
      * initialize names for chromosomes
      */
     static void initChroms(Defaults.GenomeRelease release) {
         //081013    kt  bug empty release
-        if(ChromTab.chroms == null || release == null)
+        if (ChromTab.chroms == null || release == null) {
             return;
-        if ( ChromTab.chroms.get(release.toString()) == null) {
+        }
+        if (ChromTab.chroms.get(release.toString()) == null) {
             List<String> _chroms = CytoBandManagerImpl.stGetChroms(release);
 
             ChromTab.chroms.put(release.toString(), _chroms.toArray(new String[_chroms.size()]));
         }
-
-
     }
 
+    /**
+     * ruler to show vertical position, red line at top bar, moved by mouse
+     * manages vertical dark line for each view
+     */
     class RulerComponent extends JPanel implements MouseMotionListener {
 
-        RulerComponent(int height) {
+        //boolean rulerSelected = false;
+        //double stepsize = 1;
+        ArrayFrame parent = null;
+        long genomPosStart = 0;
+        long genomPosEnd = 0;
+
+        RulerComponent(int height, ArrayFrame parent) {
+
             super();
+            this.parent = parent;
+            //this.stepsize = parent.getRulerStepSize();
+            /*parent.addPropertyChangeListener(
+            new PropertyChangeListener() {
+            
+            public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals(ArrayFrame.PROP_SHOWRULER)) {
+            rulerSelected = (Boolean) evt.getNewValue();
+            Logger.getLogger(RulerComponent.class.getName()).log(Level.INFO,
+            "ruler " + (rulerSelected ? " yes " : "no"));
+            ChromTab.this.repaint();
+            
+            }
+            if (evt.getPropertyName().equals(ArrayFrame.PROP_CHANGE_RULER)) {
+            //stepsize = ((Double) evt.getNewValue()).doubleValue();
+            // Logger.getLogger(ChromTab.class.getName()).log(Level.INFO,
+            //       "ruler stepsize " + stepsize);
+            ChromTab.this.repaint();
+            
+            }
+            }
+            });
+             */
             this.setPreferredSize(new Dimension(Defines.ARRAY_WIDTH, height));
         }
 
         @Override
+        /**
+         * adapt ruler and ruler legend to detail range
+         */
         public void paint(Graphics g) {
             Color c = this.getBackground();
             setBackground(c);
             super.paint(g);
             //long l = 1000 * 1000; // 
 
-            int step = (int) (stepsize * 1000 * 1000);
-            Logger.getLogger(ChromTab.class.getName()).log(Level.FINE,
-                    "paint ruler step: " + step);
-            
-            /*if (ChromTab.this.pos_max_x - ChromTab.this.pos_off_x <= 0) {
-                return;
-            }
-             */
-            Font defFont = g.getFont();
-            g.setColor(Color.black);
-            g.setFont(Font.decode("PLAIN-10"));
-
-
-
-            g.drawString(Long.toString((long) Math.floor(ChromTab.this.pos_off_x / step)), 0,  (this.getHeight() * 2/3));
-            g.drawString(Long.toString((long) Math.ceil(ChromTab.this.pos_max_x / step)) + " MB", Defines.ARRAY_WIDTH - ArrayView.off_legend + 2,  (this.getHeight() * 2/3));
+            System.out.println("paint ruler");
 
             g.setColor(Color.black);
+            g.setFont(new Font("Monospaced", Font.BOLD, 9));
+
+            this.genomPosStart = (long) ChromTab.this.pos_first_x;
+            this.genomPosEnd = (long) Math.max(pos_max_x, pos_real_max_x);
+
+            int stepLog = (int) Math.log10(this.genomPosEnd - this.genomPosStart);
+
+            String unity = (stepLog < 6 ? "[kbp]" : "[MB]");
+            int unityLog = (stepLog < 6 ? 3 : 6);
+
+            g.drawString(
+                    unity,
+                    Defines.ARRAY_WIDTH - (off_legend - 2), (int) (this.getHeight() * 0.3));
+            g.drawString(Long.toString(stepLog),
+                    Defines.ARRAY_WIDTH - (off_legend - 2), (int) (this.getHeight() * 0.8));
+            g.setColor(Color.black);
+            this.genomPosStart = (long) (Math.floor(this.genomPosStart / Math.pow(10, stepLog)));
+            this.genomPosEnd = (long) (Math.ceil(this.genomPosEnd / Math.pow(10, stepLog)));
             int pix_x;
-            for (long i = (long) Math.floor(ChromTab.this.pos_off_x / step); i < Math.ceil(ChromTab.this.pos_max_x / step); i++) {
-                pix_x = ArrayView.off_legend + (int) Math.round((i*step - ChromTab.this.pos_off_x) / scale_x);
-                g.drawLine(pix_x,  (this.getHeight() * 1/3), pix_x,  this.getHeight() * 2/3);
-            }
-            /*for (double i = ChromTab.this.pos_off_x; i < ChromTab.this.pos_max_x - l / 10; i += step) {
-            pix_x = ArrayView.off_legend + (int) Math.round((i - ChromTab.this.pos_off_x) / scale_x);
-            g.drawLine(pix_x, (int) this.getHeight() * 1 / 3, pix_x, (int) this.getHeight() * 2 / 3);
-            
-            
-            }
-             */
-            //pix_x = ArrayView.off_legend + (int) Math.ceil((ChromTab.this.pos_max_x - ChromTab.this.pos_off_x) / scale_x);
-            //g.drawLine(pix_x, (int) this.getHeight() * 1 / 3, pix_x, (int) this.getHeight() * 2 / 3);
+            int pix_xx;
+            int pix_xxx;
 
-            // marke
+            for (long i = this.genomPosStart; i < this.genomPosEnd; i++) {
+
+                for (int j = 0; j < 10; j++) {
+                    if (Math.pow(10, stepLog - 2) / scale_x > 3) {
+                        for (int k = 0; k < 10; k++) {
+
+                            pix_xxx = off_legend + (int) (((i * Math.pow(10, stepLog)) + (j * Math.pow(10, stepLog - 1) + (k * Math.pow(10, stepLog - 2)) - ChromTab.this.pos_first_x)) / scale_x);
+
+                            if (pix_xxx > (pos_real_max_x - off_legend)) {
+                                break;
+                            }
+                            g.drawLine(pix_xxx, (int) (this.getHeight() * 0.95), pix_xxx, this.getHeight());
+                        }
+                    }
+                    pix_xx = off_legend + (int) (((i * Math.pow(10, stepLog)) + ((j * Math.pow(10, stepLog - 1)) - ChromTab.this.pos_first_x)) / scale_x);
+                    if (pix_xx > (pos_real_max_x - off_legend)) {
+                        break;
+                    }
+                    g.drawLine(pix_xx, (int) (this.getHeight() * 0.8), pix_xx, this.getHeight());
+                    // if resolution is low enough  print labels
+                    if (Math.pow(10, stepLog - 1) / scale_x > 50) {
+
+                        g.drawString(
+                                Long.toString(
+                                        (long) (stepLog > unityLog ? (long) ((i * Math.pow(10, stepLog - unityLog))
+                                                + (j * Math.pow(10, stepLog - 1 - unityLog)))
+                                                : (j * Math.pow(10, stepLog - 1)))),
+                                pix_xx, (int) (this.getHeight() * 0.3));
+                    }
+                }
+                pix_x = off_legend + (int) (((i * Math.pow(10, stepLog)) - ChromTab.this.pos_first_x) / scale_x);
+                // print Labels
+                if (pix_x > (pos_real_max_x - off_legend)) {
+                    break;
+                }
+                g.drawString(
+                        Long.toString(
+                                (long) (stepLog >= unityLog ? (i * Math.pow(10, stepLog - unityLog)) : i * Math.pow(10, stepLog))),
+                        pix_x, (int) (this.getHeight() * 0.3));
+                /*g.drawString(
+                Long.toString((long) (i * Math.pow(10, stepLog - unityLog))),
+                pix_x - 2, (int) (this.getHeight() * 0.3));
+                 */
+                g.drawLine(pix_x, (int) (this.getHeight() * 0.5), pix_x, this.getHeight());
+            }
 
             g.setColor(Color.red);
             if (//ChromTab.this.pos_ruler > ArrayView.off_legend 
                     // && ChromTab.this.pos_ruler <= (Defines.ARRAY_WIDTH - ArrayView.off_legend) 
-                    ChromTab.this.rulerSelected) {
+                    parent.showRuler) {
                 g.drawLine((int) ChromTab.this.pos_ruler,
-                        0, (int) ChromTab.this.pos_ruler,  this.getHeight());
+                        0, (int) ChromTab.this.pos_ruler, this.getHeight());
+
             }
         }
 
@@ -562,19 +653,19 @@ public class ChromTab extends JPanel {
         }
 
         public void mouseMoved(MouseEvent e) {
-            if (!ChromTab.this.rulerSelected) {
+            if (!parent.showRuler) {
                 return;
             }
 
-
             ChromTab.this.pos_ruler = (long) e.getPoint().getX();
+            parent.setPosition(ChromTab.this.chrom, mapPosition(ChromTab.this.pos_ruler));
 
             //if (r != null) {
             //    if (r.getWidth() < containerPoint.x) {
             //System.out.println("we are not inside tabbed block");
-
             for (Component a : ChromTab.this.getComponents()) {
                 a.repaint();
+
             }
             this.repaint();
             ChromTab.this.repaint();

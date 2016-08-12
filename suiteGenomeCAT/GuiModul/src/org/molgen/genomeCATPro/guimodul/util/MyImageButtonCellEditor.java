@@ -50,14 +50,12 @@ public class MyImageButtonCellEditor extends AbstractCellEditor
         return null;
     }
 
-    
     public Component getTableCellEditorComponent(JTable table, Object value,
             boolean isSelected, int row, int column) {
 
         Logger.getLogger(MyImageButtonCellEditor.class.getName()).log(
                 Level.INFO,
                 "getEditor: at row " + row + " col " + column);
-
 
         TableModel t = table.getModel();
         int rRow = table.convertRowIndexToModel(row);
@@ -75,7 +73,3 @@ public class MyImageButtonCellEditor extends AbstractCellEditor
         return button;
     }
 }
-
-
-
-

@@ -43,19 +43,18 @@ public class UtilsTest {
         result = Utils.intToAlpha(0);
         assertTrue("0 -> " + result + " : ", result.contentEquals("A"));
         result = Utils.intToAlpha(25);
-        assertTrue("25 -> " + result + " : ", result.contentEquals("Z"));       
+        assertTrue("25 -> " + result + " : ", result.contentEquals("Z"));
         result = Utils.intToAlpha(26);
         assertTrue("26 -> " + result + " : ", result.contentEquals("A"));
         result = Utils.intToAlpha(27);
         assertTrue("27 -> " + result + " : ", result.contentEquals("B"));
-         result = Utils.intToAlpha(77);
+        result = Utils.intToAlpha(77);
         assertTrue("77 -> " + result + " : ", result.contentEquals(
-                String.valueOf((char) (65 + 77-26-26))));
+                String.valueOf((char) (65 + 77 - 26 - 26))));
     }
     //@Test
 
     public void testIntToRoman() {
-
 
         String result = Utils.intToRoman(1);
         assertTrue("1: ", result.contentEquals("I"));

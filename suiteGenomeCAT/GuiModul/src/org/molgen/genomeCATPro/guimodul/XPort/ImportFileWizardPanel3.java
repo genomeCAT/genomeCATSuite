@@ -35,9 +35,8 @@ import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 
 /**
- * 
- * @author tebel
- *  Step 3: select Platform or select new one
+ *
+ * @author tebel Step 3: select Platform or select new one
  */
 public class ImportFileWizardPanel3
         implements WizardDescriptor.Panel,
@@ -46,24 +45,14 @@ public class ImportFileWizardPanel3
 
     /**
      * listen to changes on platformdetail, release, platformdata (combobox)
-     * validateChanges: 
-     *      platformDetail != null && platformName or release != null
-     *      if release and platformName == null
-     *          check if platform has release
-     *          -> set data
-     * validate: 
-     *      get platformdata
-     *      ggf reset release
-     * readSettings: 
-     *      importModul ggf release, type, method
-     *      get platformList
-     *      get detai, get Data
-     * storeSettings:
-     *      importModul.setDetail, setData
-     * 
-     * change platform (button, actionlistener)
-     *      set this.detail
-     *      set list platformdata (combobox)
+     * validateChanges: platformDetail != null && platformName or release !=
+     * null if release and platformName == null check if platform has release ->
+     * set data validate: get platformdata ggf reset release readSettings:
+     * importModul ggf release, type, method get platformList get detai, get
+     * Data storeSettings: importModul.setDetail, setData
+     *
+     * change platform (button, actionlistener) set this.detail set list
+     * platformdata (combobox)
      */
     private Component component;
     //XPortPlatform importModulPlatform = null;
@@ -105,8 +94,8 @@ public class ImportFileWizardPanel3
     public HelpCtx getHelp() {
         // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
-    // If you have context help:
-    // return new HelpCtx(SampleWizardPanel1.class);
+        // If you have context help:
+        // return new HelpCtx(SampleWizardPanel1.class);
     }
     List<PlatformDetail> platforms = new Vector<PlatformDetail>();
     PlatformDetail detail = null;
@@ -130,10 +119,9 @@ public class ImportFileWizardPanel3
         return namelist;
     }
     /**
-     * create new platform
-     * create and init create platform dialog
-     * initiated by pressing "create"
-     * 
+     * create new platform create and init create platform dialog initiated by
+     * pressing "create"
+     *
      */
     /**
      * switch new PlatformDetail
@@ -170,12 +158,13 @@ public class ImportFileWizardPanel3
 
     /**
      * set release with warning if diff from importModul
+     *
      * @param release
      */
     /**
-     * set platform field and platform data combobox
-     * check if type and method (if chosen) match
-     * check if release (if chosen) matches
+     * set platform field and platform data combobox check if type and method
+     * (if chosen) match check if release (if chosen) matches
+     *
      * @param d
      * @return
      * @throws java.lang.Exception
@@ -185,7 +174,6 @@ public class ImportFileWizardPanel3
 
         this.detail = findDetailByName(platformName);
 
-
         ((ImportFileVisualPanel3) getComponent()).getFieldPlatform().setText(
                 platformName);
         //type = ((ImportFileVisualPanel3) getComponent()).getFieldType().getText();
@@ -193,20 +181,19 @@ public class ImportFileWizardPanel3
         //method = ((ImportFileVisualPanel3) getComponent()).getFieldMethod().getText();
         //check type
         /*if (type != null && !type.equals("") && !d.getType().contentEquals(type)) {
-        wd.putProperty("WizardPanel_errorMessage",
-        "platform type (" + d.getType() + ") not same as " + type);
-        }
-        //check method
-        if (method != null && !method.equals("") && !d.getMethod().contentEquals(method)) {
-        wd.putProperty("WizardPanel_errorMessage",
-        "platform method (" + d.getMethod() + ") not same as " + method);
-        }*/
+         wd.putProperty("WizardPanel_errorMessage",
+         "platform type (" + d.getType() + ") not same as " + type);
+         }
+         //check method
+         if (method != null && !method.equals("") && !d.getMethod().contentEquals(method)) {
+         wd.putProperty("WizardPanel_errorMessage",
+         "platform method (" + d.getMethod() + ") not same as " + method);
+         }*/
         //((ImportFileVisualPanel3) getComponent()).getFieldPlatform().setText(d.getName());
         //check release
         checkPlatformRelease(this.detail.getPlatformID(), release);
 
         List<PlatformData> list = PlatformService.getPlatformDataByDetailId(this.detail.getPlatformID());
-
 
         // set platformlist
         ((ImportFileVisualPanel3) getComponent()).getJComboBoxPlatformData().setModel(
@@ -217,11 +204,12 @@ public class ImportFileWizardPanel3
 
     /**
      * check if platform has the choosen release
+     *
      * @param d
      * @return
      * @throws java.lang.Exception
      */
-   PlatformData checkPlatformRelease(Long platformid, String release) throws Exception {
+    PlatformData checkPlatformRelease(Long platformid, String release) throws Exception {
 
         //String release = ((ImportFileVisualPanel3) getComponent()).getFieldRelease().getText();
         if (release != null && !release.equals("")) {
@@ -229,8 +217,9 @@ public class ImportFileWizardPanel3
             if (d == null) {
                 this.wd.putProperty("WizardPanel_errorMessage",
                         "warning:, platform has no data for " + release + " !");
+            } else {
+                return d;
             }
-            else return d;
         }
 
         return null;
@@ -238,6 +227,7 @@ public class ImportFileWizardPanel3
 
     /**
      * find Object in certain list by Name
+     *
      * @param arrayName
      * @return
      */
@@ -271,8 +261,9 @@ public class ImportFileWizardPanel3
     }
 
     /**
-     * init global variables from from passed visual panels
-     * init relevant fields from gui (visual panel)
+     * init global variables from from passed visual panels init relevant fields
+     * from gui (visual panel)
+     *
      * @param settings
      */
     public void readSettings(Object settings) {
@@ -319,11 +310,9 @@ public class ImportFileWizardPanel3
         }
 
         //init field content
-
         ((ImportFileVisualPanel3) getComponent()).getFieldRelease().setText(release);
 
         ((ImportFileVisualPanel3) getComponent()).getFieldMethod().setText(method);
-
 
         ((ImportFileVisualPanel3) getComponent()).getFieldType().setText(type);
 
@@ -331,11 +320,9 @@ public class ImportFileWizardPanel3
                 this.importModul.getFileInfoAsHTML());
         ((ImportFileVisualPanel3) getComponent()).getFieldPlatform().setText(platformName);
 
-
         ((ImportFileVisualPanel3) getComponent()).getJComboBoxPlatformData().setSelectedItem(platformName);
 
-
-    //this.validateChanges();
+        //this.validateChanges();
     }
     ActionListener actionListenerSelectType = new ActionListener() {
 
@@ -406,7 +393,7 @@ public class ImportFileWizardPanel3
             wd.putProperty("WizardPanel_errorMessage", "no platform or release version selected!");
 
             throw new WizardValidationException(null, "validate", "no platform or release version selected!");
-        //wd.putProperty("WizardPanel_errorMessage", "no platform or release version selected!");
+            //wd.putProperty("WizardPanel_errorMessage", "no platform or release version selected!");
         } else {
             isValid = true;
         }
@@ -445,7 +432,7 @@ public class ImportFileWizardPanel3
         if (this.detail == null) {
 
             this.wd.putProperty("WizardPanel_errorMessage",
-                    "empty platform, please one of the list via button <select>");
+                    "empty platform, please one at the list box above");
             this.setIsValid(false);
             return;
         }
@@ -476,10 +463,10 @@ public class ImportFileWizardPanel3
 
             this.wd.putProperty("WizardPanel_errorMessage", null);
 
-        /*((ImportFileVisualPanel3) getComponent()).getFieldRelease().getDocument().removeDocumentListener(this);
-        ((ImportFileVisualPanel3) getComponent()).getFieldRelease().setText(data.getGenomeRelease().toString());
-        ((ImportFileVisualPanel3) getComponent()).getFieldRelease().getDocument().addDocumentListener(this);
-         */
+            /*((ImportFileVisualPanel3) getComponent()).getFieldRelease().getDocument().removeDocumentListener(this);
+             ((ImportFileVisualPanel3) getComponent()).getFieldRelease().setText(data.getGenomeRelease().toString());
+             ((ImportFileVisualPanel3) getComponent()).getFieldRelease().getDocument().addDocumentListener(this);
+             */
         } catch (Exception ex) {
             Logger.getLogger(ImportFileWizardPanel3.class.getName()).log(Level.SEVERE,
                     ex.getMessage(), ex);
@@ -487,11 +474,7 @@ public class ImportFileWizardPanel3
             this.setIsValid(false);
         }
 
-
-
-
-
-    //return this.isValid;
+        //return this.isValid;
     }
 
     public void insertUpdate(DocumentEvent e) {
@@ -506,7 +489,6 @@ public class ImportFileWizardPanel3
         this.validateChanges();
     }
     private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
-
 
     public final void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
@@ -531,6 +513,3 @@ public class ImportFileWizardPanel3
         }
     }
 }
-
-   
-

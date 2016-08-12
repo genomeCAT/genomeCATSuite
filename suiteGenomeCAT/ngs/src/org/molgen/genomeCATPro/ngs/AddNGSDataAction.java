@@ -58,8 +58,8 @@ public final class AddNGSDataAction extends AbstractAction implements LookupList
         init();
         for (Study instance : lkpInfo.allInstances()) {
             Logger.getLogger(AddNGSDataAction.class.getName()).log(
-                    Level.INFO, "found lookup instance:" +
-                    instance.getName());
+                    Level.INFO, "found lookup instance:"
+                    + instance.getName());
             run(instance);
             return;
         }
@@ -74,11 +74,9 @@ public final class AddNGSDataAction extends AbstractAction implements LookupList
             dialog = new ImportNGSDialog(null);
         } else {
             dialog = new ImportNGSDialog(null);
-        //dialog = new ImportTrackDialog(null, s);
+            //dialog = new ImportTrackDialog(null, s);
         }
         dialog.setVisible(true);
-
-
 
     }
 

@@ -7,8 +7,10 @@
         </folder>
     </folder>
     <folder name="Menu">
-        <folder name="App">
+        <folder name="Modules">
+            
             <folder name="ROIview">
+                <attr name="position" intvalue="4"/>
                 <file name="org-molgen-genomeCATPro-selector-SelectorAction.shadow">
                     <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-selector-SelectorAction.instance"/>
                 </file>

@@ -3,20 +3,18 @@
  *
  *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 package org.molgen.genomeCATPro.cghpro.xport;
 
@@ -35,11 +33,11 @@ import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
 
 /**
- * 020813   kt	XPortImport createNewImport();
- * 
- * 
+ * 020813 kt	XPortImport createNewImport();
+ *
+ *
  * import BAC Platform from GEO txt file
- * 
+ *
  */
 public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatform {
 
@@ -58,8 +56,8 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
     public Vector<String> getImportType() {
         return new Vector<String>(
                 Arrays.asList(new String[]{
-                    ImportPlatformGEOBAC.platform_geo_txt
-                }));
+            ImportPlatformGEOBAC.platform_geo_txt
+        }));
     }
 
     @Override
@@ -90,34 +88,35 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
         }
     }
 
-    protected String getCreateTableSQL(String tableData) {
-        String sql = new String("CREATE TABLE " + tableData + " ( " +
-                " ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , " +
-                " probeId varchar(255) NOT NULL default ''," +
-                " probeName varchar(255) NOT NULL default ''," +
-                " alias varchar(255), " +
-                " chrom varChar(255) NOT NULL default '', " +
-                " chromStart int(10) unsigned NOT NULL default '0'," +
-                " chromEnd int(10) unsigned NOT NULL default '0'," +
-                " block int(4) unsigned NOT NULL default '0'," +
-                " row int(4) unsigned NOT NULL default '0'," +
-                " col int(4) unsigned NOT NULL default '0'," +
-                "PRIMARY KEY (ID) ," +
-                "UNIQUE KEY (probeID)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                "INDEX (probeName) " +
-                ") ;");
+    @Override
+    public String getCreateTableSQL(String tableData) {
+        String sql = "CREATE TABLE " + tableData + " ( "
+                + " ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , "
+                + " probeID varchar(255) NOT NULL default '',"
+                + " probeName varchar(255) NOT NULL default '',"
+                + " alias varchar(255), "
+                + " chrom varChar(255) NOT NULL default '', "
+                + " chromStart int(10) unsigned NOT NULL default '0',"
+                + " chromEnd int(10) unsigned NOT NULL default '0',"
+                + " block int(4) unsigned NOT NULL default '0',"
+                + " row int(4) unsigned NOT NULL default '0',"
+                + " col int(4) unsigned NOT NULL default '0',"
+                + "PRIMARY KEY (ID) ,"
+                + "UNIQUE KEY (probeID),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + "INDEX (probeName) "
+                + ") ;";
         return sql;
     }
 
     @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeId", "probeName", "alias", "chrom",
-                    "chromStart", "chromEnd", "block", "row", "col"
-                };
+            "probeID", "probeName", "alias", "chrom",
+            "chromStart", "chromEnd", "block", "row", "col"
+        };
     }
 
     @Override
@@ -138,7 +137,7 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
         #CLONE_ID = BAC Clone
         #SPOT_ID = spot identifier
          */
-        entry[ind_db] = "probeId";
+        entry[ind_db] = "probeID";
         entry[ind_file] = "ID";
         _map.add(entry);
 
@@ -150,8 +149,6 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
         entry[ind_db] = "alias";
         entry[ind_file] = "Name";
         _map.add(entry);
-
-
 
         entry = new String[2];
         entry[ind_db] = "chrom";
@@ -193,8 +190,6 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
         d.setType(Defaults.Type.BAC.toString());
         d.setDescription("imported via " + this.getClass().getName());
 
-
-
         return d;
     }
 
@@ -219,8 +214,8 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
 
                     this.release = GenomeRelease.toRelease(s.substring(i, i + 4));
                     Logger.getLogger(ImportPlatform.class.getName()).log(
-                            Level.INFO, "readRelease: " + s.substring(i, i + 4) +
-                            " " + this.release != null ? this.release.toString() : "not set");
+                            Level.INFO, "readRelease: " + s.substring(i, i + 4)
+                            + " " + this.release != null ? this.release.toString() : "not set");
                 }
 
             }
@@ -235,7 +230,6 @@ public class ImportPlatformGEOBAC extends ImportPlatform implements XPortPlatfor
                 Logger.getLogger(ImportPlatform.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
 
     }
 }

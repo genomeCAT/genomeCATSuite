@@ -1042,53 +1042,53 @@ Microsystems, Inc. All Rights Reserved.
         <question id="resources-read" when="final">
             Does your module read any resources from layers? For what purpose?
             
-            <hint>
-            As this is some kind of intermodule dependency, it is a kind of API.
-            Please describe it and classify according to 
-            <a href="http://openide.netbeans.org/tutorial/api-design.html#categories">
-            common stability categories</a>.
-            </hint>
-        </question>
--->
- <answer id="resources-read">
-  <p>
-   XXX no answer for resources-read
-  </p>
- </answer>
+                <hint>
+                As this is some kind of intermodule dependency, it is a kind of API.
+                Please describe it and classify according to 
+                <a href="http://openide.netbeans.org/tutorial/api-design.html#categories">
+                common stability categories</a>.
+                </hint>
+            </question>
+    -->
+    <answer id="resources-read">
+        <p>
+            XXX no answer for resources-read
+        </p>
+    </answer>
 
 
 
-<!--
-        <question id="security-grant" when="final">
-            Does your code grant additional rights to some other code?
-            <hint>Avoid using a class loader that adds extra
-            permissions to loaded code unless really necessary.
-            Also note that your API implementation
-            can also expose unneeded permissions to enemy code by
-            calling AccessController.doPrivileged().</hint>
-        </question>
--->
- <answer id="security-grant">
-  <p>
-   XXX no answer for security-grant
-  </p>
- </answer>
+    <!--
+            <question id="security-grant" when="final">
+                Does your code grant additional rights to some other code?
+                <hint>Avoid using a class loader that adds extra
+                permissions to loaded code unless really necessary.
+                Also note that your API implementation
+                can also expose unneeded permissions to enemy code by
+                calling AccessController.doPrivileged().</hint>
+            </question>
+    -->
+    <answer id="security-grant">
+        <p>
+            XXX no answer for security-grant
+        </p>
+    </answer>
 
 
 
-<!--
-        <question id="security-policy" when="final">
-            Does your functionality require modifications to the standard policy file?
-            <hint>Your code might pass control to third-party code not
-            coming from trusted domains. This could be code downloaded over the
-            network or code coming from libraries that are not bundled
-            with NetBeans. Which permissions need to be granted to which domains?</hint>
-        </question>
--->
- <answer id="security-policy">
-  <p>
-   XXX no answer for security-policy
-  </p>
- </answer>
+    <!--
+            <question id="security-policy" when="final">
+                Does your functionality require modifications to the standard policy file?
+                <hint>Your code might pass control to third-party code not
+                coming from trusted domains. This could be code downloaded over the
+                network or code coming from libraries that are not bundled
+                with NetBeans. Which permissions need to be granted to which domains?</hint>
+            </question>
+    -->
+    <answer id="security-policy">
+        <p>
+            XXX no answer for security-policy
+        </p>
+    </answer>
 
 </api-answers>

@@ -12,7 +12,6 @@ import java.io.Serializable;
  */
 public class SampleInExperimentID implements Serializable {
 
-   
     public Long experimentDetailID;
     public Long sampleDetailID;
 
@@ -41,5 +40,4 @@ public class SampleInExperimentID implements Serializable {
         return hash;
     }
 
-    
 }

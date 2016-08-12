@@ -20,14 +20,14 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
-public final class SelectorAction  extends AbstractAction implements LookupListener, ContextAwareAction {
+public final class SelectorAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Data> lkpInfo;
     private Lookup context;
 
     public SelectorAction() {
         this(Utilities.actionsGlobalContext());
-    //setIcon();
+        //setIcon();
     }
 
     private SelectorAction(Lookup context) {
@@ -67,8 +67,8 @@ public final class SelectorAction  extends AbstractAction implements LookupListe
             run(instance);
             return;
         }
-        JOptionPane.showMessageDialog(null, this.getName() + ": " +
-                "please select data in project tree");
+        JOptionPane.showMessageDialog(null, this.getName() + ": "
+                + "please select data in project tree");
     }
 
     public void run(Data d) {
@@ -78,7 +78,6 @@ public final class SelectorAction  extends AbstractAction implements LookupListe
 
         SelectorDialog s = new SelectorDialog(new javax.swing.JFrame(), true, d);
         s.setVisible(true);
-
 
     }
 
@@ -90,6 +89,4 @@ public final class SelectorAction  extends AbstractAction implements LookupListe
         return new SelectorAction(arg0);
     }
 
-    
 }
-

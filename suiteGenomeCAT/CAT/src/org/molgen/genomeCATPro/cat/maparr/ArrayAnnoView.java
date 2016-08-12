@@ -1,26 +1,23 @@
 package org.molgen.genomeCATPro.cat.maparr;
 
-/** * @(#)ArrayAnnoView.java 
- * 
- * 
+/**
+ * * @(#)ArrayAnnoView.java
+ *
+ *
  *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -35,6 +32,7 @@ import org.molgen.genomeCATPro.cat.util.Defines;
 
 /**
  * visualize Annotation Data with CAT VIEW
+ *
  * @author tebel
  */
 public class ArrayAnnoView extends ArrayView {
@@ -58,14 +56,12 @@ public class ArrayAnnoView extends ArrayView {
     }
 
     @Override
-    void showDetailData( long pos) {
+    void showDetailData(long pos) {
         Long dist = (long) Math.floor(2 * chromtab.scale_x);
 
         Region curr = this.am.getDataAtPos(this.chromtab.chrom, pos, dist);
 
-
         //this.parentFrame.showDetailData(curr);
-
         if (parent != null) {
             if (curr != null) {
                 parent.setDetailPos(
@@ -86,9 +82,9 @@ public class ArrayAnnoView extends ArrayView {
             // load Manager
             Logger.getLogger(ArrayAnnoView.class.getName()).log(Level.INFO,
                     "LoadArrayChrom");
-        } catch ( Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        //e.printStackTrace();
+            //e.printStackTrace();
         }
         if (arrayRatio.size() == 0) {
             if (arrayRatio.size() == 0) {
@@ -96,7 +92,7 @@ public class ArrayAnnoView extends ArrayView {
                 arrayStart.add(new Long(0));
                 arrayStop.add(new Long(0));
                 arrayName.add("no data");
-            //throw new RuntimeException("no data found for " + arrayId + " chrom: " + chromtab.chrom);
+                //throw new RuntimeException("no data found for " + arrayId + " chrom: " + chromtab.chrom);
 
             }
         }
@@ -105,8 +101,8 @@ public class ArrayAnnoView extends ArrayView {
     @Override
     void initView() {
         super.initView();
-    //setPreferredSize(new Dimension(Defines.ARRAY_WIDTH, (int) (Defines.ARRAY_HEIGTH * 0.5)));
-    //setMaximumSize(new Dimension(Defines.ARRAY_WIDTH, (int) (Defines.ARRAY_HEIGTH * 0.5)));
+        //setPreferredSize(new Dimension(Defines.ARRAY_WIDTH, (int) (Defines.ARRAY_HEIGTH * 0.5)));
+        //setMaximumSize(new Dimension(Defines.ARRAY_WIDTH, (int) (Defines.ARRAY_HEIGTH * 0.5)));
     }
 
     static ArrayData getArrayDataAnno(String release, String name) {
@@ -128,7 +124,7 @@ public class ArrayAnnoView extends ArrayView {
             System.out.println("no anno manager");
             return;
         }
-        g.drawLine(off_legend, Defines.ARRAY_HEIGTH / 4, off_legend + (int) view_max_x, Defines.ARRAY_HEIGTH / 4);
+        g.drawLine(ChromTab.off_legend, Defines.ARRAY_HEIGTH / 4, ChromTab.off_legend + (int) ChromTab.view_max_x, Defines.ARRAY_HEIGTH / 4);
         Graphics2D g2 = (Graphics2D) g;
         //gm.rotate(Math.toRadians(90), Defines.ARRAY_WIDTH/2, Defines.ARRAY_HEIGTH/2);
 
@@ -136,23 +132,20 @@ public class ArrayAnnoView extends ArrayView {
         gm.setBackground(this.getBackground());
         gm.clearRect(0, 0, anno.getWidth(), anno.getHeight());
 
-
         am.plot(gm,
                 this.chromtab.chrom,
                 true,
-                this.chromtab.pos_off_x, chromtab.pos_max_x,
+                this.chromtab.pos_first_x, chromtab.pos_max_x,
                 Defines.ARRAY_HEIGTH / 8, //left
                 0, // top,
                 Defines.ARRAY_HEIGTH / 4, // width -- no zoom
                 chromtab.scale_x);
 
-
-
         AffineTransform affineTransform = new AffineTransform();
         affineTransform.translate(0, Defines.ARRAY_HEIGTH * 0.5 / 2);
         affineTransform.rotate(-Math.toRadians(90));
-        
-        affineTransform.translate(-Defines.ARRAY_HEIGTH * 0.5 / 2, off_legend);
+
+        affineTransform.translate(-Defines.ARRAY_HEIGTH * 0.5 / 2, ChromTab.off_legend);
 
         g2.drawImage(anno, affineTransform, this);
         if (this.parent.isShowRuler()) {
@@ -162,4 +155,4 @@ public class ArrayAnnoView extends ArrayView {
         }
 
     }
-}	
+}

@@ -3,26 +3,23 @@ package org.molgen.genomeCATPro.xportagilent;
 /**
  * @name ImportExperimentFileFETXT
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -36,20 +33,24 @@ import org.molgen.genomeCATPro.cghpro.xport.ImportExperimentFile;
 import org.molgen.genomeCATPro.cghpro.xport.XPortExperimentFile;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
+import org.molgen.genomeCATPro.data.ISpot;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
+import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.datadb.service.PlatformService;
 import org.molgen.genomeCATPro.xportagilent.FEProtocollList.FEProtocoll;
 
 /**
- * 020813   kt	XPortImport createNewImport();
- * 170413   kt  allow empty chrom position in table definition
- * 100812       add getCreateTableSQLWithAnno
- * 051012       getExperimentNameFromFile cut off all endings like bed,txt
+ * 020813 kt	XPortImport createNewImport(); 170413 kt allow empty chrom position
+ * in table definition 100812 add getCreateTableSQLWithAnno 051012
+ * getExperimentNameFromFile cut off all endings like bed,txt
  */
 public class ImportExperimentFileFETXT extends ImportExperimentFile implements XPortExperimentFile {
 
     public final static String fe = "Agilent_FE_TXT";
+
+    boolean hasGene = false;
+    ISpot _spot;
     private String barcode;
     private String protocoll = null;
     private FEProtocoll p = null;
@@ -58,18 +59,23 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
     String metaDataTag = "FEATURES";
     String dataTag = "DATA";
 
+    public ImportExperimentFileFETXT() {
+        this._spot = new SpotAgilent();
+    }
+
+    @Override
     public ImportExperimentFileFETXT createNewImport() {
         return new ImportExperimentFileFETXT();
     }
 
     @Override
     protected String getEndMetaDataTag() {
-        return new String(this.metaDataTag);
+        return this.metaDataTag;
     }
 
     @Override
     protected boolean isCommentLine(String is) {
-        if (is.indexOf(dataTag) < 0) {
+        if (!is.contains(dataTag)) {
             return true;
         } else {
             return false;
@@ -85,7 +91,11 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
 
     @Override
     protected String getDataClazz() {
-        return SpotAgilent.class.getName();
+        if (_spot != null) {
+            return _spot.getClass().getName();
+        } else {
+            return "";
+        }
     }
 
     @Override
@@ -108,127 +118,129 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    protected String getCreateTableSQL(String tableData) {
-        String tableAnno = this.experimentdata.getPlatformdata().getTableData();
-        return ImportExperimentFileFETXT.getCreateTableSQL(tableData, tableAnno);
-    }
-
+    /* 
     public static String getCreateTableSQL(String tableData, String tableAnno) {
         // 170812 kt test import without prim key auto
 
-        String sql =
-                " CREATE TABLE " + tableData + " ( " +
-                "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "probeID INT UNSIGNED NOT NULL, " +
-                "probeName varchar(255) NOT NULL, " +
-                "chrom varChar(45)  DEFAULT \'\'," +
-                "chromStart int(10) unsigned  default 0," +
-                "chromEnd int(10) unsigned  default 0," +
-                "controlType tinyint(1) unsigned NOT NULL default 0," +
-                "geneName varchar(255), " +
-                "DESCRIPTION varchar(255), " +
-                "SystematicName varchar(255), " +
-                "rSignal DOUBLE, gSignal DOUBLE, " +
-                "rgRatio10 DOUBLE, rgRatio10PValue DOUBLE, " +
-                "ratio DOUBLE, " +
-                "PRIMARY KEY (id)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                "INDEX (geneName (10)) , " +
-                "CONSTRAINT `fk_Data_Spots_" + tableAnno + "` " +
-                "FOREIGN KEY (`probeName` ) " +
-                " REFERENCES `" + tableAnno + "` " +
-                " (`probeName`) " +
-                " ON DELETE NO ACTION " +
-                " ON UPDATE NO ACTION) ";
+        String sql
+                = " CREATE TABLE " + tableData + " ( "
+                + "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "probeID INT UNSIGNED NOT NULL, "
+                + "probeName varchar(255) NOT NULL, "
+                + "chrom varChar(45)  DEFAULT \'\',"
+                + "chromStart int(10) unsigned  default 0,"
+                + "chromEnd int(10) unsigned  default 0,"
+                + "controlType tinyint(1) unsigned NOT NULL default 0,"
+                + "geneName varchar(255), "
+                + "DESCRIPTION varchar(255), "
+                + "SystematicName varchar(255), "
+                + "rSignal DOUBLE, gSignal DOUBLE, "
+                + "rgRatio10 DOUBLE, rgRatio10PValue DOUBLE, "
+                + "ratio DOUBLE, "
+                + "PRIMARY KEY (id),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + "INDEX (geneName (10)) , "
+                + "CONSTRAINT `fk_Data_Spots_" + tableAnno + "` "
+                + "FOREIGN KEY (`probeName` ) "
+                + " REFERENCES `" + tableAnno + "` "
+                + " (`probeName`) "
+                + " ON DELETE NO ACTION "
+                + " ON UPDATE NO ACTION) ";
         return sql;
     }
 
+     */
     /**
      * create table without primary key, table will be filled by select into,
      * primary key is added after select into
      */
+    /*
     public static String getCreateTableSQLWithAnno(
             String tableData, String tableAnno, String annoColName) {
-        String sql =
-                " CREATE TABLE " + tableData + " ( " +
-                "id BIGINT UNSIGNED NOT NULL ," +
-                "probeID INT UNSIGNED NOT NULL, " +
-                "probeName varchar(255) NOT NULL, " +
-                "chrom varChar(45)  DEFAULT \'\'," +
-                "chromStart int(10) unsigned  default 0," +
-                "chromEnd int(10) unsigned  default 0," +
-                "controlType tinyint(1) unsigned NOT NULL default 0," +
-                "geneName varchar(255), " +
-                "DESCRIPTION varchar(255), " +
-                "SystematicName varchar(255), " +
-                "rSignal DOUBLE, gSignal DOUBLE, " +
-                "rgRatio10 DOUBLE, rgRatio10PValue DOUBLE, " +
-                "ratio DOUBLE, " +
-                "gc_position LINESTRING NOT NULL," +
-                annoColName + " varchar(255) NOT NULL default '' ," +
-                "INDEX (id)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                "INDEX (geneName (10)) , " +
-                "CONSTRAINT `fk_Data_Spots_" + tableAnno + "` " +
-                "FOREIGN KEY (`probeName` ) " +
-                " REFERENCES `" + tableAnno + "` " +
-                " (`probeName`) " +
-                " ON DELETE NO ACTION " +
-                " ON UPDATE NO ACTION) ";
+        String sql
+                = " CREATE TABLE " + tableData + " ( "
+                + "id BIGINT UNSIGNED NOT NULL ,"
+                + "probeID INT UNSIGNED NOT NULL, "
+                + "probeName varchar(255) NOT NULL, "
+                + "chrom varChar(45)  DEFAULT \'\',"
+                + "chromStart int(10) unsigned  default 0,"
+                + "chromEnd int(10) unsigned  default 0,"
+                + "controlType tinyint(1) unsigned NOT NULL default 0,"
+                + "geneName varchar(255), "
+                + "DESCRIPTION varchar(255), "
+                + "SystematicName varchar(255), "
+                + "rSignal DOUBLE, gSignal DOUBLE, "
+                + "rgRatio10 DOUBLE, rgRatio10PValue DOUBLE, "
+                + "ratio DOUBLE, "
+                + "gc_position LINESTRING NOT NULL,"
+                + annoColName + " varchar(255) NOT NULL default '' ,"
+                + "INDEX (id),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + "INDEX (geneName (10)) , "
+                + "CONSTRAINT `fk_Data_Spots_" + tableAnno + "` "
+                + "FOREIGN KEY (`probeName` ) "
+                + " REFERENCES `" + tableAnno + "` "
+                + " (`probeName`) "
+                + " ON DELETE NO ACTION "
+                + " ON UPDATE NO ACTION) ";
         return sql;
     }
-
+     */
+    /**
+     * kt review 050716
+     *
+     *
+     * @param tabledata
+     */
     @Override
     public void generateTable(String tabledata) {
         Statement s;
         try {
-            //con = Database.getDBConnection(Defaults.localDB);
+            //con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
             s.execute(
                     "DROP TABLE if EXISTS " + tabledata);
-            String sql = this.getCreateTableSQL(tabledata);
+            if (!this.hasGene) {
+                this._spot = new SpotAgilentwoGene();
+            };
+            String sql = this._spot.getCreateTableSQL(experimentdata);
             Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(
-                    Level.INFO,
-                    sql);
+                    Level.INFO, "SQL: " + sql);
             s.execute(sql);
-
+            this.experimentdata.setClazz(this.getDataClazz());
             // update insert row with data from annotation table 
             String triggername = "tr_position_" + this.experimentdata.getTableData();
             String tableAnno = this.experimentdata.getPlatformdata().getTableData();
-            try {
-                s.execute("DROP TRIGGER " + triggername);
-            } catch (SQLException sQLException) {
-            }
-            sql = "" +
-                    "CREATE TRIGGER " + triggername +
-                    " BEFORE INSERT ON " + this.experimentdata.getTableData() +
-                    "  FOR EACH ROW " +
-                    "BEGIN " +
-                    "DECLARE done INT DEFAULT 0;  " +
-                    "DECLARE varChrom varchar(45);  " +
-                    "DECLARE varStart INT; " +
-                    "DECLARE varStop INT;   " +
-                    "DECLARE cs CURSOR FOR  SELECT chrom ,chromStart, chromEnd FROM " +
-                    tableAnno + " WHERE " + tableAnno + ".probeName = new.probeName; " +
-                    //" AND " + tableAnno + ".probeID = new.probeID; " +
-                    "DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; " +
-                    "OPEN cs;  " +
-                    "FETCH cs INTO varChrom, varStart, varStop;  " +
-                    "IF NOT done THEN " +
-                    //"CLOSE cs; " +
-                    " SET done = \'Position not found in annotation table\'; " +
-                    "END IF;  " +
-                    //" SELECT \'FOUND POSITION \', chrom, start, stop; " +
-                    " SET new.chrom = varChrom;  " +
-                    " SET new.chromStart = varStart;  " +
-                    " SET new.chromEnd = varStop;  " +
-                    "CLOSE cs;  " +
-                    " END ;";
+            s.execute("DROP TRIGGER if EXISTS " + triggername);
+            sql = ""
+                    + "CREATE TRIGGER " + triggername
+                    + " BEFORE INSERT ON " + this.experimentdata.getTableData()
+                    + "  FOR EACH ROW "
+                    + "BEGIN "
+                    + "DECLARE done INT DEFAULT 0;  "
+                    + "DECLARE varChrom varchar(45);  "
+                    + "DECLARE varStart INT; "
+                    + "DECLARE varStop INT;   "
+                    + "DECLARE cs CURSOR FOR  SELECT chrom ,chromStart, chromEnd FROM "
+                    + tableAnno + " WHERE " + tableAnno + ".probeName = new.probeName; "
+                    + //" AND " + tableAnno + ".probeID = new.probeID; " +
+                    "DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; "
+                    + "OPEN cs;  "
+                    + "FETCH cs INTO varChrom, varStart, varStop;  "
+                    + "IF NOT done THEN "
+                    + //"CLOSE cs; " +
+                    " SET done = \'Position not found in annotation table\'; "
+                    + "END IF;  "
+                    + //" SELECT \'FOUND POSITION \', chrom, start, stop; " +
+                    " SET new.chrom = varChrom;  "
+                    + " SET new.chromStart = varStart;  "
+                    + " SET new.chromEnd = varStop;  "
+                    + "CLOSE cs;  "
+                    + " END ;";
 
             Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(
                     Level.INFO,
@@ -242,8 +254,7 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
 
     @Override
     public List<String[]> getDefaultMappingFile2DBColNames() {
-        List<String[]> _map = new Vector<String[]>();
-
+        List<String[]> _map = new Vector<>();
 
         String[] entry;
 
@@ -255,7 +266,6 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
         entry[ind_db] = "probeName";
         entry[ind_file] = "ProbeName";
         _map.add(entry);
-
 
         entry = new String[2];
         entry[ind_db] = "geneName";
@@ -292,7 +302,6 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
         entry[ind_file] = "ControlType";
         _map.add(entry);
 
-
         entry = new String[2];
         entry[ind_db] = "rgRatio10";
         entry[ind_file] = "LogRatio";
@@ -304,23 +313,30 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
         return _map;
     }
 
+    @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeID", "probeName", "SystematicName",
-                    "controlType",
-                    "geneName",
-                    "rSignal", "gSignal",
-                    "rgRatio10", "rgRatio10PValue"
-                };
+            "probeID", "probeName", "SystematicName",
+            "controlType",
+            "geneName",
+            "rSignal", "gSignal",
+            "rgRatio10", "rgRatio10PValue"
+        };
     }
 
+    /**
+     *
+     * @return string import module for ui
+     */
+    @Override
     public Vector<String> getImportType() {
-        return new Vector<String>(
+        return new Vector<>(
                 Arrays.asList(new String[]{
-                    ImportExperimentFileFETXT.fe
-                }));
+            ImportExperimentFileFETXT.fe
+        }));
     }
 
+    @Override
     public String getName() {
         return this.getClass().getSimpleName();
     }
@@ -330,9 +346,9 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
         if (this.fileColNames == null) {
             this.readHeaderFETXT(1);
         }
-
     }
 
+    @Override
     public String getFileInfoAsHTML() {
         String info = "<html>";
         info += ("protocoll: " + this.protocoll + "<br/>");
@@ -346,11 +362,14 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
     }
 
     /**
-     * find list of suitable arrays
-     * use barcode of FE File to get Protocoll
-     * 
+     * find list of suitable arrays use barcode of FE File to get Protocoll
+     *
+     * @param type
+     * @param method
      * @return
+     * @throws Exception
      */
+    @Override
     public List<PlatformDetail> getPlatformList(String type, String method) throws Exception {
         boolean userdef = (type != null || method != null);
 
@@ -361,16 +380,16 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                 // desc containing Barcode
                 list = PlatformService.getAgilentPlatformByBarcode(this.barcode);
 
-                Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(
-                        Level.INFO, " found platform " + list.toString() + " with barcode " + barcode);
+                Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO,
+                        " found platform {0} with barcode {1}", new Object[]{list.toString(), barcode});
                 return list;
             }
-            if (!userdef && list.size() == 0) {
+            if (!userdef && list.isEmpty()) {
                 // get platformlist with header infos
                 this.p = FEProtocollList.get(this.protocoll);
 
             }
-            if (userdef || (list.size() == 0 && p == null)) {
+            if (userdef || (list.isEmpty() && p == null)) {
                 // user select for type, method or nothing else found
                 if (method == null && type == null) //throw new RuntimeException("Unknown Protokoll: " + this.protocoll);
                 {
@@ -382,11 +401,10 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                             "",
                             Defaults.Type.toType(type),
                             Defaults.Method.toMethod(method), "", "");
-                    Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(
-                            Level.INFO, " get platform userdef " + type + " " + method);
+                    Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO,
+                            " get platform userdef {0} {1}", new Object[]{type, method});
 
                 }
-
 
             }
             // find array, plattform
@@ -395,9 +413,9 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
             list = PlatformService.getPlatformByTypeAndMethod(
                     p.method,
                     p.type);
-            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(
-                    Level.INFO, " found platform " + list.toString() + " with protocol " + p.toFullString());
-
+            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO,
+                    " found platform {0} with protocol {1}",
+                    new Object[]{list.toString(), p.toFullString()});
 
             return list;
         } catch (Exception ex) {
@@ -405,7 +423,7 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
             Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.SEVERE,
                     "Error: ", ex);
             throw ex;
-        //return Collections.emptyList();
+            //return Collections.emptyList();
         }
 
     }
@@ -478,7 +496,7 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                 if (is == null) {
                     continue;
                 }
-                if (is.indexOf(this.metaHeaderTag) >= 0) {
+                if (is.contains(this.metaHeaderTag)) {
                     header = true;
                     data = false;
                     stats = false;
@@ -498,18 +516,18 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                         }
                         if (iss[i].equals("Scan_NumChannels")) {
                             indexNofChannel = i;
-                            continue;
+
                         }
                     }
                     continue;
                 }
-                if (is.indexOf(this.metaStatsTag) >= 0) {
+                if (is.contains(this.metaStatsTag)) {
                     header = false;
                     data = false;
                     stats = true;
                     continue;
                 }
-                if (is.indexOf(this.metaDataTag) >= 0) {
+                if (is.contains(this.metaDataTag)) {
                     header = false;
                     data = true;
                     stats = false;
@@ -517,7 +535,7 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                     this.fileColNames = iss;
                     continue;
                 }
-                if (is.indexOf(this.dataTag) >= 0) {
+                if (is.contains(this.dataTag)) {
                     iss = is.split("\t");
                     if (data) {
                         if (++lines > nofLines) {
@@ -530,22 +548,26 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
 
                         if (indexProtocoll >= 0) {
                             this.protocoll = iss[indexProtocoll];
-                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO, "Found in Header: Protocoll " + this.protocoll);
+                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(
+                                    Level.INFO, "Found in Header: Protocoll " + this.protocoll);
 
                         }
                         if (indexRelease >= 0) {
                             this.release = GenomeRelease.toRelease(iss[indexRelease]);
-                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO, "Found in Header: Release " + this.release);
+                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO,
+                                    "Found in Header: Release " + this.release);
 
                         }
                         if (indexBarcode >= 0) {
                             this.barcode = iss[indexBarcode];
-                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO, "Found in Header: Barcode " + this.barcode);
+                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO,
+                                    "Found in Header: Barcode " + this.barcode);
 
                         }
                         if (indexNofChannel >= 0) {
                             this.nofChannel = Integer.parseInt(iss[indexNofChannel]);
-                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO, "Found in Header: NofChannel " + this.nofChannel);
+                            Logger.getLogger(ImportExperimentFileFETXT.class.getName()).log(Level.INFO,
+                                    "Found in Header: NofChannel " + this.nofChannel);
 
                         } else {
                             this.nofChannel = 2;
@@ -554,7 +576,7 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                     }
                 }
             }
-        /*120413 kt test
+            /*120413 kt test
         if (!data && !header) {
         throw new RuntimeException("Read header - wrong format");
         }*/
@@ -590,7 +612,6 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
             if (_map.get(i)[ind_db].contentEquals("chrom")) {
                 ichrom = i;
                 continue;
-
             }
             if (_map.get(i)[ind_db].contentEquals("controlType")) {
                 iControl = i;
@@ -627,17 +648,15 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
     }
 
     /**
-     * 1) distinguish between one channel/two channel
-     * 2) set g/rProcesssedSignal to 0 if pvalueLogRatio == 1 and LogRatio == 0
-     *      (bad quality) 
-     * 
+     * 1) distinguish between one channel/two channel 2) set g/rProcesssedSignal
+     * to 0 if pvalueLogRatio == 1 and LogRatio == 0 (bad quality)
+     *
      * @param map
      * @param tmp
      * @return
      */
+    @Override
     protected String[] modify(List<String[]> map, String[] tmp) {
-
-
 
         if (iControl >= 0) {
             if (tmp[iControl].contentEquals("1") || tmp[iControl].contentEquals("-1")) {
@@ -655,7 +674,6 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
         //otherSymbols.setGroupingSeparator(',');
         DecimalFormat myFormatter = new DecimalFormat("0.#####E0", otherSymbols);
         tmp[iratio10] = myFormatter.format(ratio * -1);
-
 
         if (this.nofChannel > 1) {
             double pratio10 = Double.parseDouble(tmp[ipratio10]);
@@ -685,10 +703,12 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
 
     @Override
     public String setMappingFile2DBColNames(List<String[]> _map) {
-
+        this.hasGene = false;
         if (this.nofChannel == 1) {
             int rgCount = 0;
             for (int i = 0; i < _map.size(); i++) {
+
+                //
                 if (_map.get(i)[ind_db].contentEquals("rSignal")) {
                     if (!_map.get(i)[ind_file].contentEquals("")) {
                         rgCount++;
@@ -701,30 +721,40 @@ public class ImportExperimentFileFETXT extends ImportExperimentFile implements X
                 }
             }
             if (rgCount == 0 || rgCount == 2) {
-                return new String("either mapping for rSignal OR gSignal must be set!");
+                return "either mapping for rSignal OR gSignal must be set!";
             }
         }
-
+//kt rev 300716
+        for (int i = 0; i < _map.size(); i++) {
+            if (_map.get(i)[ind_file].toUpperCase().contains("GENE")) {
+                this.hasGene = true;
+            }
+        }
         super.setMappingFile2DBColNames(_map);
         return null;
     }
 
+    @Override
     public boolean hasSplitField() {
         return false;
     }
 
+    @Override
     public void setSplitFieldName(String field) {
         ;
     }
 
+    @Override
     public String getSplitFieldName() {
         return "";
     }
 
+    @Override
     public String[] getSplitFieldArray() {
         return new String[0];
     }
 
+    @Override
     public String getSplitPattern() {
         return "";
     }

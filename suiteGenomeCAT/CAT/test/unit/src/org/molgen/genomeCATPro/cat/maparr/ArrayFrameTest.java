@@ -10,8 +10,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.GeneImpl;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
@@ -35,8 +35,9 @@ public class ArrayFrameTest {
 
     @Before
     public void setUp() {
-        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
+       Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "user", "user");
+
+        DBService.setConnection("localhost", "3306", "genomecat", "user", "user");
 
     }
 
@@ -48,11 +49,7 @@ public class ArrayFrameTest {
     @SuppressWarnings("empty-statement")
     public void testExperimentDetailViewWithRelease() {
 
-
-
         Data[] list = FilterExperimentsDialog.getDataList(Defaults.GenomeRelease.hg18);
-
-
 
         while (true);
     }
@@ -60,8 +57,6 @@ public class ArrayFrameTest {
 
     @SuppressWarnings("empty-statement")
     public void testExperimentDetailView() {
-
-
 
         Data[] list = FilterExperimentsDialog.getDataList(null);
 
@@ -75,13 +70,9 @@ public class ArrayFrameTest {
     public void testArrayFrame() {
         JFrame p = new JFrame("test");
 
-
         try {
 
-
-
             ArrayFrame f = new ArrayFrame();
-            
 
             f.addAnno(Defaults.GenomeRelease.hg18.toString(), GeneImpl.nameId);
             p.add(f);

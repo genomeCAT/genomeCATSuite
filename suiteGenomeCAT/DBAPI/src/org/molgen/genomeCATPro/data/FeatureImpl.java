@@ -9,47 +9,57 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.annotation.RegionArray;
-import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 
 /**
  * @name FeatureImpl
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @author Wei Chen
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-public class FeatureImpl implements Feature, Cloneable, RegionArray {
+public class FeatureImpl implements IFeature, Cloneable, RegionArray {
 
     public long iid;
-    /** id of the Feature/BAC*/
+    /**
+     * id of the Feature/BAC
+     */
     public String id;
-    /**name of the chromosome*/
+    /**
+     * name of the chromosome
+     */
     public String chrom;
-    /**base pair position of start*/
+    /**
+     * base pair position of start
+     */
     public long chromStart = -1;
-    /**base pair position of end*/
+    /**
+     * base pair position of end
+     */
     public long chromEnd = -1;
-    /** average ratio between replicates*/
+    /**
+     * average ratio between replicates
+     */
     public double ratio;
     // dynamic information depending on user parameter
-    /**indicator if this Feature/BAC is aberrant, 0:normal; 1:gain, -1:loss*/
+    /**
+     * indicator if this Feature/BAC is aberrant, 0:normal; 1:gain, -1:loss
+     */
     public int ifAberrant;
     private int count = 0;
     final static DecimalFormat myFormatter = new DecimalFormat("0.###");
@@ -114,8 +124,8 @@ public class FeatureImpl implements Feature, Cloneable, RegionArray {
     }
 
     public String toFullString() {
-        return new String(this.getId() + " " +
-                this.chrom + ":" + this.chromStart + "-" + this.chromEnd + "(" + this.getRatio() + ")");
+        return new String(this.getId() + " "
+                + this.chrom + ":" + this.chromStart + "-" + this.chromEnd + "(" + this.getRatio() + ")");
     }
 
     FeatureImpl(Long iid, String id, String chrom, long chromStart, long chromEnd, double ratio,
@@ -139,17 +149,21 @@ public class FeatureImpl implements Feature, Cloneable, RegionArray {
     }
 
     /**
-     *Set the ratio to the input 'ratio'
-     *@param ratio input
-     **/
+     * Set the ratio to the input 'ratio'
+     *
+     * @param ratio input
+     *
+     */
     public void setRatio(double ratio) {
         this.ratio = ratio;
     }
 
     /**
-     *Get the ratio
-     *@return the ratio 
-     **/
+     * Get the ratio
+     *
+     * @return the ratio
+     *
+     */
     public double getRatio() {
         return ratio;
     }
@@ -163,9 +177,11 @@ public class FeatureImpl implements Feature, Cloneable, RegionArray {
     }
 
     /**
-     *Set the ifAberrant to the input
-     *@param ifAberrant input
-     **/
+     * Set the ifAberrant to the input
+     *
+     * @param ifAberrant input
+     *
+     */
     public void setIfAberrant(int ifAberrant) {
 
         this.ifAberrant = ifAberrant;
@@ -178,31 +194,31 @@ public class FeatureImpl implements Feature, Cloneable, RegionArray {
     }
 
     public String getCreateTableSQL(Data d) {
-        String sql =
-                " CREATE TABLE " + d.getTableData() + " ( " +
-                "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "name varchar(255) NOT NULL, " +
-                "chrom varChar(45) NOT NULL," +
-                "chromStart int(10) unsigned NOT NULL," +
-                "chromEnd int(10) unsigned NOT NULL," +
-                "ratio DOUBLE, " +
-                "count int , " +
-                "PRIMARY KEY (id)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd) ) " +
-                "TYPE=MyISAM";
+        String sql
+                = " CREATE TABLE " + d.getTableData() + " ( "
+                + "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "name varchar(255) NOT NULL, "
+                + "chrom varChar(45) NOT NULL,"
+                + "chromStart int(10) unsigned NOT NULL,"
+                + "chromEnd int(10) unsigned NOT NULL,"
+                + "ratio DOUBLE, "
+                + "count int , "
+                + "PRIMARY KEY (id),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd) ) "
+                + "TYPE=MyISAM";
         return sql;
     }
 
     public String getInsertSQL(Data d) {
         return new String(
-                "INSERT INTO " + d.getTableData() +
-                "(name, chrom, chromStart, chromEnd, ratio, count ) " +
-                "values( " +
-                "\'" + this.getId() + "\',\'" + this.getChrom() + "\'," +
-                "\'" + this.getChromStart() + "\',\'" + this.getChromEnd() + "\'," +
-                "\'" + this.getRatio() + "\',\'" + this.getCount() + "\' )");
+                "INSERT INTO " + d.getTableData()
+                + "(name, chrom, chromStart, chromEnd, ratio, count ) "
+                + "values( "
+                + "\'" + this.getId() + "\',\'" + this.getChrom() + "\',"
+                + "\'" + this.getChromStart() + "\',\'" + this.getChromEnd() + "\',"
+                + "\'" + this.getRatio() + "\',\'" + this.getCount() + "\' )");
     }
 
     public String toHTMLString() {
@@ -223,21 +239,21 @@ public class FeatureImpl implements Feature, Cloneable, RegionArray {
         return ICON_PATH;
     }
 
-    public List<? extends Feature> loadFromDB(Data d) throws Exception {
+    public List<? extends IFeature> loadFromDB(Data d) throws Exception {
         Logger.getLogger(FeatureImpl.class.getName()).log(Level.INFO, "loadFromDB");
         List<FeatureImpl> list = new Vector<FeatureImpl>();
         FeatureImpl f = null;
         Connection con = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
             ResultSet rs = s.executeQuery(
-                    "Select id, name, chrom, chromStart, chromEnd, ratio, count " +
-                    " from " + d.getTableData() +
-                    " where chrom != \'\' " +
-                    " order by chrom, chromStart");
+                    "Select id, name, chrom, chromStart, chromEnd, ratio, count "
+                    + " from " + d.getTableData()
+                    + " where chrom != \'\' "
+                    + " order by chrom, chromStart");
 
             String _chrom = "";
             while (rs.next()) {
@@ -299,4 +315,5 @@ public class FeatureImpl implements Feature, Cloneable, RegionArray {
         return new String(getChrom() + ":" + getChromStart() + "-" + getChromEnd());
 
     }
+
 }

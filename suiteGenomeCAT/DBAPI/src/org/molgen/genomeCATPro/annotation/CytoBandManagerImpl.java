@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.annotation;
+
 /**
  * @name CytoBandManagerImpl
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -29,13 +28,13 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.Database;
 
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.datadb.dbentities.AnnotationList;
-
 
 public class CytoBandManagerImpl extends AnnotationManagerImpl {
 
@@ -44,7 +43,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
     //static Hashtable<AnnotationList, Hashtable<String, Vector<CytoBand>>> bands = new Hashtable<AnnotationList, Hashtable<String, Vector<CytoBand>>>();
     public CytoBandManagerImpl(GenomeRelease release) {
         super(release, name);
-    /*AnnotationList anno = null;
+        /*AnnotationList anno = null;
     anno = AnnotationManagerImpl.getAnnotation(release, name);
     if (anno == null) {
     anno = AnnotationManagerImpl.loadAnnotation(release, name);
@@ -53,7 +52,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
     throw new RuntimeException("Not found " + name + " for " + release.toString());
     }
     AnnotationManagerImpl.data.put(anno, new Hashtable<String, Vector<? extends RegionAnnotation>>());
-     */
+         */
     }
 
     public long getLength(List<? extends CytoBand> bands) {
@@ -113,19 +112,15 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
 
         Connection con = null;
 
-
-
-        con = Database.getDBConnection(Defaults.localDB);
+        con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         Statement s = con.createStatement();
 
-
         r = s.executeQuery(
-                "SELECT chrom, chromStart, chromEnd,name, gieStain from " +
-                table + " where " +
-                " chrom = \'" + chromId + "\'" +
-                " order by chromEnd");
-
+                "SELECT chrom, chromStart, chromEnd,name, gieStain from "
+                + table + " where "
+                + " chrom = \'" + chromId + "\'"
+                + " order by chromEnd");
 
         while (r.next()) {
 
@@ -136,21 +131,20 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
                     r.getString("gieStain")));
         }
 
-
         return __bands;
     }
 
     /**
-     * Query the table cytoBand in the back-end database 
-     * Fill the results into the empty vector 'bands' 
-     * and at the local hashtable for chromId and genomerelease
+     * Query the table cytoBand in the back-end database Fill the results into
+     * the empty vector 'bands' and at the local hashtable for chromId and
+     * genomerelease
      *
-     **/
+     *
+     */
     public static List<CytoBand> getBand(AnnotationList anno, String chromId) {
 
         Logger.getLogger(CytoBandManagerImpl.class.getName()).log(Level.FINE,
                 "get CytoBand for " + anno.getGenomeRelease() + " " + chromId);
-
 
         Hashtable<String, Vector<? extends RegionAnnotation>> _bands = data.get(anno);
         if (!_bands.containsKey(chromId)) {
@@ -165,14 +159,12 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
             }
         }
         return (List<CytoBand>) _bands.get(chromId);
-    /**
-    if (bands.size() > 0) {
-    length = bands.get(bands.size() - 1).chromEnd - bands.get(0).chromStart;
-    } else {
-    length = 0;
-    //length = ((CytoBand)bands.get(bands.size()-1)).chromEnd;		
-    }
-     **/
+        /**
+         * if (bands.size() > 0) { length = bands.get(bands.size() - 1).chromEnd
+         * - bands.get(0).chromStart; } else { length = 0; //length =
+         * ((CytoBand)bands.get(bands.size()-1)).chromEnd; }
+         *
+         */
     }
 
     @Override
@@ -193,10 +185,10 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
             int x0, int y0, int width, double yScale) {
 
         Logger.getLogger(CytoBandManagerImpl.class.getName()).log(
-                Level.INFO, "Plot CytoBand for  " + anno.getGenomeRelease() + " " + chromId +
-                " x0: " + x0 + " y0: " + y0 + " width: " + width +
-                (fullChrom ? " " : new String(" firstPos: " + firstPos + " secondPos: " + secondPos + " yScale: " +
-                yScale)));
+                Level.INFO, "Plot CytoBand for  " + anno.getGenomeRelease() + " " + chromId
+                + " x0: " + x0 + " y0: " + y0 + " width: " + width
+                + (fullChrom ? " " : new String(" firstPos: " + firstPos + " secondPos: " + secondPos + " yScale: "
+                                + yScale)));
 
         List<CytoBand> _band = (List<CytoBand>) this.getData(chromId);
         //Collections.sort(_band, CytoBand.maxEnd);
@@ -209,18 +201,13 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
                     _band, chromId,
                     firstPos, secondPos);
 
-
         }
 
         int i = 0;
 
-
         Color c = Color.BLACK;
 
-         
-         
-             
-              int y1      ,  y2;
+        int y1, y2;
 
         for (CytoBand current : __band) {
             // current = (CytoBand) e.next();
@@ -256,20 +243,18 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
                 g.setColor(c);
                 g.fillRect(x0 + 1, y1, width - 1, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
             } //draw gieStain negtive band   
-            else {
-                if (current.getGieStain().indexOf("gvar") != -1) {
-                    g.setColor(Color.black);
-                    g.drawRect(x0, y1, width, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
-                    g.setColor(c);
-                    g.fillRect(x0 + 1, y1, width - 1, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
+            else if (current.getGieStain().indexOf("gvar") != -1) {
+                g.setColor(Color.black);
+                g.drawRect(x0, y1, width, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
+                g.setColor(c);
+                g.fillRect(x0 + 1, y1, width - 1, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
 
                 //draw gieStain negtive band
-                } else {
-                    g.setColor(Color.black);
-                    g.drawRect(x0, y1, width, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
-                    g.setColor(c);
-                    g.fillRect(x0 + 1, y1, width - 1, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
-                }
+            } else {
+                g.setColor(Color.black);
+                g.drawRect(x0, y1, width, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
+                g.setColor(c);
+                g.fillRect(x0 + 1, y1, width - 1, y2 - y1 > 0 ? y2 - y1 : this.getMinSpotHeight());
             }
 
             g.setColor(Color.BLACK);
@@ -302,6 +287,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
 
     /**
      * get first element for chrom (min genome position)
+     *
      * @param release
      * @param chrom
      * @return
@@ -323,6 +309,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
 
     /**
      * get last element for chrom (max genome position)
+     *
      * @param release
      * @param chrom
      * @return
@@ -341,11 +328,11 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
         RegionAnnotation last = Collections.max(b);
         return last;
     }
-    
 
     ////////////STATIC METHODS//////////////////////////////
     /**
      * get length for each of all chroms
+     *
      * @param release
      * @return
      */
@@ -365,19 +352,19 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
         ResultSet r;
         try {
 
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
 
             r = s.executeQuery(
-                    "select chrom, max(chromEnd) as ml from " + anno.getTableData() +
-                    " group by chrom order by chrom");
+                    "select chrom, max(chromEnd) as ml from " + anno.getTableData()
+                    + " group by chrom order by chrom");
 
             while (r.next()) {
                 list.put(r.getString("chrom"), r.getLong("ml"));
             }
             if (list.size() == 0) {
-                throw new RuntimeException("No Cytoband Data  found at: " +
-                        anno.getTableData());
+                throw new RuntimeException("No Cytoband Data  found at: "
+                        + anno.getTableData());
             }
             return list;
 
@@ -396,6 +383,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
 
     /**
      * get chroms by name
+     *
      * @param release
      * @return
      */
@@ -413,21 +401,21 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
         Connection con = null;
         ResultSet r;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
 
             r = s.executeQuery(
                     // sort chroms
-                    "select distinct chrom, " +
-                    " replace(replace(chrom, 'X',999), 'Y', 999) as a  " +
-                    " from " + anno.getTableData() + " order by right(a,2)+0;");
+                    "select distinct chrom, "
+                    + " replace(replace(chrom, 'X',999), 'Y', 999) as a  "
+                    + " from " + anno.getTableData() + " order by right(a,2)+0;");
 
             while (r.next()) {
                 list.add(r.getString("chrom"));
             }
             if (list.size() == 0) {
-                throw new RuntimeException("No Cytoband Data  found at: " +
-                        anno.getTableData());
+                throw new RuntimeException("No Cytoband Data  found at: "
+                        + anno.getTableData());
             }
         } catch (Exception e) {
             Logger.getLogger(CytoBandManagerImpl.class.getName()).log(Level.INFO, "Error: ", e);
@@ -444,7 +432,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
     }
 
     /**
-     * 
+     *
      * @param release
      * @return
      */
@@ -455,7 +443,7 @@ public class CytoBandManagerImpl extends AnnotationManagerImpl {
             return Collections.max(cLengths).intValue();
         }
         return 0;
-    //Collections.sort((List<T>) (Collection) cLengths);
-    // return cLengths.get(cLengths.size()-1).intValue();
+        //Collections.sort((List<T>) (Collection) cLengths);
+        // return cLengths.get(cLengths.size()-1).intValue();
     }
 }

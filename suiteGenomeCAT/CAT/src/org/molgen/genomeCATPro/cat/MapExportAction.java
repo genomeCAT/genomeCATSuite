@@ -4,7 +4,6 @@
  */
 package org.molgen.genomeCATPro.cat;
 
-
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -55,12 +54,12 @@ public class MapExportAction extends AbstractAction implements LookupListener, C
     }
 
     public void actionPerformed(ActionEvent e) {
-        
+
         ProgressHandle handle = ProgressHandleFactory.createHandle("Get data...");
         handle.start(100);
         init();
         handle.progress(30);
-        
+
         for (MapDetail instance : lkpInfo.allInstances()) {
             MapExportAction.export(instance);
         }
@@ -68,9 +67,9 @@ public class MapExportAction extends AbstractAction implements LookupListener, C
     }
 
     private static void export(MapDetail s) {
-        JDialog d  = new ExportMapDialog(s);
+        JDialog d = new ExportMapDialog(s);
         d.setVisible(true);
-       
+
     }
 
     public void resultChanged(LookupEvent ev) {
@@ -80,5 +79,5 @@ public class MapExportAction extends AbstractAction implements LookupListener, C
     public Action createContextAwareInstance(Lookup context) {
         return new MapExportAction(context);
     }
-    
+
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import org.molgen.genomeCATPro.datadb.dbentities.MapData;
 import org.molgen.genomeCATPro.datadb.dbentities.MapDetail;
 import org.molgen.genomeCATPro.datadb.service.MapService;
@@ -18,22 +17,20 @@ import org.openide.nodes.Node;
 /**
  * @name MapDataNodeFactory
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 public class MapDataNodeFactory extends ChildFactory<MapData>
         implements PropertyChangeListener {
@@ -50,7 +47,6 @@ public class MapDataNodeFactory extends ChildFactory<MapData>
         list.clear();
         try {
 
-
             Logger.getLogger(MapDataNodeFactory.class.getName()).log(Level.INFO, "get Track Data for Parent");
 
             list.addAll(MapService.getMapDataList(e));
@@ -64,7 +60,6 @@ public class MapDataNodeFactory extends ChildFactory<MapData>
 
     @Override
     protected Node createNodeForKey(MapData c) {
-
 
         MapDataNode node = null;
         try {
@@ -92,6 +87,3 @@ public class MapDataNodeFactory extends ChildFactory<MapData>
         this.refresh(true);
     }
 }
-
-
-

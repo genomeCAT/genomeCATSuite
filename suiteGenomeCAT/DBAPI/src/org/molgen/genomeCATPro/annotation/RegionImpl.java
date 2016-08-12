@@ -1,34 +1,37 @@
 package org.molgen.genomeCATPro.annotation;
+
 /**
  * @name RegionImpl
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Jan 19, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Jan 19, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 /**
  *
  * log
  */
 public class RegionImpl implements Region {
 
+    @Id
     @Column(name = "name", nullable = false)
-    String name;
+    public String name;
     @Column(name = "chrom", nullable = false)
     String chrom;
     @Column(name = "chromStart", nullable = false)

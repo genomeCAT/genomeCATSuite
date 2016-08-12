@@ -3,21 +3,19 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportPlatform
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -28,10 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.logging.SimpleFormatter;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.RegionLib;
-import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 
 import org.molgen.genomeCATPro.common.InformableHandler;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
@@ -39,16 +37,18 @@ import org.molgen.genomeCATPro.datadb.dbentities.PlatformData;
 import org.molgen.genomeCATPro.datadb.service.PlatformService;
 
 /**
- * 050413 kt    import 1...X,Y or 1...23,24 as chr...
- * 260313 kt    remove already set mapping for genomic position if we have split fields
-
- * 150812 kt    extends Import_batch
- * 
+ * 050413 kt import 1...X,Y or 1...23,24 as chr... 260313 kt remove already set
+ * mapping for genomic position if we have split fields
+ *
+ * 150812 kt extends Import_batch
+ *
  */
 public abstract class ImportPlatform extends Import_batch implements XPortPlatform {
 
     private String file_field_position = null;
 
+    
+    @Override
     public PlatformData getPlatformData(PlatformDetail detail) {
         PlatformData d = new PlatformData();
         if (detail == null) {
@@ -63,12 +63,12 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
         //d.initTableData();
         d.setClazz(this.getClass().getName());
 
-
         return d;
     }
 
     /**
      * init Instance to import new file
+     *
      * @param nameFile
      */
     public void newImportPlatform(String filename) throws Exception {
@@ -83,13 +83,9 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
     protected List<String[]> extendMapping() {
 
         // 050413 kt
-
         List<String[]> _map = this.getMappingFile2DBColNames();
 
-
-
         for (int i = 0; i < _map.size(); i++) {
-
 
             if (_map.get(i)[ind_db].contentEquals("chrom")) {
                 ichrom = i;
@@ -105,8 +101,6 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
     protected String[] modify(List<String[]> map, String[] tmp) {
 
         // todo logratio aus r/g (abhängig ob dyeswap 
-
-
         // 050413 kt
         if (tmp[ichrom] != null && !tmp[ichrom].contentEquals("") && !tmp[ichrom].contentEquals("--") && !tmp[ichrom].startsWith("chr")) {
 
@@ -154,7 +148,7 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
 
         Statement s = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
         } catch (Exception ex) {
             Logger.getLogger(ImportPlatform.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,15 +157,13 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
         try {
             em.getTransaction().begin();
 
-
-            if (platformdetail.getPlatformID() == null ||
-                    em.find(PlatformDetail.class, platformdetail.getPlatformID()) == null) {
+            if (platformdetail.getPlatformID() == null
+                    || em.find(PlatformDetail.class, platformdetail.getPlatformID()) == null) {
                 isNewPlatformDetail = true;
 
                 Logger.getLogger(
                         ImportPlatform.class.getName()).log(Level.INFO,
-                        "doImportPlatform: create platformdetail " + platformdetail.toFullString());
-
+                                "doImportPlatform: create platformdetail " + platformdetail.toFullString());
 
                 // make platformdetail persistent in db
                 em.persist(platformdetail);
@@ -179,7 +171,7 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
             } else {
                 Logger.getLogger(
                         ImportPlatform.class.getName()).log(Level.INFO,
-                        "doImportPlatform: merge platformdetail " + platformdetail.toFullString());
+                                "doImportPlatform: merge platformdetail " + platformdetail.toFullString());
 
                 platformdetail = em.merge(platformdetail);
                 em.flush();
@@ -195,24 +187,18 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
             em.persist(platform);
             em.flush();
 
-
             // create  db table
-
-
             s.execute(
                     "DROP TABLE if EXISTS " + platform.getTableData());
             s.execute(
                     this.getCreateTableSQL(platform.getTableData()));
 
             // read data -> insert into table
-
-
             error = this.importData(platform.getTableData());
 
             Logger.getLogger(
                     ImportPlatform.class.getName()).log(Level.INFO,
-                    "doImportPlatform: read data, number of errors: " + error);
-
+                            "doImportPlatform: read data, number of errors: " + error);
 
             //update array
             String sql = "SELECT count(*) from " + platform.getTableData();
@@ -226,12 +212,8 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
 
             em.flush();
 
-
             // test get modified, id ...???
             platform = em.merge(platform);
-
-
-
 
             em.getTransaction().commit();
             PlatformService.notifyListener();
@@ -289,8 +271,8 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
         }
         for (String[] m : this.map) {
             Logger.getLogger(
-                    ImportPlatform.class.getName()).log(Level.INFO, "Mapping: " +
-                    Arrays.deepToString(m));
+                    ImportPlatform.class.getName()).log(Level.INFO, "Mapping: "
+                            + Arrays.deepToString(m));
         }
         return null;
     }
@@ -360,8 +342,8 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
         }
         for (String[] m : _del) {
             Logger.getLogger(
-                    ImportPlatform.class.getName()).log(Level.INFO, "Splitfields remove old: " +
-                    Arrays.deepToString(m));
+                    ImportPlatform.class.getName()).log(Level.INFO, "Splitfields remove old: "
+                            + Arrays.deepToString(m));
             _map.remove(m);
         }
         String[] entry;
@@ -379,7 +361,6 @@ public abstract class ImportPlatform extends Import_batch implements XPortPlatfo
         entry[ind_db] = "chromEnd";
         entry[ind_file] = SPLITFIELD;
         _map.add(entry);
-
 
         return _map;
     }

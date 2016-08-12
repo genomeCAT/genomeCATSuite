@@ -10,10 +10,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 
 /**
@@ -27,9 +28,9 @@ public class DBUtilsTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
+        Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "test", "test");
 
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
+        DBService.setConnection("localhost", "3306", "genomecat", "test", "test");
 
     }
 
@@ -56,7 +57,7 @@ public class DBUtilsTest {
         double expResult = 0.0585296;
         double result = DBUtils.getMedian(tableName, colratio);
         assertEquals(expResult, result);
-    //fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -71,32 +72,32 @@ public class DBUtilsTest {
         double result_09 = DBUtils.getQuantile(tableName, colratio, 0.9);
         double result_01 = DBUtils.getQuantile(tableName, colratio, 0.1);
         assertEquals(result_01, result_09);
-    // fail("0.1: " + result_01 + " 0.9: " + result_09);
+        // fail("0.1: " + result_01 + " 0.9: " + result_09);
     }
     //
 
     @Test
     public void testGetCols() throws Exception {
 
-        String tableName = "AG0809_I90__120821_015959571_hg18_Spots";
-
+        //String tableName = "400k_oligo_array_hg18_spots";
+        String tableName = "test_GPL68__160316_125323366_hg19_Spots";
 
         Vector<String> cols = DBUtils.getCols(tableName);
-        System.out.println(cols);
+        System.out.println("cols: " + cols);
 
-    // fail("0.1: " + result_01 + " 0.9: " + result_09);
+        // fail("0.1: " + result_01 + " 0.9: " + result_09);
     }
-    
+
     @Test
+    @Ignore
     public void testGetData() throws Exception {
 
-        String tableName = "AG0809_I90__120821_015959571_hg18_Spots";
-
+        String tableName = "400k_oligo_array_hg18_spots";
 
         Vector<Vector<String>> data = DBUtils.getData(-1, tableName);
         System.out.println(data);
 
-    // fail("0.1: " + result_01 + " 0.9: " + result_09);
+        // fail("0.1: " + result_01 + " 0.9: " + result_09);
     }
     //@Test
 
@@ -104,10 +105,9 @@ public class DBUtilsTest {
 
         String tableName = "AG0809_I90__120821_015959571_hg18_Spots";
 
-
         DBUtils.addPositionAtTable(tableName);
 
-    // fail("0.1: " + result_01 + " 0.9: " + result_09);
+        // fail("0.1: " + result_01 + " 0.9: " + result_09);
     }
 
     /**

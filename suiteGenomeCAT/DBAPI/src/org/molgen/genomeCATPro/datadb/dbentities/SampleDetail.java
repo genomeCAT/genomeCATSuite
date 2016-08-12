@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.datadb.dbentities;
 /**
  * @name SampleDetail
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -40,7 +37,7 @@ import javax.persistence.Transient;
 
 /**
  *
- * 270313   kt  copy constructor added
+ * 270313 kt copy constructor added
  */
 @Entity
 @Table(name = "SampleDetail")
@@ -112,7 +109,7 @@ public class SampleDetail {
         this.setTreatment(s.getTreatment());
         this.setMolecule(s.getMolecule());
         this.setOrganism(s.getOrganism());
-    //this.setExperiments(s.getExperiments());
+        //this.setExperiments(s.getExperiments());
 
     }
 
@@ -231,9 +228,9 @@ public class SampleDetail {
             return false;
         }
         SampleDetail other = (SampleDetail) object;
-        if ((this.sampleDetailID == null && other.sampleDetailID != null) ||
-                (this.sampleDetailID != null &&
-                !this.sampleDetailID.equals(other.sampleDetailID))) {
+        if ((this.sampleDetailID == null && other.sampleDetailID != null)
+                || (this.sampleDetailID != null
+                && !this.sampleDetailID.equals(other.sampleDetailID))) {
             return false;
         }
         return true;
@@ -241,16 +238,16 @@ public class SampleDetail {
 
     public String toFullString() {
         return new String(
-                this.getSampleDetailID() + "," +
-                this.getName() + "," +
-                this.getPhenotype() + "," +
-                this.getSource() + "," +
-                this.getOrganism() + "," +
-                this.getCharacteristics() + "," +
-                this.getTreatment() + "," +
-                this.getMolecule() + "," +
-                this.getCreated() + "," +
-                this.getModified());
+                this.getSampleDetailID() + ","
+                + this.getName() + ","
+                + this.getPhenotype() + ","
+                + this.getSource() + ","
+                + this.getOrganism() + ","
+                + this.getCharacteristics() + ","
+                + this.getTreatment() + ","
+                + this.getMolecule() + ","
+                + this.getCreated() + ","
+                + this.getModified());
     }
 
     @PrePersist
@@ -275,5 +272,3 @@ public class SampleDetail {
         changeSupport.removePropertyChangeListener(listener);
     }
 }
-
-

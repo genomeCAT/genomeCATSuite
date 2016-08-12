@@ -65,16 +65,16 @@ public final class DeleteDataAction extends AbstractAction implements LookupList
         init();
         for (Data instance : lkpInfo.allInstances()) {
             Logger.getLogger(DeleteDataAction.class.getName()).log(
-                    Level.INFO, "found lookup instance: " +
-                    instance.getName());
+                    Level.INFO, "found lookup instance: "
+                    + instance.getName());
             run(instance);
         }
     }
 
     public void run(Data d) {
         if (JOptionPane.showConfirmDialog(null,
-                "Really delete  " +
-                d.toString() + " and all children?",
+                "Really delete  "
+                + d.toString() + " and all children?",
                 "delete track data",
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.CANCEL_OPTION) {
             return;

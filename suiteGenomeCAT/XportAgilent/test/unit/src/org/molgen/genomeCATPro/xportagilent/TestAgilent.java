@@ -7,14 +7,13 @@ package org.molgen.genomeCATPro.xportagilent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.cghpro.xport.XPortPlatform;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
@@ -57,7 +56,6 @@ public class TestAgilent {
     //@Test
     @SuppressWarnings("empty-statement")
     public void testConvert() throws InterruptedException {
-
 
         try {
             ExperimentData d = ExperimentService.getExperimentByDataId((long) 57);

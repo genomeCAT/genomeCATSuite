@@ -1,23 +1,21 @@
 package org.molgen.genomeCATPro.peaks;
+
 /**
  * @name CNVCATProperties
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of props file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use props file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * props program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>. The contents of
+ * props file are subject to the terms of either the GNU General Public License
+ * Version 2 only ("GPL") or the Common Development and Distribution
+ * License("CDDL") (collectively, the "License"). You may not use props file
+ * except in compliance with the License. You can obtain a copy of the License
+ * at http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. props program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.beans.XMLDecoder;
@@ -34,8 +32,8 @@ import java.util.logging.Logger;
 import org.openide.modules.InstalledFileLocator;
 
 /**
- * 
- * 101012   kt  valide setMinHeight,setGap
+ *
+ * 101012 kt valide setMinHeight,setGap
  */
 public class CNVCATPropertiesMod implements Serializable {
 
@@ -62,7 +60,7 @@ public class CNVCATPropertiesMod implements Serializable {
                     CNVCATPropertiesMod.stfile, null, false);
             XMLDecoder d = new XMLDecoder(
                     new BufferedInputStream(
-                    new FileInputStream(f)));
+                            new FileInputStream(f)));
             CNVCATProperties _props = (CNVCATProperties) d.readObject();
             d.close();
             return _props;
@@ -97,7 +95,7 @@ public class CNVCATPropertiesMod implements Serializable {
         props.setMinHeight(1);
 
 
-    /*
+        /*
     try {
     save();
     
@@ -105,7 +103,7 @@ public class CNVCATPropertiesMod implements Serializable {
     Logger.getLogger(CNVCATPropertiesMod.class.getName()).log(
     Level.SEVERE, "error ", ex);
     }
-     */
+         */
     }
 
     public static void save() throws FileNotFoundException {
@@ -116,7 +114,7 @@ public class CNVCATPropertiesMod implements Serializable {
                 CNVCATPropertiesMod.stfile, "org.molgen.genomeCATPro.peaks", false);
         XMLEncoder e = new XMLEncoder(
                 new BufferedOutputStream(
-                new FileOutputStream(f)));
+                        new FileOutputStream(f)));
         e.writeObject(CNVCATPropertiesMod.props);
         e.close();
     }
@@ -290,4 +288,3 @@ public class CNVCATPropertiesMod implements Serializable {
          */
     }
 }
-

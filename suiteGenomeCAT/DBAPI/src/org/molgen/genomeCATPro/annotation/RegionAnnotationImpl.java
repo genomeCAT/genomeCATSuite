@@ -1,23 +1,21 @@
 package org.molgen.genomeCATPro.annotation;
+
 /**
  * @name RegionAnnotationImpl
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -30,12 +28,16 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.Column;
-import org.molgen.dblib.Database;
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
+@MappedSuperclass
 
 public class RegionAnnotationImpl extends RegionImpl implements RegionAnnotation {
-    
+
     @Column(name = "bin", nullable = false)
     long bin;
     // name of the region
@@ -48,10 +50,8 @@ public class RegionAnnotationImpl extends RegionImpl implements RegionAnnotation
             long bin) {
         super(name, chrom, start, stop);
 
-
-
         this.bin = bin;
-    //this.color = color;
+        //this.color = color;
     }
 
     @Override
@@ -66,27 +66,25 @@ public class RegionAnnotationImpl extends RegionImpl implements RegionAnnotation
     public void setBin(long bin) {
         this.bin = bin;
     }
-    
+
     @Override
     public String toString() {
         return new String(getName());
     }
-    
-    public List<? extends RegionAnnotation> dbLoadRegions(String table, String chromId) throws SQLException {
 
+    public List<? extends RegionAnnotation> dbLoadRegions(String table, String chromId) throws SQLException {
 
         Connection con = null;
 
-
-        con = Database.getDBConnection(Defaults.localDB);
+        con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         Statement s = con.createStatement();
 
         ResultSet r = s.executeQuery(
-                "SELECT name, chrom, chromStart, chromEnd, bin " +
-                " from " + table + " where " +
-                " chrom = \'" + chromId + "\'" +
-                " order by chromEnd");
+                "SELECT name, chrom, chromStart, chromEnd, bin "
+                + " from " + table + " where "
+                + " chrom = \'" + chromId + "\'"
+                + " order by chromEnd");
 
         Vector<RegionAnnotationImpl> _data = new Vector<RegionAnnotationImpl>();
         while (r.next()) {
@@ -100,8 +98,6 @@ public class RegionAnnotationImpl extends RegionImpl implements RegionAnnotation
         }
         return _data;
     }
-
-    
 
     @Override
     public int compareTo(Object o) {
@@ -164,9 +160,6 @@ public class RegionAnnotationImpl extends RegionImpl implements RegionAnnotation
                 RegionAnnotation.heightImage,
                 BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics2D g = _icon.createGraphics();
-
-
-
 
         g.setColor(c);
 

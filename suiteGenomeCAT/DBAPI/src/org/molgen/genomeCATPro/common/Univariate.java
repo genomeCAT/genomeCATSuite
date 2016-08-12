@@ -1,31 +1,31 @@
 package org.molgen.genomeCATPro.common;
 
-/** * @(#).java * * Copyright (c) 2000 by Sundar Dorai-Raj
- * * @author Sundar Dorai-Raj
- * * Email: sdoraira@vt.edu
- * * This program is free software; you can redistribute it and/or
- * * modify it under the terms of the GNU General Public License 
- * * as published by the Free Software Foundation; either version 2 
- * * of the License, or (at your option) any later version, 
- * * provided that any use properly credits the author. 
- * * This program is distributed in the hope that it will be useful,
- * * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * * GNU General Public License for more details at http://www.gnu.org * * */
 /**
- * Class Univariate is a class holding the methods to calculate the 
- * statistics of a variable, which usually is inputed as an array of
- * double
- **/
+ * * @(#).java * * Copyright (c) 2000 by Sundar Dorai-Raj
+ * * @author Sundar Dorai-Raj * Email: sdoraira@vt.edu * This program is free
+ * software; you can redistribute it and/or * modify it under the terms of the
+ * GNU General Public License * as published by the Free Software Foundation;
+ * either version 2 * of the License, or (at your option) any later version, *
+ * provided that any use properly credits the author. * This program is
+ * distributed in the hope that it will be useful, * but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of * MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the * GNU General Public License for more details at
+ * http://www.gnu.org * *
+ */
+/**
+ * Class Univariate is a class holding the methods to calculate the statistics
+ * of a variable, which usually is inputed as an array of double
+ *
+ */
 public class Univariate {
 
-    public double[] x,  sortx;
+    public double[] x, sortx;
     private double[] summary = new double[6];
     private boolean isSorted = false;
     public double[] five = new double[5];
     public int n;
-    private double mean,  variance,  stdev;
-    private double median,  min,  Q1,  Q3,  max;
+    private double mean, variance, stdev;
+    private double median, min, Q1, Q3, max;
 
     public Univariate(double[] data) {
         x = data.clone();
@@ -50,7 +50,6 @@ public class Univariate {
             mean += x[i];
         }
         mean /= n;
-
 
         double sumxx = 0;
         variance = 0;

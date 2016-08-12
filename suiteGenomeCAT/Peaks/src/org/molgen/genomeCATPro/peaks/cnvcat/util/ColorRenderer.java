@@ -4,7 +4,6 @@ package org.molgen.genomeCATPro.peaks.cnvcat.util;
  * ColorRenderer.java (compiles with releases 1.2, 1.3, and 1.4) is used by 
  * TableDialogEditDemo.java.
  */
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -14,7 +13,8 @@ import java.awt.Color;
 import java.awt.Component;
 
 public class ColorRenderer extends JLabel
-                           implements TableCellRenderer {
+        implements TableCellRenderer {
+
     Border unselectedBorder = null;
     Border selectedBorder = null;
     boolean isBordered = true;
@@ -25,27 +25,27 @@ public class ColorRenderer extends JLabel
     }
 
     public Component getTableCellRendererComponent(
-                            JTable table, Object color,
-                            boolean isSelected, boolean hasFocus,
-                            int row, int column) {
-        Color newColor = (Color)color;
+            JTable table, Object color,
+            boolean isSelected, boolean hasFocus,
+            int row, int column) {
+        Color newColor = (Color) color;
         setBackground(newColor);
         if (isBordered) {
             if (isSelected) {
                 if (selectedBorder == null) {
-                    selectedBorder = BorderFactory.createMatteBorder(2,5,2,5,
-                                              table.getSelectionBackground());
+                    selectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5,
+                            table.getSelectionBackground());
                 }
                 setBorder(selectedBorder);
             } else {
                 if (unselectedBorder == null) {
-                    unselectedBorder = BorderFactory.createMatteBorder(2,5,2,5,
-                                              table.getBackground());
+                    unselectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5,
+                            table.getBackground());
                 }
                 setBorder(unselectedBorder);
             }
         }
-        
+
         /*setToolTipText("RGB value: " + newColor.getRed() + ", "
                                      + newColor.getGreen() + ", "
                                      + newColor.getBlue());*/

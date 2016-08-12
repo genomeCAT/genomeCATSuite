@@ -8,13 +8,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-
-
-
-
-
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Informable;
@@ -54,7 +49,6 @@ public class HMMWorkerTest {
 
         DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
 
-
     }
 
     @After
@@ -66,18 +60,13 @@ public class HMMWorkerTest {
     public void testHMM() throws InterruptedException {
         ChipFeature chip = null;
         try {
-            ExperimentData e = ExperimentService.getExperimentByDataId((long)66);
+            ExperimentData e = ExperimentService.getExperimentByDataId((long) 66);
             chip = (ChipFeature) ChipImpl.loadChipAsExperimentFromDB(ChipFeature.class, e);
-
 
         } catch (Exception ex) {
             Logger.getLogger(HMMWorkerTest.class.getName()).log(Level.SEVERE, "ex: ", ex);
         }
         assertFalse("Chip has error", chip.getError());
-
-
-
-
 
         HMMWorker worker = new HMMWorker(
                 chip, "testHMM_1",

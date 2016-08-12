@@ -18,16 +18,20 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
 /**
  *
  * @author tebel
  */
-@Entity
+@MappedSuperclass
+
 public class LCRImpl extends RegionAnnotationImpl implements RegionAnnotation {
+
     @Transient
     final static DecimalFormat myFormatter = new DecimalFormat("0.###");
 
@@ -72,7 +76,7 @@ public class LCRImpl extends RegionAnnotationImpl implements RegionAnnotation {
         return true;
     }
 
-   @Override
+    @Override
     public String toHTMLString() {
         return new String("fracMatch: " + myFormatter.format(this.value));
     }
@@ -93,20 +97,18 @@ public class LCRImpl extends RegionAnnotationImpl implements RegionAnnotation {
     @Override
     public List<? extends RegionAnnotation> dbLoadRegions(String table, String chromId) throws SQLException {
 
-
         Connection con = null;
 
-
-        con = Database.getDBConnection(Defaults.localDB);
+        con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         Statement s = con.createStatement();
 
         ResultSet r = s.executeQuery(
-                "SELECT name, bin, chrom, chromStart, chromEnd," +
-                " fracMatch from " +
-                table + " where " +
-                " chrom = \'" + chromId + "\'" +
-                " order by chromEnd");
+                "SELECT name, bin, chrom, chromStart, chromEnd,"
+                + " fracMatch from "
+                + table + " where "
+                + " chrom = \'" + chromId + "\'"
+                + " order by chromEnd");
 
         Vector<LCRImpl> _data = new Vector<LCRImpl>();
         while (r.next()) {
@@ -142,15 +144,14 @@ public class LCRImpl extends RegionAnnotationImpl implements RegionAnnotation {
 
     public String getColorDesc() {
 
-        return new String("<html>" +
-                "Light to dark gray:   90 - 98%  similarity <br/>" +
-                "Light to dark yellow: 98 - 99%  similarity <br/>" +
-                "light to dark orange: 99 - 100% similarity</html>");
+        return new String("<html>"
+                + "Light to dark gray:   90 - 98%  similarity <br/>"
+                + "Light to dark yellow: 98 - 99%  similarity <br/>"
+                + "light to dark orange: 99 - 100% similarity</html>");
 
     }
 
     public static Color getColor(double _value) {
-
 
         double factor;
         //value = fracMatch
@@ -168,17 +169,16 @@ public class LCRImpl extends RegionAnnotationImpl implements RegionAnnotation {
                 // blue 200 - 100
                 return new Color(255, 255,
                         (int) (100 + ((0.99 - _value)) * 100 * 100));
-            //return new Color(255, 255, 0);
+                //return new Color(255, 255, 0);
             } else if (_value >= 0.99) {
                 // orange -> light to dark
                 // blue 0 ->green  200 - 100
                 //255 	 204  	 153  
                 //255 	 102   	 0 
 
-
                 return new Color(255,
                         (int) (100 + ((1 - _value) * 100 * 100)), 0);
-            //return new Color(255, 0, 100);
+                //return new Color(255, 0, 100);
             }
         } catch (Exception e) {
             Logger.getLogger(LCRImpl.class.getName()).log(Level.INFO,
@@ -225,9 +225,8 @@ public class LCRImpl extends RegionAnnotationImpl implements RegionAnnotation {
             g.fillRect(x, 0, width, _icon.getHeight());
             x += width;
 
-        //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
-        //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
+            //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
+            //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
         }
     }
 }
-    

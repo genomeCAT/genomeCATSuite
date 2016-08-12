@@ -12,7 +12,6 @@ import java.io.Serializable;
  */
 public class TrackAtStudyID implements Serializable {
 
-   
     public Long trackID;
     public Long studyID;
 
@@ -22,7 +21,8 @@ public class TrackAtStudyID implements Serializable {
     public TrackAtStudyID(Long trackID, Long studyID) {
         this.trackID = trackID;
         this.studyID = studyID;
-}
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof TrackAtStudyID) {
@@ -40,5 +40,4 @@ public class TrackAtStudyID implements Serializable {
         return hash;
     }
 
-    
 }

@@ -19,6 +19,7 @@ public class PlatformTreeAction extends AbstractAction {
 //        putValue(SMALL_ICON, new ImageIcon(Utilities.loadImage(PlatformTreeTopComponent.ICON_PATH, true)));
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         TopComponent win = PlatformTreeTopComponent.findInstance();
         win.open();

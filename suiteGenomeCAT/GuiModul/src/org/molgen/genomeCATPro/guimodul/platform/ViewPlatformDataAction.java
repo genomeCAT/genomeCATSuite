@@ -81,4 +81,3 @@ public final class ViewPlatformDataAction extends AbstractAction implements Look
         return new ViewPlatformDataAction(arg0);
     }
 }
-

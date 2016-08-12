@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.peaks.cnvcat;
 /**
  * @name MatrixAberration
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,8 +39,6 @@ import org.molgen.genomeCATPro.annotation.CytoBandManagerImpl;
 import org.molgen.genomeCATPro.annotation.PlotLib;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 
-
-
 import org.molgen.genomeCATPro.guimodul.cghpro.PlotPanel;
 import org.molgen.genomeCATPro.guimodul.data.ZoomYAction;
 import org.molgen.genomeCATPro.peaks.Aberration;
@@ -51,22 +47,23 @@ import org.molgen.genomeCATPro.peaks.CNVCATPropertiesMod;
 import org.openide.util.Exceptions;
 
 /**
- * 260612 kt initMenue 
- *                  remove globalPositionMenu
+ * 260612 kt initMenue remove globalPositionMenu
  *
- * 280612 kt  initMenu 
- *                  
- *                  add ShowData 
- * 
+ * 280612 kt initMenu
+ *
+ * add ShowData
+ *
  */
 public class MatrixAberration extends JLabel
         implements PlotPanel, Scrollable, MouseListener, MouseMotionListener {
 
     /**
-     * parent frame 
+     * parent frame
      */
     CNVCATFrame parentFrame;
-    /**the parameters of the summarizing picture*/
+    /**
+     * the parameters of the summarizing picture
+     */
     long firstPos = 0;
     long secondPos = 0;
     private JPopupMenu popup;
@@ -104,7 +101,8 @@ public class MatrixAberration extends JLabel
      */
     public BufferedImage image;
     /**
-     * indicator if whole Genome view (24 Chromsome) or single chromosome view is requiered
+     * indicator if whole Genome view (24 Chromsome) or single chromosome view
+     * is requiered
      */
     String chromId = null;
 
@@ -127,7 +125,6 @@ public class MatrixAberration extends JLabel
 
     public void setYZoom(double yZoom) {
 
-
         this.imageHeight = (int) (this.imageHeight * yZoom);
 
         this.rescale();
@@ -136,19 +133,21 @@ public class MatrixAberration extends JLabel
         //this.yImagePosition = (int) (this.yImagePosition * yZoom);
 
         Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
-                "ZoomY " + yZoom + " new height: " + this.imageHeight +
-                " mousepos " + this.parentFrame.getMousePos());
+                "ZoomY " + yZoom + " new height: " + this.imageHeight
+                + " mousepos " + this.parentFrame.getMousePos());
     }
 
     public MatrixAberration() {
         super();
     }
 
-    /**Constructor
-     * @param parent parent frame 
+    /**
+     * Constructor
+     *
+     * @param parent parent frame
      * @param isGenome
-     * @param isStacked 
-     * 
+     * @param isStacked
+     *
      */
     public MatrixAberration(CNVCATFrame parent) {
         super();
@@ -158,17 +157,13 @@ public class MatrixAberration extends JLabel
         displayWidth = parentFrame.getPlotPanelWidth();
 
         // init filtered aberration data dependend values
-
-
         this.initMenues();
 
         //tops = new int[25];
         //lefts = new int[25];
-
-
         addMouseListener(this);
         addMouseMotionListener(this);
-    //this.addLayerdPane();
+        //this.addLayerdPane();
     }
 
     public BufferedImage getImage() {
@@ -179,22 +174,20 @@ public class MatrixAberration extends JLabel
         this.ideogramWidth = (int) (10 * this.xScale * CNVCATPropertiesMod.props().getProbeWidth());
         if (this.parentFrame.isDisplayFreq()) {
             this.imageWidht = this.displayWidth;
+        } else if (this.parentFrame.isDisplayTabular()) {
+            this.imageWidht
+                    = (int) (2 * getColNumbers(iActivePhenotypes)
+                    * (int) this.xScale
+                    * (CNVCATPropertiesMod.props().getProbeWidth() + 2 * parentFrame.getGap())
+                    + //2 * CNVCATPropertiesMod.props().getGap() +
+                    this.ideogramWidth);
         } else {
-            if (this.parentFrame.isDisplayTabular()) {
-                this.imageWidht =
-                        (int) (2 * getColNumbers(iActivePhenotypes) *
-                        (int) this.xScale *
-                        (CNVCATPropertiesMod.props().getProbeWidth() + 2 * parentFrame.getGap()) +
-                        //2 * CNVCATPropertiesMod.props().getGap() +
-                        this.ideogramWidth);
-            } else {
-                this.imageWidht =
-                        (int) (2 * CNVCATPropertiesMod.props().getNofCols() *
-                        (int) this.xScale *
-                        (CNVCATPropertiesMod.props().getProbeWidth() + 2 * parentFrame.getGap()) +
-                        //2 * CNVCATPropertiesMod.props().getGap() +
-                        this.ideogramWidth);
-            }
+            this.imageWidht
+                    = (int) (2 * CNVCATPropertiesMod.props().getNofCols()
+                    * (int) this.xScale
+                    * (CNVCATPropertiesMod.props().getProbeWidth() + 2 * parentFrame.getGap())
+                    + //2 * CNVCATPropertiesMod.props().getGap() +
+                    this.ideogramWidth);
         }
 
         this.imageWidht = this.imageWidht < this.displayWidth ? this.displayWidth : this.imageWidht;
@@ -227,8 +220,6 @@ public class MatrixAberration extends JLabel
             this.secondPos = this.parentFrame.getChromLength(chromId);
             iActivePhenotypes = parentFrame.AberrationManager().getActiveCasesSize();
 
-
-
             this.maxRatio = parentFrame.AberrationManager().getMaxRatio();
             this.maxQuality = parentFrame.AberrationManager().getMaxQuality();
             this.setXZoom(1.0);
@@ -246,15 +237,14 @@ public class MatrixAberration extends JLabel
     }
 
     /**
-     * print plot
-     * update image acc to current size if necessary
+     * print plot update image acc to current size if necessary
      */
     void refreshPlot() {
 
         // TODO recreate only if needed image == null , image.width != this.width
-        if (image != null &&
-                (image.getHeight() != this.imageHeight ||
-                image.getWidth() != this.imageWidht)) {
+        if (image != null
+                && (image.getHeight() != this.imageHeight
+                || image.getWidth() != this.imageWidht)) {
             image = null;
             System.gc();
         }
@@ -265,12 +255,11 @@ public class MatrixAberration extends JLabel
         }
 
         //image = createVolatileImage(width, height);
-
         Graphics2D g = image.createGraphics();
         matrixPaint(g);
         setIcon(new ImageIcon());
         ((ImageIcon) this.getIcon()).setImage(image);
-    /*
+        /*
      * set mouse to center
      * yCenter = (int) (this.yPosition / this.scale) + MatrixAberration.top;
     
@@ -284,7 +273,7 @@ public class MatrixAberration extends JLabel
     
     
     parentFrame.setStatusBar("Chromosome: " + chromId);
-     */
+         */
     }
     int detailX;
     int y1, y2;
@@ -305,7 +294,20 @@ public class MatrixAberration extends JLabel
     public void matrixPaint(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
+        g.setColor(Color.BLACK);
+        labelFont = "PLAIN-BOLD-" + (int) this.parentFrame.getOffY() * 0.5;
+        //labelFont = "PLAIN-" + (int) this.parentFrame.getOffY() / 2;
+        g.setFont(Font.decode(labelFont));
+        defFont = g.getFont();
+        fm = g.getFontMetrics();
 
+        labelPosition = chromId + "-" + this.firstPos + ":" + this.secondPos;
+
+        g.drawString(labelPosition,
+                this.imageWidht / 2 - fm.stringWidth(labelPosition) / 2,
+                this.parentFrame.getOffY() / 2);
+
+        g.setFont(defFont);
         if (parentFrame.CytoBandManager() != null) {
             parentFrame.CytoBandManager().plot(
                     (Graphics2D) g,
@@ -326,6 +328,7 @@ public class MatrixAberration extends JLabel
                     parentFrame.getOffY(),
                     this.displayWidth / 4, false, 0, null, false);
         } else {
+
             printAberration(
                     (Graphics2D) g,
                     this.chromId,
@@ -333,19 +336,7 @@ public class MatrixAberration extends JLabel
                     (this.imageWidht / 2) + ideogramWidth,
                     parentFrame.getOffY(), this.getColNumbers(iActivePhenotypes));
         }
-        g.setColor(Color.BLACK);
-        labelFont = "PLAIN-" + (int) this.parentFrame.getOffY() / 2;
-        g.setFont(Font.decode(labelFont));
-        defFont = g.getFont();
-        fm = g.getFontMetrics();
 
-        labelPosition = chromId + "-" + this.firstPos + ":" + this.secondPos;
-
-        g.drawString(labelPosition,
-                this.imageWidht / 2 - fm.stringWidth(labelPosition) / 2,
-                this.parentFrame.getOffY() * 3 / 4);
-
-        g.setFont(defFont);
         if (showDetailFrame) {
             g.setColor(Color.RED);
             //x - the x coordinate of the rectangle to be drawn. 
@@ -359,26 +350,24 @@ public class MatrixAberration extends JLabel
                     200,
                     (int) (this.secondPixY - this.firstPixY));
 
-        } else {
+        } else if (this.parentFrame.isShowruler()) {
+            g.setColor(Color.BLACK);
+            y1 = this.parentFrame.getMousePos().intValue();
 
-            if (this.parentFrame.isShowruler()) {
-                g.setColor(Color.BLACK);
-                y1 = this.parentFrame.getMousePos().intValue();
-
-                g.drawLine(this.parentFrame.getOffX(), y1,
-                        this.imageWidht - this.parentFrame.getOffX(), y1);
-                g.setColor(Color.BLACK);
-            }
+            g.drawLine(this.parentFrame.getOffX(), y1,
+                    this.imageWidht - this.parentFrame.getOffX(), y1);
+            g.setColor(Color.BLACK);
         }
     }
 
     /**
-     * The aberrant regions are displayed as relative frequencies.
-     * The frequencies are calculated for each chromosomal region represended by one pixel.
-     * For each group (defined by the color) the number of aberrations at this region 
-     * is related to the total number of extraction cases for this group.
-     * Overlapping aberrations from the same extraction are counted only once.
-     * 
+     * The aberrant regions are displayed as relative frequencies. The
+     * frequencies are calculated for each chromosomal region represended by one
+     * pixel. For each group (defined by the color) the number of aberrations at
+     * this region is related to the total number of extraction cases for this
+     * group. Overlapping aberrations from the same extraction are counted only
+     * once.
+     *
      * @param g
      * @param chromId
      * @param scale
@@ -390,8 +379,6 @@ public class MatrixAberration extends JLabel
     public void printFreqAberration(
             Graphics2D g, String chromId, int left,
             int right, int top, int fWidth, boolean fileout, int bin, FileWriter out, boolean first) {
-
-
 
         java.util.List<? extends Aberration> aberrations = (List<Aberration>) parentFrame.AberrationManager().getAberrationsAtChrom(chromId);
         Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
@@ -408,7 +395,7 @@ public class MatrixAberration extends JLabel
                     this.secondPos);
             Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
                     "sublist:  " + (aberrations != null ? aberrations.size() : 0));
-        //length = (int) ((this.secondPos - this.firstPos) / this.yScale + 2);
+            //length = (int) ((this.secondPos - this.firstPos) / this.yScale + 2);
         } else {
 
             //length = (int) ((parentFrame.getChromLength(chromId) / this.yScale) + 2);
@@ -423,8 +410,8 @@ public class MatrixAberration extends JLabel
         //int length = (int) ((parentFrame.getChromLength(chromId) / this.yScale) + 2);
         Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
                 "Length: " + length + " BIN: " + bin + " yscale: " + this.yScale);
-        java.util.List<AberrationIds> aberrationIds =
-                (java.util.List<AberrationIds>) parentFrame.AberrationManager().getActiveCases();
+        java.util.List<AberrationIds> aberrationIds
+                = (java.util.List<AberrationIds>) parentFrame.AberrationManager().getActiveCases();
 
         Hashtable<Color, Integer> groupFreq = new Hashtable<Color, Integer>();
         Vector<Color> groups = new Vector<Color>();
@@ -449,10 +436,6 @@ public class MatrixAberration extends JLabel
             Arrays.fill(casesDel[i], 0);
             Arrays.fill(casesDup[i], 0);
         }
-
-
-
-
 
         int length1 = 0, ind = 0;
         AberrationIds aberrationId = null;
@@ -512,23 +495,16 @@ public class MatrixAberration extends JLabel
         Arrays.fill(averageDup, 0);
         Arrays.fill(averageDel, 0);
 
-
-
-
         int absFreq, iDup,
                 iDel;
 
         float[] rgb;
-
 
         if (!fileout) {
             labelFont = "PLAIN-" + (int) this.parentFrame.getOffY() / 2;
             g.setFont(Font.decode(labelFont));
             defFont = g.getFont();
             fm = g.getFontMetrics();
-
-
-
 
             g.setColor(Color.black);
             g.drawLine(left, top, left, top + (length));
@@ -559,7 +535,7 @@ public class MatrixAberration extends JLabel
                     groupname = this.parentFrame.getColorName(groups.get(i));
                     //absFreq = groupFreq.get(groups.get(i));
                     if (groupname == null) {
-                        groupname = "group"+Integer.toString(++ci);
+                        groupname = "group" + Integer.toString(++ci);
                     }
                     out.write("\tnof_all_" + groupname + "\tnof_pos_" + groupname + "\tfreq_pos_" + groupname + "\tnof_neg_" + groupname + "\tfreq_neg_" + groupname);
 
@@ -607,7 +583,6 @@ public class MatrixAberration extends JLabel
 
                         Logger.getLogger(MatrixAberration.class.getName()).log(Level.SEVERE, "ERROR: ", exception);
 
-
                     }
                 }
                 rgb = groups.get(i).getRGBColorComponents(null);
@@ -627,7 +602,6 @@ public class MatrixAberration extends JLabel
 
                             Logger.getLogger(MatrixAberration.class.getName()).log(Level.SEVERE, "ERROR: ", exception);
 
-
                         }
                     } else {
                         g.fillRect(
@@ -636,15 +610,14 @@ public class MatrixAberration extends JLabel
                                 (averageDup[i] * fWidth / absFreq),
                                 1);
                     }
-                //System.out.println("Freq Duplication: " +   (averageDel[i]  / absFreq) );
-                //System.out.println("Freq Duplication: " +  (int) (averageDel[i] * fWidth / absFreq) );
+                    //System.out.println("Freq Duplication: " +   (averageDel[i]  / absFreq) );
+                    //System.out.println("Freq Duplication: " +  (int) (averageDel[i] * fWidth / absFreq) );
                 } else if (fileout) {
                     try {
                         out.write("\t0\t0");
                     } catch (IOException exception) {
 
                         Logger.getLogger(MatrixAberration.class.getName()).log(Level.SEVERE, "ERROR: ", exception);
-
 
                     }
                 }
@@ -660,7 +633,6 @@ public class MatrixAberration extends JLabel
 
                             Logger.getLogger(MatrixAberration.class.getName()).log(Level.SEVERE, "ERROR: ", exception);
 
-
                         }
                     } else {
                         g.fillRect(
@@ -668,8 +640,8 @@ public class MatrixAberration extends JLabel
                                 (top + j),
                                 (averageDel[i] * fWidth / absFreq),
                                 1);
-                    //System.out.println("Freq Deletion: " +   (averageDel[i]  / absFreq) );
-                    //System.out.println("Freq Deletion: " +  (int) (averageDel[i] * fWidth / absFreq) );
+                        //System.out.println("Freq Deletion: " +   (averageDel[i]  / absFreq) );
+                        //System.out.println("Freq Deletion: " +  (int) (averageDel[i] * fWidth / absFreq) );
                     }
                 } else if (fileout) {
                     try {
@@ -678,12 +650,9 @@ public class MatrixAberration extends JLabel
 
                         Logger.getLogger(MatrixAberration.class.getName()).log(Level.SEVERE, "ERROR: ", exception);
 
-
                     }
                 }
             }
-
-
 
             if (iDup > 1) {
                 if (fileout) {
@@ -729,7 +698,6 @@ public class MatrixAberration extends JLabel
                             1);
                 }
 
-
             } else if (fileout) {
                 try {
                     out.write("\t0");
@@ -750,13 +718,12 @@ public class MatrixAberration extends JLabel
             }
         }
 
-
 //System.out.println("DUP: " + sDup);
 //System.out.println("DEL: " + sDel);
     }
 
     /**
-     * 
+     *
      * @param g
      * @param chromId
      * @param scale
@@ -781,26 +748,16 @@ public class MatrixAberration extends JLabel
         float[] rgb;
         AberrationIds aberrationId;
 
-        Aberration lastDeletion;
-
-        Aberration lastDuplication;
+        Logger.getLogger(MatrixAberration.class.getName()).log(
+                Level.INFO, "Plot Data for  " + chromId + " y0: " + y0);
 
         java.util.List<? extends Aberration> aberrations = (List<Aberration>) parentFrame.AberrationManager().getAberrationsAtChrom(chromId);
         Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
                 "found " + (aberrations != null ? aberrations.size() : " none ") + " for " + chromId);
 
-
-
-
-
         if (aberrations == null || aberrations.size() == 0) {
             return;
         }
-
-
-
-
-
 
         if (!this.parentFrame.isFullChrom()) {
             aberrations = (List<? extends Aberration>) PlotLib.getSublist(
@@ -813,8 +770,7 @@ public class MatrixAberration extends JLabel
         }
 
         Collections.sort(aberrations, Aberration.compByStart);
-        lastDeletion = aberrations.get(0);
-        lastDuplication = aberrations.get(0);
+
         Vector<Aberration> stack;
         Vector<Aberration> stackDel = new Stack();
         Vector<Aberration> stackDup = new Stack();
@@ -822,7 +778,6 @@ public class MatrixAberration extends JLabel
         boolean stackend = false;
         Aberration lastAb;
         for (Aberration currentAberration : aberrations) {
-
 
             if (currentAberration.isHidden()) {
                 continue;
@@ -834,10 +789,10 @@ public class MatrixAberration extends JLabel
 
                 if (isDeletion) {
                     stack = stackDel;
-                //lastCol = dispColumnDeletion;
+                    //lastCol = dispColumnDeletion;
                 } else {
                     stack = stackDup;
-                // lastCol = dispColumnDuplication;
+                    // lastCol = dispColumnDuplication;
                 }
                 stackend = true;
                 // stack contains last printed aberration for each column
@@ -870,7 +825,6 @@ public class MatrixAberration extends JLabel
                     stack.add(_lastCol, currentAberration);
                 }
 
-
                 if (isDeletion) {
                     dispColumnDeletion = _lastCol + 1;
                     stackDel = stack;
@@ -880,37 +834,35 @@ public class MatrixAberration extends JLabel
                     stackDup = stack;
                 }
 
+            } else if (isDeletion) {
+                dispColumnDeletion = aberrationId.getXDispColumn();
             } else {
-                if (isDeletion) {
-                    dispColumnDeletion = aberrationId.getXDispColumn();
-                } else {
-                    dispColumnDuplication = aberrationId.getXDispColumn();
-                }
-
+                dispColumnDuplication = aberrationId.getXDispColumn();
             }
-
 
             c = aberrationId.getColor();
             ratioAlpha = (float) 1.0;
             if (this.parentFrame.isTransRatio()) {
                 ratioAlpha = parentFrame.ScoreFilterManager().getAlphaByRatio(currentAberration, maxRatio);
+            } else if (this.parentFrame.isTransQuality()) {
+                ratioAlpha = parentFrame.ScoreFilterManager().getAlphaByQuality(currentAberration, maxQuality);
             } else {
-                if (this.parentFrame.isTransQuality()) {
-                    ratioAlpha = parentFrame.ScoreFilterManager().getAlphaByQuality(currentAberration, maxQuality);
-                } else {
-                    ratioAlpha = parentFrame.ScoreFilterManager().getAlpha(currentAberration);
-                }
+                ratioAlpha = parentFrame.ScoreFilterManager().getAlpha(currentAberration);
             }
-
-
 
             rgb = c.getRGBColorComponents(null);
 
             //g.setColor(new Color(rgb[0], rgb[1], rgb[2], ratioAlpha));
-            y1 = (int) (y0 + ((currentAberration.getChromStart() - firstPos) / yScale));
-            y2 = (int) (y0 + ((currentAberration.getChromEnd() - firstPos) / yScale));
+            // kt 05112014
+            y1 = (int) ((currentAberration.getChromStart() > firstPos ? (currentAberration.getChromStart() - firstPos) : 0)
+                    / yScale);
 
-            length1 = y2 - y1 > this.parentFrame.getMinSpotHeight() ? (int) (y2 - y1) : this.parentFrame.getMinSpotHeight();
+            y2 = (int) +((currentAberration.getChromEnd() < secondPos ? (currentAberration.getChromEnd() - firstPos) : secondPos - firstPos)
+                    / yScale);
+
+            length1 = (y2 - y1) > this.parentFrame.getMinSpotHeight() ? (int) (y2 - y1) : this.parentFrame.getMinSpotHeight();
+            y1 += y0;
+            y2 += y0;
             if (isDeletion) {
 
                 currentAberration.setXDispColumn(-dispColumnDeletion);
@@ -976,7 +928,9 @@ public class MatrixAberration extends JLabel
         }
     }
 
-    /** draw the image at the genome level*/
+    /**
+     * draw the image at the genome level
+     */
     /* public void compactGenomeImage() {
     this.isGenome = true;
     
@@ -1161,8 +1115,8 @@ public class MatrixAberration extends JLabel
         //yChrPosition + (int) this.yScale * CNVCATPropertiesMod.props().getSelectionTolerance());
 
         for (Aberration a : aberrations) {
-            if ((a.getXDispColumn() == xPos) &&
-                    !a.isHidden() && Math.signum(xPos) == Math.signum(a.getRatio())) {
+            if ((a.getXDispColumn() == xPos)
+                    && !a.isHidden() && Math.signum(xPos) == Math.signum(a.getRatio())) {
                 a.setSelected(true);
             } else {
                 a.setSelected(false);
@@ -1170,8 +1124,6 @@ public class MatrixAberration extends JLabel
 
         }
         parentFrame.AberrationManager().setDispAberrations(aberrations);
-
-
 
         this.parentFrame.jTabbedPane1.setSelectedIndex(1);
     }
@@ -1191,6 +1143,7 @@ public class MatrixAberration extends JLabel
 
     /**
      * map mouse position to cnv position
+     *
      * @param x
      * @return
      */
@@ -1201,8 +1154,6 @@ public class MatrixAberration extends JLabel
         //x =  x1 - (col * (int) (this.xScale * (CNVCATPropertiesMod.props().getProbeWidth() + xGap);
         // x1-x =  (col * (int) (this.xScale * (CNVCATPropertiesMod.props().getProbeWidth() + xGap);
         //col =  (x1-x)/(int) (this.xScale * (CNVCATPropertiesMod.props().getProbeWidth() + xGap ;
-
-
         if (Math.abs(((this.imageWidht / 2) - x)) < this.ideogramWidth) {
             return 0;
         }
@@ -1228,6 +1179,7 @@ public class MatrixAberration extends JLabel
 
     /**
      * map mouse position to chromosomal location
+     *
      * @param mousePos
      * @return
      */
@@ -1268,12 +1220,12 @@ public class MatrixAberration extends JLabel
         this.menuShowData.addActionListener(
                 new ActionListener() {
 
-                    public void actionPerformed(ActionEvent e) {
-                        Long xPos = mapXPosition(xMousePosition);
-                        Long yPos = mapYPosition(parentFrame.getMousePos(), true);
-                        MatrixAberration.this.showDetailData(xPos, yPos);
-                    }
-                });
+            public void actionPerformed(ActionEvent e) {
+                Long xPos = mapXPosition(xMousePosition);
+                Long yPos = mapYPosition(parentFrame.getMousePos(), true);
+                MatrixAberration.this.showDetailData(xPos, yPos);
+            }
+        });
         popup.add(menuShowData);
         /*this.menuItemSetStart = new JMenuItem("set global start");
         this.menuItemSetStart.addActionListener(
@@ -1303,24 +1255,22 @@ public class MatrixAberration extends JLabel
         this.menuItemZoomIn.addActionListener(
                 new ActionListener() {
 
-                    public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
-
-                        ZoomYAction.getInstance().doZoom(+1);
-                    }
-                });
+                ZoomYAction.getInstance().doZoom(+1);
+            }
+        });
 
         popup.add(menuItemZoomIn);
         this.menuItemZoomOut = new JMenuItem("ZoomOut");
         this.menuItemZoomOut.addActionListener(
                 new ActionListener() {
 
-                    public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
-
-                        ZoomYAction.getInstance().doZoom(-1);
-                    }
-                });
+                ZoomYAction.getInstance().doZoom(-1);
+            }
+        });
 
         popup.add(menuItemZoomOut);
 
@@ -1331,33 +1281,15 @@ public class MatrixAberration extends JLabel
         if (!this.maybeShowPopup(e)) {
             // select CNV
 
-
             long xPos = this.mapXPosition(e.getPoint().x);
             long yPos = mapYPosition(e.getPoint().y, false);
             Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
                     "xPos: " + xPos + " yPos: " + yPos);
 
-
-
-
-
-
-            if (yPos <
-                    0) {
+            if (yPos
+                    < 0) {
                 return;
             }
-
-
-
-
-
-
-
-
-
-
-
-
 
             this.parentFrame.setPosition(yPos);
 
@@ -1365,7 +1297,7 @@ public class MatrixAberration extends JLabel
                     this.chromId, yPos - (int) this.yScale * CNVCATPropertiesMod.props().getSelectionTolerance(),
                     yPos + (int) this.yScale * CNVCATPropertiesMod.props().getSelectionTolerance(),
                     xPos);
-        /*
+            /*
         isgenome!!
         int chrNo =
         y / (this.compactHeight) * MatrixAberration.genomeViewCols +
@@ -1379,7 +1311,7 @@ public class MatrixAberration extends JLabel
         (long) ((y - tops[chrNo - 1]) * scale);
         x =
         (int) (long) ((x - lefts[chrNo - 1]));
-         */
+             */
 
         }
     }
@@ -1406,36 +1338,18 @@ public class MatrixAberration extends JLabel
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         long _firstPos = mapYPosition(firstPixY, true);
         long _secondPos = mapYPosition(secondPixY, true);
 
         Logger.getLogger(MatrixAberration.class.getName()).log(Level.INFO,
                 "Detail: begin: " + _firstPos + " end: " + _secondPos);
 
-
         //this.refreshPlot();
-
-
         parentFrame.showDetails(_firstPos, _secondPos);
     }
     long xMousePosition = 0;
 
     void showDetailData(long xPos, long yPos) {
-
 
         java.util.List<? extends Aberration> aberrations = parentFrame.AberrationManager().getAberrationsAtChrom(chromId);
 
@@ -1455,17 +1369,6 @@ public class MatrixAberration extends JLabel
 
             }
 
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 
@@ -1473,7 +1376,6 @@ public class MatrixAberration extends JLabel
 
         this.parentFrame.setMousePos(e.getPoint().y);
         this.xMousePosition = e.getPoint().x;
-
 
         Long xPos = this.mapXPosition(e.getPoint().x);
         Long yPos = mapYPosition(e.getPoint().y, true);
@@ -1501,8 +1403,8 @@ public class MatrixAberration extends JLabel
     }
 
     public void rescale() {
-        this.yScale = (this.secondPos - this.firstPos) /
-                (this.imageHeight - (this.parentFrame.getOffY() * 2));
+        this.yScale = (this.secondPos - this.firstPos)
+                / (this.imageHeight - (this.parentFrame.getOffY() * 2));
     }
 
     public Dimension getPreferredScrollableViewportSize() {

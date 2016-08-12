@@ -3,19 +3,17 @@
  *
  *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 package org.molgen.genomeCATPro.xportagilent;
 
@@ -37,9 +35,8 @@ import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
 import org.molgen.genomeCATPro.xportagilent.FEProtocollList.FEProtocoll;
 
 /**
- *  020813   kt	XPortImport createNewImport();
- *  120413   kt negative controltype
- *  120413   kt import 1...X,Y or 1...23,24 as chr...
+ * 020813 kt	XPortImport createNewImport(); 120413 kt negative controltype
+ * 120413 kt import 1...X,Y or 1...23,24 as chr...
  */
 public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform {
 
@@ -67,8 +64,8 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
     public Vector<String> getImportType() {
         return new Vector<String>(
                 Arrays.asList(new String[]{
-                    ImportPlatformFETXT.platform_fe
-                }));
+            ImportPlatformFETXT.platform_fe
+        }));
     }
 
     @Override
@@ -109,6 +106,7 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
 
     /**
      * read header of fe.txt file
+     *
      * @param nofLines
      * @return
      */
@@ -237,7 +235,6 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
     @Override
     protected String[] modify(List<String[]> map, String[] tmp) {
 
-
         // 120413   kt  negative controltype
         // 120413   kt  import 1...X,Y or 1...23,24 as chr...
         if (tmp[ichrom] != null && !tmp[ichrom].contentEquals("") && !tmp[ichrom].contentEquals("--") && !tmp[ichrom].startsWith("chr")) {
@@ -266,50 +263,50 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
         return tmp;
     }
 
-    protected String getCreateTableSQL(String tableData) {
-        String sql = new String(" CREATE TABLE " + tableData + " ( " +
-                "id INT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "probeID INT UNSIGNED NOT NULL, " +
-                "probeName varchar(255) NOT NULL, " +
-                "col int(10) UNSIGNED, " +
-                "row int(10) UNSIGNED, " +
-                "chrom varChar(45) NOT NULL," +
-                "chromStart int(10) unsigned NOT NULL," +
-                "chromEnd int(10) unsigned NOT NULL," +
-                "controlType tinyint(1) unsigned NOT NULL default 0," +
-                "GB_ACC varchar(255), " +
-                "GENE_SYMBOL varchar(255), " +
-                "GENE_NAME varchar(255), " +
-                "ACCESSION_STRING varchar(255)," +
-                "DESCRIPTION varchar(255), " +
-                "PRIMARY KEY (id)," +
-                //"UNIQUE KEY (probeID)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                " INDEX (GENE_SYMBOL (10))," +
-                " INDEX (probeName)  " +
-                " ) TYPE=MyISAM");
+    @Override
+    public String getCreateTableSQL(String tableData) {
+        String sql = " CREATE TABLE " + tableData + " ( "
+                + "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "probeID INT UNSIGNED NOT NULL, "
+                + "probeName varchar(255) NOT NULL, "
+                + "col int(10) UNSIGNED, "
+                + "row int(10) UNSIGNED, "
+                + "chrom varChar(45) NOT NULL,"
+                + "chromStart int(10) unsigned NOT NULL,"
+                + "chromEnd int(10) unsigned NOT NULL,"
+                + "controlType tinyint(1) unsigned NOT NULL default 0,"
+                + "GB_ACC varchar(255), "
+                + "GENE_SYMBOL varchar(255), "
+                + "GENE_NAME varchar(255), "
+                + "ACCESSION_STRING varchar(255),"
+                + "DESCRIPTION varchar(255), "
+                + "PRIMARY KEY (id),"
+                + //"UNIQUE KEY (probeID)," +
+                "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + " INDEX (GENE_SYMBOL (10)),"
+                + " INDEX (probeName)  "
+                + " ) TYPE=MyISAM";
         return sql;
     }
 
     @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeID", "probeName",
-                    "col", "row",
-                    "chrom", "chromStart", "chromEnd",
-                    "controlType",
-                    "GB_ACC", "GENE_SYMBOL", "GENE_NAME",
-                    //"UNIGENE_ID", "ENSEMBL_ID", "TIGR_ID", "GO_ID",
-                    "ACCESSION_STRING", "DESCRIPTION"
-                };
+            "probeID", "probeName",
+            "col", "row",
+            "chrom", "chromStart", "chromEnd",
+            "controlType",
+            "GB_ACC", "GENE_SYMBOL", "GENE_NAME",
+            //"UNIGENE_ID", "ENSEMBL_ID", "TIGR_ID", "GO_ID",
+            "ACCESSION_STRING", "DESCRIPTION"
+        };
     }
 
     @Override
     public List<String[]> getDefaultMappingFile2DBColNames() {
-        List<String[]> _map = new Vector<String[]>();
-
+        List<String[]> _map = new Vector<>();
 
         String[] entry = new String[2];
         /*
@@ -336,7 +333,6 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
         entry[ind_db] = "GENE_SYMBOL";
         entry[ind_file] = "GeneName";
         _map.add(entry);
-
 
         if (!this.hasSplitField()) {
             entry = new String[2];
@@ -370,8 +366,6 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
         entry[ind_file] = "Description";
         _map.add(entry);
 
-
-
         entry = new String[2];
         entry[ind_db] = "GB_ACC";
         entry[ind_file] = "SystematicName";
@@ -381,7 +375,6 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
         entry[ind_db] = "GENE_NAME";
         entry[ind_file] = "GeneName";
         _map.add(entry);
-
 
         entry = new String[2];
         entry[ind_db] = "row";
@@ -403,9 +396,9 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
         if (p == null) {
             Logger.getLogger(ImportPlatformFETXT.class.getName()).log(Level.INFO,
                     "unknown protocoll" + this.protocoll);
-        //throw new RuntimeException("Unknown Protokoll: " + this.protocoll);
-        //return Collections.emptyList();
-        //throw new RuntimeException();
+            //throw new RuntimeException("Unknown Protokoll: " + this.protocoll);
+            //return Collections.emptyList();
+            //throw new RuntimeException();
 
         }
 
@@ -413,12 +406,10 @@ public class ImportPlatformFETXT extends ImportPlatform implements XPortPlatform
         String name = this.inFile.getName();
         name = name.substring(0, name.indexOf(".txt"));
 
-
         d.setName(name);
 
         //d.setType(Defaults.Type.BAC.toString());
         d.setDescription("imported via " + this.getClass().getName());
-
 
         d.setManufacturer("Agilent Technologies");
         d.setDescription("Barcode: " + this.barcode + "\n ");

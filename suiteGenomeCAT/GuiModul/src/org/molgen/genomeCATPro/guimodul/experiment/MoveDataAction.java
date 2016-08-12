@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.guimodul.experiment;
 /**
  * @name MoveDataAction
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -78,8 +76,8 @@ public final class MoveDataAction extends AbstractAction implements LookupListen
         init();
         for (ExperimentData instance : lkpInfo.allInstances()) {
             Logger.getLogger(MoveDataAction.class.getName()).log(
-                    Level.INFO, "found lookup instance: " +
-                    instance.getName());
+                    Level.INFO, "found lookup instance: "
+                    + instance.getName());
             run(instance);
         }
     }
@@ -91,7 +89,7 @@ public final class MoveDataAction extends AbstractAction implements LookupListen
                 //if (!TrackService.moveTrack(s, true, null)) {
                 JOptionPane.showMessageDialog(null, "data " + d.getName() + " not moveable");
                 return;
-            //}
+                //}
             }
             ExperimentService.notifyListener(); //050612 kt
         } catch (Exception e) {

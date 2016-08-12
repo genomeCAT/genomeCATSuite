@@ -16,29 +16,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import org.molgen.genomeCATPro.common.Defaults;
+
 /**
  * @name Import
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- *  120313 kt   user setting if has header
- *  200612 kt   doImport  skip empty lines
+ * 120313 kt user setting if has header 200612 kt doImport skip empty lines
  *
  */
 public abstract class Import implements XPortImport {
@@ -50,7 +48,7 @@ public abstract class Import implements XPortImport {
     protected BufferedReader inBuffer = null;
     protected File inFile = null;
     protected List<String[]> map;
-     boolean hasHeader = true;
+    boolean hasHeader = true;
     //otherSymbols.setDecimalSeparator(',');
     //otherSymbols.setGroupingSeparator('.'); 
     //protected DecimalFormat myFormatter = new DecimalFormat("0.#####E0");
@@ -156,7 +154,7 @@ public abstract class Import implements XPortImport {
 
     protected void readFileColNames() {
         String is;
-       
+
         try {
             this.fileColNames = null;
             inBuffer = new BufferedReader(new FileReader(inFile));
@@ -196,7 +194,7 @@ public abstract class Import implements XPortImport {
 
         int error = 0;
         int noimp = 0;
-         boolean data = (this.hasHeader ? false : true);
+        boolean data = (this.hasHeader ? false : true);
         Hashtable<String, Integer> indexFileDBcolMapping = getFileIndexMapping();
         try {
             Statement s = con.createStatement();
@@ -220,8 +218,9 @@ public abstract class Import implements XPortImport {
             boolean splitdone = false;
             while ((is = inBuffer.readLine()) != null) {
                 // 200612 kt skip empty lines
-                if(is.contentEquals(""))
+                if (is.contentEquals("")) {
                     continue;
+                }
                 //header
                 if (is.indexOf(this.getEndMetaDataTag()) == 0) {
                     data = true;
@@ -259,9 +258,6 @@ public abstract class Import implements XPortImport {
                             ind = indexFileDBcolMapping.get(_map[ImportPlatform.ind_db]);
                         }
 
-
-
-
                         if (ind != null && ind >= 0) {
                             tmp[i++] = iss[ind];
                         } else {
@@ -273,7 +269,6 @@ public abstract class Import implements XPortImport {
                     //Logger.getLogger(Import.class.getName()).log(Level.INFO,
                     //       "importData: tmp: " + Arrays.deepToString(tmp));
 
-
                     sql = null;
                     sql = Import.loadDataLine(spotTable, tmp, dbCols);
                     if (sql != null) {
@@ -284,7 +279,7 @@ public abstract class Import implements XPortImport {
                         } catch (Exception sQLException) {
                             Logger.getLogger(Import.class.getName()).log(Level.WARNING, "sql error: " + Arrays.deepToString(tmp) + "\n");
 
-                            Logger.getLogger(Import.class.getName()).log(Level.WARNING,  sQLException.getMessage());
+                            Logger.getLogger(Import.class.getName()).log(Level.WARNING, sQLException.getMessage());
                             ++error;
                         }
                     } else {
@@ -312,14 +307,10 @@ public abstract class Import implements XPortImport {
             String[] iss,
             String[] colnames) {
 
-
-
-        String sqlinsert = "",sqlvalues  = "";
+        String sqlinsert = "", sqlvalues = "";
         try {
 
             for (int i = 0; i < iss.length; i++) {
-
-
 
                 if (colnames[i] == null) {
                     // skip column, no input fields at file-> db defaults
@@ -331,7 +322,6 @@ public abstract class Import implements XPortImport {
                     //empty values, skip column -> db defaults
                     continue;
                 }
-
 
                 // mask special characters ' " \ with \
                 Matcher matcher = Pattern.compile("([\'\"\\\\])").matcher(iss[i]);
@@ -351,8 +341,8 @@ public abstract class Import implements XPortImport {
             //Logger.getLogger(ImportUtil.class.getName()).log(Level.INFO, "", e);
             return null;
         }
-        String sql = "INSERT INTO " + spotTable + " (" + sqlinsert + ") " +
-                " VALUES ( " + sqlvalues + " )";
+        String sql = "INSERT INTO " + spotTable + " (" + sqlinsert + ") "
+                + " VALUES ( " + sqlvalues + " )";
         return sql;
     }
 
@@ -366,7 +356,6 @@ public abstract class Import implements XPortImport {
         try {
             inBuffer = new BufferedReader(new FileReader(inFile));
             while ((is = inBuffer.readLine()) != null) {
-
 
                 if (is.indexOf(this.getEndMetaDataTag()) == 0) {
                     data = true;

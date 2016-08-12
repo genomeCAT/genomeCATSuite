@@ -73,7 +73,3 @@ public class MapDetailNodeFactory extends ChildFactory<MapDetail>
         this.refresh(true);
     }
 }
-
-
-
-

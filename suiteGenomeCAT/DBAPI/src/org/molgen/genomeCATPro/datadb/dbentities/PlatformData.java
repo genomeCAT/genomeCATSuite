@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.datadb.dbentities;
 /**
  * @name PlatformData
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -44,9 +42,8 @@ import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.common.Utils;
 
 /**
- * 260313   kt  new transient member: nofImportData
- * 130313   kt  new transient member: nofImportErrors
- * 120313   kt  unique init tabledata
+ * 260313 kt new transient member: nofImportData 130313 kt new transient member:
+ * nofImportErrors 120313 kt unique init tabledata
  */
 @Entity
 @Table(name = "PlatformList")
@@ -122,8 +119,8 @@ public class PlatformData implements Serializable {
         if (this.getName() == null) {
             return;
         }
-        this.setTableData(Utils.getUniquableName(this.getName()) + "_" +
-                (this.genomeRelease != null ? GenomeRelease.toRelease(genomeRelease).toShortString() : "") + "_Spots");
+        this.setTableData(Utils.getUniquableName(this.getName()) + "_"
+                + (this.genomeRelease != null ? GenomeRelease.toRelease(genomeRelease).toShortString() : "") + "_Spots");
         this.setTableData(this.getTableData().replace("-", "_"));
         this.setTableData(this.getTableData().replace(" ", "_"));
     }
@@ -272,12 +269,12 @@ public class PlatformData implements Serializable {
 
     public String toFullString() {
         return new String(
-                this.getPlatformListID() + "," +
-                this.getCreated() + "," +
-                this.getModified() + "," +
-                this.getPlattform() + "," +
-                this.getTableData() + "," +
-                this.getGenomeRelease());
+                this.getPlatformListID() + ","
+                + this.getCreated() + ","
+                + this.getModified() + ","
+                + this.getPlattform() + ","
+                + this.getTableData() + ","
+                + this.getGenomeRelease());
     }
 
     @PrePersist

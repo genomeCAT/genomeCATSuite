@@ -1,32 +1,28 @@
-/**@name ScoreFilterManager
- * 
+/**
+ * @name ScoreFilterManager
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * Copyright  2009 Katrin Tebel
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Copyright 2009 Katrin Tebel The contents of this file are subject to the
+ * terms of either the GNU General Public License Version 2 only ("GPL") or the
+ * Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 package org.molgen.genomeCATPro.peaks.cnvcat;
-
-
 
 import org.molgen.genomeCATPro.peaks.Aberration;
 import org.molgen.genomeCATPro.peaks.CNVCATPropertiesMod;
 
 /**
  *
- * provide methods to filter and set transparency for cnv
- * override for each edition 
+ * provide methods to filter and set transparency for cnv override for each
+ * edition
  */
 public class ScoreFilterManager {
 
@@ -55,14 +51,14 @@ public class ScoreFilterManager {
 
     protected float scaleAlpha(float alpha) {
 
-        alpha =  (alpha < 0 ? alpha * -1 : alpha);   // not less 0
+        alpha = (alpha < 0 ? alpha * -1 : alpha);   // not less 0
 
         alpha = (float) (alpha > 1.0 ? 1.0 : alpha);        // not greater than 1
 
         if (alpha > 0) {                                     // scale within opacity range defined by user
 
-            alpha = (float) (CNVCATPropertiesMod.props().getTransAberrations() +
-                    (alpha * (1 - CNVCATPropertiesMod.props().getTransAberrations())));
+            alpha = (float) (CNVCATPropertiesMod.props().getTransAberrations()
+                    + (alpha * (1 - CNVCATPropertiesMod.props().getTransAberrations())));
         }
         return alpha;
     }

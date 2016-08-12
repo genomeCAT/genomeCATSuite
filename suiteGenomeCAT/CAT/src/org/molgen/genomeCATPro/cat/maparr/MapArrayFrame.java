@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.cat.maparr;
+
 /**
  * @name MapArrayFrame
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Cursor;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ import java.util.logging.Logger;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.molgen.genomeCATPro.datadb.dbentities.MapData;
+
 /*
  * 
  */
@@ -41,13 +41,12 @@ public class MapArrayFrame extends ArrayFrame {
         Logger.getLogger(ArrayFrame.class.getName()).log(
                 Level.INFO, "create MapArrayFrame default");
 
-
-
     }
 
     @Override
     public void mapArrays() {
     }
+
     /*
     public MapArrayFrame(Data[] list) {
     super(list, null);
@@ -59,7 +58,7 @@ public class MapArrayFrame extends ArrayFrame {
     
     }
      */
-    /*
+ /*
     public MapArrayFrame(List<ArrayData> list) {
     super(list, null);
     Logger.getLogger(ArrayFrame.class.getName()).log(
@@ -70,7 +69,6 @@ public class MapArrayFrame extends ArrayFrame {
     
     }
      */
-
     public String getMapName() {
         return mapName;
     }
@@ -81,7 +79,7 @@ public class MapArrayFrame extends ArrayFrame {
 
     /**
      * present view to filter arrays to map
-     * 
+     *
      */
     @Override
     public void load() {
@@ -103,13 +101,14 @@ public class MapArrayFrame extends ArrayFrame {
 
         } finally {
             //ArrayFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
+            this.repaint();
+        }
     }
 
     @Override
     public void addData(Data[] list) {
 
-        this.addData(new ArrayList(Arrays.asList(list)));
+        this.addData(Arrays.asList((MapData[]) list));
 
     }
 
@@ -119,7 +118,7 @@ public class MapArrayFrame extends ArrayFrame {
     }
 
     @Override
-    ArrayView filterArrayView( ArrayView v, ArrayData d) {
+    ArrayView filterArrayView(ArrayView v, ArrayData d) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -137,10 +136,10 @@ public class MapArrayFrame extends ArrayFrame {
         try {
             if (list == null || list.size() == 0) {
                 return;
-            // set check name
+                // set check name
             }
             setRelease(Defaults.GenomeRelease.toRelease(
-                     list.get(0).getGenomeRelease()));
+                    list.get(0).getGenomeRelease()));
 
             List<ArrayData> adList = MapDialog.getArrayMappedData(list);
             MapArrayFrame.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -148,7 +147,7 @@ public class MapArrayFrame extends ArrayFrame {
 
                 MapArrayFrame.this.addArray(ad);
             }
-           
+
         } catch (Exception ex) {
             Logger.getLogger(ArrayFrame.class.getName()).log(Level.SEVERE,
                     "AddData:", ex);

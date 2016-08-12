@@ -18,22 +18,19 @@ import org.molgen.genomeCATPro.peaks.AberrationIds;
 /**
  * @name AberrationManager
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>. The contents of
+ * this file are subject to the terms of either the GNU General Public License
+ * Version 2 only ("GPL") or the Common Development and Distribution
+ * License("CDDL") (collectively, the "License"). You may not use this file
+ * except in compliance with the License. You can obtain a copy of the License
+ * at http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 public abstract class AberrationManager {
 
@@ -51,6 +48,7 @@ public abstract class AberrationManager {
     public AberrationManager() {
         initColors();
     }
+
     ;
 
     public abstract void deleteAberrations(List<? extends AberrationIds> alist) throws Exception;
@@ -63,12 +61,14 @@ public abstract class AberrationManager {
 
     /**
      * get all possible aberrations filtered by distinct caseId and phenotype
+     *
      * @return
      */
     public abstract List<? extends AberrationIds> findAberrationIds();
 
     /**
      * select distinct values for spezified column (group)
+     *
      * @return
      */
     public abstract Vector getColorGroupList();
@@ -79,8 +79,9 @@ public abstract class AberrationManager {
 
     /**
      * load selected cases, refresh aberrations
-     * @param replace   true - replace older aberrationIds with new content (color)
-     *                  false - redundant aberrationIs plus aberration loaded
+     *
+     * @param replace true - replace older aberrationIds with new content
+     * (color) false - redundant aberrationIs plus aberration loaded
      */
     public void loadActiveCases(boolean replace) {
         Logger.getLogger(this.getClass().getName()).log(
@@ -102,7 +103,6 @@ public abstract class AberrationManager {
                 this.activeCases.remove(r);
             }
 
-
         } else { //keep the old one
 
             for (AberrationIds r : removeCases) {
@@ -123,17 +123,19 @@ public abstract class AberrationManager {
 
     /**
      * check, if list contains a single caseId more than once
+     *
      * @param conflict1
-     * 
-     * @return vector of aberrations with same caseIds, null if no doubled caseId was found
+     *
+     * @return vector of aberrations with same caseIds, null if no doubled
+     * caseId was found
      */
     public abstract List<? extends AberrationIds> conflictCaseIds(
             List<? extends AberrationIds> list);
 
     /**
-     * check, if 2 lists share same AberrationIds. 
-     * i.e. if one of the aberrationIds from newList is already contained in oldList
-     * attribute to compare is CaseId
+     * check, if 2 lists share same AberrationIds. i.e. if one of the
+     * aberrationIds from newList is already contained in oldList attribute to
+     * compare is CaseId
      */
     public List<? extends AberrationIds> conflictActiveCases(
             List<? extends AberrationIds> newList, List<? extends AberrationIds> oldList) {
@@ -156,6 +158,7 @@ public abstract class AberrationManager {
             return resultList;
         }
     }
+
     ;
     // basic methods
 
@@ -286,7 +289,6 @@ public abstract class AberrationManager {
             Logger.getLogger(AberrationManager.class.getName()).log(
                     Level.SEVERE, "getMaxQuality", e);
 
-
         }
         return 0;
     }
@@ -342,11 +344,11 @@ public abstract class AberrationManager {
 
         if (ind1 < 0) {
             ind1 = 0;
-        // go to the last element with chromStart == posEnd
+            // go to the last element with chromStart == posEnd
         }
 
-        for (int i = ind1 + 1; i <
-                a.size(); i++) {
+        for (int i = ind1 + 1; i
+                < a.size(); i++) {
             if (a.get(i).getChromStart() == a.get(ind1).getChromStart()) {
                 ind1 = i;
             } else {
@@ -356,10 +358,8 @@ public abstract class AberrationManager {
         }
 
         // all elements with chromStart less than end position
-
         List<? extends Aberration> x = a.subList(0, ind1 + 1);
         Collections.sort(x, Aberration.compByEnd);
-
 
         // find ab with minimal end position greater than posStart
         int ind2 = getPosStart(x, posStart);
@@ -371,8 +371,8 @@ public abstract class AberrationManager {
             ind2 = 0;
         }
 
-        for (int i = ind2 - 1; i >=
-                0; i--) {
+        for (int i = ind2 - 1; i
+                >= 0; i--) {
             if (x.get(i).getChromEnd() == x.get(ind2).getChromEnd()) {
                 ind2 = i;
             } else {
@@ -382,10 +382,7 @@ public abstract class AberrationManager {
         }
         return x.subList(ind2, x.size());
 
-
-
-
-    /*
+        /*
     Collections.sort(a, Aberration.findByStart);
     int start = Collections.binarySearch(a, new Aberration(chromStart, 0), Aberration.findByStart);
     start = start < 0 ? (start * -1) - 1 : start;     // i:= (-(insertion point) - 1)
@@ -414,7 +411,7 @@ public abstract class AberrationManager {
     if(b.start )
     
     }
-     */
+         */
     }
 
     protected abstract int getPosEnd(List<? extends Aberration> a, long posEnd);
@@ -438,8 +435,5 @@ public abstract class AberrationManager {
             }
         }
 
-
     }
 }
-
-

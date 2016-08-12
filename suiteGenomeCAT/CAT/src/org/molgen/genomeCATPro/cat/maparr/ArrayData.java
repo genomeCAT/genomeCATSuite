@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.cat.maparr;
 
-/** * @(#)ArrayData.java 
- * *  * @author Katrin Tebel
- * * This program is free software; you can redistribute it and/or
- * * modify it under the terms of the GNU General Public License 
- * * as published by the Free Software Foundation; either version 2 
- * * of the License, or (at your option) any later version, 
- * * provided that any use properly credits the author. 
- * * This program is distributed in the hope that it will be useful,
- * * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * * GNU General Public License for more details at http://www.gnu.org * * */
+/**
+ * * @(#)ArrayData.java
+ * * * @author Katrin Tebel * This program is free software; you can
+ * redistribute it and/or * modify it under the terms of the GNU General Public
+ * License * as published by the Free Software Foundation; either version 2 * of
+ * the License, or (at your option) any later version, * provided that any use
+ * properly credits the author. * This program is distributed in the hope that
+ * it will be useful, * but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the *
+ * GNU General Public License for more details at http://www.gnu.org * *
+ */
 import org.molgen.genomeCATPro.cat.util.*;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 
 /**
- * maintain data to view array like filter, 
- * matched view class etc
- * keeps DataEntity from DB (like ExperimentData)
+ * maintain data to view array like filter, matched view class etc keeps
+ * DataEntity from DB (like ExperimentData)
  */
 public class ArrayData {
 
@@ -38,10 +37,10 @@ public class ArrayData {
     }
 
     /**
-     * 
-     * @param id        temporary identifier for arrayview
-     * @param clazz     ArrayView.class
-     * @param Data      data entity 
+     *
+     * @param id temporary identifier for arrayview
+     * @param clazz ArrayView.class
+     * @param Data data entity
      */
     ArrayData(Long id, Class clazz, Data d) {
         this.id = id;
@@ -51,6 +50,7 @@ public class ArrayData {
 
     /**
      * create new meta data with filter options
+     *
      * @param id
      * @param clazz
      * @param d
@@ -62,11 +62,9 @@ public class ArrayData {
 
         this(id, clazz, d);
 
-
         this.filteredData = true;
         this.filterNeg = filterNeg;
         this.filterPos = filterPos;
-
 
     }
 
@@ -96,11 +94,10 @@ public class ArrayData {
         text.append((this.filteredData ? "filtered " : "") + Defines.getViewTitelByClazzname(
                 this.getArrayClazz().getName()) + "\n");
 
-        text.append(new String("id:\t" +
-                this.id + " " + " \n"));
+        text.append(new String("id:\t"
+                + this.id + " " + " \n"));
         //text.append(new String(this.data.) + " \n"));
         text.append(this.data.getMetaText());
-
 
         if (filteredData) {
             text.append(new String("Filter neg: \t" + this.filterNeg + "\n"));
@@ -121,7 +118,7 @@ public class ArrayData {
     public Class getArrayClazz() {
         return this.clazz;
 
-    //return ArrayData.matchDataTypeToViewClazz(Defaults.DataType.toDataType(this.data.getDataType()));
+        //return ArrayData.matchDataTypeToViewClazz(Defaults.DataType.toDataType(this.data.getDataType()));
     }
 
     public String getName() {
@@ -170,7 +167,6 @@ public class ArrayData {
         Long _id = ArrayManager.getNextArrayId();
         ArrayData m = new ArrayData(_id, _clazz, d);
 
-
         return m;
 
     }
@@ -179,7 +175,6 @@ public class ArrayData {
 
         Long _id = ArrayManager.getNextArrayId();
         ArrayData m = new ArrayDataAnno(_id, _clazz, release, name);
-
 
         return m;
 

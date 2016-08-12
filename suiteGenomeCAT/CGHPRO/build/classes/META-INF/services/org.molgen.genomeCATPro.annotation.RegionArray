@@ -1,6 +1,11 @@
 org.molgen.genomeCATPro.cghpro.chip.FeatureCBS
-org.molgen.genomeCATPro.cghpro.chip.SpotBAC
-org.molgen.genomeCATPro.cghpro.chip.SpotBACAnnoGene
-org.molgen.genomeCATPro.cghpro.chip.SpotX
 org.molgen.genomeCATPro.cghpro.chip.FeatureHMM
 org.molgen.genomeCATPro.cghpro.chip.FeaturePeak
+org.molgen.genomeCATPro.cghpro.chip.SpotBAC
+org.molgen.genomeCATPro.cghpro.chip.SpotBACAnno
+org.molgen.genomeCATPro.cghpro.chip.SpotBACAnnoGene
+org.molgen.genomeCATPro.cghpro.chip.SpotXwoGene
+org.molgen.genomeCATPro.cghpro.chip.SpotX
+org.molgen.genomeCATPro.cghpro.chip.SpotXAnno
+org.molgen.genomeCATPro.cghpro.chip.SpotXwoGeneAnno
+org.molgen.genomeCATPro.cghpro.chip.SpotXAnnoGene

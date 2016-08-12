@@ -1,36 +1,28 @@
 package org.molgen.genomeCATPro.guimodul.data;
 
 /**
- * @name  ViewExperimentDataAction
+ * @name ViewExperimentDataAction
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-import org.molgen.genomeCATPro.guimodul.experiment.*;
 import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
-import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformData;
-import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
-import org.openide.nodes.BeanNode;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -95,14 +87,14 @@ public final class ViewDataAction extends AbstractAction implements LookupListen
             table = ((Data) s).getTableData();
             name = ((Data) s).getName();
 
-
         }
         if (s instanceof PlatformData) {
             table = ((PlatformData) s).getTableData();
             name = ((PlatformData) s).getName();
         }
-        if(!table.contentEquals(""))
+        if (!table.contentEquals("")) {
             ViewDataDialog.view(name, table);
+        }
     }
 
     public void resultChanged(LookupEvent arg0) {
@@ -113,4 +105,3 @@ public final class ViewDataAction extends AbstractAction implements LookupListen
         return new ViewDataAction(arg0);
     }
 }
-

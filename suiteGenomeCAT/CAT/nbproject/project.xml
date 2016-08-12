@@ -7,44 +7,20 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
-                    <code-name-base>javax.persistence</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.jdesktop.el</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.jdesktop.layout</code-name-base>
+                    <code-name-base>org.jdesktop.beansbinding</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.5</specification-version>
+                        <specification-version>1.24.1.121</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.jdesktop.swingworker</code-name-base>
+                    <code-name-base>org.molgen.genomeCATPro.appconf</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.molgen.dblib</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
+                        <implementation-version/>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -52,7 +28,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>1.0</specification-version>
+                        <specification-version>4</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -60,7 +36,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>1.0</specification-version>
+                        <specification-version>4</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -69,7 +45,16 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.11.0.1</specification-version>
+                        <specification-version>1.38.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.netbeans.modules.j2ee.eclipselink</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>1.29.2</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -77,7 +62,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.1.0.1</specification-version>
+                        <specification-version>7.62.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -85,7 +70,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>6.13</specification-version>
+                        <specification-version>6.57.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -93,7 +78,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>6.9</specification-version>
+                        <specification-version>7.57.2</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -101,7 +86,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.6</specification-version>
+                        <specification-version>7.43.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -109,7 +94,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.3.0.1</specification-version>
+                        <specification-version>7.39.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -117,7 +102,15 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.12.0.1</specification-version>
+                        <specification-version>8.39.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.openide.util.lookup</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>8.25.2</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -125,7 +118,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>6.20</specification-version>
+                        <specification-version>6.71.1</specification-version>
                     </run-dependency>
                 </dependency>
             </module-dependencies>
@@ -138,6 +131,10 @@
                     </test-dependency>
                     <test-dependency>
                         <code-name-base>org.molgen.genomeCATPro.xportagilent</code-name-base>
+                        <compile-dependency/>
+                    </test-dependency>
+                    <test-dependency>
+                        <code-name-base>org.netbeans.libs.junit4</code-name-base>
                         <compile-dependency/>
                     </test-dependency>
                 </test-type>

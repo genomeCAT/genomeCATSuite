@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.xportagilent;
 /**
  * @name FEProtocollList
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of props file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use props file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * props program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>. The contents of
+ * props file are subject to the terms of either the GNU General Public License
+ * Version 2 only ("GPL") or the Common Development and Distribution
+ * License("CDDL") (collectively, the "License"). You may not use props file
+ * except in compliance with the License. You can obtain a copy of the License
+ * at http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. props program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -37,8 +34,8 @@ import org.molgen.genomeCATPro.common.Defaults.Type;
 import org.openide.modules.InstalledFileLocator;
 
 /**
- * 
- * 130313   kt  dont save if file not found
+ *
+ * 130313 kt dont save if file not found
  */
 public class FEProtocollList implements Serializable {
     //An inner class contains an implicit reference to the outer class, 
@@ -91,6 +88,7 @@ public class FEProtocollList implements Serializable {
         public FEProtocoll() {
             // xml serializer??
         }
+
         ;
 
         public String getHybridisation() {
@@ -119,17 +117,17 @@ public class FEProtocollList implements Serializable {
 
         public String toFullString() {
             return new String(
-                    this.getName() + "," +
-                    this.getText() + ", " +
-                    this.getType() + "," +
-                    this.getMethod() + "," +
-                    this.getHybridisation() + "," +
-                    this.getProcessing());
+                    this.getName() + ","
+                    + this.getText() + ", "
+                    + this.getType() + ","
+                    + this.getMethod() + ","
+                    + this.getHybridisation() + ","
+                    + this.getProcessing());
         }
     }
 
     /**
-     * initial create content for propertie file 
+     * initial create content for propertie file
      */
     @SuppressWarnings("unchecked")
     private static void load() throws FileNotFoundException {
@@ -139,7 +137,7 @@ public class FEProtocollList implements Serializable {
         Logger.getLogger(FEProtocollList.class.getName()).log(Level.INFO, "load FEProtocoll List from " + f.getPath());
         XMLDecoder d = new XMLDecoder(
                 new BufferedInputStream(
-                new FileInputStream(f.getPath())));
+                        new FileInputStream(f.getPath())));
         FEProtocollList.list = (HashMap<String, FEProtocoll>) d.readObject();
 
         d.close();
@@ -156,7 +154,7 @@ public class FEProtocollList implements Serializable {
             Logger.getLogger(FEProtocollList.class.getName()).log(Level.INFO, "save FEProtocoll List to " + f.getPath());
             XMLEncoder e = new XMLEncoder(
                     new BufferedOutputStream(
-                    new FileOutputStream(f.getPath())));
+                            new FileOutputStream(f.getPath())));
             e.writeObject(FEProtocollList.list);
 
             e.flush();
@@ -199,7 +197,6 @@ public class FEProtocollList implements Serializable {
                 "TIFF image processing with Agilent Feature Extraction  ");
         list.put(p.name, p);
 
-
         try {
             save();
 
@@ -221,8 +218,8 @@ public class FEProtocollList implements Serializable {
             create();
         }
         list.put(p.name, p);
-        Logger.getLogger(FEProtocollList.class.getName()).log(Level.INFO, "add: " +
-                p.toFullString());
+        Logger.getLogger(FEProtocollList.class.getName()).log(Level.INFO, "add: "
+                + p.toFullString());
         try {
             save();
 

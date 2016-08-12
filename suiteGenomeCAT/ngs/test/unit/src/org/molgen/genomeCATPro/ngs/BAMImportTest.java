@@ -16,15 +16,16 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.cghpro.chip.FeaturePeak;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Informable;
-import org.molgen.genomeCATPro.data.Feature;
 import org.openide.util.Exceptions;
 import static org.junit.Assert.*;
+import org.molgen.genomeCATPro.data.IFeature;
 
 /**
  *
@@ -46,9 +47,9 @@ public class BAMImportTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
+        Database.setDBParams(Defaults.localDB, "genomeCAT", "senilebettflucht", "3306", "user", "user");
 
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
+        DBService.setConnection("senilebettflucht", "3306", "genomeCAT", "user", "user");
 
         System.setProperty("netbeans.dirs", "/scratch/local/katrin/devel/src/suiteGenomeCAT/build/cluster");
     }
@@ -56,10 +57,8 @@ public class BAMImportTest {
     //@Test
     @SuppressWarnings("empty-statement")
     public void testImportFixedWig() throws InterruptedException {
-        Hashtable<String, Vector<? extends Feature>> data = null;
+        Hashtable<String, Vector<? extends IFeature>> data = null;
         try {
-
-
 
             data = FeaturePeak.loadFromFixedStepFile("/project/H1N1/Katrin/test_write.txt");
         } catch (Exception ex) {
@@ -69,7 +68,7 @@ public class BAMImportTest {
         for (String chrom : data.keySet()) {
             double sum = 0;
             j = 0;
-            for (Feature p : data.get(chrom)) {
+            for (IFeature p : data.get(chrom)) {
                 if (j++ < 10) {
                     System.out.println(p.toString() + " " + p.getRatio());
                 }
@@ -79,8 +78,8 @@ public class BAMImportTest {
             System.out.println(chrom + " : " + sum);
         }
     }
-    //@Test
 
+    @Test
     @SuppressWarnings("empty-statement")
     public void testBAMImportGUI() throws InterruptedException {
         XPortNGS mod = new BAMImport();
@@ -99,6 +98,7 @@ public class BAMImportTest {
     }
 
     @Test
+    @Ignore
     @SuppressWarnings("empty-statement")
     public void testBAMImportGUIImport() throws InterruptedException {
         BAMImport mod = new BAMImport();
@@ -107,7 +107,6 @@ public class BAMImportTest {
         mod.setHasBinControlFile(true);
         mod.setHasPeakFile(true);
         mod.setHasPeakControlFile(true);
-
 
         mod.setResultBinFilename("/scratch/local/katrin/devel/src/suiteGenomeCAT/SRR037628.sorte_bin_NGS_BAM.txt");
         mod.setResultBinControlFilename("/scratch/local/katrin/devel/src/suiteGenomeCAT/SRR037628.sorte_bin_control_NGS_BAM.txt");
@@ -135,12 +134,9 @@ public class BAMImportTest {
         XPortNGS mod = new BAMImport();
         assertFalse(BAMImport.methodName + " not found", (mod == null));
 
-
-
         mod.initImport();
         mod.setHasControl(false);
         mod.setDataPath("/project/H1N1/Data/600DRAAXX/l3/l3_RA_3h_sorted.bam");
-
 
         BAMImport modBam = (BAMImport) mod;
         //modBam.setCalcPeaksPoisson(false);

@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.guimodul.anno;
 /**
  * @name PlotAnnotation
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Jan 19, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Jan 19, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import org.molgen.genomeCATPro.guimodul.BasicFrame;
 import java.awt.Color;
@@ -48,13 +45,12 @@ import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.guimodul.cghpro.PlotPanel;
 
 /**
- * 
- * 080812   kt  add showDetails at mouseover
+ *
+ * 080812 kt add showDetails at mouseover
  */
 public class PlotAnnotation extends JLabel
         implements PlotPanel, Scrollable {
 
-    
     JPopupMenu popup;
     JMenuItem menuItemClose;
     //MouseListener popupListener = new MouseListener();
@@ -83,7 +79,6 @@ public class PlotAnnotation extends JLabel
 
     //user setting
     public void setYZoom(double yZoom) {
-
 
         this.imageHeight = (int) (this.imageHeight * yZoom);
         this.rescale();
@@ -142,6 +137,7 @@ public class PlotAnnotation extends JLabel
 
     /**
      * set chromid, reset plot view (scaling, zoom, maxvalues)
+     *
      * @param chromId
      */
     public void updatePlot(String chromId) {
@@ -159,23 +155,19 @@ public class PlotAnnotation extends JLabel
             //compactGenomeImage();
         } else {
 
-
             // init values before any zoom was done
             //this.xZoom = 1;
-
             // berechne xscale aus max Ratio
-
             Logger.getLogger(PlotAnnotation.class.getName()).log(Level.INFO,
-                    "displayHeight: " + parentFrame.getPlotPanelHeight() +
-                    " displayWidth: " + parentFrame.getPlotAnnoWidth() + parentFrame.getPlotAnnoGap());
+                    "displayHeight: " + parentFrame.getPlotPanelHeight()
+                    + " displayWidth: " + parentFrame.getPlotAnnoWidth() + parentFrame.getPlotAnnoGap());
             this.imageHeight = parentFrame.getPlotPanelHeight();
             this.imageWidht = parentFrame.getPlotAnnoWidth() + parentFrame.getPlotAnnoGap();
 
             //this.xScale = 1;
-
             // berechen yScale aus max length
-           /* this.yScale = this.parentFrame.chromLength.get(chromId) /
-            (this.displayHeight - (this.parentFrame.getOffY() * 2));
+            /* this.yScale = this.parentFrame.chromLength.get(chromId) /
+             (this.displayHeight - (this.parentFrame.getOffY() * 2));
              */
             this.firstPos = 0;
             this.secondPos = this.parentFrame.getChromLength(chromId);
@@ -186,7 +178,6 @@ public class PlotAnnotation extends JLabel
 
             //this.xImagePosition = this.imageHeight / 2;
             //this.yImagePosition = this.imageWidht / 2;
-
             refreshPlot();
         }
     }
@@ -201,12 +192,9 @@ public class PlotAnnotation extends JLabel
         //reset focus ??? 
         //this.xImagePosition = (this.xImagePosition * this.xZoom);
         //this.yImagePosition = (this.yImagePosition * this.yZoom);
-
-
         // TODO recreate only if needed image == null , image.width != this.width
-
-        if (image != null &&
-                (image.getWidth() != this.imageWidht || image.getHeight() != this.imageHeight)) {
+        if (image != null
+                && (image.getWidth() != this.imageWidht || image.getHeight() != this.imageHeight)) {
             image = null;
             System.gc();
         }
@@ -217,8 +205,6 @@ public class PlotAnnotation extends JLabel
         }
 
         //image = createVolatileImage(width, height);
-
-
         Graphics2D g = image.createGraphics();
         paint(g);
         setIcon(new ImageIcon());
@@ -251,38 +237,28 @@ public class PlotAnnotation extends JLabel
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
 
-
         // print number as label
         g.setColor(Color.BLACK);
-        labelFont = "PLAIN-BOLD-" + (int) this.parentFrame.getOffY() / 2;
+        labelFont = "PLAIN-BOLD-" + (int) this.parentFrame.getOffY() * 0.5;
         g.setFont(Font.decode(labelFont));
         defFont = g.getFont();
         fm = g.getFontMetrics();
 
-
-
-
         //java.awt.geom.Rectangle2D text = fm.getStringBounds(this.getAnnoName(), g);
         //
-       /*  AffineTransform affineTransform = new AffineTransform();
-        affineTransform.translate( 
-        this.imageWidht / 2 - fm.stringWidth(this.no.toString()) / 2,
-        this.parentFrame.getOffY() * 3 / 4);
-        affineTransform.rotate(-Math.toRadians(90));*/
+        /*  AffineTransform affineTransform = new AffineTransform();
+         affineTransform.translate( 
+         this.imageWidht / 2 - fm.stringWidth(this.no.toString()) / 2,
+         this.parentFrame.getOffY() * 3 / 4);
+         affineTransform.rotate(-Math.toRadians(90));*/
         g.drawString(this.getAlpha(),
                 this.imageWidht / 2 - fm.stringWidth(this.no.toString()) / 2,
                 this.parentFrame.getOffY() * 3 / 4);
 
         /* affineTransform.translate(
-        -this.imageWidht / 2 - fm.stringWidth(this.no.toString()) / 2,
-        -this.parentFrame.getOffY() * 3 / 4);*/
-
-
-
-
+         -this.imageWidht / 2 - fm.stringWidth(this.no.toString()) / 2,
+         -this.parentFrame.getOffY() * 3 / 4);*/
         g.setFont(defFont);
-
-        Color c = Color.BLACK;
 
         manager.plot((Graphics2D) g,
                 this.chromId,
@@ -307,10 +283,6 @@ public class PlotAnnotation extends JLabel
                     this.parentFrame.getRulerHeight());
             g.setColor(Color.BLACK);
         }
-
-
-
-
 
     }
 
@@ -344,13 +316,13 @@ public class PlotAnnotation extends JLabel
     }
 
     public void rescale() {
-        this.yScale = (this.secondPos - this.firstPos) /
-                (this.imageHeight - (this.parentFrame.getOffY() * 2));
+        this.yScale = (this.secondPos - this.firstPos)
+                / (this.imageHeight - (this.parentFrame.getOffY() * 2));
     }
 
     /**
      * create popup menues for legend panel.
-     * 
+     *
      */
     protected void initMenues() {
         this.popup = new JPopupMenu(this.name);
@@ -367,17 +339,14 @@ public class PlotAnnotation extends JLabel
         public void actionPerformed(ActionEvent e) {
             //System.out.println("menue action event at  " + e.getSource()
 
-
-
-
             JMenuItem source = (JMenuItem) (e.getSource());
             if (source == menuItemClose) {
                 PlotAnnotation.this.parentFrame.removeAnnotation(PlotAnnotation.this);
 
             }
 
-        // component.setBackground(Color.WHITE);
-        // ((JPanel) component).setOpaque(false);
+            // component.setBackground(Color.WHITE);
+            // ((JPanel) component).setOpaque(false);
         }
     }
 

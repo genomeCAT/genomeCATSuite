@@ -11,11 +11,13 @@ import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
+import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.dblib.DBService;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
 import org.molgen.genomeCATPro.datadb.dbentities.Study;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.ProjectService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.guimodul.project.ProjectView;
 
 /**
@@ -29,49 +31,50 @@ public class ProjectViewTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
+        Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "test", "test");
+
+        DBService.setConnection("localhost", "3306", "genomecat", "test", "test");//xport = new ImportPlatformGEOBAC();
+
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
 
-    //@Test
+    @Test
     @SuppressWarnings("empty-statement")
     public void testListExperimentsForStudy() {
 
-
         try {
-            Study s = ProjectService.getProjectById(new Long(8));
+            Study s = ProjectService.getProjectById(new Long(6));
             List<ExperimentDetail> list = ProjectService.listExperimentsForProject(s);
             for (ExperimentDetail d : list) {
                 System.out.println(d.toFullString());
             }
 
-
         } catch (Exception ex) {
             ex.printStackTrace();
 
         }
     }
+
     @Test
 
     @SuppressWarnings("empty-statement")
     public void testProjectView() {
 
-
         try {
-            ProjectView p = new ProjectView(null,true);
+            ProjectView p = new ProjectView(null, true);
 
             p.setVisible(true);
-            while (true);
+            
         } catch (Exception ex) {
             ex.printStackTrace();
 
         }
     }
 
-    //@Test
+    @Test
     @SuppressWarnings("empty-statement")
     public void testFullQueryTree() {
         String project = "";
@@ -82,7 +85,6 @@ public class ProjectViewTest {
         try {
             List<Study> list = ProjectService.listProjectsWithFilter(
                     project, release, user, sample);
-
 
             for (Study s : list) {
                 System.out.println(s.toFullString());

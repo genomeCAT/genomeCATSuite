@@ -3,28 +3,23 @@ package org.molgen.genomeCATPro.cghpro.chip;
 /**
  * @name ChipFeature
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @author Wei Chen
- * 
- * This file is part of the CGHPRO software package.
- * Copyright Jan 19, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * This file is part of the CGHPRO software package. Copyright Jan 19, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import org.molgen.genomeCATPro.data.FeatureWithSpot;
-import org.molgen.genomeCATPro.data.Feature;
-import org.molgen.genomeCATPro.data.Spot;
 import java.awt.Container;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,31 +36,36 @@ import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.data.DataService;
 import org.molgen.genomeCATPro.data.FeatureWithSpotAnno;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.molgen.genomeCATPro.data.IFeature;
+import org.molgen.genomeCATPro.data.ISpot;
 
 /**
- * 100812   kt  decide to create normal feature or anno feature
+ * 100812 kt decide to create normal feature or anno feature
  */
 public class ChipFeature extends ChipImpl implements Chip {
 
-    public Hashtable<String, Vector<? extends Feature>> chrFeatures;
+    public Hashtable<String, Vector<? extends IFeature>> chrFeatures;
 
     public ChipFeature(Data s) throws Exception {
         super(s);
-        this.chrFeatures = new Hashtable<String, Vector<? extends Feature>>();
+        this.chrFeatures = new Hashtable<String, Vector<? extends IFeature>>();
     }
 
-    /**Constructor used for error handling*/
+    /**
+     * Constructor used for error handling
+     */
     public ChipFeature(boolean error) {
         super(error);
     }
 
     public ChipFeature() {
         super();
-        this.chrFeatures = new Hashtable<String, Vector<? extends Feature>>();
+        this.chrFeatures = new Hashtable<String, Vector<? extends IFeature>>();
     }
 
     /**
      * copy of chip (should do deep copy)
+     *
      * @param f
      * @param datatype
      * @throws java.lang.Exception
@@ -76,15 +76,15 @@ public class ChipFeature extends ChipImpl implements Chip {
 
         this.chrFeatures = f.copyFeatureVector();
         Logger.getLogger(ChipFeature.class.getName()).log(Level.INFO,
-                "New ChipFeature by clone " +
-                this.getDataEntity().getName() + " " +
-                this.getDataEntity().getGenomeRelease() + " " + this.getDataEntity().getDataType());
+                "New ChipFeature by clone "
+                + this.getDataEntity().getName() + " "
+                + this.getDataEntity().getGenomeRelease() + " " + this.getDataEntity().getDataType());
 
     }
 
     public Double getMAD() {
         @SuppressWarnings("unchecked")
-        List<Feature> data = (List<Feature>) this.getData();
+        List<IFeature> data = (List<IFeature>) this.getData();
 
         Double median = this.getMedianLog2Ratio(data);
         double[] div = new double[data.size()];
@@ -97,14 +97,16 @@ public class ChipFeature extends ChipImpl implements Chip {
     }
 
     /**
-     *get the ratio of BACs
-     *@return a Univariate holding the ratio of BACs
-     **/
+     * get the ratio of BACs
+     *
+     * @return a Univariate holding the ratio of BACs
+     *
+     */
     public Univariate getFeatureRatio() {
         int i = 0;
         double[] ratioData = new double[this.getFeaturesSize()];
-        for (Vector<? extends Feature> bacs : this.chrFeatures.values()) {
-            for (Feature currentBac : bacs) {
+        for (Vector<? extends IFeature> bacs : this.chrFeatures.values()) {
+            for (IFeature currentBac : bacs) {
                 ratioData[i++] = currentBac.getRatio();
             }
 
@@ -130,14 +132,15 @@ public class ChipFeature extends ChipImpl implements Chip {
     }
      */
     /**
-     * recognize the replicate spots by the unique ID,
-     * average the ratio between the replicates
-     * create a list of unique BACs for the active spots
-     * called from normalization methods
-     *@see Bac 
-     **/
+     * recognize the replicate spots by the unique ID, average the ratio between
+     * the replicates create a list of unique BACs for the active spots called
+     * from normalization methods
+     *
+     * @see Bac
+     *
+     */
     // idealerweise dynamisch variabel ob Genename, bac id etc
-    public void dataFromSpots(List<? extends Spot> spots) {
+    public void dataFromSpots(List<? extends ISpot> spots) {
         if (spots == null || spots.size() == 0) {
             Logger.getLogger(ChipFeature.class.getName()).log(Level.INFO, "empty spots");
             this.error = true;
@@ -146,7 +149,7 @@ public class ChipFeature extends ChipImpl implements Chip {
 
         boolean checked = false;
         boolean anno = false;
-        for (Spot s : spots) {
+        for (ISpot s : spots) {
 
             if (s.isExcluded()) {
                 continue;
@@ -177,8 +180,8 @@ public class ChipFeature extends ChipImpl implements Chip {
      * no change in mapping spot -> bac!!
      */
     void recalculateRatios() {
-        for (Vector<? extends Feature> bacs : this.chrFeatures.values()) {
-            for (Feature bac : bacs) {
+        for (Vector<? extends IFeature> bacs : this.chrFeatures.values()) {
+            for (IFeature bac : bacs) {
                 if (bac instanceof FeatureWithSpot) {
                     ((FeatureWithSpot) bac).calculateRatio();
                 }
@@ -189,8 +192,8 @@ public class ChipFeature extends ChipImpl implements Chip {
 
     public int getFeaturesSize() {
         int size = 0;
-        Collection<Vector<? extends Feature>> c = this.chrFeatures.values();
-        for (Vector<? extends Feature> v : c) {
+        Collection<Vector<? extends IFeature>> c = this.chrFeatures.values();
+        for (Vector<? extends IFeature> v : c) {
             size += v.size();
         }
         return size;
@@ -200,14 +203,14 @@ public class ChipFeature extends ChipImpl implements Chip {
 // todo get clone position
 // todo FeatureWithSpots??
     @SuppressWarnings("unchecked")
-    public void addFeature(Feature f) {
+    public void addFeature(IFeature f) {
         if (!this.chrFeatures.containsKey(f.getChrom())) {
 
-            this.chrFeatures.put(f.getChrom(), new Vector<Feature>());
-        //int chr = Utils.fromChrToInt(newBac.chrom)-1;
+            this.chrFeatures.put(f.getChrom(), new Vector<IFeature>());
+            //int chr = Utils.fromChrToInt(newBac.chrom)-1;
         }
 
-        ((Vector<Feature>) this.chrFeatures.get(f.getChrom())).add(f);
+        ((Vector<IFeature>) this.chrFeatures.get(f.getChrom())).add(f);
 
     }
 
@@ -216,7 +219,7 @@ public class ChipFeature extends ChipImpl implements Chip {
         if (!this.chrFeatures.containsKey(f.getChrom())) {
 
             this.chrFeatures.put(f.getChrom(), new Vector<FeatureWithSpot>());
-        //int chr = Utils.fromChrToInt(newBac.chrom)-1;
+            //int chr = Utils.fromChrToInt(newBac.chrom)-1;
         }
 
         ((Vector<FeatureWithSpot>) this.chrFeatures.get(f.chrom)).add(f);
@@ -224,55 +227,56 @@ public class ChipFeature extends ChipImpl implements Chip {
     }
 
     /**
-    /**get the bacSum of the chip*/
+     * /**get the bacSum of the chip
+     */
     /**
-    public BacsSummary getBacsSummary() {
-    Collection<Vector<? extends Feature>> bacs = this.chrFeatures.values();
-    Vector<? extends Feature> allbacs = new Vector<Feature>();
-    allbacs.ensureCapacity(this.getFeaturesSize() / 10);
-    
-    for (Vector<? extends Feature> v : bacs) {
-    allbacs.addAll( v);
-    }
-    return new BacsSummary(allbacs);
-    
-    }
-    
-     **/
-    public Hashtable<String, Vector<? extends Feature>> copyFeatureVector() {
-        Hashtable<String, Vector<? extends Feature>> newBacs = (Hashtable<String, Vector<? extends Feature>>) this.chrFeatures.clone();
-        Vector<? extends Feature> v = null;
-        Feature f = null;
+     * public BacsSummary getBacsSummary() {
+     * Collection<Vector<? extends Feature>> bacs = this.chrFeatures.values();
+     * Vector<? extends Feature> allbacs = new Vector<Feature>();
+     * allbacs.ensureCapacity(this.getFeaturesSize() / 10);
+     *
+     * for (Vector<? extends Feature> v : bacs) { allbacs.addAll( v); } return
+     * new BacsSummary(allbacs);
+     *
+     * }
+     *
+     * @return
+     *
+     */
+    public Hashtable<String, Vector<? extends IFeature>> copyFeatureVector() {
+        Hashtable<String, Vector<? extends IFeature>> newBacs = (Hashtable<String, Vector<? extends IFeature>>) this.chrFeatures.clone();
+        Vector<? extends IFeature> v = null;
+        IFeature f = null;
         for (String chrom : this.chrFeatures.keySet()) {
             if (this.chrFeatures.get(chrom) != null && this.chrFeatures.get(chrom).size() > 0) {
                 f = this.chrFeatures.get(chrom).get(0);
                 v = this.chrFeatures.get(chrom);
-                v = (Vector<? extends Feature>) v.clone();
+                v = (Vector<? extends IFeature>) v.clone();
                 this.chrFeatures.put(chrom, v);
             }
         }
         return newBacs;
     }
 
-    /** 
+    /**
      * Smooth the ratios of BACs ordered along the chromosome by Moving Average
+     *
      * @param maWindow, the window size used for Moving Average
-     **/
-    public Hashtable<String, Vector<? extends Feature>> smoothByMovingAverage(int maWindow) {
+     *
+     */
+    public Hashtable<String, Vector<? extends IFeature>> smoothByMovingAverage(int maWindow) {
         // kt new super.setMaWindow(maWindow);
         int smooth = (maWindow - 1) / 2;
-        Hashtable<String, Vector<? extends Feature>> newBacs = this.copyFeatureVector();
+        Hashtable<String, Vector<? extends IFeature>> newBacs = this.copyFeatureVector();
 
         // copy
-
-
         for (String chrom : newBacs.keySet()) {
             // if the number of BACs on a chromosome is less than the window size, ignore the smoothing
             if (newBacs.get(chrom).size() <= maWindow) {
                 continue;
             }
 
-            Collections.sort(newBacs.get(chrom), Feature.comChromStart);
+            Collections.sort(newBacs.get(chrom), IFeature.comChromStart);
             double sum = 0;
             for (int j = 0; j < maWindow; j++) {
                 sum += newBacs.get(chrom).get(j).getRatio();
@@ -281,12 +285,11 @@ public class ChipFeature extends ChipImpl implements Chip {
 
             newBacs.get(chrom).get(smooth).setRatio(MyMath.formatDoubleValue(sum / maWindow, 3));
 
-            for (int j = smooth + 1; j <
-                    newBacs.get(chrom).size() - smooth; j++) {
+            for (int j = smooth + 1; j
+                    < newBacs.get(chrom).size() - smooth; j++) {
 
                 sum = sum - newBacs.get(chrom).get(j - smooth - 1).getRatio() + newBacs.get(chrom).get(j + smooth).getRatio();
                 newBacs.get(chrom).get(j).setRatio(MyMath.formatDoubleValue(sum / maWindow, 3));
-
 
             }
 
@@ -296,26 +299,25 @@ public class ChipFeature extends ChipImpl implements Chip {
     }
 
     public void unsetAberrantFeatures() {
-        for (Vector<? extends Feature> bacs : this.chrFeatures.values()) {
-            for (Feature currentBac : bacs) {
+        for (Vector<? extends IFeature> bacs : this.chrFeatures.values()) {
+            for (IFeature currentBac : bacs) {
 
                 currentBac.setIfAberrant(0);
-
 
             }
         }
     }
 
     /**
-     *detect the aberrant BACs based on the ratio
-     *@return the number of aberrant BACs
+     * detect the aberrant BACs based on the ratio
+     *
+     * @return the number of aberrant BACs
      */
     public int setAberrantFeaturesByRatio(double positiveValue, double negativeValue) {
 
-
         int no = 0;
-        for (Vector<? extends Feature> bacs : this.chrFeatures.values()) {
-            for (Feature currentBac : bacs) {
+        for (Vector<? extends IFeature> bacs : this.chrFeatures.values()) {
+            for (IFeature currentBac : bacs) {
                 if (currentBac.getRatio() > positiveValue) {
                     no++;
                     currentBac.setIfAberrant(1);
@@ -334,9 +336,10 @@ public class ChipFeature extends ChipImpl implements Chip {
         return no;
     }
 
-    /**	
-     *detect the aberrant BACs based on the ratio of spots in a window
-     *@return the number of aberrant BACs
+    /**
+     * detect the aberrant BACs based on the ratio of spots in a window
+     *
+     * @return the number of aberrant BACs
      */
     public int aberrantFeaturesByRatioWindow(double positiveValue, double negativeValue, int window) {
         int no = 0;
@@ -346,15 +349,13 @@ public class ChipFeature extends ChipImpl implements Chip {
                 continue;
             }
 
-            Collections.sort(chrFeatures.get(chrom), Feature.comChromStart);
+            Collections.sort(chrFeatures.get(chrom), IFeature.comChromStart);
 
-
-
-            for (int j = 0; j <
-                    chrFeatures.get(chrom).size() - window; j++) {
+            for (int j = 0; j
+                    < chrFeatures.get(chrom).size() - window; j++) {
                 int sum = 0;
-                for (int k = 0; k <
-                        window; k++) {
+                for (int k = 0; k
+                        < window; k++) {
                     if (chrFeatures.get(chrom).get(j + k).getRatio() < negativeValue) {
                         sum += -1;
 
@@ -364,29 +365,25 @@ public class ChipFeature extends ChipImpl implements Chip {
 
                 }
                 if (sum == -1 * window) {
-                    for (int k = 0; k <
-                            window; k++) {
+                    for (int k = 0; k
+                            < window; k++) {
                         chrFeatures.get(chrom).get(j + k).setIfAberrant(-1);
                         no++;
 
                     }
 
-
-
-
-
                 } else if (sum == window) {
 
-                    for (int k = 0; k <
-                            window; k++) {
+                    for (int k = 0; k
+                            < window; k++) {
                         chrFeatures.get(chrom).get(j + k).setIfAberrant(1);
                         no++;
 
                     }
 
                 } else {
-                    for (int k = 0; k <
-                            window; k++) {
+                    for (int k = 0; k
+                            < window; k++) {
                         chrFeatures.get(chrom).get(j + k).setIfAberrant(0);
                     }
 
@@ -398,20 +395,20 @@ public class ChipFeature extends ChipImpl implements Chip {
         return no;
     }
 
-    public final Hashtable<String, Vector<? extends Feature>> getFeatures() {
+    public final Hashtable<String, Vector<? extends IFeature>> getFeatures() {
         return this.chrFeatures;
     }
 
     /**
-     * 
+     *
      */
     public List<? extends Region> getData() {
         if (this.chrFeatures == null || this.chrFeatures.size() <= 0) {
             return Collections.emptyList();
         }
-        List<Feature> fList = new Vector<Feature>();
+        List<IFeature> fList = new Vector<IFeature>();
         fList.clear();
-        for (List<? extends Feature> list : this.chrFeatures.values()) {
+        for (List<? extends IFeature> list : this.chrFeatures.values()) {
             fList.addAll(list);
         }
         return fList;
@@ -427,15 +424,15 @@ public class ChipFeature extends ChipImpl implements Chip {
     @Override
     public double getMedianLog2Ratio(List<? extends Object> data) {
 
-        List<? extends Feature> bacs = (List<? extends Feature>) data;
-        Collections.sort(bacs, Feature.comRatio);
+        List<? extends IFeature> bacs = (List<? extends IFeature>) data;
+        Collections.sort(bacs, IFeature.comRatio);
         double median = 0.0;
         if ((bacs.size() % 2) == 0) {
-            Feature left = bacs.get(bacs.size() / 2 - 1);
-            Feature right = bacs.get(bacs.size() / 2);
+            IFeature left = bacs.get(bacs.size() / 2 - 1);
+            IFeature right = bacs.get(bacs.size() / 2);
             median = 0.5 * (left.getRatio() + right.getRatio());
         } else {
-            Feature spotmedian = bacs.get((bacs.size() - 1) / 2);
+            IFeature spotmedian = bacs.get((bacs.size() - 1) / 2);
             median = spotmedian.getRatio();
         }
         return median;
@@ -466,8 +463,8 @@ public class ChipFeature extends ChipImpl implements Chip {
         return this.dataEntity.toFullString();
     }
 
-    public void setFeatureData(List<? extends Feature> list) {
-        for (Feature f : list) {
+    public void setFeatureData(List<? extends IFeature> list) {
+        for (IFeature f : list) {
             this.addFeature(f);
         }
     }
@@ -476,10 +473,10 @@ public class ChipFeature extends ChipImpl implements Chip {
         if (list == null || list.size() == 0) {
             return;
         }
-        if (list.get(0) instanceof Spot) {
-            this.dataFromSpots((List<? extends Spot>) list);
+        if (list.get(0) instanceof ISpot) {
+            this.dataFromSpots((List<? extends ISpot>) list);
         } else {
-            this.setFeatureData((List<? extends Feature>) list);
+            this.setFeatureData((List<? extends IFeature>) list);
         }
     }
 }

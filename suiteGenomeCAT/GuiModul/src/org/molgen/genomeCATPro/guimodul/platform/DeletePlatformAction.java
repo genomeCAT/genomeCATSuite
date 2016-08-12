@@ -67,8 +67,8 @@ public final class DeletePlatformAction extends AbstractAction implements Lookup
             run(instance);
             return;
         }
-         JOptionPane.showMessageDialog(null, "Delete Plattform: " +
-                "please select platform data to delete in platform tree");
+        JOptionPane.showMessageDialog(null, "Delete Plattform: "
+                + "please select platform data to delete in platform tree");
     }
 
     public void run(PlatformData s) {
@@ -76,8 +76,8 @@ public final class DeletePlatformAction extends AbstractAction implements Lookup
         // nachfrage ok
         // view log panel
         int nn = JOptionPane.showConfirmDialog(null,
-                "Really delete this platform? " +
-                s.toFullString(),
+                "Really delete this platform? "
+                + s.toFullString(),
                 "delete platform data",
                 JOptionPane.YES_NO_OPTION);
 
@@ -100,4 +100,3 @@ public final class DeletePlatformAction extends AbstractAction implements Lookup
         return new DeletePlatformAction(arg0);
     }
 }
-

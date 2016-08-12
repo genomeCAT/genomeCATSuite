@@ -2,7 +2,22 @@
  * ChooseArrayViewDialog.java
  *
  * Created on July 13, 2011, 10:41 AM
+
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ * 
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
+ 
 package org.molgen.genomeCATPro.cat.maparr;
 
 import java.awt.Color;
@@ -24,41 +39,48 @@ import org.molgen.genomeCATPro.datadb.dbentities.Data;
 /**
  * @name ChooseArrayViewDialog
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- * 21.05.12 kt ChooseArrayViewDialog.getData bool to false to minimize preselected Views (for performance reasons)
- * 
+ * 21.05.12 kt ChooseArrayViewDialog.getData bool to false to minimize
+ * preselected Views (for performance reasons)
+ *
  */
 public class ChooseArrayViewDialog extends javax.swing.JDialog {
 
     final static int columnDataOffSet = 2;
-    public final static String[] rowNames = {"Ratio by ProbeId", "Ratio by Gene", "Ratio by RefSeqGene",
-        "Ratio per Region"
+
+    /**
+     * methods how to aggregate data tracks
+     */
+    public final static String[] rowNames = {
+        "Ratio by ProbeId", // aggregate by data internal probeID
+        "Ratio by Gene",  // aggregate by data interal gene field
+        "Ratio by RefSeqGene", // aggregate by genomecats annotation track "gene"
+        "Ratio per Region"  // aggregate by one of genomecats annotation tracks
     };
     RegionArray iSpot;
     Data[] list = null;
-    List<String> colNames = new Vector<String>();
+    List<String> colNames = new Vector<>();
     private ArrayClazzModel dataModel;
     private JTable rowHeaderTable;
     private JViewport jv;
 
-    /** Creates new form ChooseArrayViewDialog */
+    /**
+     * Creates new form ChooseArrayViewDialog
+     */
     public ChooseArrayViewDialog(java.awt.Frame parent, Data[] _list) {
         super(parent, true);
         list = _list;
@@ -108,7 +130,7 @@ public class ChooseArrayViewDialog extends javax.swing.JDialog {
                     super.addColumn(tc);
                     first = false;
                 }
-            // Drop the rest of the columns; this is the header column only.
+                // Drop the rest of the columns; this is the header column only.
             }
         };
 
@@ -144,13 +166,12 @@ public class ChooseArrayViewDialog extends javax.swing.JDialog {
         ChooseArrayViewDialog l = new ChooseArrayViewDialog(
                 null, list);
 
-
         l.setVisible(true);
         return l.getArrayDataList();
     }
 
     ArrayData[] getArrayDataList() {
-        List<ArrayData> newList = new Vector<ArrayData>();
+        List<ArrayData> newList = new Vector<>();
 
         Vector w;
         Class clazz;
@@ -194,10 +215,10 @@ public class ChooseArrayViewDialog extends javax.swing.JDialog {
     }
 
     /**
-     * get array columns (%ratio%) from db -> set possible array-views 
-     **/
+     * get array columns (%ratio%) from db -> set possible array-views
+     *
+     */
     Object[][] getData(Data[] list) {
-
 
         Object[][] newData;
 
@@ -233,7 +254,6 @@ public class ChooseArrayViewDialog extends javax.swing.JDialog {
             i++;
         }
 
-
         return newData;
     }
 
@@ -259,10 +279,10 @@ public class ChooseArrayViewDialog extends javax.swing.JDialog {
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -344,9 +364,9 @@ private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
     class ArrayClazzModel extends AbstractTableModel {
 
-        private String[] rowNames = ChooseArrayViewDialog.rowNames;
-        private Object[][] data;
-        private String[] colNames;
+        private final String[] rowNames = ChooseArrayViewDialog.rowNames;
+        private final Object[][] data;
+        private final String[] colNames;
 
         ArrayClazzModel(Object[][] data, List<String> arrayIds) {
             super();
@@ -365,10 +385,12 @@ private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
         }
 
+        @Override
         public int getColumnCount() {
             return this.colNames.length;
         }
 
+        @Override
         public int getRowCount() {
             return this.rowNames.length;
         }
@@ -383,8 +405,8 @@ private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         }
         
          */
+        @Override
         public Object getValueAt(int row, int column) {
-
 
             if (column == 0) {
                 return ChooseArrayViewDialog.rowNames[row];
@@ -424,7 +446,7 @@ private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 return Boolean.class;
             } else {
                 return String.class;
-            //return getValueAt(1, column).getClass();
+                //return getValueAt(1, column).getClass();
             }
         }
 

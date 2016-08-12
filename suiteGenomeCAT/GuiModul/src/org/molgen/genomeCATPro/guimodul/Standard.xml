@@ -11,15 +11,7 @@
     </Row>
     <Row>
         <Toolbar name="Zoom" position="5" visible="false" />
-        <Toolbar name="Memory" position="7" visible="false"/>
-        <Toolbar name="View"  visible="false"/>
-        <Toolbar name="Control"  visible="false"/>
-        <Toolbar name="Indicator"  visible="false" />
-        <Toolbar name="Draw"  visible="false" />
-        <Toolbar name="File" position="2" visible="false" />
-        <Toolbar name="Edit" position="2" visible="false" />
-        <Toolbar name="Build" position="2" visible="false" />
-        <Toolbar name="Debug" position="2" visible="false" />
-        <Toolbar name="Versioning" position="2" visible="false" />
+       
+       
     </Row>
 </Configuration>

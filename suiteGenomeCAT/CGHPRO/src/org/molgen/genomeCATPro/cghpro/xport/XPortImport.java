@@ -9,15 +9,14 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * 260313 kt    getNoimp
- * 120313 kt	readFilenames throws Exception
- * 120313 kt    user setting if has header
- * 120313 kt    getError
+ * 260313 kt getNoimp 120313 kt	readFilenames throws Exception 120313 kt user
+ * setting if has header 120313 kt getError
  */
 public interface XPortImport {
 
     int ind_db = 1;
     int ind_file = 0;
+
     public XPortImport createNewImport();
 
     public File getImportFile();

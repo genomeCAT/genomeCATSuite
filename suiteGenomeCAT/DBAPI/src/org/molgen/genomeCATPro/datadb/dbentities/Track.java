@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.datadb.dbentities;
 /**
  * @name Track
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -47,6 +45,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.annotation.RegionLib;
 import org.molgen.genomeCATPro.common.Defaults;
@@ -56,8 +55,9 @@ import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
 
 /**
- * 270313   kt  new transient member: nofImportData
- * 270313   kt  new transient member: nofImportErrors
+ * 271114 kt removeSamples 270313 kt new transient member: nofImportData 270313
+ * kt new transient member: nofImportErrors
+ *
  * @author tebel
  */
 @Entity
@@ -117,19 +117,19 @@ public class Track implements Serializable, Data {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentExperimentID")
     private ExperimentData parentExperiment;
-
     @Transient
     private int nofImportErrors = 0;
     @Transient
     private int nofImportData = 0;
+
     public Track() {
-        this.samples = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<SampleInTrack>());
+        this.samples = ObservableCollections.observableList(new Vector<SampleInTrack>());
 
     }
 
     public void setParentExperiment(ExperimentData s) {
         this.parentExperiment = s;
-    /*
+        /*
     if (this.parentExperiment != null) {
     this.parentExperiment.getTracks().remove(this);
     }
@@ -140,7 +140,7 @@ public class Track implements Serializable, Data {
     if (s != null) {
     //s.notifyAddChild();
     }
-     */
+         */
     }
 
     public ExperimentData getParentExperiment() {
@@ -156,7 +156,7 @@ public class Track implements Serializable, Data {
 
     public void setParentTrack(Track o) {
         this.parentTrack = o;
-    /*
+        /*
     if (this.parentTrack != null) {
     this.parentTrack.getChildren().remove(this);
     }
@@ -164,7 +164,7 @@ public class Track implements Serializable, Data {
     if (this.parentTrack != null) {
     this.parentTrack.getChildren().add(this);
     }
-     */
+         */
 
     }
     // sample children
@@ -183,7 +183,7 @@ public class Track implements Serializable, Data {
     public boolean allowSegmentation() {
         if (this.getDataType().contentEquals(Defaults.DataType.SEGMENTS.toString())) {
             return false;
-        }     
+        }
 
         return true;
 
@@ -231,6 +231,10 @@ public class Track implements Serializable, Data {
                     "remove: " + this.samples.get(index));
             this.samples.remove(index);
         }
+    }
+
+    public void removeSamples() {
+        this.samples.clear();
     }
 
     public List<SampleInTrack> getSamples() {
@@ -283,7 +287,7 @@ public class Track implements Serializable, Data {
     public void setNofImportErrors(int nofImportErrors) {
         this.nofImportErrors = nofImportErrors;
     }
-    
+
     public String getOriginalFile() {
         return originalFile;
     }
@@ -331,7 +335,7 @@ public class Track implements Serializable, Data {
         this.setStddev(s.getStddev());
         this.setVariance(s.getVariance());
         this.setOriginalFile(s.getOriginalFile());
-        List<SampleInTrack> list = new Vector<SampleInTrack>(s.getSamples());
+        List<SampleInTrack> list = new Vector<SampleInTrack>(s.getSamples().size());
         Collections.copy(list, s.getSamples());
         this.setSamples(list);
 
@@ -369,7 +373,6 @@ public class Track implements Serializable, Data {
         //kt 170613 name without .
         String oldName = this.name;
         this.name = name.replace('.', '_');
-        
 
         changeSupport.firePropertyChange("name", oldName, name);
 
@@ -385,7 +388,6 @@ public class Track implements Serializable, Data {
         this.genomeRelease = genomicRelease;
 
         changeSupport.firePropertyChange("genomeRelease", oldGenomeRelease, genomicRelease);
-
 
     }
 
@@ -462,7 +464,7 @@ public class Track implements Serializable, Data {
 
     public void setParamProcessing(String paramProcessing) {
         String oldparamProcessing = this.paramProcessing;
-         this.paramProcessing = paramProcessing;
+        this.paramProcessing = paramProcessing;
 
         changeSupport.firePropertyChange("paramProcessing", oldparamProcessing, paramProcessing);
     }
@@ -596,8 +598,6 @@ public class Track implements Serializable, Data {
         this.setCreated(new Date());
         this.setModified(this.getCreated());
 
-
-
         Logger.getLogger(Track.class.getName()).log(Level.INFO, "create: " + this.toString());
     }
 
@@ -657,8 +657,8 @@ public class Track implements Serializable, Data {
         if (d instanceof Track) {
             this.copy((Track) d);
         } else {
-            throw new RuntimeException("Track.copy: no valid copy source " +
-                    d.getClass().getName());
+            throw new RuntimeException("Track.copy: no valid copy source "
+                    + d.getClass().getName());
         }
     }
 
@@ -667,8 +667,8 @@ public class Track implements Serializable, Data {
     }
 
     public void initTableData() {
-        this.setTableData(Utils.getUniquableName(this.getName()) + "_" +
-                (this.genomeRelease != null ? GenomeRelease.toRelease(genomeRelease).toShortString() : "") + "_Spots");
+        this.setTableData(Utils.getUniquableName(this.getName()) + "_"
+                + (this.genomeRelease != null ? GenomeRelease.toRelease(genomeRelease).toShortString() : "") + "_Spots");
         //this.setTableData(this.getName() + "_" + this.getGenomeRelease(). + "_Spots");
         this.setTableData(this.getTableData().replace("-", "_"));
         this.setTableData(this.getTableData().replace(" ", "_"));
@@ -688,8 +688,6 @@ public class Track implements Serializable, Data {
             Region d = RegionLib.getRegionClazz(this.getClazz());
             return d.getIconPath();
 
-
-
         } catch (Exception ex) {
             Logger.getLogger(Track.class.getName()).log(Level.WARNING,
                     "", ex);
@@ -704,16 +702,16 @@ public class Track implements Serializable, Data {
             }
         }
         d.setParent(this);
-        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "addChild" +
-                this.toFullString());
+        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "addChild"
+                + this.toFullString());
 
         changeSupport.firePropertyChange(Data.ADD, this, null);
     }
 
     public void removeChildData(Data d) {
 
-        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "removeChild" +
-                this.toFullString());
+        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "removeChild"
+                + this.toFullString());
         changeSupport.firePropertyChange(Data.REMOVE, this, null);
     }
 }

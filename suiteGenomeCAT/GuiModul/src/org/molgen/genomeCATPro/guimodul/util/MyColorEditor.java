@@ -39,15 +39,12 @@ public class MyColorEditor extends AbstractCellEditor
         button.addActionListener(this);
         button.setBorderPainted(false);
         button.setBackground(this.currcolor);
-    //Set up the dialog that the button brings up.
-
-
+        //Set up the dialog that the button brings up.
 
     }
 
     /**
-     * Handles events from the editor button and from
-     * the dialog's OK button.
+     * Handles events from the editor button and from the dialog's OK button.
      */
     public void actionPerformed(ActionEvent e) {
         if (EDIT.equals(e.getActionCommand())) {

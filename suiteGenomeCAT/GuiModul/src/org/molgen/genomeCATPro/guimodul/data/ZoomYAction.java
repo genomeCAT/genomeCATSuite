@@ -75,7 +75,7 @@ public class ZoomYAction extends AbstractAction implements
         }
         if (success) {
             this.setFactor(factor += i);
-        //this.fieldFactor.setText(Double.toString(java.lang.Math.pow(2, factor)));
+            //this.fieldFactor.setText(Double.toString(java.lang.Math.pow(2, factor)));
         }
     }
     JTextField fieldFactor;
@@ -83,10 +83,9 @@ public class ZoomYAction extends AbstractAction implements
     @Override
     public Component getToolbarPresenter() {
         JPanel panel = new JPanel();
-       // panel.setBorder(javax.swing.BorderFactory.createTitledBorder(
-      //          null, "zoom y",
-       //         javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-
+        // panel.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        //          null, "zoom y",
+        //         javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         panel.setOpaque(false);
 
@@ -95,7 +94,7 @@ public class ZoomYAction extends AbstractAction implements
         JButton zoomInButton = new javax.swing.JButton();
         zoomInButton.setIcon(
                 new javax.swing.ImageIcon(Utilities.loadImage(
-                "org/molgen/genomeCATPro/guimodul/data/lupe_plus_16.png")));
+                        "org/molgen/genomeCATPro/guimodul/data/lupe_plus_16.png")));
         zoomInButton.addActionListener(new ActionListener() {
 
             @Override

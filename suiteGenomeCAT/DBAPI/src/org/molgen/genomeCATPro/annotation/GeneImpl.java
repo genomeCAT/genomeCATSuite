@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.annotation;
 /**
  * @name GeneImpl
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.sql.Connection;
@@ -28,15 +25,18 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Lob;
-import org.molgen.dblib.Database;
+import javax.persistence.MappedSuperclass;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
-@Entity
+@MappedSuperclass
+
 public class GeneImpl extends RegionAnnotationImpl implements RegionAnnotation {
 
     public static String nameId = "Gene";
+
     @Column(name = "name2", nullable = false)
     private String name2;
     @Column(name = "txStart", nullable = false)
@@ -77,7 +77,6 @@ public class GeneImpl extends RegionAnnotationImpl implements RegionAnnotation {
         this.txStart = txStart;
         this.txEnd = txEnd;
         this.geneSymbol = symbol;
-
 
     }
 
@@ -153,17 +152,16 @@ public class GeneImpl extends RegionAnnotationImpl implements RegionAnnotation {
     public List<? extends RegionAnnotation> dbLoadRegions(String table, String chromId) throws SQLException {
         Connection con = null;
 
-
-        con = Database.getDBConnection(Defaults.localDB);
+        con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         Statement s = con.createStatement();
 
         ResultSet r = s.executeQuery(
-                "SELECT name,name2,kgID,description, bin,strand, chrom, txStart, txEnd,  geneSymbol " +
-                "  from " +
-                table + " where " +
-                " chrom = \'" + chromId + "\'" +
-                " order by greatest(txStart, txEnd)");
+                "SELECT name,name2,kgID,description, bin,strand, chrom, txStart, txEnd,  geneSymbol "
+                + "  from "
+                + table + " where "
+                + " chrom = \'" + chromId + "\'"
+                + " order by greatest(txStart, txEnd)");
 
         Vector<GeneImpl> _data = new Vector<GeneImpl>();
         while (r.next()) {
@@ -178,7 +176,7 @@ public class GeneImpl extends RegionAnnotationImpl implements RegionAnnotation {
                     r.getLong("txStart"),
                     r.getLong("txEnd"),
                     r.getString("geneSymbol"))
-                    );
+            );
         }
         return _data;
 

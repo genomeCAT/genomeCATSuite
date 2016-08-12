@@ -1,26 +1,24 @@
 package org.molgen.genomeCATPro.cghpro.chip;
+//</editor-fold>
 
 /**
  * @name ChipImpl
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- *  @author Wei Chen
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ * @author Wei Chen
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-import org.molgen.genomeCATPro.data.Spot;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,22 +30,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.Region;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.data.DataService;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 
-
-
-import org.molgen.genomeCATPro.common.Defaults;
-import org.molgen.genomeCATPro.data.Feature;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
+import org.molgen.genomeCATPro.data.IFeature;
+import org.molgen.genomeCATPro.data.ISpot;
 
 /*
  * 300512 saveTrackToDB() addSamples (of ParentTrack) for Track
@@ -56,14 +53,18 @@ import org.molgen.genomeCATPro.datadb.service.TrackService;
 public abstract class ChipImpl implements Chip {
 
     protected Data dataEntity = null;
-    /**indicate if there is any error during the chip loading*/
+    /**
+     * indicate if there is any error during the chip loading
+     */
     boolean error = false;
     private Connection con;
 
     public ChipImpl() {
     }
 
-    /**Constructor used for error handling*/
+    /**
+     * Constructor used for error handling
+     */
     public ChipImpl(boolean error) {
         this.error = error;
     }
@@ -79,7 +80,7 @@ public abstract class ChipImpl implements Chip {
         return (this.getDataEntity() != null ? this.getDataEntity().getName() : "");
     }
 
-    public abstract void dataFromSpots(List<? extends Spot> spots);
+    public abstract void dataFromSpots(List<? extends ISpot> spots);
 
     public boolean getError() {
         return this.error;
@@ -106,13 +107,13 @@ public abstract class ChipImpl implements Chip {
 
     private void saveToDB() throws SQLException, Exception {
         try {
-            DataService.saveDataToDB(getDataEntity(), (List<? extends Feature>) this.getData());
+            DataService.saveDataToDB(getDataEntity(), (List<? extends IFeature>) this.getData());
             if (this.error) {
                 throw new RuntimeException("Error");
             }
             String sql = "SELECT count(*) from " + getDataEntity().getTableData();
 
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
 
             ResultSet rs = s.executeQuery(sql);
@@ -156,13 +157,9 @@ public abstract class ChipImpl implements Chip {
         EntityManager em = DBService.getEntityManger();
         EntityTransaction userTransaction = null;
 
-
         //if(experiment != null)
         //    if(experiment.getArray().getGenomeRelease().contains(this.release))
-
-
         Statement s = null;
-
 
         try {
 
@@ -172,14 +169,12 @@ public abstract class ChipImpl implements Chip {
 
             if (_data != null) {
                 throw new RuntimeException(
-                        "Track exists already in database " +
-                        this.getDataEntity().getName() + " " +
-                        this.getDataEntity().getGenomeRelease() + " " +
-                        this.getDataEntity().getDataType() + " -> " +
-                        this.getDataEntity().toFullString());
+                        "Track exists already in database "
+                        + this.getDataEntity().getName() + " "
+                        + this.getDataEntity().getGenomeRelease() + " "
+                        + this.getDataEntity().getDataType() + " -> "
+                        + this.getDataEntity().toFullString());
             }
-
-
 
             userTransaction = em.getTransaction();
             userTransaction.begin();
@@ -202,14 +197,13 @@ public abstract class ChipImpl implements Chip {
             if (parent != null) {
                 parent.addChildData(this.dataEntity);
 
-
             }
-            
+
         } catch (Exception e) {
 
             Logger.getLogger(ChipImpl.class.getName()).log(Level.SEVERE, "Exception: ", e);
             //throw new RuntimeException(e);
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             try {
                 s = con.createStatement();
                 s.execute("DROP TABLE if EXISTS " + this.dataEntity.getTableData());
@@ -269,18 +263,17 @@ public abstract class ChipImpl implements Chip {
         EntityTransaction userTransaction = null;
         try {
 
-
             ExperimentData _data = ExperimentService.getExperimentData(
                     this.getDataEntity().getName(),
                     this.getDataEntity().getGenomeRelease());
 
             if (_data != null) {
                 throw new RuntimeException(
-                        "Experiment exists already in database " +
-                        this.getDataEntity().getName() + " " +
-                        this.getDataEntity().getGenomeRelease() + " " +
-                        this.getDataEntity().getDataType() + " -> " +
-                        this.getDataEntity().toFullString());
+                        "Experiment exists already in database "
+                        + this.getDataEntity().getName() + " "
+                        + this.getDataEntity().getGenomeRelease() + " "
+                        + this.getDataEntity().getDataType() + " -> "
+                        + this.getDataEntity().toFullString());
             }
 
             userTransaction = em.getTransaction();
@@ -289,20 +282,17 @@ public abstract class ChipImpl implements Chip {
             this.saveToDB();
             em.flush();
             userTransaction.commit();
-            
-
 
         } catch (Exception e) {
             try {
                 //throw new RuntimeException(e);
-                con = Database.getDBConnection(Defaults.localDB);
+                con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                 try {
                     s = con.createStatement();
                     s.execute("DROP TABLE if EXISTS " + getDataEntity().getTableData());
                 } catch (Exception ie) {
                     Logger.getLogger(DataService.class.getName()).log(Level.SEVERE, null, ie);
                 }
-
 
                 if (userTransaction != null && userTransaction.isActive()) {
                     userTransaction.rollback();
@@ -317,10 +307,6 @@ public abstract class ChipImpl implements Chip {
                     Logger.getLogger(ChipImpl.class.getName()).log(Level.INFO,
                             "Exception: find Data " + getDataEntity().getId());
                 }
-
-
-
-
 
                 if (_data != null) {
                     Logger.getLogger(ChipImpl.class.getName()).log(Level.INFO,
@@ -424,7 +410,7 @@ public abstract class ChipImpl implements Chip {
     static Chip loadChipFromDB(
             Class chipclazz, Data d) {
         Chip c;
-        Feature f = null;
+        IFeature f = null;
 
         try {
             // lookup Feature.Clazz
@@ -447,7 +433,7 @@ public abstract class ChipImpl implements Chip {
             return new ChipFeature(true);
         }
 //load Data from DB
-        List<? extends Feature> list = null;
+        List<? extends IFeature> list = null;
         try {
             list = f.loadFromDB(c.getDataEntity());
             c.setData(list);
@@ -489,175 +475,155 @@ public abstract class ChipImpl implements Chip {
         return GenomeRelease.toRelease(dataEntity.getGenomeRelease());
     }
     /**
-     *draw histogram for original ratios and normalized ratios in 2 different plots, then combine
-     *them into 1 tabbedpane. If the chip remain not normalized, there will be only one plot.
-     **/
-    /** kt
-    public void histogramRatio(){
-    JFrame f = new JFrame();
-    Container cp = f.getContentPane();
-    JTabbedPane tabbedPane= new JTabbedPane();
-    cp.add(tabbedPane);
-    Histogram hRatio = new Histogram(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150,
-    Color.red, false, false);
-    
-    hRatio.addLine(0);
-    hRatio.newData(getRatios(),0.1, true);
-    
-    hRatio.addXLabel("log2(R/G)");
-    hRatio.addTitle("Histogram log2(R/G)");
-    
-    if (ifNormalize){
-    Histogram hNormalRatio = new Histogram(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150,
-    Color.red, false, false);
-    
-    hNormalRatio.addLine(0);
-    hNormalRatio.newData(getNormalRatios(),0.1, true);
-    
-    hNormalRatio.addXLabel("log2(R/G)");
-    hNormalRatio.addTitle("Histogram log2(R/G)");
-    tabbedPane.addTab("normalized data",hNormalRatio);
-    
-    }
-    
-    tabbedPane.addTab("original data",hRatio);
-    plots.add(f);
-    
-    cgh.graphics.Console.run(f,1);
-    
-    
-    
-    
-    }
+     * draw histogram for original ratios and normalized ratios in 2 different
+     * plots, then combine them into 1 tabbedpane. If the chip remain not
+     * normalized, there will be only one plot.
+     *
      */
     /**
-     *draw scatterplot for original signal intensity and normalized signal intensity in 2 different plots, then combine
-     *them into 1 tabbedpane. If the chip remain not normalized, there will be only one plot.
-     **/
-    /** kt
-    public void scatterPlot(){
-    ScatterPlotFrame f = new ScatterPlotFrame();
-    Container cp = f.getContentPane();
-    JTabbedPane tabbedPane= new JTabbedPane();
-    cp.add(tabbedPane);
-    ScatterPlotSignal orig = new ScatterPlotSignal(this, false);
-    orig.plot();
-    if (ifNormalize){
-    ScatterPlotSignal norm = new ScatterPlotSignal(this, true);
-    norm.plot();
-    tabbedPane.addTab("normalized data",norm);
-    }
-    
-    tabbedPane.addTab("original data",orig);
-    plots.add(f);
-    cgh.graphics.Console.run(f,1);
-    
-    
-    
-    
-    
-    }
+     * kt public void histogramRatio(){ JFrame f = new JFrame(); Container cp =
+     * f.getContentPane(); JTabbedPane tabbedPane= new JTabbedPane();
+     * cp.add(tabbedPane); Histogram hRatio = new
+     * Histogram(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150,
+     * Color.red, false, false);
+     *
+     * hRatio.addLine(0); hRatio.newData(getRatios(),0.1, true);
+     *
+     * hRatio.addXLabel("log2(R/G)"); hRatio.addTitle("Histogram log2(R/G)");
+     *
+     * if (ifNormalize){ Histogram hNormalRatio = new
+     * Histogram(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150,
+     * Color.red, false, false);
+     *
+     * hNormalRatio.addLine(0); hNormalRatio.newData(getNormalRatios(),0.1,
+     * true);
+     *
+     * hNormalRatio.addXLabel("log2(R/G)"); hNormalRatio.addTitle("Histogram
+     * log2(R/G)"); tabbedPane.addTab("normalized data",hNormalRatio);
+     *
+     * }
+     *
+     * tabbedPane.addTab("original data",hRatio); plots.add(f);
+     *
+     * cgh.graphics.Console.run(f,1);
+     *
+     *
+     *
+     *
+     * }
      */
     /**
-     *draw boxplot for original ratios and normalized ratios in 2 different plots, then combine
-     *them into 1 tabbedpane. If the chip remain not normalized, there will be only one plot.
-     **/
-    /**
-    public void boxPlot(){
-    
-    JFrame f = new JFrame();
-    Container cp = f.getContentPane();
-    JTabbedPane tabbedPane= new JTabbedPane();
-    cp.add(tabbedPane);
-    
-    BoxPlotChip bRatio = new BoxPlotChip(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
-    Univariate[] ratios = new Univariate[blocks.size()+1];
-    ratios[0] = getRatios();
-    for(int i = 1; i<=blocks.size();i++){
-    ratios[i]=((Block)blocks.get(i-1)).getRatios();
-    
-    }
-    bRatio.newData(ratios);
-    
-    if(ifNormalize){
-    BoxPlotChip bNormalRatio = new BoxPlotChip(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
-    Univariate[] normalRatios = new Univariate[blocks.size()+1];
-    normalRatios[0] = getNormalRatios();
-    for(int i = 1; i<=blocks.size();i++){
-    normalRatios[i]=((Block)blocks.get(i-1)).getNormalRatios();
-    
-    }
-    bNormalRatio.newData(normalRatios);
-    
-    tabbedPane.addTab("normalized data",bNormalRatio);		
-    }
-    
-    tabbedPane.addTab("original data",bRatio);
-    
-    plots.add(f);
-    cgh.graphics.Console.run(f,1);
-    
-    }	
-    
+     * draw scatterplot for original signal intensity and normalized signal
+     * intensity in 2 different plots, then combine them into 1 tabbedpane. If
+     * the chip remain not normalized, there will be only one plot.
+     *
      */
     /**
-     *draw QQplot for original ratios and normalized ratios in 2 different plots, then combine
-     *them into 1 tabbedpane. If the chip remain not normalized, there will be only one plot.
-     **/
-    /** kt
-    public void normalProbabilityPlot(){
-    
-    JFrame f = new JFrame();
-    Container cp = f.getContentPane();
-    JTabbedPane tabbedPane= new JTabbedPane();
-    cp.add(tabbedPane);
-    
-    NormalPlot nRatio = new NormalPlot(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
-    nRatio.newData(getRatios(), true);
-    nRatio.addQQLine();
-    nRatio.addTitle("Normal Probability Plot log2(R/G)");
-    
-    if (ifNormalize){
-    NormalPlot nNormalRatio = new NormalPlot (MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
-    nNormalRatio.newData(getNormalRatios(), true);
-    nNormalRatio.addQQLine();
-    nNormalRatio.addTitle("Normal Probability Plot log2(R/G)");		    
-    tabbedPane.addTab("normalized data",nNormalRatio);
-    }
-    
-    tabbedPane.addTab("original data",nRatio);
-    plots.add(f);
-    cgh.graphics.Console.run(f,1);
-    }
+     * kt public void scatterPlot(){ ScatterPlotFrame f = new
+     * ScatterPlotFrame(); Container cp = f.getContentPane(); JTabbedPane
+     * tabbedPane= new JTabbedPane(); cp.add(tabbedPane); ScatterPlotSignal orig
+     * = new ScatterPlotSignal(this, false); orig.plot(); if (ifNormalize){
+     * ScatterPlotSignal norm = new ScatterPlotSignal(this, true); norm.plot();
+     * tabbedPane.addTab("normalized data",norm); }
+     *
+     * tabbedPane.addTab("original data",orig); plots.add(f);
+     * cgh.graphics.Console.run(f,1);
+     *
+     *
+     *
+     *
+     *
+     * }
      */
     /**
-     *draw MAplot for original data and normalized data in 2 different plots, then combine
-     *them into 1 tabbedpane. If the chip remain not normalized, there will be only one plot.
-     **/
+     * draw boxplot for original ratios and normalized ratios in 2 different
+     * plots, then combine them into 1 tabbedpane. If the chip remain not
+     * normalized, there will be only one plot.
+     *
+     */
     /**
-    public void maPlot(){
-    
-    JFrame f = new JFrame();
-    Container cp = f.getContentPane();
-    JTabbedPane tabbedPane= new JTabbedPane();
-    cp.add(tabbedPane);
-    
-    ScatterPlot mRatio = new ScatterPlot(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
-    mRatio.newData(getF635PlusF532(),getRatios(),  true);
-    mRatio.addLine(0,"HORIZONTAL_LINE" );
-    mRatio.addTitle("MA Plot");
-    
-    if(ifNormalize){
-    ScatterPlot mNormalRatio = new ScatterPlot (MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
-    mNormalRatio.newData( getF635NormPlusF532Norm(),getNormalRatios(), true);
-    mNormalRatio.addLine(0,"HORIZONTAL_LINE");
-    mNormalRatio.addTitle("MA Plot");
-    tabbedPane.addTab("normalized data",mNormalRatio);
-    }
-    
-    tabbedPane.addTab("original data",mRatio);
-    plots.add(f);
-    cgh.graphics.Console.run(f,1);
-    }
+     * public void boxPlot(){
+     *
+     * JFrame f = new JFrame(); Container cp = f.getContentPane(); JTabbedPane
+     * tabbedPane= new JTabbedPane(); cp.add(tabbedPane);
+     *
+     * BoxPlotChip bRatio = new
+     * BoxPlotChip(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
+     * Univariate[] ratios = new Univariate[blocks.size()+1]; ratios[0] =
+     * getRatios(); for(int i = 1; i<=blocks.size();i++){
+     * ratios[i]=((Block)blocks.get(i-1)).getRatios();
+     *
+     * }
+     * bRatio.newData(ratios);
+     *
+     * if(ifNormalize){ BoxPlotChip bNormalRatio = new
+     * BoxPlotChip(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
+     * Univariate[] normalRatios = new Univariate[blocks.size()+1];
+     * normalRatios[0] = getNormalRatios(); for(int i = 1;
+     * i<=blocks.size();i++){
+     * normalRatios[i]=((Block)blocks.get(i-1)).getNormalRatios();
+     *
+     * }
+     * bNormalRatio.newData(normalRatios);
+     *
+     * tabbedPane.addTab("normalized data",bNormalRatio); }
+     *
+     * tabbedPane.addTab("original data",bRatio);
+     *
+     * plots.add(f); cgh.graphics.Console.run(f,1);
+     *
+     * }	*
+     */
+    /**
+     * draw QQplot for original ratios and normalized ratios in 2 different
+     * plots, then combine them into 1 tabbedpane. If the chip remain not
+     * normalized, there will be only one plot.
+     *
+     */
+    /**
+     * kt public void normalProbabilityPlot(){
+     *
+     * JFrame f = new JFrame(); Container cp = f.getContentPane(); JTabbedPane
+     * tabbedPane= new JTabbedPane(); cp.add(tabbedPane);
+     *
+     * NormalPlot nRatio = new
+     * NormalPlot(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
+     * nRatio.newData(getRatios(), true); nRatio.addQQLine();
+     * nRatio.addTitle("Normal Probability Plot log2(R/G)");
+     *
+     * if (ifNormalize){ NormalPlot nNormalRatio = new NormalPlot
+     * (MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
+     * nNormalRatio.newData(getNormalRatios(), true); nNormalRatio.addQQLine();
+     * nNormalRatio.addTitle("Normal Probability Plot log2(R/G)");
+     * tabbedPane.addTab("normalized data",nNormalRatio); }
+     *
+     * tabbedPane.addTab("original data",nRatio); plots.add(f);
+     * cgh.graphics.Console.run(f,1); }
+     */
+    /**
+     * draw MAplot for original data and normalized data in 2 different plots,
+     * then combine them into 1 tabbedpane. If the chip remain not normalized,
+     * there will be only one plot.
+     *
+     */
+    /**
+     * public void maPlot(){
+     *
+     * JFrame f = new JFrame(); Container cp = f.getContentPane(); JTabbedPane
+     * tabbedPane= new JTabbedPane(); cp.add(tabbedPane);
+     *
+     * ScatterPlot mRatio = new
+     * ScatterPlot(MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
+     * mRatio.newData(getF635PlusF532(),getRatios(), true);
+     * mRatio.addLine(0,"HORIZONTAL_LINE" ); mRatio.addTitle("MA Plot");
+     *
+     * if(ifNormalize){ ScatterPlot mNormalRatio = new ScatterPlot
+     * (MainFrame.screenSize.width-100,MainFrame.screenSize.height-150);
+     * mNormalRatio.newData( getF635NormPlusF532Norm(),getNormalRatios(), true);
+     * mNormalRatio.addLine(0,"HORIZONTAL_LINE"); mNormalRatio.addTitle("MA
+     * Plot"); tabbedPane.addTab("normalized data",mNormalRatio); }
+     *
+     * tabbedPane.addTab("original data",mRatio); plots.add(f);
+     * cgh.graphics.Console.run(f,1); }
      */
 }

@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.SampleDetail;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
@@ -41,7 +41,7 @@ public class TestSampleDetailView {
 
         try {
             // set logger
-            Logger log = Logger.getLogger(SampleDetailView.class.getName()); 
+            Logger log = Logger.getLogger(SampleDetailView.class.getName());
             log.setLevel(Level.FINE);
             Handler[] handlers = Logger.getLogger("").getHandlers();
             boolean foundConsoleHandler = false;
@@ -63,7 +63,7 @@ public class TestSampleDetailView {
                 Logger.getLogger("").addHandler(consoleHandler);
             }
             //
-            
+
             String name = "Test Sample 1";
             SampleDetail _d = ExperimentService.getSampleDetailByName(name);
             if (_d == null) {
@@ -71,9 +71,8 @@ public class TestSampleDetailView {
                 _d.setName(name);
             }
             SampleDetail neu = SampleDetailView.SampleDetailViewDialog(_d, true);
-            assertEquals("neu gleich alt:" , neu,_d);
+            assertEquals("neu gleich alt:", neu, _d);
             // while (true);
-
 
         } catch (Exception ex) {
             Logger.getLogger(TestTrack.class.getName()).log(Level.SEVERE, "ex: ", ex);

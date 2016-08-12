@@ -8,5 +8,5 @@ and open the template in the editor.
 <tc-group version="2.0" >
     <module name="org.molgen.genomeCATPro.cat" spec="1.0"/>
     <tc-id id="ArrayFramePropsTopComponent"/>
-   <open-close-behavior open="true" close="true" />
+    <open-close-behavior open="true" close="true" />
 </tc-group>

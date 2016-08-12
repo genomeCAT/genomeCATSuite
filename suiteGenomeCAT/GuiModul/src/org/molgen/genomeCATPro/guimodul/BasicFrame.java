@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.guimodul;
 /**
  * @name BasicFrame
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Jan 19, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import org.molgen.genomeCATPro.guimodul.cghpro.*;
 import java.awt.Color;
@@ -47,7 +44,6 @@ import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,6 +52,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import org.molgen.genomeCATPro.annotation.AnnotationManager;
 import org.molgen.genomeCATPro.annotation.AnnotationManagerImpl;
+import org.molgen.genomeCATPro.annotation.CytoBandManagerImpl;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.annotation.RegionImpl;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
@@ -69,8 +66,7 @@ import org.molgen.genomeCATPro.guimodul.data.ZoomYAction;
 
 /**
  *
- * 051012   kt  add all chrom view
- * 051012   kt  update/refresh thread wait changed
+ * 051012 kt add all chrom view 051012 kt update/refresh thread wait changed
  */
 public abstract class BasicFrame extends JPanel {
 
@@ -84,7 +80,7 @@ public abstract class BasicFrame extends JPanel {
     protected Hashtable<Integer, AnnotationList> listAnno;
     protected Hashtable<Integer, PlotPanel> listAnnoLabels;
     protected Vector<String> listAnnotations = new Vector<String>();
-    protected PropertyChangeSupport pss;
+
     //
     private int offX = 10;
     private int offY = 20;
@@ -101,11 +97,22 @@ public abstract class BasicFrame extends JPanel {
     // keep track of current position
     private Long currPos = new Long(0);
     private Region r = null;
+    protected final PropertyChangeSupport pss;
 
     public BasicFrame() {
         //this.release = Defaults.GenomeRelease.hg19.toString();
         this.pss = new PropertyChangeSupport(this);
 
+    }
+
+    @Override
+    public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pss.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.pss.removePropertyChangeListener(listener);
     }
 
     /**
@@ -114,7 +121,7 @@ public abstract class BasicFrame extends JPanel {
     public void getPositionToHistory() {
         Region rr = WebPositionPanel.getActPosition();
         Logger.getLogger(this.getClass().getName()).log(Level.INFO,
-                "addPositionToHistory: " + (rr != null ? rr.toString() : "--"));
+                "addPositionToHistory: {0}", (rr != null ? rr.toString() : "--"));
 
         this.getCBHistory().setModel(new DefaultComboBoxModel(
                 WebPositionPanel.getPositionList()));
@@ -137,7 +144,7 @@ public abstract class BasicFrame extends JPanel {
         }
         if (rr instanceof String) {
             String str = (String) rr;
-            System.out.println("isString: "+ str);
+            System.out.println("isString: " + str);
 
             if (str.matches("chr[1-9XY]{1,2}:[0-9]{1,20}-[0-9]{1,20}")) {
                 try {
@@ -145,11 +152,11 @@ public abstract class BasicFrame extends JPanel {
                     Long from = Long.parseLong(str.substring(str.indexOf(":") + 1, str.indexOf("-")));
                     Long to = Long.parseLong(str.substring(str.indexOf("-") + 1, str.length()));
 
-                    if ((from >= 0 )&& to > from && to <= getChromLength(chrom)) {
+                    if ((from >= 0) && to > from && to <= getChromLength(chrom)) {
                         ract = new RegionImpl("", chrom, from, to);
                     } else {
-                        System.out.println("chr: " + chrom + " from: " + from + " to: " + to + 
-                                "("+getChromLength(chrom)+")");
+                        System.out.println("chr: " + chrom + " from: " + from + " to: " + to
+                                + "(" + getChromLength(chrom) + ")");
                         return;
                     }
                 } catch (Exception e) {
@@ -175,16 +182,16 @@ public abstract class BasicFrame extends JPanel {
 
                     d.doClick();
                     /*try {
-                    while (doneSignal == null);
-                    doneSignal.await();
-                    } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                     while (doneSignal == null);
+                     doneSignal.await();
+                     } catch (InterruptedException ex) {
+                     ex.printStackTrace();
                     
-                    JOptionPane.showMessageDialog(this,
-                    "Error: " +
-                    (ex.getMessage() != null ? ex.getMessage() : "undefined"));
+                     JOptionPane.showMessageDialog(this,
+                     "Error: " +
+                     (ex.getMessage() != null ? ex.getMessage() : "undefined"));
                     
-                    }*/
+                     }*/
                     break;
                 }
             }
@@ -256,8 +263,8 @@ public abstract class BasicFrame extends JPanel {
 
         //jScrollPaneMatrix.setViewportView(this.matrixChip);
         //this.jScrollPaneMatrix.getViewport().setBackground(Color.BLACK);
-        this.getPositionToHistory();
-
+        // kt 101115 bug open empty cnvframe
+        // --- > this.getPositionToHistory();
         this.updateMatrixView();
     }
 
@@ -281,17 +288,22 @@ public abstract class BasicFrame extends JPanel {
         if (this.listAnnoLabels.containsKey(anno)) {
             return;
         }
-        AnnotationManager am = new AnnotationManagerImpl(GenomeRelease.toRelease(this.release), anno);
+        AnnotationManager am = null;
+        if (!anno.contentEquals(CytoBandManagerImpl.name)) {
+            am = new AnnotationManagerImpl(GenomeRelease.toRelease(this.release), anno);
+        } else {
+            am = new CytoBandManagerImpl(GenomeRelease.toRelease(this.release));
+        }
         this.addAnnotation(am);
     }
+
     /*
      * create Matrix
      **/
-
     abstract public void initMatrix();
 
     /**
-     * create  initial Annotation
+     * create initial Annotation
      */
     abstract public void initAnno();
 
@@ -308,7 +320,8 @@ public abstract class BasicFrame extends JPanel {
     abstract public JScrollPane getScrollPanelMatrix();
 
     abstract public JRadioButton getCBFullChrom();
-    abstract public JRadioButton  getCBRegion();
+
+    abstract public JRadioButton getCBRegion();
 
     abstract public void propertyChange(PropertyChangeEvent evt);
 
@@ -332,17 +345,11 @@ public abstract class BasicFrame extends JPanel {
         this.updateMatrixView();
     }
 
-    @Override
-    public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.pss.addPropertyChangeListener(listener);
-    }
-
     protected void displayChromPositions(boolean wholeGenome, Region r) {
 
         if (!wholeGenome && r != null) {
 
             WebPositionPanel.setActPosition(r);
-
 
         } else {
             this.getCBHistory().setSelectedItem(null);
@@ -352,6 +359,7 @@ public abstract class BasicFrame extends JPanel {
 
     /**
      * change view to cutout
+     *
      * @param firstPos
      * @param secondPos
      */
@@ -359,7 +367,6 @@ public abstract class BasicFrame extends JPanel {
         // alle panels benachrichtigen
 
         this.displayChromPositions(fullChrom, new RegionImpl("", this.chromId, firstPos, secondPos));
-
 
         this.getMatrix().setFirstPos(firstPos);
         this.getMatrix().setSecondPos(secondPos);
@@ -373,10 +380,10 @@ public abstract class BasicFrame extends JPanel {
 
         this.refreshMatrixView();
 
-    // start stop berücksichtigen
-    // neuen scale Factor berücksichtigen
-    // imagegröße neu berechnen
-    // this.showDetailFrame =false;
+        // start stop berücksichtigen
+        // neuen scale Factor berücksichtigen
+        // imagegröße neu berechnen
+        // this.showDetailFrame =false;
     }
 
     void doZoom(int zoom, boolean y) {
@@ -396,7 +403,6 @@ public abstract class BasicFrame extends JPanel {
         Dimension d2 = this.getMatrix().getSize();
         this.getPlot().setPreferredSize(new Dimension((int) d2.getWidth(), (int) d2.getHeight()));
         this.getPlotAnno().setPreferredSize(new Dimension((int) this.getPlotAnno().getPreferredSize().getWidth(), (int) d2.getHeight()));
-
 
         this.getPlot().revalidate();
         this.getPlotAnno().revalidate();
@@ -423,17 +429,17 @@ public abstract class BasicFrame extends JPanel {
         this.setCursor(null);
         return true;
     }
-    /*
-    public List<AnnotationListOrdered> getListAnno() {
-    List<AnnotationListOrdered> list = new Vector<AnnotationListOrdered>();
-    for (Integer no : this.listAnno.keySet()) {
-    list.add(new AnnotationListOrdered(this.listAnno.get(no), no));
-    }
-    
-    return list;
-    }
-     */
 
+    /*
+     public List<AnnotationListOrdered> getListAnno() {
+     List<AnnotationListOrdered> list = new Vector<AnnotationListOrdered>();
+     for (Integer no : this.listAnno.keySet()) {
+     list.add(new AnnotationListOrdered(this.listAnno.get(no), no));
+     }
+    
+     return list;
+     }
+     */
     public int getMouseAccuracy() {
         return this.mouseAccuracy;
     }
@@ -452,7 +458,7 @@ public abstract class BasicFrame extends JPanel {
 
     public int getPlotAnnoGap() {
         if (this.plotAnnoGap == 0) {
-            this.plotAnnoGap = (int) (this.getPlotAnnoWidth());
+            this.plotAnnoGap =  this.getPlotAnnoWidth();
         }
         return this.plotAnnoGap;
     }
@@ -510,11 +516,6 @@ public abstract class BasicFrame extends JPanel {
 
         this.getPlotAnno().remove(amPlot);
         this.updateAnnotation();
-    }
-
-    @Override
-    public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.pss.removePropertyChangeListener(listener);
     }
 
     public void showDetailData(Region curr) {
@@ -596,6 +597,7 @@ public abstract class BasicFrame extends JPanel {
 
     /**
      * change view to cut-out
+     *
      * @param firstPos
      * @param secondPos
      */
@@ -617,9 +619,11 @@ public abstract class BasicFrame extends JPanel {
 
     protected void updateAnnotation() {
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        List<PlotAnnotation> list = new Vector(this.listAnnoLabels.values());
+        List<PlotAnnotation> list;
+        list = new Vector(this.listAnnoLabels.values());
         Collections.sort((List<PlotAnnotation>) list, new Comparator() {
 
+            @Override
             public int compare(Object o1, Object o2) {
                 Integer no1 = ((PlotAnnotation) o1).getNo();
                 Integer no2 = ((PlotAnnotation) o2).getNo();
@@ -634,7 +638,6 @@ public abstract class BasicFrame extends JPanel {
             this.addAnnotation(aplot.getManager());
         }
 
-
         this.getPlotAnno().revalidate();
         this.getScrollPanelAnno().revalidate();
         this.pss.firePropertyChange(CGHPROFrame.PROP_CHANGE_ANNO, null, null);
@@ -643,24 +646,25 @@ public abstract class BasicFrame extends JPanel {
 
     /* public class AnnotationListOrdered extends AnnotationList {
     
-    private int no = 0;
+     private int no = 0;
     
-    AnnotationListOrdered(AnnotationList anno, Integer no) {
-    super(anno);
-    this.no = no;
+     AnnotationListOrdered(AnnotationList anno, Integer no) {
+     super(anno);
+     this.no = no;
     
-    }
+     }
     
-    public int getNo() {
-    return no;
-    }
+     public int getNo() {
+     return no;
+     }
     
-    public void setNo(int no) {
-    this.no = no;
-    }
-    }*/
+     public void setNo(int no) {
+     this.no = no;
+     }
+     }*/
     /**
      * scale image for all chrom view
+     *
      * @param _src
      * @param scaleX
      * @param scaleY
@@ -688,8 +692,6 @@ public abstract class BasicFrame extends JPanel {
                 this.updateMatrixView();
                 JLabel l = new JLabel();
 
-
-
                 BufferedImage img1 = this.getMatrix().getImage();
 
                 BufferedImage img2 = CGHPROFrame.scale(img1, 0.7, 0.5);
@@ -714,11 +716,10 @@ public abstract class BasicFrame extends JPanel {
     public static BufferedImage scale(BufferedImage _src, double scaleX, double scaleY)
             throws IOException {
 
-
         int newW = (int) (_src.getWidth() * scaleX);
         int newH = (int) (_src.getHeight() * scaleY);
-        BufferedImage bdest =
-                new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bdest
+                = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = bdest.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -727,10 +728,9 @@ public abstract class BasicFrame extends JPanel {
 
 
         /*AffineTransform at =
-        AffineTransform.getScaleInstance((double) width / src.getWidth(),
-        (double) height / src.getHeight());*/
+         AffineTransform.getScaleInstance((double) width / src.getWidth(),
+         (double) height / src.getHeight());*/
         //g.drawRenderedImage(src, at);
-
         g2.dispose();
         return bdest;
     }
@@ -787,7 +787,6 @@ public abstract class BasicFrame extends JPanel {
      */
     public void updateMatrixView() {
 
-
         try {
             //this.displayChromPositions(true, 0, zoomY);
             if (chromId != null) {
@@ -805,7 +804,6 @@ public abstract class BasicFrame extends JPanel {
                 t.start();
 
                 //new Thread(new WorkerUpdate(this.getMatrix(), startSignal, doneSignal)).start();
-
                 Thread[] tlist = new Thread[this.listAnnoLabels.values().size()];
                 int ii = 0;
                 for (final PlotPanel anno : this.listAnnoLabels.values()) {
@@ -822,22 +820,20 @@ public abstract class BasicFrame extends JPanel {
                 }
 
                 //startSignal.countDown(); //start
-
                 //doneSignal.await();     // wait for all to end
-
                 //super.zoomX = 0;
                 this.setZoomY(0);
                 ZoomYAction.getInstance().setFactor(getZoomY());
                 //jSliderZoomY.setValue(0);
                 this.getPlot().setPreferredSize(new Dimension(getPlotPanelWidth(), getPlotPanelHeight()));
                 /*for (Component c : this.jPanelPlotAnno.getComponents()) {
-                c.setPreferredSize(
-                new Dimension(this.getPlotAnnoGap() + this.getPlotAnnoWidth(),
-                this.getPlotPanelHeight()));
-                }*/
+                 c.setPreferredSize(
+                 new Dimension(this.getPlotAnnoGap() + this.getPlotAnnoWidth(),
+                 this.getPlotPanelHeight()));
+                 }*/
                 this.getPlotAnno().setPreferredSize(
                         new Dimension(
-                        (int) this.getPlotAnno().getPreferredSize().getWidth(), this.getPlotPanelHeight()));
+                                (int) this.getPlotAnno().getPreferredSize().getWidth(), this.getPlotPanelHeight()));
                 //this.jPanelPlotAnno.revalidate();
                 //this.jScrollPaneAnnotation.revalidate();
                 this.displayChromPositions(true, null);
@@ -849,9 +845,8 @@ public abstract class BasicFrame extends JPanel {
                         this.getScrollPanelAnno().getVerticalScrollBar().getModel());
 
                 //this.updateImages();
-
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            //System.out.println("End UpdateMatrixView");
+                //System.out.println("End UpdateMatrixView");
             }
 
         } catch (Exception e) {
@@ -872,8 +867,8 @@ public abstract class BasicFrame extends JPanel {
 
         WorkerUpdate(PlotPanel panel) {
             this.pane = panel;
-        // this.startSignal = startSignal;
-        // this.doneSignal = doneSignal;
+            // this.startSignal = startSignal;
+            // this.doneSignal = doneSignal;
         }
 
         public void run() {
@@ -882,8 +877,7 @@ public abstract class BasicFrame extends JPanel {
 
                 pane.updatePlot(chromId);
 
-
-            //  doneSignal.countDown();
+                //  doneSignal.countDown();
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
                         "", ex);
@@ -900,15 +894,15 @@ public abstract class BasicFrame extends JPanel {
 
         WorkerRefresh(PlotPanel panel) {
             this.pane = panel;
-        //this.startSignal = startSignal;
-        //this.doneSignal = doneSignal;
+            //this.startSignal = startSignal;
+            //this.doneSignal = doneSignal;
         }
 
         public void run() {
             try {
                 //startSignal.await();
                 pane.refresh();
-            //doneSignal.countDown();
+                //doneSignal.countDown();
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
                         "", ex);

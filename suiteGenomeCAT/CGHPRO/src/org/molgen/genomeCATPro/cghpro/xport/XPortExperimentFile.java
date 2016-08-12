@@ -18,6 +18,8 @@ import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
  */
 public interface XPortExperimentFile extends XPortImport {
 
+   
+
     public String getMethod();
 
     public String getType();
@@ -46,7 +48,7 @@ public interface XPortExperimentFile extends XPortImport {
     public String getFileInfoAsHTML();
 
     public PlatformDetail getPlatformdetail();
-    
+
     public PlatformData getPlatformdata();
 
     public void setPlatformdetail(PlatformDetail platformdetail);

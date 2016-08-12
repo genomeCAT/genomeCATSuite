@@ -4,7 +4,6 @@
  */
 package org.molgen.genomeCATPro.cghpro.chip;
 
-import org.molgen.genomeCATPro.data.Spot;
 import java.awt.Container;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -13,24 +12,25 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.molgen.genomeCATPro.annotation.Region;
-import org.molgen.genomeCATPro.data.OriginalSpot;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.molgen.genomeCATPro.data.ISpot;
+import org.molgen.genomeCATPro.data.IOriginalSpot;
 
 /**
  *
- * @author tebel
- *  class manages chip information blockwise
+ * @author tebel class manages chip information blockwise
  */
 public class ChipBlock extends ChipImpl implements Chip {
 
-    /**vector holding all the blocks*/
-    public Hashtable<Integer, Vector<Spot>> blocks;
+    /**
+     * vector holding all the blocks
+     */
+    public Hashtable<Integer, Vector<ISpot>> blocks;
 
     public ChipBlock(Data s) throws Exception {
         super(s);
 
-        this.blocks = new Hashtable<Integer, Vector<Spot>>();
-
+        this.blocks = new Hashtable<>();
 
     }
 
@@ -38,11 +38,10 @@ public class ChipBlock extends ChipImpl implements Chip {
         super(c);
         this.dataFromSpots(c.getSpots());
 
-
-    //createFeaturesFromSpots(c.getSpots());
+        //createFeaturesFromSpots(c.getSpots());
     }
 
-    public void addBlockSpot(OriginalSpot spot) {
+    public void addBlockSpot(IOriginalSpot spot) {
         if (!this.blocks.containsKey(spot.getBlock())) {
             this.addBlock(spot.getBlock());
         }
@@ -50,17 +49,18 @@ public class ChipBlock extends ChipImpl implements Chip {
     }
 
     public void addBlock(Integer id) {
-        this.blocks.put(id, new Vector<Spot>());
+        this.blocks.put(id, new Vector<>());
     }
-    public void setBlock(Integer id, List<? extends Spot> list) {
-        this.blocks.put(id, new Vector<Spot>());
+
+    public void setBlock(Integer id, List<? extends ISpot> list) {
+        this.blocks.put(id, new Vector<ISpot>());
         this.blocks.get(id).addAll(list);
     }
 
     /**
-     *Normalize the all blocks by subgrid median
-     * todo: ? richtiger SpotTyp??
-     **/
+     * Normalize the all blocks by subgrid median todo: ? richtiger SpotTyp??
+     *
+     */
     /*
     public Hashtable<Integer, Vector<Spot>> normalizeBySubGridMedian(boolean includeExcluded) {
         Hashtable<Integer, Vector<Spot>> newBlocks = new Hashtable<Integer, Vector<Spot>>();
@@ -78,15 +78,14 @@ public class ChipBlock extends ChipImpl implements Chip {
         return newBlocks;
     }
      */
-
     @Override
     public List<? extends Region> getData() {
-         if (this.blocks == null || this.blocks.size() <= 0) {
+        if (this.blocks == null || this.blocks.size() <= 0) {
             return Collections.emptyList();
         }
-        List<Spot> fList = new Vector<Spot>();
+        List<ISpot> fList = new Vector<>();
         fList.clear();
-        for (List<Spot> list : this.blocks.values()) {
+        for (List<ISpot> list : this.blocks.values()) {
             fList.addAll(list);
         }
         return fList;
@@ -97,20 +96,18 @@ public class ChipBlock extends ChipImpl implements Chip {
     }
 
     @Override
-    public void dataFromSpots(List<? extends Spot> spots) {
+    public void dataFromSpots(List<? extends ISpot> spots) {
         if (spots == null || spots.size() == 0) {
             Logger.getLogger(ChipBlock.class.getName()).log(Level.INFO, "empty spots");
             this.error = true;
         }
 
-
-
-        for (Spot s : spots) {
+        for (ISpot s : spots) {
             if (s.isExcluded()) {
                 continue;
             }
-            if (s instanceof OriginalSpot) {
-                this.addBlockSpot((OriginalSpot) s);
+            if (s instanceof IOriginalSpot) {
+                this.addBlockSpot((IOriginalSpot) s);
             }
         }
     }
@@ -145,8 +142,8 @@ public class ChipBlock extends ChipImpl implements Chip {
         if (list == null || list.size() == 0) {
             return;
         }
-        if (list.get(0) instanceof Spot) {
-            this.dataFromSpots((List<? extends Spot>) list);
+        if (list.get(0) instanceof ISpot) {
+            this.dataFromSpots((List<? extends ISpot>) list);
         } else {
             this.error = true;
         }

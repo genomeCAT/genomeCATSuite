@@ -27,24 +27,22 @@ import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.common.Utils;
 
 /**
- * @name  MapList
+ * @name MapList
  *
  * mapped data
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 @Entity
 @Table(name = "MapList")
@@ -105,7 +103,7 @@ public class MapData implements Serializable, Data {
     }
 
     public MapData(MapDetail dMapDetail, Data currData, int i) {
-        this.dataName = i + "_"+ currData.getName().substring(0, Math.min(61, currData.getName().length()-1));
+        this.dataName = i + "_" + currData.getName().substring(0, Math.min(61, currData.getName().length() - 1));
         this.clazz = currData.getClazz();
         this.owner = currData.getOwner();
         this.mapName = dMapDetail.getMapName();
@@ -129,7 +127,6 @@ public class MapData implements Serializable, Data {
 
         this.setTableData(s.getTableData());
 
-
         this.setModified(s.getModified());
         this.setClazz(s.getClazz());
         this.setCreated(s.getCreated());
@@ -145,8 +142,6 @@ public class MapData implements Serializable, Data {
 
         this.setOwner(s.getOwner());
         this.setParent(s.getParent());
-
-
 
     }
 
@@ -280,11 +275,10 @@ public class MapData implements Serializable, Data {
 
     public String toFullString() {
         return new String(
-                this.getMapID() + "," +
-                this.getCreated() + "," +
-                this.getModified() + "," +
-                this.getDataName());
-
+                this.getMapID() + ","
+                + this.getCreated() + ","
+                + this.getModified() + ","
+                + this.getDataName());
 
     }
 
@@ -424,8 +418,6 @@ public class MapData implements Serializable, Data {
         text.append(this.getDataName() + "\n");
         text.append(this.getDescription() + "\n");
 
-
-
         return text;
     }
 
@@ -452,10 +444,8 @@ public class MapData implements Serializable, Data {
     public String getIconPath() {
         try {
 
-
             Region d = RegionLib.getRegionClazz(this.getClazz());
             return d.getIconPath();
-
 
         } catch (Exception ex) {
             Logger.getLogger(ExperimentData.class.getName()).log(Level.WARNING,
@@ -468,8 +458,8 @@ public class MapData implements Serializable, Data {
         if (d instanceof MapData) {
             this.copy((MapData) d);
         } else {
-            throw new RuntimeException("MapData.copy: no valid copy source " +
-                    d.getClass().getName());
+            throw new RuntimeException("MapData.copy: no valid copy source "
+                    + d.getClass().getName());
         }
     }
 

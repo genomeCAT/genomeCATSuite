@@ -1,6 +1,5 @@
 package org.molgen.genomeCATPro.cghpro.chip;
 
-import org.molgen.genomeCATPro.data.Feature;
 import org.molgen.genomeCATPro.common.Informable;
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,34 +22,33 @@ import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
+import org.molgen.genomeCATPro.data.IFeature;
 
 /**
  * @name HMMWorker.java
- * 
+ *
  * calls R Package aCGH
  * http://www.bioconductor.org/packages/devel/bioc/html/aCGH.html
- * 
- * 
+ *
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @author Wei Chen
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- * 310712 kt    run install package & execution in batch mode
- * 030812 kt    exportData set DecimalFormatSymbol explizit
- * 
+ * 310712 kt run install package & execution in batch mode 030812 kt exportData
+ * set DecimalFormatSymbol explizit
+ *
  */
 public class HMMWorker extends SwingWorker<ChipFeature, String> {
 
@@ -81,6 +79,7 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
 
     /**
      * do real processing
+     *
      * @return
      * @throws java.lang.Exception
      */
@@ -89,25 +88,22 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
         setProgress(0);
         ChipFeature newChip = new ChipFeature(false);
 
-
-        Logger.getLogger(HMMWorker.class.getName()).log(Level.INFO, "Main: " +
-                mainDir);
+        Logger.getLogger(HMMWorker.class.getName()).log(Level.INFO, "Main: "
+                + mainDir);
         if (oldChip == null || oldChip.getError()) {
             Logger.getLogger(HMMWorker.class.getName()).log(Level.SEVERE,
                     " chip has error");
             return newChip;
         }
-        this.dataFilename = mainDir + File.separator + File.separator +
-                oldChip.getDataEntity().getTableData() + "_hmm.dat";
+        this.dataFilename = mainDir + File.separator + File.separator
+                + oldChip.getDataEntity().getTableData() + "_hmm.dat";
         dataFilename = dataFilename.replace("\\", "\\\\");
 
         Logger.getLogger(HMMWorker.class.getName()).log(Level.INFO,
                 "datafile for R: " + dataFilename);
 
-
         File dataFile = new File(dataFilename);
         int no = exportData(oldChip, dataFile);
-
 
         if (no < 0) {
             Logger.getLogger(HMMWorker.class.getName()).log(
@@ -152,7 +148,6 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
         Utils.deleteFile(resultFilename);
         Utils.deleteFile(dataFilename);
 
-
         System.gc();
         if (!success) {
             publish("Error saving data see logfile for details");
@@ -161,15 +156,13 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
         }
         return newChip;
 
-
-
-
     }
 
     /**
      * export data into file to serve R package aCGH
+     *
      * @param chip - chip containing data entity
-     * @param outFile - output file 
+     * @param outFile - output file
      * @return number of exported data, -1 if exception occurs
      */
     public int exportData(ChipFeature chip, File outFile) {
@@ -184,10 +177,9 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
             NS.setDecimalSeparator('.');
             DecimalFormat N = new DecimalFormat("0.#####", NS);
 
-
-            for (Vector<? extends Feature> bacs : chip.chrFeatures.values()) {
-                Collections.sort((Vector<Feature>) bacs, Feature.comChromStart);
-                for (Feature currentF : bacs) {
+            for (Vector<? extends IFeature> bacs : chip.chrFeatures.values()) {
+                Collections.sort((Vector<IFeature>) bacs, IFeature.comChromStart);
+                for (IFeature currentF : bacs) {
 
                     if (currentF.getChrom().contains("andom") || currentF.getChrom().contains("chrM")) {
                         continue;
@@ -198,16 +190,14 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
                         continue;
                     }
 
-
-
                     //290512 kt
-                    out.write("" + ++i + "\t" +
-                            ((currentF.getId() == null || currentF.getId().contentEquals("")) ? i : currentF.getId()) +
-                            "\t" + i +
-                            "\t" + chrom + "\t" +
-                            currentF.getChromStart() + "\t" +
-                            currentF.getChromEnd() + "\t" +
-                            N.format(currentF.getRatio()) + "\n");
+                    out.write("" + ++i + "\t"
+                            + ((currentF.getId() == null || currentF.getId().contentEquals("")) ? i : currentF.getId())
+                            + "\t" + i
+                            + "\t" + chrom + "\t"
+                            + currentF.getChromStart() + "\t"
+                            + currentF.getChromEnd() + "\t"
+                            + N.format(currentF.getRatio()) + "\n");
 
                 }
             }
@@ -222,10 +212,11 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
     }
 
     /**
-     * import R package aCGH results to a new Data entity als child of original Data
-     * create new Chip object
+     * import R package aCGH results to a new Data entity als child of original
+     * Data create new Chip object
+     *
      * @param name - name for new chip
-     * 
+     *
      * @return new Chip object containing the data
      * @throws java.lang.Exception
      */
@@ -252,7 +243,6 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
             }
         }
 
-
         Track d = new Track(
                 "HMM_" + _name,
                 oldChip.getDataEntity().getGenomeRelease(),
@@ -268,7 +258,7 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
         d.setParamProcessing("\n" + param.trim());
         ChipFeature newChip = new ChipFeature(d);
 
-        Hashtable<String, Vector<? extends Feature>> data = null;
+        Hashtable<String, Vector<? extends IFeature>> data = null;
         try {
             data = FeatureHMM.loadFromHMMFile(resultFilename);
         } catch (Exception e) {
@@ -285,25 +275,23 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
     }
 
     /**
-     * merge features with same predicted state value into segments
-     * with R package aCGH
-     * used as described in 
-     * "A comparison study: applying segmentation to array CGH data
-     * for downstream analysesA comparison study: applying segmentation to array CGH data
-     * for downstream analyses"
-     * 
-     * 
+     * merge features with same predicted state value into segments with R
+     * package aCGH used as described in "A comparison study: applying
+     * segmentation to array CGH data for downstream analysesA comparison study:
+     * applying segmentation to array CGH data for downstream analyses"
+     *
+     *
      * @param chip - chip containing the data entity
-     * @param iProgress  - counter to visualize progress
-     * 
-     *  @return true if succeeded, false if errors occur
+     * @param iProgress - counter to visualize progress
+     *
+     * @return true if succeeded, false if errors occur
      */
     public boolean runHMM(ChipFeature chip, int iProgress) {
 
-        rFilename = mainDir + File.separator + File.separator +
-                chip.getDataEntity().getTableData() + "_hmm.R";
-        pFilename = mainDir + File.separator + File.separator +
-                chip.getDataEntity().getTableData() + "_p_hmm.R";
+        rFilename = mainDir + File.separator + File.separator
+                + chip.getDataEntity().getTableData() + "_hmm.R";
+        pFilename = mainDir + File.separator + File.separator
+                + chip.getDataEntity().getTableData() + "_p_hmm.R";
         rFilename = rFilename.replace("\\", "\\\\");
         pFilename = pFilename.replace("\\", "\\\\");
         Logger.getLogger(HMMWorker.class.getName()).log(Level.INFO, "executable R: " + rFilename);
@@ -326,28 +314,28 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
              */
             FileWriter out = new FileWriter(rFile);
             out.write(
-                    "options(echo=FALSE)\n" +
-                    "if(!length(grep(\"aCGH\", installed.packages()[,1])) > 0) {source(\"http://bioconductor.org/biocLite.R\");\noptions(device.ask.default = FALSE);\n" +
-                    " biocLite(\'aCGH\',dependencies=TRUE)\n;};\n" +
-                    "library(\'aCGH\', logical.return = TRUE)\n" +
-                    "ddata<-read.table(file=\"" + dataFilename.replace(" ", "\\ ") + "\", na.strings=\"\\\\N\", header=TRUE, sep=\"\t\")\n" +
-                    "data <- na.omit(ddata)\n" +
-                    "log2.ratios<-data.frame(test=data$log2Ratio)\n" +
-                    "clone.info<-data.frame(Clone=data$Clone, Target=data$Target,Chrom=data$Chrom,kb=round(data$start/1000))\n" +
-                    "ex.acgh<-create.aCGH(log2.ratios, clone.info)\n" +
-                    "hmm(ex.acgh)<-find.hmm.states(ex.acgh, aic=TRUE, bic=FALSE)\n" +
-                    "y<-mergeLevels(ex.acgh$hmm$states.hmm[[1]][,8],ex.acgh$hmm$states.hmm[[1]][,6])\n" +
-                    "mad <- median(y$mnNow)\n" +
-                    "i <- sessionInfo()\n" +
-                    "write(paste(\"#Package:\",i$otherPkgs$aCGH$Package),  file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Version:\", i$otherPkgs$aCGH$Version), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Reference:\", gsub(\"\\n\", \"\", i$otherPkgs$aCGH$Reference)), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#MAD:\", mad),  append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\")\n" +
-                    "out <- data.frame(data, ex.acgh$hmm$states.hmm[[1]])\n" +
-                    "out <- data.frame(out, y$vecMerged)\n" +
-                    "write.table(out, file=\"" +
-                    resultFilename.replace(" ", "\\ ") + "\"" +
-                    ", row.names=FALSE, col.names=FALSE, append=TRUE, sep=\"\t\")\n ");
+                   "" // "options(echo=FALSE)\n"
+                    + "if(!length(grep(\"aCGH\", installed.packages()[,1])) > 0) {source(\"http://bioconductor.org/biocLite.R\");\noptions(device.ask.default = FALSE);\n"
+                    + " biocLite(\'aCGH\',dependencies=TRUE)\n;};\n"
+                    + "library(\'aCGH\', logical.return = TRUE)\n"
+                    + "ddata<-read.table(file=\"" + dataFilename.replace(" ", "\\ ") + "\", na.strings=\"\\\\N\", header=TRUE, sep=\"\t\")\n"
+                    + "data <- na.omit(ddata)\n"
+                    + "log2.ratios<-data.frame(test=data$log2Ratio)\n"
+                    + "clone.info<-data.frame(Clone=data$Clone, Target=data$Target,Chrom=data$Chrom,kb=round(data$start/1000))\n"
+                    + "ex.acgh<-create.aCGH(log2.ratios, clone.info)\n"
+                    + "hmm(ex.acgh)<-find.hmm.states(ex.acgh, aic=TRUE, bic=FALSE)\n"
+                    + "y<-mergeLevels(ex.acgh$hmm$states.hmm[[1]][,8],ex.acgh$hmm$states.hmm[[1]][,6])\n"
+                    + "mad <- median(y$mnNow)\n"
+                    + "i <- sessionInfo()\n"
+                    + "write(paste(\"#Package:\",i$otherPkgs$aCGH$Package),  file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Version:\", i$otherPkgs$aCGH$Version), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Reference:\", gsub(\"\\n\", \"\", i$otherPkgs$aCGH$Reference)), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#MAD:\", mad),  append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\")\n"
+                    + "out <- data.frame(data, ex.acgh$hmm$states.hmm[[1]])\n"
+                    + "out <- data.frame(out, y$vecMerged)\n"
+                    + "write.table(out, file=\""
+                    + resultFilename.replace(" ", "\\ ") + "\""
+                    + ", row.names=FALSE, col.names=FALSE, append=TRUE, sep=\"\t\")\n ");
 
 
             /*
@@ -363,9 +351,6 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
             6   column 4 = predicted value of a state
             7   column 5 = dispersion
             8   column 6 = observed value*/
-
-
-
             out.close();
         } catch (IOException exception) {
             publish(exception.getMessage());
@@ -441,8 +426,6 @@ public class HMMWorker extends SwingWorker<ChipFeature, String> {
             Process p = Runtime.getRuntime().exec(command);
             input = new BufferedReader(new InputStreamReader(p.getInputStream()));
             //error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-
 
             while ((line = input.readLine()) != null) {
                 publish(line);

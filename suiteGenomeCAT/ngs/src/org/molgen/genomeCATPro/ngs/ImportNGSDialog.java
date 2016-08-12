@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.ngs;
 /**
  * @name ImportNGSDialog
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -63,16 +61,15 @@ public class ImportNGSDialog extends javax.swing.JDialog {
 
     /**
      * default constructor
+     *
      * @param parent frame
      */
     public ImportNGSDialog(java.awt.Frame parent) {
         super(parent, false);
         this.processNGSModul = null;
 
-
         initComponents();
         cbFileType.setSelectedIndex(0);
-
 
         Logger.getLogger(ImportNGSDialog.class.getName()).log(
                 Level.INFO, "constructor ");
@@ -82,7 +79,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         this.jButtonEditSampleData.addActionListener(new ActionListenerSampleEdit(0));
         this.jButtonEditSampleControl.addActionListener(new ActionListenerSampleEdit(1));
 
-
         this.jPanelFile.setEnabled(true);
         this.jTabbedPaneMain.setEnabledAt(0, true);
         this.jTabbedPaneMain.setEnabledAt(1, false);
@@ -91,13 +87,12 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         this.jButtonRun.setEnabled(false);
         this.jButtonImport.setEnabled(false);
 
-
-
         setLocationRelativeTo(null);
     }
 
     /**
      * constructor with preselected import module (mainly used for tests)
+     *
      * @param parent
      * @param mod - import module
      */
@@ -112,7 +107,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         this.jButtonSelectSampleControl.addActionListener(new ActionListenerSampleSelect(1));
         this.jButtonEditSampleData.addActionListener(new ActionListenerSampleEdit(0));
         this.jButtonEditSampleControl.addActionListener(new ActionListenerSampleEdit(1));
-
 
         this.jPanelFile.setEnabled(true);
         this.jTabbedPaneMain.setEnabledAt(0, true);
@@ -130,9 +124,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         super(parent, false);
         initComponents();
 
-
         //skip to import 
-
         Logger.getLogger(ImportNGSDialog.class.getName()).log(
                 Level.INFO, "constructor with import module as test ");
 
@@ -140,7 +132,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         this.jButtonSelectSampleControl.addActionListener(new ActionListenerSampleSelect(1));
         this.jButtonEditSampleData.addActionListener(new ActionListenerSampleEdit(0));
         this.jButtonEditSampleControl.addActionListener(new ActionListenerSampleEdit(1));
-
 
         this.jPanelFile.setEnabled(true);
         this.jTabbedPaneMain.setEnabledAt(0, false);
@@ -157,7 +148,8 @@ public class ImportNGSDialog extends javax.swing.JDialog {
     }
 
     /**
-     * error method - log error and set message as hint at dialog 
+     * error method - log error and set message as hint at dialog
+     *
      * @param message
      * @param e
      */
@@ -174,8 +166,8 @@ public class ImportNGSDialog extends javax.swing.JDialog {
      */
     void initNGSModul() {
 
-        if (this.cbFileType.getSelectedIndex() < 0 ||
-                this.cbFileType.getSelectedItem().toString().contentEquals("")) {
+        if (this.cbFileType.getSelectedIndex() < 0
+                || this.cbFileType.getSelectedItem().toString().contentEquals("")) {
             this.txtHint.setText("please select ngs proc type!");
             return;
         }
@@ -217,8 +209,8 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             error("please set filepath!", null);
             return false;
         }
-        if (this.jCheckBoxUseControl.isSelected() && (this.jTextFieldFileNameControl.getText() == null ||
-                this.jTextFieldFileNameControl.getText().contentEquals(""))) {
+        if (this.jCheckBoxUseControl.isSelected() && (this.jTextFieldFileNameControl.getText() == null
+                || this.jTextFieldFileNameControl.getText().contentEquals(""))) {
             error("please set path for control file!", null);
             return false;
         }
@@ -257,7 +249,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             bamImport.setResize(this.jRadioButtonResize.isSelected());
             bamImport.setShift(this.jRadioButtonShift.isSelected());
 
-
             if (this.jCheckBoxNormalize.isSelected()) {
                 if (this.jRadioButtonNormControl.isSelected()) {
                     bamImport.setNormalizeWithControl(true);
@@ -281,8 +272,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         //setCursor(new Cursor(Cursor.WAIT_CURSOR));
         this.jButtonRun.setEnabled(false);
         this.jButtonImport.setEnabled(false);
-
-
 
         this.jTabbedPaneMain.setEnabledAt(0, false);
         this.jTabbedPaneMain.setEnabledAt(1, true);
@@ -314,7 +303,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
 
         processNGSModul.doRunImport(informable, listener);
 
-    /*informable.messageChanged("Start ....");
+        /*informable.messageChanged("Start ....");
     //informable.messageChanged("Get Data for " + sample.getName());
     ImportWorker worker = new ImportWorker(importModul, track, informable);
     worker.execute();
@@ -341,10 +330,10 @@ public class ImportNGSDialog extends javax.swing.JDialog {
 
     }
 ///// tab #3 import results ////////////////////////////////////////////////////
-    Track dataBin,dataPeak ,dataPeakVsControl ,controlBin ,controlPeak  = null;
+    Track dataBin, dataPeak, dataPeakVsControl, controlBin, controlPeak = null;
 
     /**
-     * init dialog tab with 
+     * init dialog tab with
      */
     void initEditImport() {
         this.jTabbedPaneMain.setEnabledAt(0, false);
@@ -361,7 +350,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             this.jCheckBoxImportPeaksDataVsControl.setEnabled(false);
             this.jCheckBoxImportPeaksData.setEnabled(false);
             BAMImport bamImport = (BAMImport) this.processNGSModul;
-
 
             if (bamImport.isHasBinFile()) {
                 dataBin = new Track();
@@ -406,8 +394,8 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         } catch (Exception e) {
             Logger.getLogger(
                     ImportNGSDialog.class.getName()).log(
-                    Level.SEVERE,
-                    "initImport", e);
+                            Level.SEVERE,
+                            "initImport", e);
             error("error init import", null);
         }
     }
@@ -426,7 +414,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
 
     /**
      * import R output files either as bed or wig
-     * 
+     *
      */
     private void runImport() {
 
@@ -446,7 +434,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             this.dataBin.setDataType(Defaults.DataType.BIN);
             //d.setProcProcessing(PeakWorker.methodName);
             //d.setParamProcessing("\n" + param.trim());
-
 
             String d = this.dataBin.getOriginalFile();
             this.dataBin.setName(d.substring(d.lastIndexOf(File.separator) + 1, d.lastIndexOf(".") - 1));
@@ -564,7 +551,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
     @SuppressWarnings("empty-statement")
     protected void processImportTask(Track t, XPortTrack mod) {
 
-
         try {
 
             mod.newImportTrack(t.getOriginalFile());
@@ -615,7 +601,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         @Override
         protected void process(List<String> chunks) {
 
-
             for (String message : chunks) {
                 informable.messageChanged(message);
             }
@@ -634,14 +619,11 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             publish("run Import " + data.getOriginalFile());
             setProgress(0);
 
-
             setProgress(10);
             Track d = null;
             try {
 
                 d = importModul.doImportTrack(this.data, this.informable);
-
-
 
             } catch (Exception ex) {
                 publish("error during import see logfile !");
@@ -653,7 +635,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             setProgress(90);
 
             return d;
-
 
         }
 
@@ -669,8 +650,6 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                     publish(" finished ...........................");
                     setPrevDone(true);
 
-
-
                 } else {
                     publish(" ERROR see logfile for further details");
                     ImportNGSDialog.this.jTextMsg.setText(" ERROR see logfile for further details");
@@ -684,7 +663,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     }
                 }
-            //progressBar.setVisible(false);
+                //progressBar.setVisible(false);
             } catch (Exception e) {
                 Logger.getLogger(ImportNGSWorker.class.getName()).log(Level.WARNING, "do cbs ", e);
                 error("error during import see logfile !", null);
@@ -766,6 +745,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         jButtonCancel1 = new javax.swing.JButton();
         txtHint = new javax.swing.JLabel();
         jButtonImport = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(ImportNGSDialog.class, "ImportNGSDialog.title")); // NOI18N
@@ -837,33 +817,31 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelFileLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(57, 57, 57)
                         .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFileLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelFileLayout.createSequentialGroup()
-                                        .addComponent(jCheckBoxSortedData)
-                                        .addGap(31, 31, 31)
-                                        .addComponent(jCheckBoxPairedEndData))
-                                    .addGroup(jPanelFileLayout.createSequentialGroup()
-                                        .addComponent(jTextFieldFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(34, 34, 34)
-                                        .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButtonBrowseControl)
-                                            .addComponent(jButtonBrowse)))))
                             .addGroup(jPanelFileLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelFileLayout.createSequentialGroup()
-                                        .addComponent(jCheckBoxSortedControl)
-                                        .addGap(31, 31, 31)
-                                        .addComponent(jCheckBoxPairedEndControl))
-                                    .addComponent(jTextFieldFileNameControl, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jCheckBoxUseControl))
-                .addContainerGap(417, Short.MAX_VALUE))
+                                .addComponent(jCheckBoxSortedData)
+                                .addGap(31, 31, 31)
+                                .addComponent(jCheckBoxPairedEndData))
+                            .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButtonBrowseControl)
+                                .addGroup(jPanelFileLayout.createSequentialGroup()
+                                    .addComponent(jTextFieldFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(34, 34, 34)
+                                    .addComponent(jButtonBrowse)))))
+                    .addGroup(jPanelFileLayout.createSequentialGroup()
+                        .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxUseControl)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelFileLayout.createSequentialGroup()
+                                .addComponent(jCheckBoxSortedControl)
+                                .addGap(31, 31, 31)
+                                .addComponent(jCheckBoxPairedEndControl))
+                            .addComponent(jTextFieldFileNameControl, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanelFileLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonBrowse, jButtonBrowseControl});
@@ -879,18 +857,17 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                 .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jCheckBoxSortedData)
                     .addComponent(jCheckBoxPairedEndData))
-                .addGap(50, 50, 50)
-                .addComponent(jCheckBoxUseControl)
                 .addGap(18, 18, 18)
+                .addComponent(jCheckBoxUseControl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldFileNameControl, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jButtonBrowseControl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jCheckBoxSortedControl)
-                    .addComponent(jCheckBoxPairedEndControl))
-                .addContainerGap())
+                    .addComponent(jCheckBoxPairedEndControl)))
         );
 
         jPanelFileLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonBrowse, jButtonBrowseControl});
@@ -1099,8 +1076,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelNormalize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addComponent(jPanelNormalize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelParamLayout.setVerticalGroup(
             jPanelParamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1120,6 +1096,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
 
         Vector<String> filetypes = ServiceNGS.getFileTypeNGSImport();
         cbFileType.setModel(new DefaultComboBoxModel(filetypes));
+        cbFileType.setEnabled(false);
         cbFileType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbFileTypeActionPerformed(evt);
@@ -1133,19 +1110,19 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         jPanelParameter.setLayout(jPanelParameterLayout);
         jPanelParameterLayout.setHorizontalGroup(
             jPanelParameterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelParameterLayout.createSequentialGroup()
+            .addGroup(jPanelParameterLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelParameterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelParameterLayout.createSequentialGroup()
+                .addGroup(jPanelParameterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelParam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelParameterLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel2)
                         .addGap(11, 11, 11)
                         .addComponent(cbFileType, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
                         .addComponent(jLabel3))
-                    .addComponent(jPanelParam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanelParameterLayout.setVerticalGroup(
             jPanelParameterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1159,7 +1136,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                     .addGroup(jPanelParameterLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel2)))
-                .addGap(43, 43, 43)
+                .addGap(18, 18, 18)
                 .addComponent(jPanelFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1192,7 +1169,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         jPanelProcessingLayout.setHorizontalGroup(
             jPanelProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProcessingLayout.createSequentialGroup()
-                .addContainerGap(606, Short.MAX_VALUE)
+                .addContainerGap(612, Short.MAX_VALUE)
                 .addComponent(jButtonSaveScript)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonNextAtRun)
@@ -1200,13 +1177,13 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             .addGroup(jPanelProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelProcessingLayout.createSequentialGroup()
                     .addGap(3, 3, 3)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
                     .addGap(4, 4, 4)))
         );
         jPanelProcessingLayout.setVerticalGroup(
             jPanelProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProcessingLayout.createSequentialGroup()
-                .addContainerGap(471, Short.MAX_VALUE)
+                .addContainerGap(376, Short.MAX_VALUE)
                 .addGroup(jPanelProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNextAtRun)
                     .addComponent(jButtonSaveScript))
@@ -1214,8 +1191,8 @@ public class ImportNGSDialog extends javax.swing.JDialog {
             .addGroup(jPanelProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelProcessingLayout.createSequentialGroup()
                     .addGap(17, 17, 17)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(99, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(53, Short.MAX_VALUE)))
         );
 
         jTabbedPaneMain.addTab(org.openide.util.NbBundle.getMessage(ImportNGSDialog.class, "ImportNGSDialog.jPanelProcessing.TabConstraints.tabTitle"), jPanelProcessing); // NOI18N
@@ -1315,7 +1292,7 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                         .addComponent(jButtonEditSampleControl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSelectSampleControl)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1342,25 +1319,25 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         jPanelImportFiles.setLayout(jPanelImportFilesLayout);
         jPanelImportFilesLayout.setHorizontalGroup(
             jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelImportFilesLayout.createSequentialGroup()
-                .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelImportFilesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelImportFilesLayout.createSequentialGroup()
+            .addGroup(jPanelImportFilesLayout.createSequentialGroup()
+                .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelImportFilesLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelImportFilesLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelImportFilesLayout.createSequentialGroup()
                         .addGap(124, 124, 124)
-                        .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
+                        .addComponent(jLabel8)
                         .addGap(27, 27, 27)
-                        .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBoxProject, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxGenomeRelease, 0, 155, Short.MAX_VALUE))))
+                        .addComponent(jComboBoxGenomeRelease, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel6)
+                        .addGap(27, 27, 27)
+                        .addComponent(jComboBoxProject, 0, 225, Short.MAX_VALUE))
+                    .addGroup(jPanelImportFilesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelImportFilesLayout.setVerticalGroup(
@@ -1370,17 +1347,15 @@ public class ImportNGSDialog extends javax.swing.JDialog {
                 .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
-                .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel8)
-                    .addComponent(jComboBoxGenomeRelease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelImportFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxGenomeRelease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jComboBoxProject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(63, 63, 63))
         );
 
         jTabbedPaneMain.addTab(org.openide.util.NbBundle.getMessage(ImportNGSDialog.class, "ImportNGSDialog.jPanelImportFiles.TabConstraints.tabTitle"), jPanelImportFiles); // NOI18N
@@ -1422,44 +1397,51 @@ public class ImportNGSDialog extends javax.swing.JDialog {
         jPanelButtonLayout.setHorizontalGroup(
             jPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtHint, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
-                    .addGroup(jPanelButtonLayout.createSequentialGroup()
-                        .addComponent(jButtonRun)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonImport)))
-                .addGap(118, 118, 118)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtHint, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(jButtonRun)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonImport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCancel1))
         );
         jPanelButtonLayout.setVerticalGroup(
             jPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelButtonLayout.createSequentialGroup()
+            .addGroup(jPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                 .addComponent(txtHint, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonRun)
-                    .addComponent(jButtonImport)
-                    .addComponent(jButtonCancel1)))
+                .addComponent(jButtonRun)
+                .addComponent(jButtonImport)
+                .addComponent(jButtonCancel1))
         );
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel10.setText(org.openide.util.NbBundle.getMessage(ImportNGSDialog.class, "ImportNGSDialog.jLabel10.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanelButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.DEFAULT_SIZE, 807, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -1482,11 +1464,9 @@ private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     this.jTextFieldFileName.setText(importFileChooser.getSelectedFile().getPath());
 
     Logger.getLogger(ImportNGSDialog.class.getName()).log(Level.INFO,
-            "You chose to import as NGS file: " +
-            this.jTextFieldFileName.getText());
+            "You chose to import as NGS file: "
+            + this.jTextFieldFileName.getText());
     String name = importFileChooser.getSelectedFile().getName();
-
-
 
     NbPreferences.forModule(ImportNGSDialog.class).put("pathPreference",
             importFileChooser.getSelectedFile().getPath());
@@ -1537,9 +1517,8 @@ private void jButtonBrowseControlActionPerformed(java.awt.event.ActionEvent evt)
     this.jTextFieldFileNameControl.setText(importFileChooser.getSelectedFile().getPath());
 
     Logger.getLogger(ImportNGSDialog.class.getName()).log(Level.INFO,
-            "You chose to import as control file: " +
-            this.jTextFieldFileNameControl.getText());
-
+            "You chose to import as control file: "
+            + this.jTextFieldFileNameControl.getText());
 
     NbPreferences.forModule(ImportNGSDialog.class).put("pathPreference",
             importFileChooser.getSelectedFile().getPath());
@@ -1572,15 +1551,12 @@ private void jRadioButtonImportBinActionPerformed(java.awt.event.ActionEvent evt
     this.jRadioButtonPeakPoisson.setEnabled(!this.jRadioButtonImportBin.isSelected());//GEN-LAST:event_jRadioButtonImportBinActionPerformed
         this.jRadioButtonPeakQuantile.setEnabled(!this.jRadioButtonImportBin.isSelected());
 
-
     }
 
 private void jRadioButtonImportPeakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonImportPeakActionPerformed
 
     this.jRadioButtonPeakPoisson.setEnabled(this.jRadioButtonImportPeak.isSelected());
     this.jRadioButtonPeakQuantile.setEnabled(this.jRadioButtonImportPeak.isSelected());
-
-
 
 }//GEN-LAST:event_jRadioButtonImportPeakActionPerformed
 
@@ -1599,8 +1575,8 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
     String filesz = exportFileChooser.getSelectedFile().getPath();
 
     Logger.getLogger(ImportNGSDialog.class.getName()).log(Level.INFO,
-            "You chose to export script to file: " +
-            filesz);
+            "You chose to export script to file: "
+            + filesz);
     //String name = exportFileChooser.getSelectedFile().getName();
     try {
 
@@ -1610,7 +1586,6 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
     } catch (Exception ex) {
         Logger.getLogger(ImportNGSDialog.class.getName()).log(Level.WARNING, null, ex);
     }
-
 
     NbPreferences.forModule(ImportNGSDialog.class).put("pathPreference",
             exportFileChooser.getSelectedFile().getPath());
@@ -1627,7 +1602,6 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
 
         public void actionPerformed(ActionEvent e) {
             boolean isInverse = false;
-
 
             try {
 
@@ -1694,7 +1668,6 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
                 combo.setEditable(true);
                 panel.add(combo);
 
-
                 if (JOptionPane.showConfirmDialog(null, panel,
                         "choose sample", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
                     String name = combo.getSelectedItem().toString();
@@ -1706,10 +1679,10 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
 
                             if (index == 0) {
                                 sie1.setSample(d);
-                            //fieldSample1.setText("");
+                                //fieldSample1.setText("");
                             } else {
                                 sie2.setSample(d);
-                            //fieldSample2.setText("");
+                                //fieldSample2.setText("");
                             }
                             updateSampleView();
                         }
@@ -1730,7 +1703,6 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
         this.jTextFieldSampleData.setText("SampleData");
         this.jTextFieldSampleControl.setText("SampleControl");
 
-
         if (this.sie1 != null) {
             this.jTextFieldSampleData.setText(this.sie1.getName());
         }
@@ -1738,7 +1710,7 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
             this.jTextFieldSampleControl.setText(this.sie2.getName());
         }
 
-    // todo edit in experimentdetailview for sample 
+        // todo edit in experimentdetailview for sample 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1773,6 +1745,7 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JComboBox jComboBoxGenomeRelease;
     private javax.swing.JComboBox jComboBoxProject;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1813,4 +1786,4 @@ private void jButtonSaveScriptActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JTextArea jTextMsg;
     private javax.swing.JLabel txtHint;
     // End of variables declaration//GEN-END:variables
-    }
+}

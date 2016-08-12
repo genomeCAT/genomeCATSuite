@@ -60,6 +60,7 @@ public final class AddExperimentAction extends AbstractAction implements LookupL
 
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         init();
         for (Study instance : lkpInfo.allInstances()) {
@@ -71,7 +72,7 @@ public final class AddExperimentAction extends AbstractAction implements LookupL
     }
 
     public void run(Study s) {
-       
+
         ExperimentDetail e = ImportFileWizardAction.doImport();
         if (e != null) {
             try {
@@ -87,8 +88,8 @@ public final class AddExperimentAction extends AbstractAction implements LookupL
         setEnabled(!lkpInfo.allInstances().isEmpty());
     }
 
+    @Override
     public Action createContextAwareInstance(Lookup arg0) {
         return new AddExperimentAction(arg0);
     }
 }
-

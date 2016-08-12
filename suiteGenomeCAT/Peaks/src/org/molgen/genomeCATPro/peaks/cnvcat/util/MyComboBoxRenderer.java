@@ -9,11 +9,11 @@ import javax.swing.table.TableCellRenderer;
 /**
  * @name MyComboBoxRenderer
  *
- *  http://www.java2s.com/Tutorial/Java/0240__Swing/UsingaJComboBoxinaCellinaJTableComponent.htm
+ * http://www.java2s.com/Tutorial/Java/0240__Swing/UsingaJComboBoxinaCellinaJTableComponent.htm
  */
 public class MyComboBoxRenderer extends JComboBox implements TableCellRenderer {
 
-    public MyComboBoxRenderer(Vector<?>  items, boolean editable) {
+    public MyComboBoxRenderer(Vector<?> items, boolean editable) {
         super(items);
         this.setEditable(editable);
     }

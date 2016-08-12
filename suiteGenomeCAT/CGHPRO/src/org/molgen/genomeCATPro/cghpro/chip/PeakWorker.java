@@ -2,30 +2,27 @@ package org.molgen.genomeCATPro.cghpro.chip;
 
 /**
  * @name PeakWorker.java
- * 
+ *
  * calls R Package RINGO
- * 
+ *
  * http://www.bioconductor.org/packages/release/bioc/html/Ringo.html
- * 
- * 
- * 
+ *
+ *
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @author Wei Chen
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-import org.molgen.genomeCATPro.data.Feature;
 import org.molgen.genomeCATPro.common.Informable;
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,17 +46,17 @@ import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.data.DataManager;
 import org.molgen.genomeCATPro.data.DataService;
 import org.molgen.genomeCATPro.data.FeatureWithSpot;
-import org.molgen.genomeCATPro.data.OriginalSpot;
-import org.molgen.genomeCATPro.data.Spot;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
+import org.molgen.genomeCATPro.data.IFeature;
+import org.molgen.genomeCATPro.data.ISpot;
+import org.molgen.genomeCATPro.data.IOriginalSpot;
 
 /**
- * 050613   kt      exception spot clazz
- * 310712   kt      run install package & execution in batch mode
- * 030812   kt      exportData set DecimalFormatSymbol explizit
- * 100812   kt      no Grouping DecimalFormat
+ * 050613 kt exception spot clazz 310712 kt run install package & execution in
+ * batch mode 030812 kt exportData set DecimalFormatSymbol explizit 100812 kt no
+ * Grouping DecimalFormat
  */
 public class PeakWorker extends SwingWorker<ChipFeature, String> {
 
@@ -106,6 +103,7 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
 
     /**
      * do real processing
+     *
      * @return
      * @throws java.lang.Exception
      */
@@ -114,25 +112,22 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
         setProgress(0);
         ChipFeature newChip = new ChipFeature(false);
 
-
-        Logger.getLogger(PeakWorker.class.getName()).log(Level.INFO, "Main: " +
-                mainDir);
+        Logger.getLogger(PeakWorker.class.getName()).log(Level.INFO, "Main: "
+                + mainDir);
         if (oldChip == null || oldChip.getError()) {
             Logger.getLogger(PeakWorker.class.getName()).log(Level.SEVERE,
                     " chip has error");
             return newChip;
         }
-        this.dataFilename = mainDir + File.separator + File.separator +
-                oldChip.getDataEntity().getTableData() + "_RINGO.dat";
+        this.dataFilename = mainDir + File.separator + File.separator
+                + oldChip.getDataEntity().getTableData() + "_RINGO.dat";
         dataFilename = dataFilename.replace("\\", "\\\\");
 
         Logger.getLogger(PeakWorker.class.getName()).log(Level.INFO,
                 "datafile for R: " + dataFilename);
 
-
         File dataFile = new File(dataFilename);
         int no = exportData(oldChip, dataFile);
-
 
         if (no < 0) {
             Logger.getLogger(PeakWorker.class.getName()).log(
@@ -188,23 +183,22 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
         }
         return newChip;
 
-
     }
 
     /**
      * export data into file to serve R package aCGH
+     *
      * @param chip - chip containing data entity
-     * @param outFile - output file 
+     * @param outFile - output file
      * @return number of exported data, -1 if exception occurs
      */
     public int exportData(ChipFeature chip, File outFile) {
-
 
         try {
             int i = 0;
             int chrom = 0;
             // supports data entities with red and green channel
-            Spot iSpot = null;
+            ISpot iSpot = null;
             try {
                 //050613    kt
                 iSpot = DataManager.getSpotClazz(chip.getDataEntity().getClazz());
@@ -221,7 +215,6 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
             chip = (ChipSpot) ChipImpl.loadChipFromDB(ChipSpot.class, chip.getDataEntity());
              */
 
-
             FileWriter out = new FileWriter(outFile);
             //rProcessedSignal gProcessedSignal GeneName ProbeName SystematicName
             out.write("RSignal\tGSignal\t\tProbeName\tSystematicName\tGeneName\n");
@@ -232,10 +225,10 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
 
             String gene = "";
 
-            for (Vector<? extends Feature> features : chip.chrFeatures.values()) {
+            for (Vector<? extends IFeature> features : chip.chrFeatures.values()) {
 
-                Collections.sort((Vector<Feature>) features, Feature.comChromStart);
-                for (Feature currentF : features) {
+                Collections.sort((Vector<IFeature>) features, IFeature.comChromStart);
+                for (IFeature currentF : features) {
                     if (!(currentF instanceof FeatureWithSpot)) {
                         publish("exportData: invalid feature type -without spots");
                         Logger.getLogger(PeakWorker.class.getName()).log(Level.SEVERE, "ERROR: " + " exportData: invalid feature type without spots ");
@@ -249,9 +242,9 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
                     if (chrom <= 0) {
                         continue;
                     }
-                    for (Spot s : ((FeatureWithSpot) currentF).spots) {
+                    for (ISpot s : ((FeatureWithSpot) currentF).spots) {
 
-                        if (!(s instanceof OriginalSpot)) {
+                        if (!(s instanceof IOriginalSpot)) {
                             publish("exportData: invalid feature type -without spots");
                             Logger.getLogger(PeakWorker.class.getName()).log(Level.SEVERE, "ERROR: " + " exportData: invalid feature type without spots ");
                             return - 1;
@@ -259,16 +252,15 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
                         if (DataService.hasValue(s, "getAnnoValue")) {
                             gene = DataService.getValue(s, "getAnnoValue").toString();
                         } else {
-                            gene = ((OriginalSpot) s).getId();
+                            gene = ((IOriginalSpot) s).getId();
                         }
-                        out.write(
-                                ++i + "\t" +
-                                N.format(((OriginalSpot) s).getCy5Value()) + "\t" +
-                                N.format(((OriginalSpot) s).getCy3Value()) + "\t" + "\t" +
-                                ((s.getName() == null || s.getName().contentEquals("")) ? ++i : s.getName()) + "\t" +
-                                s.getChrom() + ":" + s.getChromStart() + "-" + s.getChromEnd() + "\t" +
-                                gene +
-                                "\n");
+                        out.write(++i + "\t"
+                                + N.format(((IOriginalSpot) s).getCy5Value()) + "\t"
+                                + N.format(((IOriginalSpot) s).getCy3Value()) + "\t" + "\t"
+                                + ((s.getName() == null || s.getName().contentEquals("")) ? ++i : s.getName()) + "\t"
+                                + s.getChrom() + ":" + s.getChromStart() + "-" + s.getChromEnd() + "\t"
+                                + gene
+                                + "\n");
 
                     }
                 }
@@ -284,10 +276,11 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
     }
 
     /**
-     * import R package RINGO chers to a new Data entity als child of original Data
-     * create new Chip object
+     * import R package RINGO chers to a new Data entity als child of original
+     * Data create new Chip object
+     *
      * @param name - name for new chip
-     * 
+     *
      * @return new Chip object containing the data
      * @throws java.lang.Exception
      */
@@ -314,7 +307,6 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
             }
         }
 
-
         Track d = new Track(
                 "RINGO_" + _name,
                 oldChip.getDataEntity().getGenomeRelease(),
@@ -330,7 +322,7 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
         d.setParamProcessing("\n" + param.trim());
         ChipFeature newChip = new ChipFeature(d);
 
-        Hashtable<String, Vector<? extends Feature>> data = null;
+        Hashtable<String, Vector<? extends IFeature>> data = null;
         try {
             data = FeaturePeak.loadFromRINGOFile(resultFilename);
         } catch (Exception e) {
@@ -347,22 +339,22 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
     }
 
     /**
-     * merge features with same predicted state value into segments
-     * with R package RINGO
-     * used as described in 
-     * 
-     * 
+     * merge features with same predicted state value into segments with R
+     * package RINGO used as described in
+     *
+     *
      * /project/Kopenhagen/Katrin/GenomeCATPro/toRead/Peaks/Ringo_test.txt
+     *
      * @param chip - chip containing the data entity
-     * @param iProgress  - counter to visualize progress
-     * 
-     *  @return true if succeeded, false if errors occur
+     * @param iProgress - counter to visualize progress
+     *
+     * @return true if succeeded, false if errors occur
      */
     public boolean runRINGO(ChipFeature chip, int iProgress,
             boolean normalize, boolean smooth, double threshold, int nProbes, int probeDist) {
 
-        rFilename = mainDir + File.separator + File.separator +
-                chip.getDataEntity().getTableData() + "_RINGO.R";
+        rFilename = mainDir + File.separator + File.separator
+                + chip.getDataEntity().getTableData() + "_RINGO.R";
         rFilename = rFilename.replace("\\", "\\\\");
         Logger.getLogger(PeakWorker.class.getName()).log(Level.INFO, "executable R: " + rFilename);
         File rFile = new File(rFilename);
@@ -382,51 +374,50 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
             }
             FileWriter out = new FileWriter(rFile);
             out.write(
-                    "if(!length(grep(\"Ringo\", installed.packages()[,1])) > 0) {source(\"http://bioconductor.org/biocLite.R\")\n biocLite(\"Ringo\",dependencies=TRUE)\n}\n" +
-                    "library(\'Ringo\')\n" +
-                    "RG3 <-read.maimages(\'" + dataFilename.replace(" ", "\\ ") + "\', " +
-                    // genomecat uses normally R/G -> that means dyeswap here - 
-                    (doubledyeswap ? " columns=list(G=\"GSignal\",R=\"RSignal\") " : " columns=list(R=\"GSignal\",G=\"RSignal\") ") +
-                    " , source=\"generic\", " +
-                    "annotation=c(\"ProbeName\",\"SystematicName\", \"GeneName\"))\n" +
-                    "targets <- data.frame(FileName=I(c(\"" + chip.getDataEntity().getTableData() + "_RINGO.R" +
-                    "\")),Cy3=I(c(\"" + "sample" + "\")),Cy5=I(c(\"" + "control" + "\")))\n" +
-                    "row.names(targets) <- c(\"" + chip.getDataEntity().getName() + "\")\n" +
-                    "RG3$targets <- targets\n" +
-                    "X <- preprocess(RG3, method=" + (normalize ? "\"nimblegen\"" : "\"none\"") + ", idColumn=\"ProbeName\")\n" +
-                    "pA <- extractProbeAnno(RG3, \"agilent\", genome=\"human\", microarray=\"Agilent Tiling \")\n" +
-                    (probeDist != 0 ? "d <- " + probeDist + "\n" : " d <- signif(median(diff(pA[\"1.start\"])), d=1)\n") +
-                    "dist <- d*" + nProbes + "/2; d\n" +
-                    "nprobes <- " + nProbes + ";nprobes\n" +
-                    (!smooth ? "smoothX <- X\n" : "smoothX <- computeRunningMedians(X, modColumn=\"Cy3\", winHalfSize=d, " +
-                    "min.probes=nprobes, probeAnno=pA)\n") +
-                    (!Double.isNaN(threshold) ? " y0G <- " + threshold + "\n" : "y0G <- twoGaussiansNull(exprs(smoothX));y0G\n" +
-                    "y0 <-  upperBoundNull(exprs(smoothX));y0\n" +
-                    "y0G <- min(y0, y0G);y0G\n") +
-                    "png(\"" + histFilename.replace(" ", "\\ ") + "\")\n" +
-                    "hist(exprs(smoothX), n=100, main=NA, xlab=\"Smoothed expression level [log2]\")\n " +
-                    "abline(v=y0G, col=\"blue\")\n" +
-                    "legend(x=\"topright\", lwd=1, col=c(\"blue\"),legend=c(\"Threshold\"))\n" +
-                    "dev.off()\n" +
-                    "chersX <- findChersOnSmoothed(smoothX,  distCutOff=4*dist,minProbesInRow=nprobes, probeAnno=pA, threshold=y0G)\n" +
-                    "chersXD <- as.data.frame(chersX)\n" +
-                    "chersXD[,2] <- paste(\"chr\",chersXD[,2], sep=\"\")\n" +
-                    "i <- sessionInfo()\n" +
-                    "write(paste(\"#Package:\", i$otherPkgs$Ringo$Package), file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Version:\", i$otherPkgs$Ringo$Version), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Reference:\", gsub(\"\\n\", \"\", i$otherPkgs$Ringo$Reference)), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(\"#normalize: " + (normalize ? "nimblegen\"" : "none\"") + ",append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Distance:\",  d),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#nofProbes:\",  nprobes),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(\"#smooth: " + (smooth ? "RunningMedian\"" : "none\"") + ",append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    (smooth ? "write(paste(\"#winhalfsize:\",  dist),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" : "") +
-                    (smooth ? "write(paste(\"#min.probes:\",  nprobes),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" : "") +
-                    "write(paste(\"#threshold:\",  y0G),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#minProbesInRow:\",  nprobes),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#distCutOff:\",  4*dist),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write.table(chersXD, file=\"" + resultFilename.replace(" ", "\\ ") + "\", " +
-                    " quote = FALSE, append=TRUE, sep=\"\\t\", row.names=FALSE, col.names=FALSE)\n");
-
+                    "if(!length(grep(\"Ringo\", installed.packages()[,1])) > 0) {source(\"http://bioconductor.org/biocLite.R\")\n biocLite(\"Ringo\",dependencies=TRUE)\n}\n"
+                    + "library(\'Ringo\')\n"
+                    + "RG3 <-read.maimages(\'" + dataFilename.replace(" ", "\\ ") + "\', "
+                    + // genomecat uses normally R/G -> that means dyeswap here - 
+                    (doubledyeswap ? " columns=list(G=\"GSignal\",R=\"RSignal\") " : " columns=list(R=\"GSignal\",G=\"RSignal\") ")
+                    + " , source=\"generic\", "
+                    + "annotation=c(\"ProbeName\",\"SystematicName\", \"GeneName\"))\n"
+                    + "targets <- data.frame(FileName=I(c(\"" + chip.getDataEntity().getTableData() + "_RINGO.R"
+                    + "\")),Cy3=I(c(\"" + "sample" + "\")),Cy5=I(c(\"" + "control" + "\")))\n"
+                    + "row.names(targets) <- c(\"" + chip.getDataEntity().getName() + "\")\n"
+                    + "RG3$targets <- targets\n"
+                    + "X <- preprocess(RG3, method=" + (normalize ? "\"nimblegen\"" : "\"none\"") + ", idColumn=\"ProbeName\")\n"
+                    + "pA <- extractProbeAnno(RG3, \"agilent\", genome=\"human\", microarray=\"Agilent Tiling \")\n"
+                    + (probeDist != 0 ? "d <- " + probeDist + "\n" : " d <- signif(median(diff(pA[\"1.start\"])), d=1)\n")
+                    + "dist <- d*" + nProbes + "/2; d\n"
+                    + "nprobes <- " + nProbes + ";nprobes\n"
+                    + (!smooth ? "smoothX <- X\n" : "smoothX <- computeRunningMedians(X, modColumn=\"Cy3\", winHalfSize=d, "
+                            + "min.probes=nprobes, probeAnno=pA)\n")
+                    + (!Double.isNaN(threshold) ? " y0G <- " + threshold + "\n" : "y0G <- twoGaussiansNull(exprs(smoothX));y0G\n"
+                    + "y0 <-  upperBoundNull(exprs(smoothX));y0\n"
+                    + "y0G <- min(y0, y0G);y0G\n")
+                    + "png(\"" + histFilename.replace(" ", "\\ ") + "\")\n"
+                    + "hist(exprs(smoothX), n=100, main=NA, xlab=\"Smoothed expression level [log2]\")\n "
+                    + "abline(v=y0G, col=\"blue\")\n"
+                    + "legend(x=\"topright\", lwd=1, col=c(\"blue\"),legend=c(\"Threshold\"))\n"
+                    + "dev.off()\n"
+                    + "chersX <- findChersOnSmoothed(smoothX,  distCutOff=4*dist,minProbesInRow=nprobes, probeAnno=pA, threshold=y0G)\n"
+                    + "chersXD <- as.data.frame(chersX)\n"
+                    + "chersXD[,2] <- paste(\"chr\",chersXD[,2], sep=\"\")\n"
+                    + "i <- sessionInfo()\n"
+                    + "write(paste(\"#Package:\", i$otherPkgs$Ringo$Package), file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Version:\", i$otherPkgs$Ringo$Version), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Reference:\", gsub(\"\\n\", \"\", i$otherPkgs$Ringo$Reference)), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(\"#normalize: " + (normalize ? "nimblegen\"" : "none\"") + ",append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Distance:\",  d),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#nofProbes:\",  nprobes),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(\"#smooth: " + (smooth ? "RunningMedian\"" : "none\"") + ",append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + (smooth ? "write(paste(\"#winhalfsize:\",  dist),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" : "")
+                    + (smooth ? "write(paste(\"#min.probes:\",  nprobes),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" : "")
+                    + "write(paste(\"#threshold:\",  y0G),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#minProbesInRow:\",  nprobes),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#distCutOff:\",  4*dist),append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write.table(chersXD, file=\"" + resultFilename.replace(" ", "\\ ") + "\", "
+                    + " quote = FALSE, append=TRUE, sep=\"\\t\", row.names=FALSE, col.names=FALSE)\n");
 
             out.close();
         } catch (IOException exception) {
@@ -439,8 +430,6 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
         try {
 
             Runtime.getRuntime();
-
-
 
             String[] command = Utils.getRCMD(rFilename.replace(" ", "\\ "));
             //command += r;
@@ -455,7 +444,7 @@ public class PeakWorker extends SwingWorker<ChipFeature, String> {
             while ((line = input.readLine()) != null) {
                 publish(line);
                 if (line.contains("current chromosome")) {
-                    this.setProgress((int) iProgress + (70 / 24 * chr++));
+                    this.setProgress(iProgress + (70 / 24 * chr++));
                 }
             }
             input.close();

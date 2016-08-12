@@ -8,39 +8,38 @@ import java.sql.Statement;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 
 /**
  * @name DBUtils
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 public class DBUtils {
 
     public static Vector<String> getCols(String tableName) {
         Vector<String> vValues = new Vector<String>();
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         try {
             Statement s = con.createStatement();
-            String sqlstmt = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS " +
-                    "WHERE TABLE_NAME= \'" + tableName + "\' ";
+            String sqlstmt = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS "
+                    + "WHERE TABLE_NAME= \'" + tableName + "\' ";
             ResultSet rs = s.executeQuery(sqlstmt);
             while (rs.next()) {
                 vValues.add(rs.getString(1));
@@ -51,22 +50,22 @@ public class DBUtils {
         return vValues;
     }
 
-  /**
-   * return ith rows of table , or all if i < 0
-   * @param i
-   * @param tableName
-   * @return
-   */
-
+    /**
+     * return ith rows of table , or all if i < 0
+     *
+     * @param i
+     * @param tableName
+     * @return
+     */
     public static Vector<Vector<String>> getData(int i, String tableName) {
         Vector<Vector<String>> vValues = new Vector<Vector<String>>();
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         try {
             Statement s = con.createStatement();
             String sqlstmt = "SELECT * FROM " + tableName;
             int ii = 0;
             ResultSet rs = s.executeQuery(sqlstmt);
-            while (( i < 0 || ii++ < i ) && rs.next()) {
+            while ((i < 0 || ii++ < i) && rs.next()) {
                 Vector<String> v = new Vector<String>();
                 int j = rs.getMetaData().getColumnCount();
                 for (int jj = 1; jj <= j; jj++) {
@@ -82,6 +81,7 @@ public class DBUtils {
 
     /**
      * calculate median
+     *
      * @param tableName
      * @param colratio
      * @return
@@ -94,11 +94,11 @@ public class DBUtils {
 
     static public void addPositionAtTable(String tableName) throws Exception {
 
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         try {
             Statement s = con.createStatement();
-            String sqlstmt = "select  if (EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS " +
-                    "WHERE TABLE_NAME= \'" + tableName + "\' AND column_name='gc_position'), 1, 0 )";
+            String sqlstmt = "select  if (EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS "
+                    + "WHERE TABLE_NAME= \'" + tableName + "\' AND column_name='gc_position'), 1, 0 )";
 
             ResultSet rs = s.executeQuery(sqlstmt);
             boolean suc;
@@ -138,6 +138,7 @@ public class DBUtils {
 
     /**
      * calculate median
+     *
      * @param tableName
      * @param colratio
      * @param q quantile from 0-1
@@ -146,7 +147,7 @@ public class DBUtils {
      */
     static public double getQuantile(String tableName, String colratio, double q) throws Exception {
         try {
-            Connection con = Database.getDBConnection(Defaults.localDB);
+            Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
             ResultSet rs = s.executeQuery("select count(*) from " + tableName);
 
@@ -156,21 +157,21 @@ public class DBUtils {
             double median = 0;
             rs.close();
             if (count % (1 / q) == 0) {
-                rs = s.executeQuery("select " + colratio + " from " + tableName +
-                        " order by " + colratio + " limit " + (int) (count * q) + ",1");
+                rs = s.executeQuery("select " + colratio + " from " + tableName
+                        + " order by " + colratio + " limit " + (int) (count * q) + ",1");
                 if (!rs.next()) {
                     return 0;
                 }
 
                 median = rs.getDouble(1);
             } else {
-                rs = s.executeQuery("select " + colratio + " from " + tableName +
-                        " order by " + colratio + " limit " + (int) (count * q) + ",2");
+                rs = s.executeQuery("select " + colratio + " from " + tableName
+                        + " order by " + colratio + " limit " + (int) (count * q) + ",2");
                 int i = 0;
                 while (rs.next()) {
                     i++;
-                    median +=
-                            rs.getDouble(1);
+                    median
+                            += rs.getDouble(1);
                 }
 
                 median /= i;
@@ -180,14 +181,13 @@ public class DBUtils {
         } catch (Exception ex) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, "getMedian", ex);
 
-
             throw ex;
         }
     }
 
     static public int getMeanLengthPosition(String tableName) throws Exception {
         try {
-            Connection con = Database.getDBConnection(Defaults.localDB);
+            Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
             ResultSet rs = s.executeQuery("SELECT avg(GLength(gc_position)) FROM " + tableName);
 
@@ -209,7 +209,7 @@ public class DBUtils {
             vValues.add(method.toString());
         }
 
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct method from PlatformDetail";
         String value;
 
@@ -222,7 +222,6 @@ public class DBUtils {
                 if (!vValues.contains(value)) {
                     vValues.add(value);
                 }
-
 
             }
 
@@ -239,7 +238,7 @@ public class DBUtils {
             vValues.add(value.toString());
         }
 
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct dataType from ExperimentList";
         String value;
 
@@ -252,7 +251,6 @@ public class DBUtils {
                 if (!vValues.contains(value)) {
                     vValues.add(value);
                 }
-
 
             }
 
@@ -269,7 +267,7 @@ public class DBUtils {
             vValues.add(value.toString());
         }
 
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct type from PlatformDetail";
         String value;
 
@@ -283,7 +281,6 @@ public class DBUtils {
                     vValues.add(value);
                 }
 
-
             }
 
         } catch (Exception e) {
@@ -296,7 +293,7 @@ public class DBUtils {
         //String[] values = null;
         Vector<String> vValues = new Vector<String>();
 
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct name from PlatformDetail";
         try {
             Statement s = con.createStatement();
@@ -305,7 +302,6 @@ public class DBUtils {
             while (rs.next()) {
                 vValues.add(rs.getString(1));
             }
-
 
         } catch (Exception e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, e);
@@ -326,9 +322,9 @@ public class DBUtils {
             String table, GenomeRelease release) {
         try {
 
-            Connection con = Database.getDBConnection(Defaults.localDB);
-            String sql = "Select tableData from AnnotationList where name = ? " +
-                    " and genomeRelease = ?";
+            Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
+            String sql = "Select tableData from AnnotationList where name = ? "
+                    + " and genomeRelease = ?";
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, table);
@@ -338,7 +334,6 @@ public class DBUtils {
             if (rs.next()) {
                 return rs.getString(1);
             }
-
 
         } catch (SQLException ex) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE,
@@ -351,7 +346,7 @@ public class DBUtils {
         //String[] values = null;
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct Study.name from Study ";
 
         try {
@@ -361,7 +356,6 @@ public class DBUtils {
             while (rs.next()) {
                 vValues.add(rs.getString(1));
             }
-
 
         } catch (Exception e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, e);
@@ -373,7 +367,7 @@ public class DBUtils {
         //String[] values = null;
         Vector<String> vValues = new Vector<String>();
         //select distinct Study.name from Study, User where Study.idOwner = User.UserID and User.name = "tebel"
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct User.name from User ";
 
         try {
@@ -384,7 +378,6 @@ public class DBUtils {
                 vValues.add(rs.getString(1));
             }
 
-
         } catch (Exception e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -394,7 +387,7 @@ public class DBUtils {
     public static Vector<String> getAllSamples() {
         //String[] values = null;
         Vector<String> vValues = new Vector<String>();
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         String sqlstmt = "select distinct SampleDetail.name from SampleDetail ";
 
         try {
@@ -404,7 +397,6 @@ public class DBUtils {
             while (rs.next()) {
                 vValues.add(rs.getString(1));
             }
-
 
         } catch (Exception e) {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, e);

@@ -7,6 +7,7 @@ package org.molgen.genomeCATPro.guimodul.XPort;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.text.MessageFormat;
 import javax.swing.ImageIcon;
@@ -15,30 +16,31 @@ import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
-import org.openide.util.Utilities;
+import org.openide.util.ImageUtilities;
 import org.openide.util.actions.CallableSystemAction;
 
 public final class ImportFileWizardAction extends CallableSystemAction {
 
     /* public void actionPerformed(ActionEvent e) {
-    WizardDescriptor wizardDescriptor = new WizardDescriptor(getPanels());
-    // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
-    wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
-    wizardDescriptor.setTitle("Import new File");
-    Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
-    dialog.setVisible(true);
-    dialog.toFront();
-    boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
-    if (!cancelled) {
-    // do something
-    }
-    }
+     WizardDescriptor wizardDescriptor = new WizardDescriptor(getPanels());
+     // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
+     wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+     wizardDescriptor.setTitle("Import new File");
+     Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+     dialog.setVisible(true);
+     dialog.toFront();
+     boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+     if (!cancelled) {
+     // do something
+     }
+     }
      */
     public static ExperimentDetail doImport() {
         @SuppressWarnings("unchecked")
         WizardDescriptor wizardDescriptor = new WizardDescriptor(getPanels());
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+        wizardDescriptor.putProperty("WizardPanel_leftDimension", new Dimension(850,600));
         wizardDescriptor.setTitle("create Experiment");
         wizardDescriptor.putProperty("WizardPanel_image",
                 Toolkit.getDefaultToolkit().getImage("org/molgen/genomeCATPro/guimodul/XPort/folder_add_16.png"));
@@ -65,8 +67,8 @@ public final class ImportFileWizardAction extends CallableSystemAction {
     }
 
     /**
-     * Initialize panels representing individual wizard's steps and sets
-     * various properties for them influencing wizard appearance.
+     * Initialize panels representing individual wizard's steps and sets various
+     * properties for them influencing wizard appearance.
      */
     static private WizardDescriptor.Panel[] getPanels() {
 
@@ -99,7 +101,7 @@ public final class ImportFileWizardAction extends CallableSystemAction {
                 jc.putClientProperty("WizardPanel_contentNumbered", Boolean.TRUE);
 
                 jc.putClientProperty("WizardPanel_image",
-                        new ImageIcon(Utilities.loadImage("org/molgen/genomeCATPro/guimodul/XPort/folder_add_16.png")));
+                        new ImageIcon(ImageUtilities.loadImage("org/molgen/genomeCATPro/guimodul/XPort/folder_add_16.png")));
 
             }
         }
@@ -117,5 +119,3 @@ public final class ImportFileWizardAction extends CallableSystemAction {
         return HelpCtx.DEFAULT_HELP;
     }
 }
-
-

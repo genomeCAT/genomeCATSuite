@@ -37,7 +37,7 @@ public class ChipPeaks extends ChipFeature {
     public void addPeak(Aberration abCurrent, double qualityFactor) {
 
         double sumRatio = abCurrent.getRatio();
-        abCurrent.setRatio((abCurrent.getCount() == 0 || sumRatio == 0 ) ? 0 : sumRatio / abCurrent.getCount());
+        abCurrent.setRatio((abCurrent.getCount() == 0 || sumRatio == 0) ? 0 : sumRatio / abCurrent.getCount());
         abCurrent.setQuality(new Double(myFormatter.format(abCurrent.getRatio() / ((qualityFactor == 0) ? 1 : qualityFactor))));
         this.addPeak(abCurrent);
     }
@@ -46,7 +46,7 @@ public class ChipPeaks extends ChipFeature {
         if (!this.chrFeatures.containsKey(abCurrent.getChrom())) {
 
             this.chrFeatures.put(abCurrent.getChrom(), new Vector<Aberration>());
-        //int chr = Utils.fromChrToInt(newBac.chrom)-1;
+            //int chr = Utils.fromChrToInt(newBac.chrom)-1;
         }
 
         ((Vector<Aberration>) this.chrFeatures.get(abCurrent.getChrom())).add(abCurrent);

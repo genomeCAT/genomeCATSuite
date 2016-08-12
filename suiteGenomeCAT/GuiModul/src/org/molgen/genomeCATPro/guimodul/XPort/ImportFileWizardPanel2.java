@@ -1,24 +1,24 @@
 package org.molgen.genomeCATPro.guimodul.XPort;
+
 /**
  * @name ImportFileWizardPanel2
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
@@ -36,6 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.molgen.genomeCATPro.cghpro.xport.XPortExperimentFile;
@@ -46,13 +47,12 @@ import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 
 /**
- * set mapping for import file
- * in generell, no userinput nessacary -> valid = true
- * mapping is checked when form is left -> throws error
- * load component == null
- * 
- * 120313	kt	readFilenames throws Exception 
- * 
+ * set mapping for import file in generell, no userinput nessacary -> valid =
+ * true mapping is checked when form is left -> throws error load component ==
+ * null
+ *
+ * 120313	kt	readFilenames throws Exception
+ *
  */
 public class ImportFileWizardPanel2 implements
         WizardDescriptor.Panel,
@@ -64,6 +64,7 @@ public class ImportFileWizardPanel2 implements
      * component from this class, just use getComponent().
      */
     private Component component;
+    private static String emptyCol = "";
     XPortExperimentFile importModul = null;
     private WizardDescriptor wd = null;
     // Get the visual component for the panel. In this template, the component
@@ -82,19 +83,19 @@ public class ImportFileWizardPanel2 implements
     public HelpCtx getHelp() {
         // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
-    // If you have context help:
-    // return new HelpCtx(SampleWizardPanel1.class);
+        // If you have context help:
+        // return new HelpCtx(SampleWizardPanel1.class);
     }
     boolean valid = true;
 
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
         return valid;
-    // If it depends on some condition (form filled out...), then:
-    // return someCondition();
-    // and when this condition changes (last form field filled in...) then:
-    // fireChangeEvent();
-    // and uncomment the complicated stuff below.
+        // If it depends on some condition (form filled out...), then:
+        // return someCondition();
+        // and when this condition changes (last form field filled in...) then:
+        // fireChangeEvent();
+        // and uncomment the complicated stuff below.
     }
 
     public void setValid(boolean valid) {
@@ -111,7 +112,6 @@ public class ImportFileWizardPanel2 implements
                 String fileCol = (String) this.tableMap.getValueAt(0, i);
 
                 // get mapping init
-
                 if (fileCol != null && !fileCol.contentEquals("")) {
                     String[] m = new String[2];
 
@@ -123,7 +123,6 @@ public class ImportFileWizardPanel2 implements
 
                 }
             }
-
 
             String msg = this.importModul.setMappingFile2DBColNames(mapping);
             if (msg != null) {
@@ -151,8 +150,7 @@ public class ImportFileWizardPanel2 implements
     JTable tableMap = ((ImportFileVisualPanel2) getComponent()).getJTableMap();
     String filetype = "";
 
-    public void readSettings(Object settings)  {
-
+    public void readSettings(Object settings) {
 
         this.wd = (WizardDescriptor) settings;
         this.importModul = (XPortExperimentFile) this.wd.getProperty("importModul");
@@ -167,8 +165,8 @@ public class ImportFileWizardPanel2 implements
 
             tableData.setModel(
                     new DefaultTableModel(
-                    datafile,
-                    colsdata));
+                            datafile,
+                            colsdata));
 
             Vector<String> colsmap = new Vector<String>(
                     Arrays.asList(importModul.getDBColNames()));
@@ -184,7 +182,7 @@ public class ImportFileWizardPanel2 implements
 
             tableMap.setModel(
                     new DefaultTableModel(
-                    datamap, colsmap));
+                            datamap, colsmap));
 
             this.tableData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             this.tableMap.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -194,19 +192,38 @@ public class ImportFileWizardPanel2 implements
                 TableColumn col = this.tableMap.getColumnModel().getColumn(i);
                 // get filecols 
                 Vector<String> filecols = new Vector(Arrays.asList(importModul.getFileColNames()));
-                filecols.add("");
+                filecols.add(ImportFileWizardPanel2.emptyCol);
                 JComboBox box = new JComboBox(filecols);
                 box.setPreferredSize(new Dimension(200, 20));
                 // get mapping init
                 col.setCellEditor(new DefaultCellEditor(box));
                 for (String[] m : mapping) {
                     if (m[XPortImport.ind_db].equalsIgnoreCase(this.tableMap.getColumnName(i))) {
-                        box.setSelectedItem(m[XPortImport.ind_file]);
-                        this.tableMap.getModel().setValueAt(m[XPortImport.ind_file], 0, i);
+                        //box.setSelectedItem(m[XPortImport.ind_file]);
+                         this.tableMap.getModel().setValueAt(ImportFileWizardPanel2.emptyCol, 0, i);
+                        //this.tableMap.getModel().setValueAt(m[XPortImport.ind_file], 0, i);
+                        //140513    kt  set map only if file col really exists, otherwise highlight the column
+                        boolean found = false;
+
+                        for (String filecol : colsdata) {
+                            if (filecol.contentEquals(m[XPortImport.ind_file])) {
+                                this.tableMap.getModel().setValueAt(m[XPortImport.ind_file], 0, i);
+                                Logger.getLogger(
+                                        ImportFileWizardPanel2.class.getName()).log(
+                                                Level.INFO, "readSettings: found for col: " + m[XPortImport.ind_db]
+                                                + " mapping: " + m[XPortImport.ind_file]);
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            this.tableMap.getColumnModel().getColumn(i).setCellRenderer(new ColorColumnCellRenderer());
+                        }
+
                         Logger.getLogger(ImportFileWizardPanel2.class.getName()).log(
-                                Level.INFO, "readSettings: found for col: " +
-                                m[XPortImport.ind_db] + " mapping: " +
-                                m[XPortImport.ind_file]);
+                                Level.INFO, "readSettings: found for col: "
+                                + m[XPortImport.ind_db] + " mapping: "
+                                + m[XPortImport.ind_file]);
                     }
                 }
             }
@@ -215,6 +232,17 @@ public class ImportFileWizardPanel2 implements
                     Level.SEVERE, "validate", e);
             this.setValid(false);
         }
+    }
+  public class ColorColumnCellRenderer extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+
+            c.setBackground(Color.RED);
+            return c;
+        }
+
     }
 
     public void storeSettings(Object settings) {
@@ -226,7 +254,6 @@ public class ImportFileWizardPanel2 implements
 
     }
     private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
-
 
     public final void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
@@ -254,4 +281,3 @@ public class ImportFileWizardPanel2 implements
     public void propertyChange(PropertyChangeEvent evt) {
     }
 }
-

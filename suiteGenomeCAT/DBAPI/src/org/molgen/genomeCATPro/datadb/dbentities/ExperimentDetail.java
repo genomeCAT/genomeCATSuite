@@ -32,26 +32,22 @@ import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 /**
  * @name Experiment
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Aug 24, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Aug 24, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * change log
- * 280212 copy copy samples
+ * change log 280212 copy copy samples
  *
  */
 @Entity
@@ -128,16 +124,15 @@ public class ExperimentDetail implements Serializable, DataNode {
     }
     /**
      * The table of the owning entity contains the foreign key.
-     * 
-     * The mappedby element specifies that the samples field is an inverse field 
-     * rather than a persistent field. 
-     * The content of the samples set is not stored as part of Experiment entities
-     * The mappedBy element defines a bidirectional relationship. 
-     * In a bidirectional relationship, the side that stores the data 
-     * (the Sample class in our example) is the owner
-     * Only changes to the owner side affects the database, 
-     * since the other side is not stored and calculated by a query.
-     * 
+     *
+     * The mappedby element specifies that the samples field is an inverse field
+     * rather than a persistent field. The content of the samples set is not
+     * stored as part of Experiment entities The mappedBy element defines a
+     * bidirectional relationship. In a bidirectional relationship, the side
+     * that stores the data (the Sample class in our example) is the owner Only
+     * changes to the owner side affects the database, since the other side is
+     * not stored and calculated by a query.
+     *
      */
     //
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "experiment")
@@ -185,6 +180,7 @@ public class ExperimentDetail implements Serializable, DataNode {
         this.samples.addAll(samples);
 
     }
+
     /*
     @ManyToMany(mappedBy = "experiments")
     private List<Study> studies;
@@ -202,11 +198,10 @@ public class ExperimentDetail implements Serializable, DataNode {
     }
     }
      */
-
     public ExperimentDetail() {
         this.platform = new PlatformDetail();
         this.samples = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<SampleInExperiment>());
-    //this.studies = new Vector<Study>();
+        //this.studies = new Vector<Study>();
 
     }
 
@@ -214,10 +209,9 @@ public class ExperimentDetail implements Serializable, DataNode {
         this();
         this.name = string;
 
-
         this.setPlatform(new PlatformDetail("empty"));
 
-    //this.studies.add(new Study("empty study"));
+        //this.studies.add(new Study("empty study"));
     }
 
     public ExperimentDetail(Long id) {
@@ -420,11 +414,11 @@ public class ExperimentDetail implements Serializable, DataNode {
 
     public String toFullString() {
         return new String(
-                this.getExperimentDetailID() + "," +
-                this.getName() + "," +
-                this.getDescription() + "," +
-                this.getMethod() + "," +
-                this.getType());
+                this.getExperimentDetailID() + ","
+                + this.getName() + ","
+                + this.getDescription() + ","
+                + this.getMethod() + ","
+                + this.getType());
     }
 
     public void addExperimentData(ExperimentData d) {
@@ -434,16 +428,16 @@ public class ExperimentDetail implements Serializable, DataNode {
             }
         }
         d.setExperiment(this);
-        Logger.getLogger(ExperimentDetail.class.getName()).log(Level.INFO, "addExperiment" +
-                this.toFullString());
+        Logger.getLogger(ExperimentDetail.class.getName()).log(Level.INFO, "addExperiment"
+                + this.toFullString());
 
         changeSupport.firePropertyChange(ExperimentDetail.ADD, this, null);
     }
 
     public void removeExperimentData(ExperimentData d) {
 
-        Logger.getLogger(ExperimentDetail.class.getName()).log(Level.INFO, "removeExperiment" +
-                this.toFullString());
+        Logger.getLogger(ExperimentDetail.class.getName()).log(Level.INFO, "removeExperiment"
+                + this.toFullString());
         changeSupport.firePropertyChange(ExperimentDetail.REMOVE, this, null);
     }
 

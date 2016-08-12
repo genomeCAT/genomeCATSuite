@@ -53,10 +53,10 @@ public class PlatformDetailNodeFactory extends ChildFactory<PlatformDetail>
     protected Node createNodeForKey(PlatformDetail a) {
 
         /*Node node = new AbstractNode(Children.LEAF, Lookups.singleton(a));
-        node.setDisplayName(a.getName());
-        node.setShortDescription(a.getMethod());
+         node.setDisplayName(a.getName());
+         node.setShortDescription(a.getMethod());
         
-        return node;*/
+         return node;*/
         try {
             return new PlatformDetailNode(a);
         } catch (IntrospectionException ex) {
@@ -75,7 +75,3 @@ public class PlatformDetailNodeFactory extends ChildFactory<PlatformDetail>
         this.refresh(true);
     }
 }
-
-
-
-

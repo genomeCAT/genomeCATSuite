@@ -19,22 +19,20 @@ import org.openide.util.Utilities;
 /**
  * @name ExtractPeaksAction
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 public final class ExtractPeaksAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
@@ -74,21 +72,20 @@ public final class ExtractPeaksAction extends AbstractAction implements LookupLi
         init();
         for (Data instance : lkpInfo.allInstances()) {
             Logger.getLogger(ExtractPeaksAction.class.getName()).log(
-                    Level.INFO, "found lookup instance:" +
-                    instance.getName());
+                    Level.INFO, "found lookup instance:"
+                    + instance.getName());
             run(instance);
             return;
 
         }
-        JOptionPane.showMessageDialog(null, this.getName() + ": " +
-                "please select data in project tree");
-    //run(null);
+        JOptionPane.showMessageDialog(null, this.getName() + ": "
+                + "please select data in project tree");
+        //run(null);
     }
 
     public void run(Data d) {
 
         ExtractPeakDialog.getExtractPeakDialog(d);
-
 
     }
 
@@ -111,4 +108,3 @@ public final class ExtractPeaksAction extends AbstractAction implements LookupLi
         putValue(Action.SMALL_ICON, newIcon);
     }
 }
-

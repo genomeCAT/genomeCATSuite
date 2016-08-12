@@ -7,9 +7,9 @@ package org.molgen.genomeCATPro.guimodul;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javax.swing.JComponent;
+import org.*;
 import org.netbeans.spi.options.OptionsPanelController;
-import org.openide.util.HelpCtx;
-import org.openide.util.Lookup;
+import org.openide.util.*;
 
 final class GuimodulOptionsPanelController extends OptionsPanelController {
 

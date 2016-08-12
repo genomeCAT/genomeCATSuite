@@ -81,4 +81,3 @@ public final class ViewExperimentAction extends AbstractAction implements Lookup
         return new ViewExperimentAction(arg0);
     }
 }
-

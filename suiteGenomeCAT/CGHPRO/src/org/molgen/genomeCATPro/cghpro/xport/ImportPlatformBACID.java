@@ -1,22 +1,19 @@
 /**
  * @name ImportPlatformBACID
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Oct 8, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Oct 8, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 package org.molgen.genomeCATPro.cghpro.xport;
 
@@ -28,15 +25,17 @@ import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
 
 /**
  * import BAC platform from cloneid file
- * 
+ *
  */
 @Deprecated
 public class ImportPlatformBACID extends ImportPlatform implements XPortPlatform {
 
     public final static String platform_bac = "BAC_from_CloneID";
+
     public ImportPlatformBACID createNewImport() {
-        return new  ImportPlatformBACID();
+        return new ImportPlatformBACID();
     }
+
     @Override
     public String getName() {
         return new String("BAC_ID");
@@ -77,27 +76,28 @@ public class ImportPlatformBACID extends ImportPlatform implements XPortPlatform
         return false;
     }
 
-    protected String getCreateTableSQL(String tableData) {
-        String sql = new String("CREATE TABLE " + tableData + " ( " +
-                " ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , " +
-                //" probeId varchar(255) NOT NULL default ''," +
-                " probeName varchar(255) NOT NULL default ''," +
-                " alias varchar(255), " +
-                " chrom varChar(255) NOT NULL default '', " +
-                " chromStart int(10) unsigned NOT NULL default '0'," +
-                " chromEnd int(10) unsigned NOT NULL default '0'," +
-                " block int(4) unsigned NOT NULL default '0'," +
-                " row int(4) unsigned NOT NULL default '0'," +
-                " col int(4) unsigned NOT NULL default '0'," +
-                " source varchar(255) NOT NULL default ''," +
-                " comment varchar(255) NOT NULL default ''," +
-                "PRIMARY KEY (ID) ," +
-                //"UNIQUE KEY (probeid)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd) ," +
-                "INDEX (probeName) " +
-                ") ;");
+    @Override
+    public String getCreateTableSQL(String tableData) {
+        String sql = "CREATE TABLE " + tableData + " ( "
+                + " ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , "
+                + //" probeID varchar(255) NOT NULL default ''," +
+                " probeName varchar(255) NOT NULL default '',"
+                + " alias varchar(255), "
+                + " chrom varChar(255) NOT NULL default '', "
+                + " chromStart int(10) unsigned NOT NULL default '0',"
+                + " chromEnd int(10) unsigned NOT NULL default '0',"
+                + " block int(4) unsigned NOT NULL default '0',"
+                + " row int(4) unsigned NOT NULL default '0',"
+                + " col int(4) unsigned NOT NULL default '0',"
+                + " source varchar(255) NOT NULL default '',"
+                + " comment varchar(255) NOT NULL default '',"
+                + "PRIMARY KEY (ID) ,"
+                + //"UNIQUE KEY (probeid)," +
+                "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd) ,"
+                + "INDEX (probeName) "
+                + ") ;";
         return sql;
     }
 
@@ -121,9 +121,9 @@ public class ImportPlatformBACID extends ImportPlatform implements XPortPlatform
     @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeName", "alias", "chrom",
-                    "chromStart", "chromEnd", "source", "comment"
-                };
+            "probeName", "alias", "chrom",
+            "chromStart", "chromEnd", "source", "comment"
+        };
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ImportPlatformBACID extends ImportPlatform implements XPortPlatform
         List<String[]> _map = new Vector<String[]>();
         String[] entry = new String[2];
 
-        /*entry[ind_db] = "probeId";
+        /*entry[ind_db] = "probeID";
         entry[ind_file] = "#id";
         _map.add(entry);
          */

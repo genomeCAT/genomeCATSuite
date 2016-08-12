@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportTrack
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,9 +31,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.logging.SimpleFormatter;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.RegionLib;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.common.Defaults;
 
 import org.molgen.genomeCATPro.common.InformableHandler;
@@ -48,12 +47,10 @@ import org.molgen.genomeCATPro.datadb.service.ProjectService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
 
 /**
- * 020813 kt    XPortImport createNewImport();
- * 030413 kt    import 1...X,Y or 1...23,24 as chr...
- * 120313 kt    user setting if has header
- * 050612 kt    update notification
- * 150812 kt    extends Import_batch
- * 051012 kt    getTrack cut off all endings like bed,txt
+ * 020813 kt XPortImport createNewImport(); 030413 kt import 1...X,Y or
+ * 1...23,24 as chr... 120313 kt user setting if has header 050612 kt update
+ * notification 150812 kt extends Import_batch 051012 kt getTrack cut off all
+ * endings like bed,txt
  *
  */
 public class ImportTrack extends Import_batch implements XPortTrack {
@@ -64,6 +61,7 @@ public class ImportTrack extends Import_batch implements XPortTrack {
 
     /**
      * init Instance to import new file
+     *
      * @param nameFile
      */
     public void newImportTrack(String filename) throws Exception {
@@ -72,6 +70,7 @@ public class ImportTrack extends Import_batch implements XPortTrack {
         this.file_field_position = null;
 
     }
+
     public ImportTrack createNewImport() {
         return new ImportTrack();
     }
@@ -89,9 +88,6 @@ public class ImportTrack extends Import_batch implements XPortTrack {
     @SuppressWarnings("empty-statement")
     public Track doImportTrack(Track track) {
 
-
-
-
         if (track == null) {
             Logger.getLogger(ImportTrack.class.getName()).log(Level.SEVERE,
                     "doImportTrack: invalid track (null)");
@@ -104,7 +100,7 @@ public class ImportTrack extends Import_batch implements XPortTrack {
 
         Statement s = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
         } catch (Exception ex) {
             Logger.getLogger(ImportTrack.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,15 +115,12 @@ public class ImportTrack extends Import_batch implements XPortTrack {
             track.initTableData();
             Logger.getLogger(
                     ImportTrack.class.getName()).log(Level.INFO,
-                    "doImportPlatform: create Track: " + track.toFullString());
-
+                            "doImportPlatform: create Track: " + track.toFullString());
 
             // make platformdetail persistent in db
             TrackService.persistsTrack(track, em);
             em.flush();
             em.refresh(track);
-
-
 
             //retrieve samples if ness
             // load sampleinexperiment and samples to persistent context
@@ -138,22 +131,17 @@ public class ImportTrack extends Import_batch implements XPortTrack {
             em.flush();
 
             // create  db table
-
-
             s.execute(
                     "DROP TABLE if EXISTS " + track.getTableData());
             s.execute(
                     this.getCreateTableSQL(track.getTableData()));
 
             // read data -> insert into table
-
-
             error = this.importData(track.getTableData());
 
             Logger.getLogger(
                     ImportTrack.class.getName()).log(Level.INFO,
-                    "doImportTrack: read data, number of errors: " + error);
-
+                            "doImportTrack: read data, number of errors: " + error);
 
             //update track
             String sql = "SELECT count(*) from " + track.getTableData();
@@ -163,8 +151,8 @@ public class ImportTrack extends Import_batch implements XPortTrack {
 
             track.setNof(rs.getInt(1));
             // TODO MEDIAN!
-            sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) " +
-                    " from " + track.getTableData();
+            sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) "
+                    + " from " + track.getTableData();
 
             rs = s.executeQuery(sql);
 
@@ -188,8 +176,8 @@ public class ImportTrack extends Import_batch implements XPortTrack {
                         "get median", e);
             }
             PreparedStatement ps = con.prepareStatement(
-                    "update " + track.getTableData() +
-                    " set name = id  where name = \"\"");
+                    "update " + track.getTableData()
+                    + " set name = id  where name = \"\"");
 
             //ps.setDouble(1, factor);
             ps.executeUpdate();
@@ -347,32 +335,32 @@ public class ImportTrack extends Import_batch implements XPortTrack {
         return "END";
     }
 
-    @Override
+    
     protected String getCreateTableSQL(String tableData) {
-        String sql =
-                " CREATE TABLE " + tableData + " ( " +
-                "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "name varchar(255) NOT NULL, " +
-                "chrom varChar(45) NOT NULL," +
-                "chromStart int(10) unsigned NOT NULL," +
-                "chromEnd int(10) unsigned NOT NULL," +
-                "ratio DOUBLE, " +
-                "count int , " +
-                "PRIMARY KEY (id)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd)," +
-                "INDEX (name)  ) " +
-                "TYPE=MyISAM";
+        String sql
+                = " CREATE TABLE " + tableData + " ( "
+                + "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "name varchar(255) NOT NULL, "
+                + "chrom varChar(45) NOT NULL,"
+                + "chromStart int(10) unsigned NOT NULL,"
+                + "chromEnd int(10) unsigned NOT NULL,"
+                + "ratio DOUBLE, "
+                + "count int , "
+                + "PRIMARY KEY (id),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd),"
+                + "INDEX (name)  ) "
+                + "TYPE=MyISAM";
         return sql;
     }
 
     @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "chrom", "chromStart", "chromEnd",
-                    "ratio", "name"
-                };
+            "chrom", "chromStart", "chromEnd",
+            "ratio", "name"
+        };
     }
 
     @Override
@@ -402,10 +390,6 @@ public class ImportTrack extends Import_batch implements XPortTrack {
         List<String[]> _map = new Vector<String[]>();
         String[] entry = new String[2];
 
-
-
-
-
         entry = new String[2];
         entry[ind_db] = "chrom";
         entry[ind_file] = hasHeader ? (this.fileColNames.length < 1 ? "" : this.fileColNames[0]) : "field1";
@@ -433,8 +417,6 @@ public class ImportTrack extends Import_batch implements XPortTrack {
         entry[ind_file] = hasHeader ? (this.fileColNames.length < 4 ? "" : this.fileColNames[3]) : "field4";
         _map.add(entry);
 
-
-
         return _map;
     }
     int iratio = -1;
@@ -444,7 +426,6 @@ public class ImportTrack extends Import_batch implements XPortTrack {
     protected List<String[]> extendMapping() {
         List<String[]> _map = this.getMappingFile2DBColNames();
         String[] e = new String[2];
-
 
         for (int i = 0; i < _map.size(); i++) {
 
@@ -467,7 +448,6 @@ public class ImportTrack extends Import_batch implements XPortTrack {
     protected String[] modify(List<String[]> map, String[] tmp) {
 
         // todo logratio aus r/g (abhängig ob dyeswap 
-
         double ratio = Double.parseDouble(tmp[iratio] != null ? tmp[iratio] : "0");
 
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();

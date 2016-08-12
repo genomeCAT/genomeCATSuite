@@ -24,6 +24,5 @@ public class ArrayFramePropsAction extends AbstractAction {
         win.open();
         win.requestActive();
 
-
     }
 }

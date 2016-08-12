@@ -23,28 +23,22 @@ import javax.swing.table.TableModel;
  */
 public class MyImageButtonCellRenderer extends JButton implements TableCellRenderer {
 
-    
-
     public MyImageButtonCellRenderer() {
-       
+
         setOpaque(true);
-       
+
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
         //setForeground(table.getForeground());
-        
         if (value instanceof Image) {
             setIcon(new ImageIcon((Image) value));
         } else {
             setText((value == null) ? "" : value.toString());
 
-
         }
         return this;
     }
 }
-
-    

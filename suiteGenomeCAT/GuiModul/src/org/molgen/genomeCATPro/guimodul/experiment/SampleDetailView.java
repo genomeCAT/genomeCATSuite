@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.guimodul.experiment;
 /**
  * @name SampleDetailView
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Dimension;
 import javax.swing.JTextField;
@@ -32,20 +29,24 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import org.jdesktop.beansbinding.BindingGroup;
 import org.molgen.genomeCATPro.datadb.dbentities.SampleDetail;
 
 /**
- * 270313   kt  dialog to edit samples
- * 
+ * 270313 kt dialog to edit samples
+ *
  */
 public class SampleDetailView extends javax.swing.JPanel {
 
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-    private org.jdesktop.beansbinding.BindingGroup myBindingGroup;
+    private BindingGroup myBindingGroup;
     private SampleDetail sample;
     boolean edit = false;
 
-    /** Creates new form SampleDetail */
+    /**
+     * Creates new form SampleDetail
+     */
     public SampleDetailView() {
 
         sample = new SampleDetail();
@@ -81,14 +82,13 @@ public class SampleDetailView extends javax.swing.JPanel {
 
         d.setSize(new Dimension(900, 600));
         d.setLocationRelativeTo(null);
-      
+
         if (s == null) {
             s = new SampleDetail();
-            }
-        oldSample  = new SampleDetail(s);
-        
+        }
+        oldSample = new SampleDetail(s);
+
         final SampleDetailView sview = new SampleDetailView(s, edit);
-        
 
         JPanel pp = new JPanel();
         pp.setLayout(new BoxLayout(pp, BoxLayout.PAGE_AXIS));
@@ -133,11 +133,10 @@ public class SampleDetailView extends javax.swing.JPanel {
                 "ok: " + oldSample.toFullString());
         d.setVisible(false);
 
-
     }
 
     static void cancelButtonActionPerformed(java.awt.event.ActionEvent evt, JDialog d) {
-       
+
         Logger.getLogger(SampleDetailView.class.getName()).log(Level.FINE,
                 "cancel: " + oldSample.toFullString());
         d.setVisible(false);
@@ -146,8 +145,6 @@ public class SampleDetailView extends javax.swing.JPanel {
     void createBinding() {
         myBindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         org.jdesktop.beansbinding.Binding binding;
-
-
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -181,9 +178,6 @@ public class SampleDetailView extends javax.swing.JPanel {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         myBindingGroup.addBinding(binding);
 
-
-
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 sample,
@@ -191,9 +185,6 @@ public class SampleDetailView extends javax.swing.JPanel {
                 fieldSource,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         myBindingGroup.addBinding(binding);
-
-
-
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -244,10 +235,10 @@ public class SampleDetailView extends javax.swing.JPanel {
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

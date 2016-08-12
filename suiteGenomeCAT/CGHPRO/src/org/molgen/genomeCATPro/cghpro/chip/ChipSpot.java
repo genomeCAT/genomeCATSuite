@@ -4,8 +4,6 @@
  */
 package org.molgen.genomeCATPro.cghpro.chip;
 
-import org.molgen.genomeCATPro.data.OriginalSpot;
-import org.molgen.genomeCATPro.data.Spot;
 import java.awt.Container;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +13,8 @@ import java.util.logging.Logger;
 import org.molgen.genomeCATPro.annotation.Region;
 import org.molgen.genomeCATPro.common.Univariate;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.molgen.genomeCATPro.data.ISpot;
+import org.molgen.genomeCATPro.data.IOriginalSpot;
 
 /**
  *
@@ -23,19 +23,19 @@ import org.molgen.genomeCATPro.datadb.dbentities.Data;
 public class ChipSpot extends ChipImpl implements Chip {
     // hold Chip data as original spot centred data
 
-    public List<? extends Spot> spots;
+    public List<? extends ISpot> spots;
 
     public ChipSpot() throws Exception {
         super();
 
-        this.spots = new Vector<Spot>();
+        this.spots = new Vector<ISpot>();
 
     }
 
     public ChipSpot(Data s) throws Exception {
         super(s);
 
-        this.spots = new Vector<Spot>();
+        this.spots = new Vector<ISpot>();
 
     }
 
@@ -43,27 +43,26 @@ public class ChipSpot extends ChipImpl implements Chip {
         super(c);
         this.dataFromSpots(c.getSpots());
 
-
-    //createFeaturesFromSpots(c.getSpots());
+        //createFeaturesFromSpots(c.getSpots());
     }
 
-    public List<? extends Spot> getSpots() {
-        return (List<? extends Spot>) this.spots;
+    public List<? extends ISpot> getSpots() {
+        return (List<? extends ISpot>) this.spots;
     }
 
     /**
      * impl inefficent
      */
-    public List<? extends Spot> getValidSpots() {
+    public List<? extends ISpot> getValidSpots() {
 
         if (this.spots == null || this.spots.size() == 0) {
             return null;
         }
-        Spot s = this.spots.get(0);
+        ISpot s = this.spots.get(0);
 
-        List<? extends Spot> valid = s.getVector(this.spots);
+        List<? extends ISpot> valid = s.getVector(this.spots);
 
-        for (Spot spot : this.spots) {
+        for (ISpot spot : this.spots) {
             if (!spot.isExcluded()) {
                 valid.remove(spot);
             }
@@ -81,14 +80,16 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     @Override
-    public void dataFromSpots(List<? extends Spot> spots) {
+    public void dataFromSpots(List<? extends ISpot> spots) {
         this.spots = spots;
     }
 
-    /** 
-     *store data into the database, it consists of 2 steps. Step 1, create a new table with the name of chipId,
-     *delete if it alrealy existed. Step 2, add a new entry to the table availabelChips
-     *@return indicator if it suceeds or not
+    /**
+     * store data into the database, it consists of 2 steps. Step 1, create a
+     * new table with the name of chipId, delete if it alrealy existed. Step 2,
+     * add a new entry to the table availabelChips
+     *
+     * @return indicator if it suceeds or not
      */
     /* kt new 
     public boolean insertDatabase() {
@@ -204,48 +205,42 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
      */
     /**
-    public int exportIntensity(File outFile) {
-    try {
-    
-    int i = 0;
-    int chrom = 0;
-    FileWriter out = new FileWriter(outFile);
-    out.write("ID\tClone\tTarget\tChrom\tstart\tend\tf532\tf635\tlog2Ratio\n");
-    Collection<Vector<? extends Feature>> all = this.chrBacs.values();
-    
-    for (Vector<FeatureWithSpot> bacs : all) {
-    Collections.sort((Vector<Feature>) bacs, Feature.comChromStart);
-    for (FeatureWithSpot currentBac : bacs) {
-    
-    if (currentBac.chrom.contains("andom")) {
-    continue;
-    }
-    
-    float f532 = currentBac.spots.get(0).get;
-    float f635 = currentBac.spots.get(0).f635Mean;
-    chrom = Utils.fromChrToInt(currentBac.chrom);
-    out.write("" + ++i + "\t" + currentBac.id + "\t" + i + "\t" + chrom + "\t" + currentBac.chromStart + "\t" + currentBac.chromEnd + "\t" +
-    +f532 + "\t" + f635 + "\t" + currentBac.ratio + "\n");
-    
-    
-    }
-    }
-    
-    out.close();
-    return i;
-    } catch (IOException exception) {
-    
-    System.err.println("" + exception);
-    return -1;
-    }
-     **/
+     * public int exportIntensity(File outFile) { try {
+     *
+     * int i = 0; int chrom = 0; FileWriter out = new FileWriter(outFile);
+     * out.write("ID\tClone\tTarget\tChrom\tstart\tend\tf532\tf635\tlog2Ratio\n");
+     * Collection<Vector<? extends Feature>> all = this.chrBacs.values();
+     *
+     * for (Vector<FeatureWithSpot> bacs : all) {
+     * Collections.sort((Vector<Feature>) bacs, Feature.comChromStart); for
+     * (FeatureWithSpot currentBac : bacs) {
+     *
+     * if (currentBac.chrom.contains("andom")) { continue; }
+     *
+     * float f532 = currentBac.spots.get(0).get; float f635 =
+     * currentBac.spots.get(0).f635Mean; chrom =
+     * Utils.fromChrToInt(currentBac.chrom); out.write("" + ++i + "\t" +
+     * currentBac.id + "\t" + i + "\t" + chrom + "\t" + currentBac.chromStart +
+     * "\t" + currentBac.chromEnd + "\t" + +f532 + "\t" + f635 + "\t" +
+     * currentBac.ratio + "\n");
+     *
+     *
+     * }
+     * }
+     *
+     * out.close(); return i; } catch (IOException exception) {
+     *
+     * System.err.println("" + exception); return -1; }
+     *
+     */
     /**
      * get the original ratios of spots
+     *
      * @param includeExcluded - true: include excluded, false: no excluded
      * @return a Univariate holding the ratios of all spots
      */
     public Univariate getSpotLog2Ratios(boolean includeExcluded) {
-        List<? extends Spot> _spots;
+        List<? extends ISpot> _spots;
 
         if (includeExcluded) {
             _spots = this.getSpots();
@@ -257,7 +252,7 @@ public class ChipSpot extends ChipImpl implements Chip {
             try {
                 double[] data = new double[_spots.size()];
                 int i = 0;
-                for (Spot currentSpot : _spots) {
+                for (ISpot currentSpot : _spots) {
                     if (!currentSpot.isExcluded()) {
                         data[i] = currentSpot.getRatio();
                         i++;
@@ -272,25 +267,28 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     /**
-     *get the sum of original signal intensity of 2 channels for all active spots, 
-     *used for MAplot
-     *@param includeExcluded - true: include excluded, false: no excluded (default)
-     *@see maPlot()
-     *@return a Univariate holding the sums of the active spots
-     **/
+     * get the sum of original signal intensity of 2 channels for all active
+     * spots, used for MAplot
+     *
+     * @param includeExcluded - true: include excluded, false: no excluded
+     * (default)
+     * @see maPlot()
+     * @return a Univariate holding the sums of the active spots
+     *
+     */
     public Univariate getSpotF635PlusF532(boolean includeExcluded) {
-        List<OriginalSpot> _spots;
+        List<IOriginalSpot> _spots;
 
         if (includeExcluded) {
-            _spots = (List<OriginalSpot>) this.getSpots();
+            _spots = (List<IOriginalSpot>) this.getSpots();
         } else {
-            _spots = (List<OriginalSpot>) this.getValidSpots();
+            _spots = (List<IOriginalSpot>) this.getValidSpots();
         }
         if (_spots != null && _spots.size() > 0) {
             try {
                 double[] data = new double[_spots.size()];
                 int i = 0;
-                for (OriginalSpot currentSpot : _spots) {
+                for (IOriginalSpot currentSpot : _spots) {
                     if (!currentSpot.isExcluded()) {
                         data[i] = (currentSpot.getCy3Value() + currentSpot.getCy5Value());
                         i++;
@@ -305,23 +303,26 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     /**
-     *get the original signal intensity at 532 for all active spots
-     *@param includeExcluded - true: include excluded, false: no excluded (default)
-     *@return a Univariate holding the signal intensity of the active spots
-     **/
+     * get the original signal intensity at 532 for all active spots
+     *
+     * @param includeExcluded - true: include excluded, false: no excluded
+     * (default)
+     * @return a Univariate holding the signal intensity of the active spots
+     *
+     */
     public Univariate getSpotF532(boolean includeExcluded) {
-        List<OriginalSpot> _spots;
+        List<IOriginalSpot> _spots;
 
         if (includeExcluded) {
-            _spots = (List<OriginalSpot>) this.getSpots();
+            _spots = (List<IOriginalSpot>) this.getSpots();
         } else {
-            _spots = (List<OriginalSpot>) this.getValidSpots();
+            _spots = (List<IOriginalSpot>) this.getValidSpots();
         }
         if (_spots != null && _spots.size() > 0) {
             try {
                 double[] data = new double[_spots.size()];
                 int i = 0;
-                for (OriginalSpot currentSpot : _spots) {
+                for (IOriginalSpot currentSpot : _spots) {
                     if (!currentSpot.isExcluded()) {
                         data[i] = (currentSpot.getCy3Value());
                         i++;
@@ -336,23 +337,26 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     /**
-     *get the original signal intensity at 635 for all active spots
-     *@param includeExcluded - true: include excluded, false: no excluded (default)
-     *@return a Univariate holding the signal intensity of the active spots
-     **/
+     * get the original signal intensity at 635 for all active spots
+     *
+     * @param includeExcluded - true: include excluded, false: no excluded
+     * (default)
+     * @return a Univariate holding the signal intensity of the active spots
+     *
+     */
     public Univariate getSpotF635(boolean includeExcluded) {
-        List<OriginalSpot> _spots;
+        List<IOriginalSpot> _spots;
 
         if (includeExcluded) {
-            _spots = (List<OriginalSpot>) this.getSpots();
+            _spots = (List<IOriginalSpot>) this.getSpots();
         } else {
-            _spots = (List<OriginalSpot>) this.getValidSpots();
+            _spots = (List<IOriginalSpot>) this.getValidSpots();
         }
         if (_spots != null && _spots.size() > 0) {
             try {
                 double[] data = new double[_spots.size()];
                 int i = 0;
-                for (OriginalSpot currentSpot : _spots) {
+                for (IOriginalSpot currentSpot : _spots) {
                     if (!currentSpot.isExcluded()) {
                         data[i] = (currentSpot.getCy5Value());
                         i++;
@@ -367,23 +371,26 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     /**
-     *get the log2 signal intensity at 532 for all active spots
-     *@param includeExcluded - true: include excluded, false: no excluded (default)
-     *@return a Univariate holding the signal intensity of the active spots
-     **/
+     * get the log2 signal intensity at 532 for all active spots
+     *
+     * @param includeExcluded - true: include excluded, false: no excluded
+     * (default)
+     * @return a Univariate holding the signal intensity of the active spots
+     *
+     */
     public Univariate getSpotLog2Cy3(boolean includeExcluded) {
-        List<OriginalSpot> _spots;
+        List<IOriginalSpot> _spots;
 
         if (includeExcluded) {
-            _spots = (List<OriginalSpot>) this.getSpots();
+            _spots = (List<IOriginalSpot>) this.getSpots();
         } else {
-            _spots = (List<OriginalSpot>) this.getValidSpots();
+            _spots = (List<IOriginalSpot>) this.getValidSpots();
         }
         if (_spots != null && _spots.size() > 0) {
             try {
                 double[] data = new double[_spots.size()];
                 int i = 0;
-                for (OriginalSpot currentSpot : _spots) {
+                for (IOriginalSpot currentSpot : _spots) {
                     if (!currentSpot.isExcluded()) {
                         data[i] = currentSpot.getLog2Cy3();
                         i++;
@@ -398,22 +405,24 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     /**
-     *get the normalized signal intensity at 635 for all active spots
-     *@return a Univariate holding the signal intensity of the active spots
-     **/
+     * get the normalized signal intensity at 635 for all active spots
+     *
+     * @return a Univariate holding the signal intensity of the active spots
+     *
+     */
     public Univariate getSpotLog2Cy5(boolean includeExcluded) {
-        List<OriginalSpot> _spots;
+        List<IOriginalSpot> _spots;
 
         if (includeExcluded) {
-            _spots = (List<OriginalSpot>) this.getSpots();
+            _spots = (List<IOriginalSpot>) this.getSpots();
         } else {
-            _spots = (List<OriginalSpot>) this.getValidSpots();
+            _spots = (List<IOriginalSpot>) this.getValidSpots();
         }
         if (_spots != null && _spots.size() > 0) {
             try {
                 double[] data = new double[_spots.size()];
                 int i = 0;
-                for (OriginalSpot currentSpot : _spots) {
+                for (IOriginalSpot currentSpot : _spots) {
                     if (!currentSpot.isExcluded()) {
                         data[i] = currentSpot.getLog2Cy5();
                         i++;
@@ -428,23 +437,24 @@ public class ChipSpot extends ChipImpl implements Chip {
     }
 
     public double getMedianLog2Ratio(List<? extends Object> spots) {
-        List<? extends Spot> _spots = (List<? extends Spot>) spots;
-        Collections.sort(_spots, Spot.comLog2Ratio);
+        List<? extends ISpot> _spots = (List<? extends ISpot>) spots;
+        Collections.sort(_spots, ISpot.comLog2Ratio);
         double median = 0.0;
         if ((_spots.size() % 2) == 0) {
-            Spot left = _spots.get(_spots.size() / 2 - 1);
-            Spot right = _spots.get(_spots.size() / 2);
+            ISpot left = _spots.get(_spots.size() / 2 - 1);
+            ISpot right = _spots.get(_spots.size() / 2);
             median = 0.5 * (left.getRatio() + right.getRatio());
         } else {
-            Spot spotmedian = _spots.get((_spots.size() - 1) / 2);
+            ISpot spotmedian = _spots.get((_spots.size() - 1) / 2);
             median = spotmedian.getRatio();
         }
         return median;
     }
 
     /**
-     *Normalize the log2 ratios by global median
-     **/
+     * Normalize the log2 ratios by global median
+     *
+     */
     /*
     public List<? extends Spot> normalizeByGlobalMedian(boolean includeExcluded) {
         List<? extends Spot> _spots;
@@ -472,7 +482,6 @@ public class ChipSpot extends ChipImpl implements Chip {
     //chipBac.recalculate
 
     }*/
-
     public void histogram(Container p) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -497,8 +506,8 @@ public class ChipSpot extends ChipImpl implements Chip {
         if (list == null || list.size() == 0) {
             return;
         }
-        if (list.get(0) instanceof Spot) {
-            this.spots = (List<Spot>) list;
+        if (list.get(0) instanceof ISpot) {
+            this.spots = (List<ISpot>) list;
         } else {
             this.error = true;
         }

@@ -4,4 +4,5 @@ OpenIDE-Module-Implementation-Version: 3
 OpenIDE-Module-Install: org/molgen/genomeCATPro/cat/Installer.class
 OpenIDE-Module-Layer: org/molgen/genomeCATPro/cat/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/cat/Bundle.properties
+OpenIDE-Module-Specification-Version: 4
 

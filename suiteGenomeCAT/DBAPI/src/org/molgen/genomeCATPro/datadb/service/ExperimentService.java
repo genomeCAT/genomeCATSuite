@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.datadb.service;
 /**
  * @name ExperimentService
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +27,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import org.molgen.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.DBService;
 import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentAtStudy;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
@@ -41,10 +39,9 @@ import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.dbentities.User;
 
 /**
- * 
- * 050612 kt notify catch java.util.ConcurrentModificationException 
- * 120612 kt deleteExperimentData, deleteExperimentDetail   
- * 120612 kt moveExperimentData
+ *
+ * 050612 kt notify catch java.util.ConcurrentModificationException 120612 kt
+ * deleteExperimentData, deleteExperimentDetail 120612 kt moveExperimentData
  */
 public class ExperimentService {
 
@@ -91,14 +88,12 @@ public class ExperimentService {
 
         try {
             Query query = em.createQuery(
-                    "SELECT s FROM ExperimentData s " +
-                    " where s.name = ?1 " +
-                    " and s.genomeRelease = ?2 ");
-
+                    "SELECT s FROM ExperimentData s "
+                    + " where s.name = ?1 "
+                    + " and s.genomeRelease = ?2 ");
 
             query.setParameter(1, name);
             query.setParameter(2, genomeRelease);
-
 
             Logger.getLogger(ExperimentService.class.getName()).log(Level.INFO,
                     query.getResultList().toString());
@@ -139,7 +134,6 @@ public class ExperimentService {
         }
         ExperimentDetail d = em.find(ExperimentDetail.class, id);
 
-
         Logger.getLogger(ExperimentService.class.getName()).log(Level.INFO,
                 "getExperimentByDetailId: " + d.toString() + " extended: " + d.toFullString());
         return d;
@@ -158,8 +152,8 @@ public class ExperimentService {
         try {
 
             Query query = em.createQuery(
-                    "SELECT e FROM ExperimentDetail e " +
-                    "where e.name = ?1 ");
+                    "SELECT e FROM ExperimentDetail e "
+                    + "where e.name = ?1 ");
             query.setParameter(1, name);
             Logger.getLogger(ExperimentService.class.getName()).log(Level.INFO,
                     "getExperimentDetailByName: " + query.getResultList().toString());
@@ -192,8 +186,8 @@ public class ExperimentService {
         try {
 
             Query query = em.createQuery(
-                    "SELECT e FROM SampleDetail e " +
-                    "where e.name = ?1 ");
+                    "SELECT e FROM SampleDetail e "
+                    + "where e.name = ?1 ");
             query.setParameter(1, name);
             Logger.getLogger(ExperimentService.class.getName()).log(Level.INFO,
                     "getSampleDetailByName: " + query.getResultList().toString());
@@ -278,14 +272,14 @@ public class ExperimentService {
         }
         try {
             Query query = em.createQuery(
-                    "SELECT el FROM ExperimentData el " +
-                    " where el.experiment.experimentDetailID = ?1 " +
-                    " and el.parent is null");
+                    "SELECT el FROM ExperimentData el "
+                    + " where el.experiment.experimentDetailID = ?1 "
+                    + " and el.parent is null");
 
             query.setParameter(1, e.getExperimentDetailID());
             Logger.getLogger(ExperimentService.class.getName()).log(Level.INFO,
-                    "listTopLevelExperimentData:" +
-                    query.getResultList().toString());
+                    "listTopLevelExperimentData:"
+                    + query.getResultList().toString());
             List<ExperimentData> list = query.getResultList();
             for (ExperimentData d : list) {
                 d.setExperiment(e);
@@ -314,13 +308,13 @@ public class ExperimentService {
         }
         try {
             Query query = em.createQuery(
-                    "SELECT el FROM ExperimentData el " +
-                    " where el.parent.experimentListID = ?1 order by el.created");
+                    "SELECT el FROM ExperimentData el "
+                    + " where el.parent.experimentListID = ?1 order by el.created");
 
             query.setParameter(1, e.getId());
             Logger.getLogger(ExperimentService.class.getName()).log(Level.INFO,
-                    "listChildrenExperimentData:" +
-                    query.getResultList().toString());
+                    "listChildrenExperimentData:"
+                    + query.getResultList().toString());
             List<ExperimentData> list = query.getResultList();
             for (ExperimentData d : list) {
                 // force loading 
@@ -337,8 +331,11 @@ public class ExperimentService {
         }
 
     }
-    /***
+
+    /**
+     * *
      * try to delete, if some of the children are not owned by user throw error
+     *
      * @param exdata
      * @param em
      * @return
@@ -360,7 +357,6 @@ public class ExperimentService {
                 ExperimentService.deleteExperimentData(ct, em);
             }
 
-
             List<SampleInExperiment> listSamples = exdata.getSamples();
             for (SampleInExperiment sie : listSamples) {
                 if (!em.contains(sie)) {
@@ -373,8 +369,8 @@ public class ExperimentService {
             Query query;
             if (p != null) {
                 query = em.createQuery(
-                        "SELECT eas FROM ExperimentAtStudy eas " +
-                        " WHERE eas.studyID = ?1 and eas.experimentDetailID = ?2 ");
+                        "SELECT eas FROM ExperimentAtStudy eas "
+                        + " WHERE eas.studyID = ?1 and eas.experimentDetailID = ?2 ");
                 query.setParameter(1, p.getStudyID());
                 query.setParameter(2, exdata.getExperimentDetailID());
 
@@ -393,8 +389,6 @@ public class ExperimentService {
             }
             return true;
 
-
-
         } catch (Exception e) {
             Logger.getLogger(ExperimentService.class.getName()).log(Level.SEVERE, exdata.toString(), e);
         } finally {
@@ -409,12 +403,11 @@ public class ExperimentService {
     }
 
     /**
-     * 060612 kt
-     * move data upwards in hierarchy to parent experiment detail,  release from parent data
+     * 060612 kt move data upwards in hierarchy to parent experiment detail,
+     * release from parent data
+     *
      * @param s
-     * @return 
-     *      true: successfully moved 
-     *      false: already on top at detail
+     * @return true: successfully moved false: already on top at detail
      */
     public static boolean moveExperimentData(ExperimentData d, EntityManager em) {
         Logger.getLogger(TrackService.class.getName()).log(Level.INFO,
@@ -438,7 +431,6 @@ public class ExperimentService {
 
         d.setParent(null);
 
-
         if (commit) {
             em.flush();
             em.getTransaction().commit();
@@ -447,10 +439,10 @@ public class ExperimentService {
     }
 
     /**
-     * 120612 kt
-     * delete experimentdata and subtree
-     *      if data is not deletable (user is not owner) move data upwards to detail
-     *      if track is not deleteable () move track upwards to project
+     * 120612 kt delete experimentdata and subtree if data is not deletable
+     * (user is not owner) move data upwards to detail if track is not
+     * deleteable () move track upwards to project
+     *
      * @param exdata
      * @param em
      * @throws java.lang.Exception, java.lang.Error if data is not deletable
@@ -499,11 +491,7 @@ public class ExperimentService {
                 }
             }
 
-
-
-
             // delete basic table
-
             Query query = em.createNativeQuery("DROP TABLE if EXISTS " + exdata.getTableData());
             query.executeUpdate();
 
@@ -538,9 +526,9 @@ public class ExperimentService {
         try {
 
             Query query = em.createQuery(
-                    "SELECT sie FROM SampleInExperiment sie " +
-                    "where sie.experimentDetailID = ?1 " +
-                    " and sie.sampleDetailID");
+                    "SELECT sie FROM SampleInExperiment sie "
+                    + "where sie.experimentDetailID = ?1 "
+                    + " and sie.sampleDetailID");
 
             query.setParameter(1, expId);
             query.setParameter(2, sampleId);
@@ -563,9 +551,9 @@ public class ExperimentService {
     }
 
     /**
-     * get user
-     *      retrieve user from database wher name equals 1) system.name
-     *      or 2) core.props.user
+     * get user retrieve user from database wher name equals 1) system.name or
+     * 2) core.props.user
+     *
      * @return
      */
     public static User getUser() {
@@ -576,7 +564,6 @@ public class ExperimentService {
         }
 
         Query q = em.createQuery("SELECT u FROM User u WHERE u.name=:name");
-
 
         List list = q.setParameter("name", System.getProperty("user.name")).getResultList();
 
@@ -597,8 +584,9 @@ public class ExperimentService {
     }
 
     /**
-     * make existing sample instance persistent in database
-     * all changes will rollback on error
+     * make existing sample instance persistent in database all changes will
+     * rollback on error
+     *
      * @param s
      * @param em
      * @throws java.lang.Exception
@@ -625,9 +613,6 @@ public class ExperimentService {
             }
 
             //Eintrag Tabelle SampleList und implizit experiment erzeugen
-
-
-
             em.persist(d);
             em.flush();
             em.refresh(d);

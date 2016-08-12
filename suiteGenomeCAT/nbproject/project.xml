@@ -4,6 +4,9 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-suite-project/1">
             <name>suiteGenomeCAT</name>
-        </data>
-    </configuration>
+        </data> 
+         </configuration>
+        
+        
+   
 </project>

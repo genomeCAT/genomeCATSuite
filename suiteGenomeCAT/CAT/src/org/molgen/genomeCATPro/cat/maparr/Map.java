@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.cat.maparr;
 /**
  * @name Map
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -36,8 +34,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.AnnotationManager;
 import org.molgen.genomeCATPro.annotation.AnnotationManagerImpl;
 import org.molgen.genomeCATPro.annotation.CytoBand;
@@ -48,13 +46,13 @@ import org.molgen.genomeCATPro.annotation.RegionAnnotation;
 import org.molgen.genomeCATPro.annotation.RegionArray;
 import org.molgen.genomeCATPro.annotation.RegionImpl;
 import org.molgen.genomeCATPro.annotation.RegionLib;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.cat.util.Defines;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.data.DataManager;
 import org.molgen.genomeCATPro.data.DataService;
-import org.molgen.genomeCATPro.data.Spot;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.MapData;
@@ -64,25 +62,24 @@ import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
 import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.datadb.service.MapService;
 import org.molgen.genomeCATPro.datadb.service.PlatformService;
+import org.molgen.genomeCATPro.data.ISpot;
 
 /**
- * 081013   kt  mapAtRegion bug group by ratio removed
- * 050613   kt  exception Spot clazz
- * 010313   kt  mapAtAnnotation use annotationfield
- * 130213   kt  mapAtAnnotation insteadof MapAtGene
- * 180912   kt  mapAtLocation use spatial index, Thread pro Chromome, temp table
-                mapAtRegion use spatial index
- * 190912   kt  mapAtLocationBin new (old bsc version only center is binned,faster!!)
+ * 081013 kt mapAtRegion bug group by ratio removed 050613 kt exception Spot
+ * clazz 010313 kt mapAtAnnotation use annotationfield 130213 kt mapAtAnnotation
+ * insteadof MapAtGene 180912 kt mapAtLocation use spatial index, Thread pro
+ * Chromome, temp table mapAtRegion use spatial index 190912 kt mapAtLocationBin
+ * new (old bsc version only center is binned,faster!!)
  */
 public class Map {
 
     static Connection con = null;
 
     /**
-     * read bed or bedplus chrom<tab>start<tab>end<tab>(name)
-     * create list of regions
-     * skip invalid file lines, report error number
-     * 
+     * read bed or bedplus chrom<tab>start<tab>end<tab>(name) create list of
+     * regions skip invalid file lines, report error number
+     *
+     * @param posList
      * @param pathname
      * @param error
      * @return
@@ -131,9 +128,9 @@ public class Map {
     }
 
     /**
-     * validate if mapping is allowed for all data entities
-     *  with each other -> same release
-     *  
+     * validate if mapping is allowed for all data entities with each other ->
+     * same release
+     *
      * @param arrayList
      * @param release
      * @return
@@ -147,7 +144,7 @@ public class Map {
             if (!(currData.getGenomeRelease().contentEquals(release.toString()))) {
                 Logger.getLogger(Map.class.getName()).log(Level.WARNING,
                         "mapAtRegion: not valid (wrong release) for " + currData.toFullString());
-            //removeList.add(currData);
+                //removeList.add(currData);
 
             } else {
                 d.add(currData);
@@ -157,7 +154,7 @@ public class Map {
     }
 
     /**
-     * 
+     *
      * @param release
      * @param annoTableName
      * @param arrayList
@@ -172,25 +169,16 @@ public class Map {
             List<Data> arrayList,
             String mapId) throws Exception {
 
-
-
         List<MapData> mapList = new Vector<MapData>();
 
-
         final List<Data> _arrayList = Map.validateMapAtAnnotate(arrayList, release);
-
 
         try {
             //final long _size = size;
             final GenomeRelease _release = release;
-            con = Database.getDBConnection(Defaults.localDB);
-
-
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
-
-
-
 
             final MapDetail dMapDetail = new MapDetail(
                     mapId,
@@ -200,18 +188,15 @@ public class Map {
             dMapDetail.initTableData();
 
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	" +
-                    "name VARCHAR(255), " +
-                    "chrom VARCHAR(255) NOT NULL, " +
-                    "chromStart int(10) unsigned NOT NULL, " +
-                    "chromEnd int(10) unsigned NOT NULL, " +
-                    "PRIMARY KEY (chrom, chromStart, chromEnd) " +
-                    ")");
-
-
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	"
+                    + "name VARCHAR(255), "
+                    + "chrom VARCHAR(255) NOT NULL, "
+                    + "chromStart int(10) unsigned NOT NULL, "
+                    + "chromEnd int(10) unsigned NOT NULL, "
+                    + "PRIMARY KEY (chrom, chromStart, chromEnd) "
+                    + ")");
 
             //int insert_count = 0;
-
             final List<String> _chroms = CytoBandManagerImpl.stGetChroms(_release);
             final AnnotationManager am = new AnnotationManagerImpl(release, annoTableName);
 
@@ -240,8 +225,8 @@ public class Map {
                 // add spatial index if not already there
                 DBUtils.addPositionAtTable(currData.getTableData());
 
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
 
                 for (String chromId : _chroms) {
                     final String _chromId = chromId;
@@ -262,47 +247,47 @@ public class Map {
                                 final String tableName = Utils.getUniquableName(dMap[iid].getDataName());
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
                                         "MapAnnotation: Start processing " + dMap[iid].getDataName() + " " + _chromId + " tmpTable " + tableName);
-                                Connection _con = Database.getDBConnection(Defaults.localDB);
+                                Connection _con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                                 Statement _s = _con.createStatement();
                                 _s.execute("DROP TABLE IF EXISTS " + (tableName + "_" + _chromId));
                                 _s.execute(
-                                        "CREATE TABLE " + (tableName + "_" + _chromId) +
-                                        "( " +
-                                        "name VARCHAR(255) NOT NULL," +
-                                        "chrom VARCHAR(255) NOT NULL, " +
-                                        "chromStart int(10) unsigned, " +
-                                        "chromEnd int(10) unsigned, " +
-                                        dMap[iid].getDataName() + " DOUBLE DEFAULT 0 )");
+                                        "CREATE TABLE " + (tableName + "_" + _chromId)
+                                        + "( "
+                                        + "name VARCHAR(255) NOT NULL,"
+                                        + "chrom VARCHAR(255) NOT NULL, "
+                                        + "chromStart int(10) unsigned, "
+                                        + "chromEnd int(10) unsigned, "
+                                        + dMap[iid].getDataName() + " DOUBLE DEFAULT 0 )");
                                 List<? extends RegionAnnotation> list = am.getData(_chromId);
                                 for (RegionAnnotation r : list) {
                                     Object o = DataService.getValue(r, annoFieldName);
                                     if (o != null) {
                                         o = o.toString().replaceAll("\'", "");
                                     }
-                                    insert = "INSERT INTO " + tableName + "_" + _chromId +
-                                            " (" + dMap[iid].getDataName() +
-                                            ", name,  chrom, chromStart, chromEnd ) " +
-                                            " (SELECT  avg(" + colName + " ) as avgratio, " +
-                                            "\'" + (o != null ? o.toString() : "") + "\'," +
-                                            "\'" + r.getChrom() + "\'," +
-                                            r.getChromStart() + " , " + r.getChromEnd() +
-                                            //" , avg(" + dcolName + ") as ratio " +
-                                            " FROM " + dataName +
-                                            " FORCE INDEX (gc_position) " + // kt 250912
-                                            " WHERE " +
-                                            " MBRIntersects( gc_position," +
-                                            " LineString(" +
-                                            " Point(" + ichrom + "," + r.getChromEnd() + "), " +
-                                            " Point(" + ichrom + ", " + r.getChromStart() + "))" +
-                                            ") " +
-                                            //" group by chrom, " + colName +
+                                    insert = "INSERT INTO " + tableName + "_" + _chromId
+                                            + " (" + dMap[iid].getDataName()
+                                            + ", name,  chrom, chromStart, chromEnd ) "
+                                            + " (SELECT  avg(" + colName + " ) as avgratio, "
+                                            + "\'" + (o != null ? o.toString() : "") + "\',"
+                                            + "\'" + r.getChrom() + "\',"
+                                            + r.getChromStart() + " , " + r.getChromEnd()
+                                            + //" , avg(" + dcolName + ") as ratio " +
+                                            " FROM " + dataName
+                                            + " FORCE INDEX (gc_position) "
+                                            + // kt 250912
+                                            " WHERE "
+                                            + " MBRIntersects( gc_position,"
+                                            + " LineString("
+                                            + " Point(" + ichrom + "," + r.getChromEnd() + "), "
+                                            + " Point(" + ichrom + ", " + r.getChromStart() + "))"
+                                            + ") "
+                                            + //" group by chrom, " + colName +
                                             //" HAVING " +
                                             /*
                                             " chrom = \'" + r.getChrom() + "\' " +
                                             " AND (  chromStart < " + r.getChromEnd() +
                                             " AND  chromEnd  >  " + r.getChromStart() + " ) " + // segment border region
-                                             */
-                                            ") ";
+                                             */ ") ";
                                     //"ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName() + "  =   values(" + dMap[iid].getDataName() + ")";
                                     //System.out.println(insert);
                                     // Logger.getLogger(Map.class.getName()).log(Level.INFO,
@@ -321,8 +306,8 @@ public class Map {
                                         "mapAtLocation: " + dMap[id].getDataName() + " " + _chromId + " inserted:  " + insert_count);
                                          */
                                         Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                                "mapAtAnnotation tmpTable " + (tableName + "_" + _chromId) +
-                                                " with " + insert_count + " items");
+                                                "mapAtAnnotation tmpTable " + (tableName + "_" + _chromId)
+                                                + " with " + insert_count + " items");
 
                                         insert_count = 0;
                                     }
@@ -331,25 +316,23 @@ public class Map {
 
                                 if (insert_count > 0) {
 
-
                                     _s.executeBatch();
                                     _s.clearBatch();
                                     Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                            "mapAtAnnotation tmpTable " + (tableName + "_" + _chromId) +
-                                            " with " + insert_count + " items");
+                                            "mapAtAnnotation tmpTable " + (tableName + "_" + _chromId)
+                                            + " with " + insert_count + " items");
                                     results[iid][ii] += insert_count;
 
-
                                 }
-                                _s.execute("INSERT INTO " + dMapDetail.getTableData() +
-                                        " (name,  chrom, chromStart, chromEnd , " + dMap[iid].getDataName() + " ) " +
-                                        " ( SELECT * FROM " + ((tableName + "_" + _chromId)) + ")" +
-                                        " ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName() +
-                                        "  =   values(" + dMap[iid].getDataName() + ")");
+                                _s.execute("INSERT INTO " + dMapDetail.getTableData()
+                                        + " (name,  chrom, chromStart, chromEnd , " + dMap[iid].getDataName() + " ) "
+                                        + " ( SELECT * FROM " + ((tableName + "_" + _chromId)) + ")"
+                                        + " ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName()
+                                        + "  =   values(" + dMap[iid].getDataName() + ")");
                                 _s.execute("DROP TABLE IF EXISTS " + (tableName + "_" + _chromId));
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                        "mapAtAnnotation temp table " + (tableName + "_" + _chromId) + " " +
-                                        insert_count + " copied into " + dMapDetail.getTableData());
+                                        "mapAtAnnotation temp table " + (tableName + "_" + _chromId) + " "
+                                        + insert_count + " copied into " + dMapDetail.getTableData());
                             } catch (Exception e) {
                                 /*Logger.getLogger(Map.class.getName()).log(Level.SEVERE,
                                 insert);*/
@@ -360,7 +343,7 @@ public class Map {
                             }
                         } // end run
 
-                        ;
+                    ;
                     }); // end thread
 
                     workers[id][ii].start();
@@ -401,18 +384,17 @@ public class Map {
 
     /**
      * map at region of interest
-     * 
-     * @param release       genome release
+     *
+     * @param release genome release
      * @param positionTable table containing bed positions
-     * @param arrayList     data tables to map
-     * @param mapId         name for map table
+     * @param arrayList data tables to map
+     * @param mapId name for map table
      * @return
      */
     public static List<MapData> mapAtRegion(
             GenomeRelease release,
             List<? extends Region> positionTable, String filename, List<Data> arrayList,
             String mapId) throws Exception {
-
 
         List<MapData> mapList = new Vector<MapData>();
         String colName = null;
@@ -430,38 +412,34 @@ public class Map {
         }
         
          */
-
         EntityTransaction userTransaction = null;
         int ichrom;
 
         try {
 
-            con = Database.getDBConnection(Defaults.localDB);
-
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
             // key - chrom, values Vector with segment borders	
-
             // segment borders (start, stop)
             MapDetail dMapDetail = new MapDetail(
                     mapId,
                     Defines.MAP_REGION,
                     release.toString(),
-                    "mapAtRegion file: " + filename +
-                    ", release:" + release);
+                    "mapAtRegion file: " + filename
+                    + ", release:" + release);
             dMapDetail.initTableData();
             //MapService.perstistDetail(dMapDetail);
 
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	" +
-                    "name VARCHAR(255), " +
-                    "chrom VARCHAR(255) NOT NULL, " +
-                    "chromStart int(10) unsigned NOT NULL, " +
-                    "chromEnd int(10) unsigned NOT NULL, " +
-                    "PRIMARY KEY (chrom, chromStart, chromEnd) " +
-                    ")");
-
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	"
+                    + "name VARCHAR(255), "
+                    + "chrom VARCHAR(255) NOT NULL, "
+                    + "chromStart int(10) unsigned NOT NULL, "
+                    + "chromEnd int(10) unsigned NOT NULL, "
+                    + "PRIMARY KEY (chrom, chromStart, chromEnd) "
+                    + ")");
 
             EntityManager em = DBService.getEntityManger();
             userTransaction = em.getTransaction();
@@ -476,8 +454,8 @@ public class Map {
 
                 dMap = new MapData(dMapDetail, currData, ++i);
                 DBUtils.addPositionAtTable(currData.getTableData());
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap.getDataName() + " DOUBLE");
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap.getDataName() + " DOUBLE");
 
                 RegionArray currClazz = RegionLib.getRegionArrayClazz(currData.getClazz());
 
@@ -485,40 +463,39 @@ public class Map {
 
                 String insert = "";
 
-
-
                 for (Region r : positionTable) {
 
                     /*if (r.getChromStart() == r.getChromEnd()) {
                     continue;
                     }*/
                     ichrom = RegionLib.fromChrToInt(r.getChrom());
-                    insert =
-                            "INSERT INTO " + dMapDetail.getTableData() +
-                            " (" + dMap.getDataName() +
-                            ", name,  chrom, chromStart, chromEnd ) " +
-                            " (SELECT  avg(" + colName + " ) as avgratio, " +
-                            "\'" + r.getName() + "\'," +
-                            "\'" + r.getChrom() + "\'," +
-                            r.getChromStart() + " , " + r.getChromEnd() +
-                            //" , avg(" + dcolName + ") as ratio " +
-                            " FROM " + currData.getTableData() +
-                            " WHERE " +
-                            " MBRIntersects( gc_position," +
-                            " LineString(" +
-                            " Point(" + ichrom + "," + r.getChromEnd() + "), " +
-                            " Point(" + ichrom + ", " + r.getChromStart() + "))" +
-                            ") " +
-                            //081013    kt  bug group by ratio removed
-                            " group by chrom " +
-                            //" HAVING " +
+                    insert
+                            = "INSERT INTO " + dMapDetail.getTableData()
+                            + " (" + dMap.getDataName()
+                            + ", name,  chrom, chromStart, chromEnd ) "
+                            + " (SELECT  avg(" + colName + " ) as avgratio, "
+                            + "\'" + r.getName() + "\',"
+                            + "\'" + r.getChrom() + "\',"
+                            + r.getChromStart() + " , " + r.getChromEnd()
+                            + //" , avg(" + dcolName + ") as ratio " +
+                            " FROM " + currData.getTableData()
+                            + " FORCE INDEX (gc_position) "
+                            + // kt 251114
+                            " WHERE "
+                            + " MBRIntersects( gc_position,"
+                            + " LineString("
+                            + " Point(" + ichrom + "," + r.getChromEnd() + "), "
+                            + " Point(" + ichrom + ", " + r.getChromStart() + "))"
+                            + ") "
+                            + //081013    kt  bug group by ratio removed
+                            " group by chrom "
+                            + //" HAVING " +
                             /*
                             " chrom = \'" + r.getChrom() + "\' " +
                             " AND (  chromStart < " + r.getChromEnd() +
                             " AND  chromEnd  >  " + r.getChromStart() + " ) " + // segment border region
-                             */
-                            ") " +
-                            "ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "  =   values(" + dMap.getDataName() + ")";
+                             */ ") "
+                            + "ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "  =   values(" + dMap.getDataName() + ")";
                     //System.out.println(insert);
                     // Logger.getLogger(Map.class.getName()).log(Level.INFO,
                     //        "Insert: " + insert);
@@ -559,14 +536,13 @@ public class Map {
     }
 
     /**
-     * @deprecated 
-     * get segment borders from data table containing genomic regions
-     * connects nested and overlapping segments with same ratios
-     * @param release           genome release
-     * @param positionTable     defined genomic regions, listed for chroms
-     * @param arrayId           data table to map
-     * @param colName           colname for ratio column for current data table
-     * @param type              (oligo, bac, etc see Defaults.Type)         
+     * @deprecated get segment borders from data table containing genomic
+     * regions connects nested and overlapping segments with same ratios
+     * @param release genome release
+     * @param positionTable defined genomic regions, listed for chroms
+     * @param arrayId data table to map
+     * @param colName colname for ratio column for current data table
+     * @param type (oligo, bac, etc see Defaults.Type)
      * @return
      */
     @Deprecated
@@ -584,9 +560,7 @@ public class Map {
 
         try {
 
-
-
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
@@ -601,10 +575,10 @@ public class Map {
                 }
                 //vPosition = new Vector();
 
-                String sql = "SELECT  distinct chrom, " + colName + " , chromStart as start,  " +
-                        " chromEnd as end from  " + arrayId +
-                        " where chrom = \'" + chrom + "\' " +
-                        " order by start ";
+                String sql = "SELECT  distinct chrom, " + colName + " , chromStart as start,  "
+                        + " chromEnd as end from  " + arrayId
+                        + " where chrom = \'" + chrom + "\' "
+                        + " order by start ";
 
                 Logger.getLogger(Map.class.getName()).log(Level.INFO, sql);
                 ResultSet r = s.executeQuery(sql);
@@ -645,21 +619,21 @@ public class Map {
                     lastEnd = r.getLong(4);
 
 
-                /*if(r.getInt(3) != lastPos)
+                    /*if(r.getInt(3) != lastPos)
                 vPosition.add(lastPos);*/
                 }
                 r.close();
                 vPosition.add(lastStart);
                 vPosition.add(lastEnd);
 
-            /*oldPosition = (Vector) positionTable.get(chrom);
+                /*oldPosition = (Vector) positionTable.get(chrom);
             if (oldPosition == null) {
             positionTable.put(chrom, (Vector) vPosition.clone());
             }
             else {
             oldPosition.addAll((Vector) vPosition.clone());
             }
-             */
+                 */
             }// end chrom
 
             return positionTable;
@@ -671,9 +645,10 @@ public class Map {
     }
 
     /**
-     * validate if mapping is allowed for all data entities
-     *      check if all data have same release
-     * data entities not suitable will be removed from the list
+     * validate if mapping is allowed for all data entities check if all data
+     * have same release data entities not suitable will be removed from the
+     * list
+     *
      * @param arrayList
      * @return valid data list
      */
@@ -683,7 +658,7 @@ public class Map {
             if (!(currData.getGenomeRelease().contentEquals(release.toString()))) {
                 Logger.getLogger(Map.class.getName()).log(Level.WARNING,
                         "mapAtLocation: not valid (wrong release) for " + currData.toFullString());
-            // removeList.add(currData);
+                // removeList.add(currData);
 
             } else {
                 d.add(currData);
@@ -693,18 +668,15 @@ public class Map {
     }
 
     /**
-     * validate if mapping is allowed for all data entities
-     *      clazz must implement interface RegionArray
-     *      getGeneColName not null
-     * data entities not suitable will be removed from the list
+     * validate if mapping is allowed for all data entities clazz must implement
+     * interface RegionArray getGeneColName not null data entities not suitable
+     * will be removed from the list
+     *
      * @param arrayList
      * @return valid data list
      */
-    /**
-     * @deprecated 
-     **/
+    @Deprecated
     static List<Data> validateMapAtGene(List<Data> arrayList) {
-
 
         List<Data> d = new Vector<Data>();
         // instances all of experimentdata with given platform?
@@ -715,7 +687,7 @@ public class Map {
                 Logger.getLogger(Map.class.getName()).log(Level.WARNING,
                         "mapAtGene: not valid for " + currData.toFullString());
 
-            //removeList.add(currData);
+                //removeList.add(currData);
             } else {
                 d.add(currData);
             }
@@ -725,12 +697,10 @@ public class Map {
     }
 
     /**
-     * base for mapping is Gene, that means new table (mapId) is created, 
+     * base for mapping is Gene, that means new table (mapId) is created,
      * reference id is Gene, for each array extra column
      */
-    /**
-     * @deprecated 
-     **/
+    @Deprecated
     public static List<MapData> mapAtGene(
             GenomeRelease release,
             List<Data> arrayList,
@@ -740,7 +710,6 @@ public class Map {
 
         // all array with same release?
         try {
-
 
             arrayList = Map.validateMapAtGene(arrayList);
             if (arrayList.size() <= 0) {
@@ -759,19 +728,17 @@ public class Map {
                     geneTable);
             dMapDetail.initTableData();
             //MapService.perstistDetail(dMapDetail);
-            con = Database.getDBConnection(Defaults.localDB);
-
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
-
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	" +
-                    " name VARCHAR(255), " +
-                    " chrom VARCHAR(255) NOT NULL, " +
-                    " chromStart int(10) unsigned NOT NULL, " +
-                    " chromEnd int(10) unsigned NOT NULL, " +
-                    " PRIMARY KEY (name) )");
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	"
+                    + " name VARCHAR(255), "
+                    + " chrom VARCHAR(255) NOT NULL, "
+                    + " chromStart int(10) unsigned NOT NULL, "
+                    + " chromEnd int(10) unsigned NOT NULL, "
+                    + " PRIMARY KEY (name) )");
 
             String query = "";
             //String view_arrayId = "";
@@ -787,35 +754,32 @@ public class Map {
                 dMap = new MapData(dMapDetail, currData, ++i);
 
                 //dMap.setDescription(geneTable);
-
                 RegionArray currClazz = RegionLib.getRegionArrayClazz(currData.getClazz());
 
                 colName = currClazz.getRatioColName();
                 geneColName = currClazz.getGeneColName();
 
-
                 // add to map table as new column	  
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap.getDataName() + " DOUBLE");
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap.getDataName() + " DOUBLE");
                 /* query = ("INSERT INTO " + dMapDetail.getTableData() +
                 " (name, " + dMap.getDataName() + ", chrom, chromStart, chromEnd )" +
                 " (SELECT DISTINCT geneName, " + colName + ", chrom, chromStart, chromEnd FROM " + view_arrayId + ") " +
                 " ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "  = " + colName);*/
-                query = ("INSERT INTO " + dMapDetail.getTableData() +
-                        " (name,  chrom, chromStart, chromEnd, " + dMap.getDataName() + ")" +
-                        " (SELECT " + geneColName + " as geneName, " +
-                        " gene.chrom, gene.txStart as chromStart, gene.txEnd as chromEnd,  " +
-                        "AVG(a." + colName + ") AS " + colName +
-                        " FROM " + currData.getTableData() + " AS a, " +
-                        geneTable + " as gene " +
-                        " WHERE a." + geneColName + " = gene.name2 " +
-                        " and a.chrom  = gene.chrom " +
-                        " GROUP BY a." + geneColName + " )" +
-                        " ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "= values(" + dMap.getDataName() + ")");
+                query = ("INSERT INTO " + dMapDetail.getTableData()
+                        + " (name,  chrom, chromStart, chromEnd, " + dMap.getDataName() + ")"
+                        + " (SELECT " + geneColName + " as geneName, "
+                        + " gene.chrom, gene.txStart as chromStart, gene.txEnd as chromEnd,  "
+                        + "AVG(a." + colName + ") AS " + colName
+                        + " FROM " + currData.getTableData() + " AS a, "
+                        + geneTable + " as gene "
+                        + " WHERE a." + geneColName + " = gene.name2 "
+                        + " and a.chrom  = gene.chrom "
+                        + " GROUP BY a." + geneColName + " )"
+                        + " ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "= values(" + dMap.getDataName() + ")");
                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
                         "mapAtGene:" + query);
                 s.execute(query);
-
 
                 MapService.perstistData(dMap, em);
                 Map.updateStats(dMap);
@@ -832,10 +796,10 @@ public class Map {
     }
 
     /**
-     * validate if mapping is allowed for all data entities
-     *      must be instance of ExperimentData
-     *      must be linked to same PlatformDetail
-     * data entities not suitable will be removed from the list
+     * validate if mapping is allowed for all data entities must be instance of
+     * ExperimentData must be linked to same PlatformDetail data entities not
+     * suitable will be removed from the list
+     *
      * @param arrayList
      * @param platform
      * @return valid data list
@@ -857,8 +821,8 @@ public class Map {
                 }
                 if (!((ExperimentData) currData).getPlatformdata().getPlattform().equals(platform)) {
                     Logger.getLogger(Map.class.getName()).log(Level.WARNING,
-                            "mapAtId: not valid (wrong platform) for " + currData.toFullString() +
-                            " platform " + ((ExperimentData) currData).getPlatformdata().getPlattform());
+                            "mapAtId: not valid (wrong platform) for " + currData.toFullString()
+                            + " platform " + ((ExperimentData) currData).getPlatformdata().getPlattform());
                     //removeList.add(currData);
                     continue;
                 }
@@ -870,17 +834,22 @@ public class Map {
     }
 
     /**
-     * base for mapping is the probeName, that means new table (mapId) is created, 
-     * reference id is probeName (Oligo or bac), for each array extra column 
-     * [AG0009, ratio, Methylation by MCA, Agilent, Oligo, false, SCLC_A_XMA, SCLC_A_XMA]
+     * base for mapping is the probeName, that means new table (mapId) is
+     * created, reference id is probeName (Oligo or bac), for each array extra
+     * column [AG0009, ratio, Methylation by MCA, Agilent, Oligo, false,
+     * SCLC_A_XMA, SCLC_A_XMA]
+     * @param release
+     * @param arrayList
+     * @param platform
+     * @param mapId
+     * @return 
+     * @throws java.lang.Exception 
      */
     public static List<MapData> mapAtId(
             GenomeRelease release,
             List<Data> arrayList,
             PlatformDetail platform,
             String mapId) throws Exception {
-
-
 
         arrayList = Map.validateMapAtId(arrayList, platform);
 
@@ -899,19 +868,18 @@ public class Map {
             dMapDetail.initTableData();
 
             PlatformData pdata = PlatformService.getPlatformData(platform.getName(), release.toString());
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
-
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
             //s.execute("CREATE TABLE " + mapId + "(	probeName VARCHAR(255), PRIMARY KEY (probeName) )");
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	" +
-                    " name VARCHAR(255), " +
-                    " chrom VARCHAR(255) NOT NULL, " +
-                    " chromStart int(10) unsigned NOT NULL, " +
-                    " chromEnd int(10) unsigned NOT NULL, " +
-                    " PRIMARY KEY (name) )");
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "(	"
+                    + " name VARCHAR(255), "
+                    + " chrom VARCHAR(255) NOT NULL, "
+                    + " chromStart int(10) unsigned NOT NULL, "
+                    + " chromEnd int(10) unsigned NOT NULL, "
+                    + " PRIMARY KEY (name) )");
             String colName = "";
             //String view_arrayId;
             MapData dMap = null;
@@ -922,15 +890,14 @@ public class Map {
             for (Data currData : arrayList) {
                 dMap = new MapData(dMapDetail, currData, ++i);
 
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap.getDataName() + " DOUBLE");
-
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap.getDataName() + " DOUBLE");
 
                 RegionArray currClazz = RegionLib.getRegionArrayClazz(currData.getClazz());
 
                 colName = currClazz.getRatioColName();
                 //view_arrayId = "vid_" + currData.getTableData();
-                Spot currSpotClazz = null;
+                ISpot currSpotClazz = null;
                 try {
                     //050613    kt
                     currSpotClazz = DataManager.getSpotClazz(currData.getClazz());
@@ -957,17 +924,16 @@ public class Map {
                 colName + " FROM " + view_arrayId + ") " +
                 " ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "  = " + colName);
                  */
-                String query = new String("INSERT INTO " + dMapDetail.getTableData() +
-                        " (name, chrom, chromStart, chromEnd, " + dMap.getDataName() + " )" +
-                        " (SELECT  p.probeName, p.chrom, p.chromStart, p.chromEnd, " +
-                        " AVG(d." + colName + ") AS " + colName +
-                        " FROM " + currData.getTableData() + " as d " +
-                        ", " + pdata.getTableData() + " as p " +
-                        " WHERE " + sql +
-                        " GROUP BY probeName, chrom) " +
-                        " ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "= values(" + dMap.getDataName() + ")");
-                Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                        "mapAtID:" + query);
+                String query = "INSERT INTO " + dMapDetail.getTableData()
+                        + " (name, chrom, chromStart, chromEnd, " + dMap.getDataName() + " )"
+                        + " (SELECT  p.probeName, p.chrom, p.chromStart, p.chromEnd, "
+                        + " AVG(d." + colName + ") AS " + colName
+                        + " FROM " + currData.getTableData() + " as d "
+                        + ", " + pdata.getTableData() + " as p "
+                        + " WHERE " + sql
+                        + " GROUP BY probeName, chrom) "
+                        + " ON DUPLICATE KEY UPDATE " + dMap.getDataName() + "= values(" + dMap.getDataName() + ")";
+                Logger.getLogger(Map.class.getName()).log(Level.INFO, "mapAtID:{0}", query);
                 s.execute(query);
                 MapService.perstistData(dMap, em);
                 Map.updateStats(dMap);
@@ -983,10 +949,10 @@ public class Map {
     }
 
     /**
-     * validate if mapping is allowed for all data entities
-     *      must be same release
-     *      
+     * validate if mapping is allowed for all data entities must be same release
+     *
      * data entities not suitable will be removed from the list
+     *
      * @param arrayList
      * @param platform
      * @return valid data list
@@ -994,13 +960,13 @@ public class Map {
     static List<Data> validateMapAtLocation(
             List<Data> arrayList,
             GenomeRelease release) {
-        List<Data> d = new Vector<Data>();
+        List<Data> d = new Vector<>();
         // instances all of experimentdata with given platform?
         for (Data currData : arrayList) {
             if (!(currData.getGenomeRelease().contentEquals(release.toString()))) {
                 Logger.getLogger(Map.class.getName()).log(Level.WARNING,
-                        "mapAtLocation: not valid (wrong release) for " + currData.toFullString());
-            // removeList.add(currData);
+                        "mapAtLocation: not valid (wrong release) for {0}", currData.toFullString());
+                // removeList.add(currData);
 
             } else {
                 d.add(currData);
@@ -1010,12 +976,12 @@ public class Map {
     }
 
     /**
-     * binnig
-     * new table  is created, 
-     * reference id  chrom + location, for each array extra column
-     * 
-     *  summarize features whose centre lies within a certain bin (intervall region)
-     *  for resolution less than 10k very fast, but less accurate for features with greater than resolution
+     * binnig new table is created, reference id chrom + location, for each
+     * array extra column
+     *
+     * summarize features whose centre lies within a certain bin (intervall
+     * region) for resolution less than 10k very fast, but less accurate for
+     * features with greater than resolution
      */
     static List<MapData> mapAtLocationBin(final List<Data> arrayList, int size, GenomeRelease release, String mapId) throws Exception {
         final List<Data> _arrayList = Map.validateMapAtLocation(arrayList, release);
@@ -1030,31 +996,27 @@ public class Map {
         try {
             final long _size = size;
             final GenomeRelease _release = release;
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
-
 
             // create entry mapList
             final MapDetail dMapDetail = new MapDetail(
                     mapId,
                     Defines.MAP_LOCATION,
                     release.toString(),
-                    "mapAtLocation size: " + size +
-                    ", release:" + release);
+                    "mapAtLocation size: " + size
+                    + ", release:" + release);
             dMapDetail.initTableData();
 
-
             //MapService.perstistDetail(dMapDetail);
-
-
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "( " +
-                    "name VARCHAR(255) NOT NULL," +
-                    "chrom VARCHAR(255) NOT NULL, " +
-                    "chromStart int(10) unsigned, " +
-                    "chromEnd int(10) unsigned, " +
-                    " PRIMARY KEY (chrom, chromStart, chromEnd) " +
-                    " )");
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "( "
+                    + "name VARCHAR(255) NOT NULL,"
+                    + "chrom VARCHAR(255) NOT NULL, "
+                    + "chromStart int(10) unsigned, "
+                    + "chromEnd int(10) unsigned, "
+                    + " PRIMARY KEY (chrom, chromStart, chromEnd) "
+                    + " )");
 
             final List<String> _chroms = CytoBandManagerImpl.stGetChroms(release);
             Thread workers[][] = new Thread[_arrayList.size()][];
@@ -1081,18 +1043,14 @@ public class Map {
 
                 // add spatial index if not already there
                 //DBUtils.addPositionAtTable(currData.getTableData());
-
-
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
                 for (String chromId : _chroms) {
 
                     final String _chromId = chromId;
                     final int ii = _chroms.indexOf(chromId);
 
-
                     final String dataName = currData.getTableData();
-
 
                     //workers[id][ii] = new Thread(new Runnable() {
                     workers[id][ii] = new Thread(new Runnable() {
@@ -1109,30 +1067,29 @@ public class Map {
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
                                         " Start processing " + dMap[iid].getDataName() + " " + _chromId);
 
-                                Connection _con = Database.getDBConnection(Defaults.localDB);
+                                Connection _con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                                 Statement _s = _con.createStatement();
                                 _s.execute("DROP VIEW IF EXISTS " + (tableName + "_" + _chromId));
 
-                                _s.execute("CREATE OR REPLACE ALGORITHM = TEMPTABLE VIEW " +
-                                        tableName + "_" + _chromId + " AS " +
-                                        "SELECT  chrom, " +
-                                        "floor(((chromStart+chromEnd)/2)/" + _size + ") as loc, " +
-                                        "AVG(" + colName + ") AS  " + dMap[iid].getDataName() +
-                                        " FROM " + dataName + " GROUP BY chrom, loc");
-
+                                _s.execute("CREATE OR REPLACE ALGORITHM = TEMPTABLE VIEW "
+                                        + tableName + "_" + _chromId + " AS "
+                                        + "SELECT  chrom, "
+                                        + "floor(((chromStart+chromEnd)/2)/" + _size + ") as loc, "
+                                        + "AVG(" + colName + ") AS  " + dMap[iid].getDataName()
+                                        + " FROM " + dataName + " GROUP BY chrom, loc");
 
                                 _s.execute(
-                                        "INSERT INTO " + dMapDetail.getTableData() +
-                                        " (name, chrom, chromStart, chromEnd, " + dMap[iid].getDataName() + " )" +
-                                        " (SELECT loc, chrom,  (loc*" + _size + "), ((loc*" + _size + ")+" + (_size - 1) + "), " +
-                                        dMap[iid].getDataName() + " FROM " + ((tableName + "_" + _chromId)) + ") " +
-                                        " ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName() +
-                                        "  =   values(" + dMap[iid].getDataName() + ")");
+                                        "INSERT INTO " + dMapDetail.getTableData()
+                                        + " (name, chrom, chromStart, chromEnd, " + dMap[iid].getDataName() + " )"
+                                        + " (SELECT loc, chrom,  (loc*" + _size + "), ((loc*" + _size + ")+" + (_size - 1) + "), "
+                                        + dMap[iid].getDataName() + " FROM " + ((tableName + "_" + _chromId)) + ") "
+                                        + " ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName()
+                                        + "  =   values(" + dMap[iid].getDataName() + ")");
 
                                 _s.execute("DROP TABLE IF EXISTS " + (tableName + "_" + _chromId));
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                        "temp table " + (tableName + "_" + _chromId) + " " +
-                                        " copied into " + dMapDetail.getTableData());
+                                        "temp table " + (tableName + "_" + _chromId) + " "
+                                        + " copied into " + dMapDetail.getTableData());
 
                             } catch (Exception e) {
                                 /*Logger.getLogger(Map.class.getName()).log(Level.SEVERE,
@@ -1143,16 +1100,13 @@ public class Map {
                                 results[iid][ii] = -1;
                             }
 
-
                         } // end run
 
-                        ;
+                    ;
                     }); // end thread
 
                     workers[id][ii].start();
                 }//end one chrom
-
-
 
             }//end data list
 
@@ -1189,11 +1143,11 @@ public class Map {
 
     /**
      *
-     * new table  is created, 
-     * reference id  chrom + location, for each array extra column
-     * 
-     * summarize features overlapping bin (intervall region)
-     * for resolution less than 10k very time consuming
+     * new table is created, reference id chrom + location, for each array extra
+     * column
+     *
+     * summarize features overlapping bin (intervall region) for resolution less
+     * than 10k very time consuming
      */
     static List<MapData> mapAtLocation(final List<Data> arrayList, int size, GenomeRelease release, String mapId) throws Exception {
         final List<Data> _arrayList = Map.validateMapAtLocation(arrayList, release);
@@ -1208,31 +1162,27 @@ public class Map {
         try {
             final long _size = size;
             final GenomeRelease _release = release;
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
-
 
             // create entry mapList
             final MapDetail dMapDetail = new MapDetail(
                     mapId,
                     Defines.MAP_LOCATION,
                     release.toString(),
-                    "mapAtLocation size: " + size +
-                    ", release:" + release);
+                    "mapAtLocation size: " + size
+                    + ", release:" + release);
             dMapDetail.initTableData();
 
-
             //MapService.perstistDetail(dMapDetail);
-
-
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "( " +
-                    "name VARCHAR(255) NOT NULL," +
-                    "chrom VARCHAR(255) NOT NULL, " +
-                    "chromStart int(10) unsigned, " +
-                    "chromEnd int(10) unsigned, " +
-                    " PRIMARY KEY (chrom, chromStart, chromEnd) " +
-                    " )");
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "( "
+                    + "name VARCHAR(255) NOT NULL,"
+                    + "chrom VARCHAR(255) NOT NULL, "
+                    + "chromStart int(10) unsigned, "
+                    + "chromEnd int(10) unsigned, "
+                    + " PRIMARY KEY (chrom, chromStart, chromEnd) "
+                    + " )");
 
             final List<String> _chroms = CytoBandManagerImpl.stGetChroms(release);
             Thread workers[][] = new Thread[_arrayList.size()][];
@@ -1260,9 +1210,8 @@ public class Map {
                 // add spatial index if not already there
                 DBUtils.addPositionAtTable(currData.getTableData());
 
-
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
                 for (String chromId : _chroms) {
 
                     final String _chromId = chromId;
@@ -1270,9 +1219,7 @@ public class Map {
                     final long _chr_start = ((CytoBand) CytoBandManagerImpl.getFirst(_release, chromId)).getChromStart();
                     final long _chr_end = ((CytoBand) CytoBandManagerImpl.getLast(_release, chromId)).getChromEnd();
 
-
                     final String dataName = currData.getTableData();
-
 
                     //workers[id][ii] = new Thread(new Runnable() {
                     workers[id][ii] = new Thread(new Runnable() {
@@ -1289,39 +1236,39 @@ public class Map {
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
                                         " Start processing " + dMap[iid].getDataName() + " " + _chromId);
 
-                                Connection _con = Database.getDBConnection(Defaults.localDB);
+                                Connection _con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                                 Statement _s = _con.createStatement();
                                 _s.execute("DROP TABLE IF EXISTS " + (tableName + "_" + _chromId));
                                 _s.execute(
-                                        "CREATE TABLE " + (tableName + "_" + _chromId) +
-                                        "( " +
-                                        "name VARCHAR(255) NOT NULL," +
-                                        "chrom VARCHAR(255) NOT NULL, " +
-                                        "chromStart int(10) unsigned, " +
-                                        "chromEnd int(10) unsigned, " +
-                                        dMap[iid].getDataName() + " DOUBLE DEFAULT 0 )");
+                                        "CREATE TABLE " + (tableName + "_" + _chromId)
+                                        + "( "
+                                        + "name VARCHAR(255) NOT NULL,"
+                                        + "chrom VARCHAR(255) NOT NULL, "
+                                        + "chromStart int(10) unsigned, "
+                                        + "chromEnd int(10) unsigned, "
+                                        + dMap[iid].getDataName() + " DOUBLE DEFAULT 0 )");
                                 for (long pos = _chr_start; pos < _chr_end; pos += _size) {
                                     //all position
 
-                                    insert = "INSERT INTO " + (tableName + "_" + _chromId) +
-                                            " (" + dMap[iid].getDataName() + ", name,  chrom, chromStart, chromEnd ) " +
-                                            " ( " +
-                                            " SELECT  avg(" + colName + " ) as aratio , " +
-                                            "\'" + (_chromId + ":" + pos + "-" + (pos + _size)) + "\' , " +
-                                            "\'" + _chromId + "\'," + pos + " , " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end) +
-                                            //" , avg(" + dcolName + ") as ratio " +
-                                            " FROM " + dataName +
-                                            " FORCE INDEX (gc_position) " + // kt 250912
-                                            " WHERE " +
-                                            " MBRIntersects( gc_position," +
-                                            " LineString(" +
-                                            " Point(" + ichrom + "," + pos + "), " +
-                                            " Point(" + ichrom + ", " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end) + "))" +
-                                            " ) " +
-                                            /*"chrom = \'" + chromId + "\' " +
-                                            //" group by chrom, " + colName +*/
-                                            " HAVING " + "avg(" + colName + " ) is not null" +
-                                            ")";
+                                    insert = "INSERT INTO " + (tableName + "_" + _chromId)
+                                            + " (" + dMap[iid].getDataName() + ", name,  chrom, chromStart, chromEnd ) "
+                                            + " ( "
+                                            + " SELECT  avg(" + colName + " ) as aratio , "
+                                            + "\'" + (_chromId + ":" + pos + "-" + (pos + _size)) + "\' , "
+                                            + "\'" + _chromId + "\'," + pos + " , " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end)
+                                            + //" , avg(" + dcolName + ") as ratio " +
+                                            " FROM " + dataName
+                                            + " FORCE INDEX (gc_position) "
+                                            + // kt 250912
+                                            " WHERE "
+                                            + " MBRIntersects( gc_position,"
+                                            + " LineString("
+                                            + " Point(" + ichrom + "," + pos + "), "
+                                            + " Point(" + ichrom + ", " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end) + "))"
+                                            + " ) "
+                                            + /*"chrom = \'" + chromId + "\' " +
+                                            //" group by chrom, " + colName +*/ " HAVING " + "avg(" + colName + " ) is not null"
+                                            + ")";
                                     _s.addBatch(insert);
                                     insert_count++;
 
@@ -1336,8 +1283,8 @@ public class Map {
                                         "mapAtLocation: " + dMap[id].getDataName() + " " + _chromId + " inserted:  " + insert_count);
                                          */
                                         Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                                "mapAtLocation tmpTable " + (tableName + "_" + _chromId) +
-                                                " with " + insert_count + " items");
+                                                "mapAtLocation tmpTable " + (tableName + "_" + _chromId)
+                                                + " with " + insert_count + " items");
 
                                         insert_count = 0;
                                     }
@@ -1345,27 +1292,25 @@ public class Map {
 
                                 if (insert_count > 0) {
 
-
                                     _s.executeBatch();
                                     _s.clearBatch();
                                     Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                            "mapAtLocation tmpTable " + (tableName + "_" + _chromId) +
-                                            " with " + insert_count + " items");
+                                            "mapAtLocation tmpTable " + (tableName + "_" + _chromId)
+                                            + " with " + insert_count + " items");
                                     results[iid][ii] += insert_count;
-
 
                                 }
 
                                 //s.execute("LOAD DATA INFILE \'" + filePath + "_" + _chromId + "_" + _i + " \' INTO TABLE " +   tableName);
-                                _s.execute("INSERT INTO " + dMapDetail.getTableData() +
-                                        " (name,  chrom, chromStart, chromEnd , " + dMap[iid].getDataName() + " ) " +
-                                        " ( SELECT * FROM " + ((tableName + "_" + _chromId)) + ")" +
-                                        " ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName() +
-                                        "  =   values(" + dMap[iid].getDataName() + ")");
+                                _s.execute("INSERT INTO " + dMapDetail.getTableData()
+                                        + " (name,  chrom, chromStart, chromEnd , " + dMap[iid].getDataName() + " ) "
+                                        + " ( SELECT * FROM " + ((tableName + "_" + _chromId)) + ")"
+                                        + " ON DUPLICATE KEY UPDATE " + dMap[iid].getDataName()
+                                        + "  =   values(" + dMap[iid].getDataName() + ")");
                                 _s.execute("DROP TABLE IF EXISTS " + (tableName + "_" + _chromId));
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
-                                        "temp table " + (tableName + "_" + _chromId) + " " +
-                                        insert_count + " copied into " + dMapDetail.getTableData());
+                                        "temp table " + (tableName + "_" + _chromId) + " "
+                                        + insert_count + " copied into " + dMapDetail.getTableData());
 
                             } catch (Exception e) {
                                 /*Logger.getLogger(Map.class.getName()).log(Level.SEVERE,
@@ -1376,16 +1321,13 @@ public class Map {
                                 results[iid][ii] = -1;
                             }
 
-
                         } // end run
 
-                        ;
+                    ;
                     }); // end thread
 
                     workers[id][ii].start();
                 }//end one chrom
-
-
 
             }//end data list
 
@@ -1421,15 +1363,15 @@ public class Map {
     }
 
     /**
-     * @deprecated 
-     **/
+     * @deprecated
+     *
+     */
     @Deprecated
     static List<MapData> mapAtLocationOld(final List<Data> arrayList, int size, GenomeRelease release, String mapId) throws Exception {
         final List<Data> _arrayList = Map.validateMapAtLocation(arrayList, release);
         if (_arrayList.size() <= 0) {
             Logger.getLogger(Map.class.getName()).log(Level.WARNING,
                     "mapAtLocation: nothing to map");
-
 
             return null;
         }
@@ -1439,30 +1381,28 @@ public class Map {
         try {
             final long _size = size;
             final GenomeRelease _release = release;
-            con =
-                    Database.getDBConnection(Defaults.localDB);
+            con
+                    = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
-
 
             // create entry mapList
             final MapDetail dMapDetail = new MapDetail(
                     mapId,
                     Defines.MAP_LOCATION,
                     release.toString(),
-                    "mapAtLocation size: " + size +
-                    ", release:" + release);
+                    "mapAtLocation size: " + size
+                    + ", release:" + release);
             dMapDetail.initTableData();
             //MapService.perstistDetail(dMapDetail);
 
-
             s.execute("DROP TABLE IF EXISTS " + dMapDetail.getTableData());
-            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "( " +
-                    "name VARCHAR(255) NOT NULL," +
-                    "chrom VARCHAR(255) NOT NULL, " +
-                    "chromStart int(10) unsigned, " +
-                    "chromEnd int(10) unsigned, " +
-                    " PRIMARY KEY (chrom, chromStart, chromEnd) " +
-                    " )");
+            s.execute("CREATE TABLE " + dMapDetail.getTableData() + "( "
+                    + "name VARCHAR(255) NOT NULL,"
+                    + "chrom VARCHAR(255) NOT NULL, "
+                    + "chromStart int(10) unsigned, "
+                    + "chromEnd int(10) unsigned, "
+                    + " PRIMARY KEY (chrom, chromStart, chromEnd) "
+                    + " )");
 
             final List<String> _chroms = CytoBandManagerImpl.stGetChroms(release);
             Thread workers[][] = new Thread[_arrayList.size()][];
@@ -1490,8 +1430,8 @@ public class Map {
                 // add spatial index if not already there
                 DBUtils.addPositionAtTable(currData.getTableData());
 
-                s.execute("ALTER TABLE " + dMapDetail.getTableData() +
-                        " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
+                s.execute("ALTER TABLE " + dMapDetail.getTableData()
+                        + " ADD COLUMN " + dMap[id].getDataName() + " DOUBLE DEFAULT 0");
                 for (String chromId : _chroms) {
                     final String _chromId = chromId;
                     final int ii = _chroms.indexOf(chromId);
@@ -1501,7 +1441,6 @@ public class Map {
                     final String mapDetailName = dMapDetail.getTableData();
                     final String mapName = dMap[id].getDataName();
                     final String dataName = currData.getTableData();
-
 
                     workers[id][ii] = new Thread(new Runnable() {
 
@@ -1516,34 +1455,32 @@ public class Map {
                                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
                                         " Start processing " + dMap[iid].getDataName() + " " + _chromId);
 
-                                Connection _con = Database.getDBConnection(Defaults.localDB);
+                                Connection _con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                                 Statement _s = _con.createStatement();
 
                                 for (long pos = _chr_start; pos < _chr_end; pos += _size) {
                                     //all position
 
-                                    insert =
-                                            "INSERT INTO " + mapDetailName +
-                                            " (" + mapName + ", name,  chrom, chromStart, chromEnd ) " +
-                                            " ( " +
-                                            " SELECT  avg(" + colName + " ) as aratio , " +
-                                            "\'" + (_chromId + ":" + pos + "-" + (pos + _size)) + "\' , " +
-                                            "\'" + _chromId + "\'," + pos + " , " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end) +
-                                            //" , avg(" + dcolName + ") as ratio " +
-                                            " FROM " + dataName +
-                                            " WHERE " +
-                                            " MBRIntersects( gc_position," +
-                                            " LineString(" +
-                                            " Point(" + ichrom + "," + pos + "), " +
-                                            " Point(" + ichrom + ", " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end) + "))" +
-                                            " ) " +
-                                            /*"chrom = \'" + chromId + "\' " +
-                                            //" group by chrom, " + colName +*/
-                                            " HAVING " + "avg(" + colName + " ) is not null" +
-                                            /*" AND (  chromStart < " + ((pos + size) < chr_end ? (pos + size) : chr_end) +
-                                            " AND  chromEnd  >  " + pos + " ) " + // segment border region */
-                                            ") " +
-                                            " ON DUPLICATE KEY UPDATE " + mapName + "  =   values(" + mapName + ")";
+                                    insert
+                                            = "INSERT INTO " + mapDetailName
+                                            + " (" + mapName + ", name,  chrom, chromStart, chromEnd ) "
+                                            + " ( "
+                                            + " SELECT  avg(" + colName + " ) as aratio , "
+                                            + "\'" + (_chromId + ":" + pos + "-" + (pos + _size)) + "\' , "
+                                            + "\'" + _chromId + "\'," + pos + " , " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end)
+                                            + //" , avg(" + dcolName + ") as ratio " +
+                                            " FROM " + dataName
+                                            + " WHERE "
+                                            + " MBRIntersects( gc_position,"
+                                            + " LineString("
+                                            + " Point(" + ichrom + "," + pos + "), "
+                                            + " Point(" + ichrom + ", " + ((pos + _size) < _chr_end ? (pos + _size) : _chr_end) + "))"
+                                            + " ) "
+                                            + /*"chrom = \'" + chromId + "\' " +
+                                            //" group by chrom, " + colName +*/ " HAVING " + "avg(" + colName + " ) is not null"
+                                            + /*" AND (  chromStart < " + ((pos + size) < chr_end ? (pos + size) : chr_end) +
+                                            " AND  chromEnd  >  " + pos + " ) " + // segment border region */ ") "
+                                            + " ON DUPLICATE KEY UPDATE " + mapName + "  =   values(" + mapName + ")";
                                     //Logger.getLogger(Map.class.getName()).log(Level.INFO, insert);
                                     _s.addBatch(insert);
                                     insert_count++;
@@ -1577,7 +1514,7 @@ public class Map {
                             }
                         } // end run
 
-                        ;
+                    ;
                     }); // end thread
 
 
@@ -1586,32 +1523,29 @@ public class Map {
 
             }//end data list
 
-            for (int id = 0; id <
-                    arrayList.size(); id++) {
-                for (int j = 0; j <
-                        workers.length; j++) {
+            for (int id = 0; id
+                    < arrayList.size(); id++) {
+                for (int j = 0; j
+                        < workers.length; j++) {
                     workers[id][j].join(0);
                 }
 
             }
-            for (int id = 0; id <
-                    arrayList.size(); id++) {
+            for (int id = 0; id
+                    < arrayList.size(); id++) {
                 int insert_count = 0;
-                for (int j = 0; j <
-                        results.length; j++) {
+                for (int j = 0; j
+                        < results.length; j++) {
                     if (results[id][j] == -1) {
                         throw new Exception("Error");
                     } else {
                         insert_count += results[id][j];
                     }
 
-
-
                 }
 
                 Logger.getLogger(Map.class.getName()).log(Level.INFO,
                         "mapAtLocation: " + dMap[id].getDataName() + " inserted  " + insert_count);
-
 
                 MapService.perstistData(dMap[id], em);
                 Map.updateStats(dMap[id]);
@@ -1629,14 +1563,15 @@ public class Map {
     }
 
     /**
-     * set statistics for map data 
+     * set statistics for map data
+     *
      * @param newData
      * @throws java.lang.Exception
      */
     static void updateStats(MapData newData) throws Exception {
         try {
             //update array
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
 
             String sql = "SELECT count(*) from " + newData.getTableData();
@@ -1646,11 +1581,11 @@ public class Map {
 
             newData.setNof(rs.getInt(1));
             // TODO MEDIAN!
-            sql =
-                    "SELECT  AVG(" + newData.getDataName() + "), null, VAR_SAMP(" + newData.getDataName() + "), STDDEV_SAMP(" + newData.getDataName() + "), MIN(" + newData.getDataName() + "), MAX(" + newData.getDataName() + ") " + " from " + newData.getTableData();
+            sql
+                    = "SELECT  AVG(" + newData.getDataName() + "), null, VAR_SAMP(" + newData.getDataName() + "), STDDEV_SAMP(" + newData.getDataName() + "), MIN(" + newData.getDataName() + "), MAX(" + newData.getDataName() + ") " + " from " + newData.getTableData();
 
-            rs =
-                    s.executeQuery(sql);
+            rs
+                    = s.executeQuery(sql);
 
             rs.next();
             DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
@@ -1679,10 +1614,11 @@ public class Map {
 
     /**
      * export with unique identifier chrom:start:stop
-     *  @param mapDetail
+     *
+     * @param mapDetail
      * @param list
-     * @param inclId  include name, otherwise  chrom:start:stop
-     * @param inclPos export with position 
+     * @param inclId include name, otherwise chrom:start:stop
+     * @param inclPos export with position
      * @param inclNull if set to false rows with all cols = null will be skipped
      * @param chrom only set if subset to be exported, otherwise null
      * @param start only set if subset to be exported, otherwise null
@@ -1697,15 +1633,11 @@ public class Map {
             boolean inclNull,
             String chrom, long start, long end, String filename) {
 
-
         try {
-            java.util.Map<String, String> meta = new java.util.HashMap<String, String>();
 
             Utils.deleteFile(filename);
-            Vector<String> arrays = new Vector<String>();
 
-            con =
-                    Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
             //String colname;
@@ -1716,22 +1648,21 @@ public class Map {
             String sql = "";
             String sqlNull = null;
 
-
             if (inclId) {
                 sql = " name";
-                sqlHead =
-                        "\'name\'";
+                sqlHead
+                        = "\'name\'";
             } else {
                 // create id aus position
                 sqlHead += "\'chrom:start-stop\'";
-                sql +=
-                        "CONCAT(chrom, \':\', chromStart, \'-\', chromEnd )";
+                sql
+                        += "CONCAT(chrom, \':\', chromStart, \'-\', chromEnd )";
             }
 
             if (inclPos) {
                 sqlHead += ", \'chrom\', \'chromStart\',\'chromEnd\'";
-                sql +=
-                        ", chrom, chromStart,chromEnd";
+                sql
+                        += ", chrom, chromStart,chromEnd";
             }
 
             for (MapData d : list) {
@@ -1739,14 +1670,11 @@ public class Map {
                 sql += " , ";
                 sqlHead += " , ";
 
+                sqlHead
+                        += "\'" + d.getDataName() + "\'";
 
-
-                sqlHead +=
-                        "\'" + d.getDataName() + "\'";
-
-
-                sql +=
-                        "cast(" + d.getDataName() + " as decimal(15,7))";
+                sql
+                        += "cast(" + d.getDataName() + " as decimal(15,7))";
 
                 if (!inclNull) {
                     if (sqlNull == null) {
@@ -1763,13 +1691,13 @@ public class Map {
             String sqlWhere = null;
 
             if (chrom != null && start + end > 0) {
-                sqlPosition = "chrom = \'" + chrom + "\' and " +
-                        " chromStart < " + end + " AND chromEnd >  " + start;
+                sqlPosition = "chrom = \'" + chrom + "\' and "
+                        + " chromStart < " + end + " AND chromEnd >  " + start;
             }
 
-            String ssql = "SELECT  " + sqlHead + " UNION " +
-                    "  SELECT  " +
-                    sql + " FROM " + mapDetail.getTableData();
+            String ssql = "SELECT  " + sqlHead + " UNION "
+                    + "  SELECT  "
+                    + sql + " FROM " + mapDetail.getTableData();
 
             if (sqlNull != null) {
                 if (sqlWhere == null) {
@@ -1792,8 +1720,8 @@ public class Map {
             }
 
             ssql += sqlWhere != null ? sqlWhere : "";
-            ssql +=
-                    " into outfile \'" + filename + "\' ";
+            ssql
+                    += " into outfile \'" + filename + "\' ";
             System.out.println(ssql);
             s.execute(ssql);
         } catch (Exception e) {

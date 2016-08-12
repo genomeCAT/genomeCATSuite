@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportPlatformGEOAffy
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +24,7 @@ import java.util.Vector;
 import org.molgen.genomeCATPro.annotation.RegionLib;
 
 /**
- *  020813   kt	XPortImport createNewImport();
+ * 020813 kt	XPortImport createNewImport();
  */
 public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPlatform {
 
@@ -53,8 +51,8 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
     public Vector<String> getImportType() {
         return new Vector<String>(
                 Arrays.asList(new String[]{
-                    ImportPlatformGEOAffy.platform_geo_affy_txt
-                }));
+            ImportPlatformGEOAffy.platform_geo_affy_txt
+        }));
     }
 
     @Override
@@ -87,49 +85,53 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
     int iChromStart = -1;
     int iChromEnd = -1;
 
-    protected String getCreateTableSQL(String tableData) {
-        String sql = new String(" CREATE TABLE " + tableData + " ( " +
-                "id INT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "probeName varchar(255) NOT NULL, " +
-                "REFSEQ varchar(255) NOT NULL, " +
-                "col int(10) UNSIGNED, " +
-                "row int(10) UNSIGNED, " +
-                "chrom varChar(45) NOT NULL," +
-                "chromStart int(10) unsigned NOT NULL," +
-                "chromEnd int(10) unsigned NOT NULL," +
-                "PhysicalPosition int(10) unsigned NOT NULL," +
-                "controlType tinyint(1) unsigned NOT NULL default 0," +
-                "GB_ACC varchar(255), " +
-                "GENE varchar(255), " +
-                "GENE_SYMBOL varchar(255), " +
-                "GENE_NAME varchar(255), " +
-                "UNIGENE_ID varchar(255), " +
-                "ENSEMBL_ID varchar(255), " +
-                "TIGR_ID varchar(255), " +
-                "GO_ID varchar(255), " +
-                "ACCESSION_STRING varchar(255)," +
-                "DESCRIPTION varchar(255), " +
-                "PRIMARY KEY (id)," +
-                //"UNIQUE KEY (probeID)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                "INDEX (REFSEQ)," +
-                "INDEX (probeName)  " +
-                " ) TYPE=MyISAM");
+    @Override
+    public String getCreateTableSQL(String tableData) {
+        String sql = " CREATE TABLE " + tableData + " ( "
+                + "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "probeName varchar(255) NOT NULL, "
+                + "REFSEQ varchar(255) NOT NULL, "
+                + "col int(10) UNSIGNED, "
+                + "row int(10) UNSIGNED, "
+                + "chrom varChar(45) NOT NULL,"
+                + "chromStart int(10) unsigned NOT NULL,"
+                + "chromEnd int(10) unsigned NOT NULL,"
+                + "PhysicalPosition int(10) unsigned NOT NULL,"
+                + "controlType tinyint(1) unsigned NOT NULL default 0,"
+                + "GB_ACC varchar(255), "
+                /*
+                + "GENE varchar(255), "
+                + "GENE_SYMBOL varchar(255), "
+                + "GENE_NAME varchar(255), "
+                + "UNIGENE_ID varchar(255), "
+                + "ENSEMBL_ID varchar(255), "
+                + "TIGR_ID varchar(255), "
+                + "GO_ID varchar(255), "*/
+                + "ACCESSION_STRING varchar(255),"
+                + "DESCRIPTION varchar(255), "
+                + "PRIMARY KEY (id),"
+                + //"UNIQUE KEY (probeID)," +
+                "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + "INDEX (REFSEQ),"
+                + "INDEX (probeName)  "
+                + " ) TYPE=MyISAM";
         return sql;
     }
 
     @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeName", "REFSEQ",
-                    "chrom", "chromStart", "chromEnd", "PhysicalPosition",
-                    "controlType", "GENE", "col", "row",
-                    "GB_ACC", "GENE_SYMBOL", "GENE_NAME",
-                    "UNIGENE_ID", "ENSEMBL_ID", "TIGR_ID", "GO_ID",
-                    "ACCESSION_STRING", "DESCRIPTION"
-                };
+            "probeName", "REFSEQ",
+            "chrom", "chromStart", "chromEnd", "PhysicalPosition",
+            "controlType", 
+          //  "GENE", 
+            "col", "row",
+           "GB_ACC", // "GENE_SYMBOL", "GENE_NAME",
+          //  "UNIGENE_ID", "ENSEMBL_ID", "TIGR_ID", "GO_ID",
+            "ACCESSION_STRING", "DESCRIPTION"
+        };
     }
 
     @Override
@@ -151,7 +153,6 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
         entry[ind_file] = "SNP_ID";
         _map.add(entry);
 
-
         entry = new String[2];
         entry[ind_db] = "chrom";
         entry[ind_file] = "Chromosome";
@@ -172,8 +173,6 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
         entry[ind_file] = "Physical Position";
         _map.add(entry);
 
-
-
         return _map;
     }
 
@@ -181,13 +180,9 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
     protected List<String[]> extendMapping() {
 
         // 050413 kt
-
         List<String[]> _map = super.extendMapping();
 
-
-
         for (int i = 0; i < _map.size(); i++) {
-
 
             if (_map.get(i)[ind_db].contentEquals("chromStart")) {
                 ichromStart = i;
@@ -215,7 +210,6 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
 
         // like 1 to chr1
         // nothing to do for geo
-
         for (int i = 0; i < map.size(); i++) {
             if (map.get(i)[ind_db].contentEquals("controlType")) {
                 if (tmp[i].contentEquals("pos")) {
@@ -239,15 +233,14 @@ public class ImportPlatformGEOAffy extends ImportPlatformGEO implements XPortPla
                 }
             }
         }
-        if (tmp[ichromStart] == null || tmp[ichromStart].contentEquals("") ||
-                tmp[ichromEnd] == null || tmp[ichromEnd].contentEquals("")) {
+        if (tmp[ichromStart] == null || tmp[ichromStart].contentEquals("")
+                || tmp[ichromEnd] == null || tmp[ichromEnd].contentEquals("")) {
 
             tmp[ichromStart] = tmp[iPhysPos];
             tmp[ichromEnd] = tmp[iPhysPos];
 
         }
         return tmp;
-
 
     }
 }

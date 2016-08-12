@@ -9,27 +9,26 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** * @(#)CytoBand.java * * Copyright (c) 2004 by Wei Chen
- * * @author Wei Chen
- * * Email: wei@molgen.mpg.de
- * * This program is free software; you can redistribute it and/or
- * * modify it under the terms of the GNU General Public License 
- * * as published by the Free Software Foundation; either version 2 
- * * of the License, or (at your option) any later version, 
- * * provided that any use properly credits the author. 
- * * This program is distributed in the hope that it will be useful,
- * * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * * GNU General Public License for more details at http://www.gnu.org * * */
 /**
- * Class CytoBand is class holding the description of cytoband,
- * chrom, the name of chromosome
- * chromStart, the base pair position of start
- * chromEnd, the base pair position of end
- * name, the name of the cytoband
- * gieStain, the giestain status of the cytoband
+ * * @(#)CytoBand.java * * Copyright (c) 2004 by Wei Chen
+ * * @author Wei Chen * Email: wei@molgen.mpg.de * This program is free
+ * software; you can redistribute it and/or * modify it under the terms of the
+ * GNU General Public License * as published by the Free Software Foundation;
+ * either version 2 * of the License, or (at your option) any later version, *
+ * provided that any use properly credits the author. * This program is
+ * distributed in the hope that it will be useful, * but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of * MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the * GNU General Public License for more details at
+ * http://www.gnu.org * *
+ */
+/**
+ * Class CytoBand is class holding the description of cytoband, chrom, the name
+ * of chromosome chromStart, the base pair position of start chromEnd, the base
+ * pair position of end name, the name of the cytoband gieStain, the giestain
+ * status of the cytoband
  *
- **/
+ *
+ */
 public class CytoBandImpl implements CytoBand {
 
     public String chrom;
@@ -43,10 +42,10 @@ public class CytoBandImpl implements CytoBand {
 
     /**
      * Constructor.
-     **/
+     *
+     */
     public CytoBandImpl(String chrom, long chromStart,
             long chromEnd, String name, String gieStain) {
-
 
         this.chrom = chrom;
         this.name = name;
@@ -113,9 +112,9 @@ public class CytoBandImpl implements CytoBand {
     }
 
     public String getColorDesc() {
-        return new String("<html>" +
-                "white: giestain negative band</br>" +
-                "light gray to black: giestain positive band</html>");
+        return new String("<html>"
+                + "white: giestain negative band</br>"
+                + "light gray to black: giestain positive band</html>");
     }
 
     public Color getColor() {
@@ -215,7 +214,6 @@ public class CytoBandImpl implements CytoBand {
                 BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics2D g = icon.createGraphics();
 
-
         Color values[] = new Color[]{
             Color.WHITE, Color.LIGHT_GRAY,
             Color.GRAY, Color.DARK_GRAY, Color.BLACK
@@ -225,7 +223,6 @@ public class CytoBandImpl implements CytoBand {
         int x = 0;
         for (Color d : values) {
 
-
             // print farbscale
             g.setColor(d);
 
@@ -233,8 +230,8 @@ public class CytoBandImpl implements CytoBand {
             g.fillRect(x, 0, width, icon.getHeight());
             x += width;
 
-        //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
-        //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
+            //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
+            //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
         }
     }
 

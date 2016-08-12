@@ -6,7 +6,6 @@
             <file name="org-molgen-genomeCATPro-peaks-ExtractPeaksAction.instance"/>
         </folder>
         <folder name="Window">
-            <file name="org-molgen-genomeCATPro-peaks-CATFramePropsAction.instance"/>
             <file name="org-molgen-genomeCATPro-peaks-CNVCATAction.instance"/>
         </folder>
     </folder>
@@ -17,20 +16,17 @@
                 <attr name="position" intvalue="22"/>
             </file>
         </folder>
-        <folder name="App">
-            <attr name="position" intvalue="4"/>
-            <folder name="CNVCAT">
-                <attr name="position" intvalue="1"/>
+        <folder name="Modules">
+            
+            <folder name="GroupExplorer">
+                <attr name="position" intvalue="3"/>
                 <file name="CNVCATAction.shadow">
                     <attr name="position" intvalue="1"/>
                     <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-peaks-CNVCATAction.instance"/>
                 </file>
-                <file name="CATFramePropsAction.shadow">
-                    <attr name="position" intvalue="2"/>
-                    <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-peaks-CATFramePropsAction.instance"/>
-                </file>
             </folder>
         </folder>
+        <file name="GoTo_hidden"/>
         <folder name="Window">
         </folder>
     </folder>
@@ -40,7 +36,7 @@
                 <attr name="originalFile" stringvalue="Actions/Peaks/org-molgen-genomeCATPro-peaks-ExtractPeaksAction.instance"/>
             </file>
         </folder>
-        <folder name="App">
+        <folder name="Modules">
             <file name="CNVCATAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-peaks-CNVCATAction.instance"/>
             </file>
@@ -50,9 +46,21 @@
         <folder name="Components">
         </folder>
         <folder name="Modes">
+            <file name="anonymousMode_1.wsmode" url="anonymousMode_1Wsmode.xml"/>
+            <file name="bottomSlidingSide.wsmode" url="bottomSlidingSideWsmode.xml"/>
+            <file name="code_evaluator.wsmode" url="code_evaluatorWsmode.xml"/>
+            <file name="commonpalette.wsmode" url="commonpaletteWsmode.xml"/>
             <folder name="editor">
                 <file name="CNVCATTopComponent.wstcref" url="CNVCATTopComponentWstcref.xml"/>
             </folder>
+            <file name="editor.wsmode" url="editorWsmode.xml"/>
+            <file name="explorer.wsmode" url="explorerWsmode.xml"/>
+            <file name="leftSlidingSide.wsmode" url="leftSlidingSideWsmode.xml"/>
+            <file name="navigator.wsmode" url="navigatorWsmode.xml"/>
+            <file name="properties.wsmode" url="propertiesWsmode.xml"/>
+            <file name="rightSlidingSide.wsmode" url="rightSlidingSideWsmode.xml"/>
+            <file name="topSlidingSide.wsmode" url="topSlidingSideWsmode.xml"/>
+            <file name="webpreview.wsmode" url="webpreviewWsmode.xml"/>
         </folder>
     </folder>
 </filesystem>

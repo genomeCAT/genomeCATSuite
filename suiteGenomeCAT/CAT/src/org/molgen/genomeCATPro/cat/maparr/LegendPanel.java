@@ -1,25 +1,23 @@
 package org.molgen.genomeCATPro.cat.maparr;
+
 /**
  * @name LegendPanel
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -51,7 +49,7 @@ import org.molgen.genomeCATPro.cat.util.Defines;
 
 /**
  *
- * 280912   kt   resp ArrayDataAnno 
+ * 280912 kt resp ArrayDataAnno
  */
 public class LegendPanel extends JPanel {
 
@@ -74,7 +72,7 @@ public class LegendPanel extends JPanel {
 
     /**
      * create popup menues for legend panel.
-     * 
+     *
      */
     protected void initMenues() {
         menuItemMoveTop.addActionListener(new MenuListener());
@@ -93,14 +91,15 @@ public class LegendPanel extends JPanel {
         popup.add(menuItemFilter);
         menuItemSave.addActionListener(new MenuListener());
         popup.add(menuItemSave);
-    /*
+        /*
     MouseListener popupListener = new PopupListener();
     addMouseListener(popupListener);
-     */
+         */
     }
 
     /**
      * allow or forbid user scaling
+     *
      * @param allowed
      */
     void setUserScaling(boolean allowed) {
@@ -123,7 +122,6 @@ public class LegendPanel extends JPanel {
             //int i = LegendPanel.this.getIndexPosition(currentPosition);
             Component component = LegendPanel.this.getComponentAt(currentPosition);
 
-
             if (component != null && component instanceof ArrayLabel) {
                 //((JPanel) component).setOpaque(true);
                 //component.setBackground(Color.MAGENTA);
@@ -135,8 +133,8 @@ public class LegendPanel extends JPanel {
                 JMenuItem source = (JMenuItem) (e.getSource());
                 if (source == menuItemDelete) {
                     int n = JOptionPane.showConfirmDialog(null,
-                            new String("Do you really want to delete this view for \n" +
-                            a.arraydata.getName()),
+                            new String("Do you really want to delete this view for \n"
+                                    + a.arraydata.getName()),
                             "Delete Array View",
                             JOptionPane.YES_NO_OPTION);
 
@@ -144,8 +142,8 @@ public class LegendPanel extends JPanel {
                         //boolean filtered = ((ArrayLabel) LegendPanel.this.getComponent(i)).arraydata.filteredData;
                         if (a.arraydata.filteredData) {
                             int nn = JOptionPane.showConfirmDialog(null,
-                                    "Would you like to save the filtered data as new " +
-                                    " data table into the database? ",
+                                    "Would you like to save the filtered data as new "
+                                    + " data table into the database? ",
                                     "save filtered data",
                                     JOptionPane.YES_NO_OPTION);
 
@@ -181,8 +179,8 @@ public class LegendPanel extends JPanel {
                 if (source == menuItemMoveBottom) {
                     LegendPanel.this.changePosition(component, i, LegendPanel.this.getComponentCount() - 1);
                 }
-            // component.setBackground(Color.WHITE);
-            // ((JPanel) component).setOpaque(false);
+                // component.setBackground(Color.WHITE);
+                // ((JPanel) component).setOpaque(false);
             }
         }
     }
@@ -214,6 +212,7 @@ public class LegendPanel extends JPanel {
 
     /**
      * create new array legend view
+     *
      * @param m
      * @param s
      */
@@ -238,6 +237,7 @@ public class LegendPanel extends JPanel {
 
     /**
      * move position for component inside legendpanel
+     *
      * @param arrayLabel
      * @param sourcePos
      * @param destPos
@@ -249,6 +249,7 @@ public class LegendPanel extends JPanel {
 
     /**
      * remove component from legendpanel at given position
+     *
      * @param pos
      */
     protected void removeArray(Long id) {
@@ -264,12 +265,11 @@ public class LegendPanel extends JPanel {
             return -1;
         }
 
-
-
     }
 
     /**
      * create new array component
+     *
      * @return
      */
     protected class ArrayLabel extends JPanel {
@@ -281,8 +281,8 @@ public class LegendPanel extends JPanel {
         MouseListener popupListener = new PopupListener();
 
         /**
-         * 
-         * @param m ArrayData 
+         *
+         * @param m ArrayData
          * @param s ArrayStats
          */
         public ArrayLabel(ArrayData d) {
@@ -291,7 +291,6 @@ public class LegendPanel extends JPanel {
             this.arraydata = d;
 
             initView();
-
 
             addMouseListener(popupListener);
         }
@@ -310,7 +309,6 @@ public class LegendPanel extends JPanel {
             //arrayText.append(m.getAsText());
             //arrayText.append("</PRE>");
             //this.texts.put(m.viewId, arrayText);
-
             if (!(arraydata instanceof ArrayDataAnno)) {
 
                 arrayText.append("median: \t" + this.arraydata.getData().getMedian() + "\n");
@@ -325,19 +323,19 @@ public class LegendPanel extends JPanel {
             JLabel arrayTextL = new JLabel(arrayText.toString());
             arrayTextL.setHorizontalTextPosition(SwingConstants.LEFT);
             //arrayTextL.setFont(new Font("Serif", Font.BOLD, 10));
-            if (!(arraydata instanceof ArrayDataAnno))
+            if (!(arraydata instanceof ArrayDataAnno)) {
                 arrayTextL.setPreferredSize(
-                    new Dimension((int) (Defines.ARRAY_WIDTH * 0.25),
-                     Defines.ARRAY_HEIGTH));
-            else
-                 arrayTextL.setPreferredSize(
-                    new Dimension((int) (Defines.ARRAY_WIDTH * 0.25),
-                    (int) (Defines.ARRAY_HEIGTH*0.5)));
+                        new Dimension((int) (Defines.ARRAY_WIDTH * 0.25),
+                                Defines.ARRAY_HEIGTH));
+            } else {
+                arrayTextL.setPreferredSize(
+                        new Dimension((int) (Defines.ARRAY_WIDTH * 0.25),
+                                (int) (Defines.ARRAY_HEIGTH * 0.5)));
+            }
             tabbedPane.addTab(
                     this.arraydata.getName().substring(0,
-                    Math.min(15, this.arraydata.getName().length())),
+                            Math.min(15, this.arraydata.getName().length())),
                     null, arrayTextL, "information about the array");
-
 
             JPanel arrayPanel = new JPanel();
             arrayPanel.setLayout(new BoxLayout(arrayPanel, BoxLayout.Y_AXIS));
@@ -403,7 +401,6 @@ public class LegendPanel extends JPanel {
                         ArrayLabel.this.negThresholdSpinner.setEnabled(selected);
                         ArrayLabel.this.posThresholdSpinner.setEnabled(selected);
 
-
                     }
                 });
 
@@ -412,19 +409,15 @@ public class LegendPanel extends JPanel {
                 pCheckThresholds.add(checkThresholds, java.awt.BorderLayout.CENTER);
                 arrayPanel.add(pCheckThresholds);
 
-
                 arrayPanel.add(pNegThreshold);
 
-
                 arrayPanel.add(pPosThreshold);
-
 
                 // create scaling spinner
                 SpinnerModel scaleModel = new SpinnerNumberModel(1.0, 0, 100.0, 0.1);
                 //SpinnerModel scaleModel = new SpinnerNumberModel(1, 1, 10, 0.1);
                 scaleSpinner = new JSpinner(scaleModel);
                 scaleSpinner.addChangeListener(new MyChangeListener());
-
 
                 JPanel pScaleSpinner = new JPanel(new java.awt.BorderLayout());
                 pScaleSpinner.setBorder(new javax.swing.border.TitledBorder("scale ratios"));
@@ -445,7 +438,7 @@ public class LegendPanel extends JPanel {
                 int i = getIndexPosition(LegendPanel.this.getMousePosition());
                 if (i > -1) {
                     arrayFrame.scaleArrayViewInterChrom(i, scaleFactor);
-                //scale(i, scaleFactor);
+                    //scale(i, scaleFactor);
                 }
             }
         };
@@ -468,4 +461,3 @@ public class LegendPanel extends JPanel {
         }
     }
 }
-

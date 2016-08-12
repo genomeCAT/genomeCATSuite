@@ -24,22 +24,24 @@ import org.openide.util.lookup.Lookups;
 /**
  * @name TrackNode
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
+ */
+/**
+ *
+ * 141014 kt no menue item Properties
  */
 public class TrackNode extends BeanNode<Track> {
 
@@ -47,7 +49,7 @@ public class TrackNode extends BeanNode<Track> {
         //super(new TrackChildren(track), Lookups.singleton(track));
         super(bean,
                 Children.create(
-                new ExperimentDataNodeFactory(bean), true), Lookups.singleton(bean));
+                        new ExperimentDataNodeFactory(bean), true), Lookups.singleton(bean));
 
         setDisplayName("Track: " + bean.getName());
         setShortDescription(bean.getDescription());
@@ -55,20 +57,20 @@ public class TrackNode extends BeanNode<Track> {
     }
     static List<Action> actionsData = new ArrayList<Action>(
             Arrays.asList(
-            new ViewTrackDataAction(),
-            new ViewDataAction(),
-            new MoveTrackAction(),
-            new ExportData(),
-            new DeleteDataAction(),
-            null,
-            new FilterExperimentAction(),
-            new AnnotateAction()));
+                    new ViewTrackDataAction(),
+                    new ViewDataAction(),
+                    new MoveTrackAction(),
+                    new ExportData(),
+                    new DeleteDataAction(),
+                    null,
+                    new FilterExperimentAction(),
+                    new AnnotateAction()));
     static List<Action> actionsApp = new ArrayList<Action>(
             Arrays.asList(new CGHProFrameAction()));
     static List<Action> actionsCalculate = new ArrayList<Action>(
-            Arrays.asList(           
-            new CBSAction(),
-            new HMMAction()));
+            Arrays.asList(
+                    new CBSAction(),
+                    new HMMAction()));
 
     static public void addActionCalculate(Action a) {
         actionsCalculate.add(a);
@@ -86,18 +88,21 @@ public class TrackNode extends BeanNode<Track> {
     public Action[] getActions(boolean arg0) {
         List<Action> _actions = new ArrayList<Action>();
 
-       
         _actions.addAll(TrackNode.actionsApp);
         _actions.add(null);
         _actions.addAll(TrackNode.actionsCalculate);
         _actions.add(null);
-        _actions.addAll(Arrays.asList(super.getActions(arg0)));
+        //_actions.addAll(Arrays.asList(super.getActions(arg0)));
         _actions.addAll(TrackNode.actionsData);
         _actions.add(null);
-
 
         return _actions.toArray(
                 new Action[]{});
 
+    }
+
+    @Override
+    public Action getPreferredAction() {
+        return new ViewTrackDataAction();
     }
 }

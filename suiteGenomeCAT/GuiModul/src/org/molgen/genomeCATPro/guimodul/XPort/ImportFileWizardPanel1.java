@@ -27,9 +27,7 @@ public class ImportFileWizardPanel1 implements
         DocumentListener {
 
     /**
-     * select file & filetye (validate)
-     * choose import modul
-     * save import modul
+     * select file & filetye (validate) choose import modul save import modul
      */
     private Component component;
     XPortExperimentFile importModul = null;
@@ -52,8 +50,8 @@ public class ImportFileWizardPanel1 implements
     public HelpCtx getHelp() {
         // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
-    // If you have context help:
-    // return new HelpCtx(SampleWizardPanel1.class);
+        // If you have context help:
+        // return new HelpCtx(SampleWizardPanel1.class);
     }
 
     public void validateChanges() {
@@ -65,14 +63,14 @@ public class ImportFileWizardPanel1 implements
             return;
         }
         /*if (((ImportFileVisualPanel1) getComponent()).getCbFileType().getSelectedIndex() < 0) {
-        this.wd.putProperty("WizardPanel_errorMessage", "empty filetype, please choose type");
-        return false;
-        }*/
+         this.wd.putProperty("WizardPanel_errorMessage", "empty filetype, please choose type");
+         return false;
+         }*/
         this.setIsValid(true);
 
         this.wd.putProperty("WizardPanel_errorMessage", null);
 
-    //return this.isValid;
+        //return this.isValid;
     }
     boolean isValid = false;
 
@@ -93,7 +91,7 @@ public class ImportFileWizardPanel1 implements
         importModul = ServiceXPort.getXPortImport(filetype);
 
         /* #Überprüfen, ob Filetyp zum File paßt
-        zB. variiert das FileFormat entspr. der VersionsNummer der Analysesoftware
+         zB. variiert das FileFormat entspr. der VersionsNummer der Analysesoftware
         
          */
         if (importModul == null) {
@@ -143,7 +141,7 @@ public class ImportFileWizardPanel1 implements
         // make propertie persistent
         NbPreferences.forModule(ImportFileWizardPanel1.class).put("pathPreference",
                 ((ImportFileVisualPanel1) getComponent()).getFileDirectory());
-    //this.component = null;
+        //this.component = null;
 
     }
 
@@ -159,7 +157,6 @@ public class ImportFileWizardPanel1 implements
         this.validateChanges();
     }
     private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
-
 
     public final void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
@@ -184,5 +181,3 @@ public class ImportFileWizardPanel1 implements
         }
     }
 }
-
-

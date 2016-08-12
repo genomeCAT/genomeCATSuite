@@ -81,4 +81,3 @@ public final class NormalizeAction extends AbstractAction implements LookupListe
         return new NormalizeAction(arg0);
     }
 }
-

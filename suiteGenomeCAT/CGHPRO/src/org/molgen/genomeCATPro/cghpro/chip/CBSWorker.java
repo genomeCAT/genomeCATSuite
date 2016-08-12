@@ -1,6 +1,5 @@
 package org.molgen.genomeCATPro.cghpro.chip;
 
-import org.molgen.genomeCATPro.data.Feature;
 import org.molgen.genomeCATPro.common.Informable;
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,35 +23,31 @@ import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
+import org.molgen.genomeCATPro.data.IFeature;
 
 /**
- * @name CBSWorker.java
- * calls R Package DNAcopy
+ * @name CBSWorker.java calls R Package DNAcopy
  * http://www.bioconductor.org/packages/2.12/bioc/html/DNAcopy.html
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @author Wei Chen
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- * 300713 kt    bug end segment
- * 290512 kt    exportBacs format ratio
- * 290512 kt    exportBacs name not empty
- * 200712 kt    store package infos as comments, try to install package if not there
- * 030812 kt    exportBacs set DecimalFormatSymbol explizit
- * 100812 kt    no Grouping DecimalFormat
+ * 300713 kt bug end segment 290512 kt exportBacs format ratio 290512 kt
+ * exportBacs name not empty 200712 kt store package infos as comments, try to
+ * install package if not there 030812 kt exportBacs set DecimalFormatSymbol
+ * explizit 100812 kt no Grouping DecimalFormat
  */
 public class CBSWorker extends SwingWorker<ChipFeature, String> {
 
@@ -86,25 +81,22 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         setProgress(0);
         ChipFeature newChip = new ChipFeature(false);
 
-
-        Logger.getLogger(CBSWorker.class.getName()).log(Level.CONFIG, "Main: " +
-                mainDir);
+        Logger.getLogger(CBSWorker.class.getName()).log(Level.CONFIG, "Main: "
+                + mainDir);
         if (oldChip == null || oldChip.getError()) {
             Logger.getLogger(CBSWorker.class.getName()).log(Level.SEVERE,
                     " chip has error");
             return newChip;
         }
-        this.dataFilename = mainDir + File.separator + File.separator +
-                oldChip.getDataEntity().getTableData() + "_cbs.dat";
+        this.dataFilename = mainDir + File.separator + File.separator
+                + oldChip.getDataEntity().getTableData() + "_cbs.dat";
         dataFilename = dataFilename.replace("\\", "\\\\");
 
         Logger.getLogger(CBSWorker.class.getName()).log(Level.CONFIG,
                 "datafile for R: " + dataFilename);
 
-
         File dataFile = new File(dataFilename);
         int bacNo = exportBacs(oldChip, dataFile);
-
 
         if (bacNo < 0) {
             Logger.getLogger(CBSWorker.class.getName()).log(
@@ -114,7 +106,7 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
             return newChip;
         }
         setProgress(10);
-        Hashtable<String, Vector<? extends Feature>> breakPoints = runCBS(oldChip, 10);
+        Hashtable<String, Vector<? extends IFeature>> breakPoints = runCBS(oldChip, 10);
         setProgress(80);
 
         try {
@@ -150,12 +142,12 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         }
         return newChip;
 
-    // update the progress
-
-
+        // update the progress
     }
+
     /**
      * export Features to external file to be import for CBS R Packages
+     *
      * @param chip
      * @param outFile
      * @return
@@ -172,30 +164,28 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
             NS.setDecimalSeparator('.');
             DecimalFormat N = new DecimalFormat("0.#####", NS);
 
-            for (Vector<? extends Feature> bacs : chip.chrFeatures.values()) {
-                Collections.sort((Vector<Feature>) bacs, Feature.comChromStart);
-                for (Feature currentF : bacs) {
+            for (Vector<? extends IFeature> bacs : chip.chrFeatures.values()) {
+                Collections.sort((Vector<IFeature>) bacs, IFeature.comChromStart);
+                for (IFeature currentF : bacs) {
 
                     if (currentF.getChrom().contains("andom") || currentF.getChrom().contains("chrM")) {
                         continue;
                     }
 
                     chrom = RegionLib.fromChrToInt(currentF.getChrom());
-                    if (chrom <=
-                            0) {
+                    if (chrom
+                            <= 0) {
                         continue;
                     }
 
-
-
                     //290512 kt
-                    out.write("" + ++i + "\t" +
-                            ((currentF.getId() == null || currentF.getId().contentEquals("")) ? i : currentF.getId()) +
-                            "\t" + i +
-                            "\t" + chrom + "\t" +
-                            currentF.getChromStart() + "\t" +
-                            currentF.getChromEnd() + "\t" +
-                            N.format(currentF.getRatio()) + "\n");
+                    out.write("" + ++i + "\t"
+                            + ((currentF.getId() == null || currentF.getId().contentEquals("")) ? i : currentF.getId())
+                            + "\t" + i
+                            + "\t" + chrom + "\t"
+                            + currentF.getChromStart() + "\t"
+                            + currentF.getChromEnd() + "\t"
+                            + N.format(currentF.getRatio()) + "\n");
 
                 }
             }
@@ -211,17 +201,17 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
     }
 
     /**
-     * import output from CBS R Package
-     * add breakpoints as data to new chip (child of old chip),
-     * MAD is calculated as the median of the absolute deviations from the smoothed segment value.
-     * 
+     * import output from CBS R Package add breakpoints as data to new chip
+     * (child of old chip), MAD is calculated as the median of the absolute
+     * deviations from the smoothed segment value.
+     *
      * @param oldChip
      * @param breakPoints
-     * @return new chip with data 
+     * @return new chip with data
      * @throws java.lang.Exception
      */
     ChipFeature importBreakPoints(
-            Hashtable<String, Vector<? extends Feature>> breakPoints, String _name) throws Exception {
+            Hashtable<String, Vector<? extends IFeature>> breakPoints, String _name) throws Exception {
         Track d = new Track(
                 "CBS_" + _name,
                 oldChip.getDataEntity().getGenomeRelease(),
@@ -230,8 +220,6 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         d.setId(null);
         d.setGenomeRelease(oldChip.getDataEntity().getGenomeRelease());
 
-
-
         d.setDataType(Defaults.DataType.SEGMENTS);
 
         d.setClazz(FeatureCBS.class.getName());
@@ -239,20 +227,15 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         d.setParent(oldChip.getDataEntity());
         d.setOwner(ExperimentService.getUser());
 
-
         ChipFeature newChip = new ChipFeature(d);
-
-
 
         //newChip.getDataEntity().setOriginalFile(" ");
         //newChip.getDataEntity().setDyeSwap(oldChip.getDataEntity().getDyeSwap());
-
         newChip.chrFeatures = breakPoints;
 
-
-        Feature currentF;
-        List<? extends Feature> listF = null;
-        List<? extends Feature> listBP = null;
+        IFeature currentF;
+        List<? extends IFeature> listF = null;
+        List<? extends IFeature> listBP = null;
         int indChrom = - 1;
         int index = 0;
 
@@ -265,14 +248,12 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
                 continue;
             }
 
-
-
             listF = oldChip.chrFeatures.get(strChrom);
             listBP = newChip.chrFeatures.get(strChrom);
             if (listF.size() <= 0 || listBP.size() <= 0) {
                 continue;
             }
-            Collections.sort(listF, Feature.comChromStart);
+            Collections.sort(listF, IFeature.comChromStart);
 
             int start = 0;
             //format cbs result:
@@ -294,8 +275,7 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
                     }
                     ratio[m] = currentF.getRatio();
                     ende[m] = currentF.getChromEnd();
-                    
-                    
+
                 }
                 double median = MyMath.median(ratio);
                 for (int n = 0; n < no; n++) {
@@ -304,7 +284,7 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
                 }
                 start += no;
                 Arrays.sort(ende);
-                bp.setChromEnd(ende[no-1]);
+                bp.setChromEnd(ende[no - 1]);
             }
         }
         // trunk deviation array
@@ -314,41 +294,36 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         param += ("\nMAD:" + madCBS + "\n");
         newChip.getDataEntity().setParamProcessing("\n" + param.trim());
 
-
         return newChip;
 
     }
 
     /**
-     * map original features and bp segments
-     * return new chip with cbs values for each feature
+     * map original features and bp segments return new chip with cbs values for
+     * each feature
+     *
      * @param oldChip
      * @param breakPoints
      * @return
      */
     @Deprecated
-    static void matchBreakPoints(ChipFeature chipFeatures, Hashtable<String, Vector<? extends Feature>> breakPoints) throws Exception {
+    static void matchBreakPoints(ChipFeature chipFeatures, Hashtable<String, Vector<? extends IFeature>> breakPoints) throws Exception {
         // new bacs with cbs ratios erstellen
 
-
-        
-
-        List<? extends Feature> listBP = null;
+        List<? extends IFeature> listBP = null;
         // todo new Region as cbs values ??
 
-        Hashtable<String, Vector<? extends Feature>> segmentFeatures;
+        Hashtable<String, Vector<? extends IFeature>> segmentFeatures;
 
         for (String strChrom : chipFeatures.chrFeatures.keySet()) {
-
-
 
             if (chipFeatures.getData(strChrom).size() <= 0) {
                 continue;
             }
-            List<? extends Feature> listF = (List<? extends Feature>) chipFeatures.getData(strChrom);
-            Collections.sort(listF, Feature.comChromStart);
+            List<? extends IFeature> listF = (List<? extends IFeature>) chipFeatures.getData(strChrom);
+            Collections.sort(listF, IFeature.comChromStart);
             listBP = breakPoints.get(strChrom);
-            Collections.sort(listBP, Feature.comChromStart);
+            Collections.sort(listBP, IFeature.comChromStart);
 
             int start = 0;
             for (FeatureCBS bp : (List<FeatureCBS>) listBP) {
@@ -363,34 +338,32 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
             }
         }
 
-
-       
-    /**if(frame!= null){
-    JOptionPane.showMessageDialog(frame, "The MAD value is "+chip.madCbs+"!");
-    note.append("The MAD value is " + chip.madCbs+"!");
+        /**
+         * if(frame!= null){ JOptionPane.showMessageDialog(frame, "The MAD value
+         * is "+chip.madCbs+"!"); note.append("The MAD value is " +
+         * chip.madCbs+"!"); }
+        /**
+         * if(frame!= null){ JOptionPane.showMessageDialog(frame, "The MAD value
+         * is "+chip.madCbs+"!"); note.append("The MAD value is " +
+         * chip.madCbs+"!"); }
+         */
     }
-     */
-    }
 
-   
-    
-    
-    
     /**
-     * run CBS 
-     * segment the clones into sets with the same copy number by R package DNAcopy
-     * then calculate the smoothRatioByCbs as the average ratio of the set,
+     * run CBS segment the clones into sets with the same copy number by R
+     * package DNAcopy then calculate the smoothRatioByCbs as the average ratio
+     * of the set,
+     *
      * @param chip
      * @param iProgress
      * @return list of features for each chromosome
      */
-    public Hashtable<String, Vector<? extends Feature>> runCBS(ChipFeature chip, int iProgress) {
+    public Hashtable<String, Vector<? extends IFeature>> runCBS(ChipFeature chip, int iProgress) {
         //File currDir = new File(MainFrame.CghDir);
         //String mainDir = currDir.getAbsolutePath();
 
-
-        rFilename = mainDir + File.separator + File.separator +
-                chip.getDataEntity().getTableData() + "_cbs.R";
+        rFilename = mainDir + File.separator + File.separator
+                + chip.getDataEntity().getTableData() + "_cbs.R";
         rFilename = rFilename.replace("\\", "\\\\");
         Logger.getLogger(CBSWorker.class.getName()).log(Level.CONFIG, "executable R: " + rFilename);
         File rFile = new File(rFilename);
@@ -399,29 +372,25 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         resultFilename = resultFilename.replace("\\", "\\\\");
         Logger.getLogger(CBSWorker.class.getName()).log(Level.CONFIG, "result R: " + resultFilename);
 
-
         File resultFile = new File(resultFilename);
         try {
 
-
             FileWriter out = new FileWriter(rFile);
             out.write(
-                    "if(!length(grep(\"DNAcopy\", installed.packages()[,1])) > 0){ source(\"http://bioconductor.org/biocLite.R\"); biocLite(\"DNAcopy\",dependencies=TRUE); }\n" +
-                    "library(DNAcopy)\n" +
-                    "ddata<-read.table(file=\"" + dataFilename.replace(" ", "\\ ") + "\", na.strings=\"\\\\N\", header=TRUE, sep=\"\\t\")\n" +
-                    "data <- na.omit(ddata)\n" +
-                    "genomdat<-data$log2Ratio\n" +
-                    "chrom<-data$Chrom\n" +
-                    "maploc<-data$start\n" +
-                    "CNA.object<-CNA(genomdat,chrom,maploc,data.type=\"logratio\")\n" +
-                    "result<-segment(CNA.object, verbose=3)\n" +
-                    "i <- sessionInfo()\n" +
-                    "write(paste(\"#Package:\", i$otherPkgs$DNAcopy$Package), file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Version:\", i$otherPkgs$DNAcopy$Version), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write(paste(\"#Reference:\", gsub(\"\\n\", \"\", i$otherPkgs$DNAcopy$Reference)), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n" +
-                    "write.table(result$output, append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\", sep=\"\\t\",row.names=FALSE, col.names=FALSE)");
-
-
+                    "if(!length(grep(\"DNAcopy\", installed.packages()[,1])) > 0){ source(\"http://bioconductor.org/biocLite.R\"); biocLite(\"DNAcopy\",dependencies=TRUE); }\n"
+                    + "library(DNAcopy)\n"
+                    + "ddata<-read.table(file=\"" + dataFilename.replace(" ", "\\ ") + "\", na.strings=\"\\\\N\", header=TRUE, sep=\"\\t\")\n"
+                    + "data <- na.omit(ddata)\n"
+                    + "genomdat<-data$log2Ratio\n"
+                    + "chrom<-data$Chrom\n"
+                    + "maploc<-data$start\n"
+                    + "CNA.object<-CNA(genomdat,chrom,maploc,data.type=\"logratio\")\n"
+                    + "result<-segment(CNA.object, verbose=3)\n"
+                    + "i <- sessionInfo()\n"
+                    + "write(paste(\"#Package:\", i$otherPkgs$DNAcopy$Package), file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Version:\", i$otherPkgs$DNAcopy$Version), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write(paste(\"#Reference:\", gsub(\"\\n\", \"\", i$otherPkgs$DNAcopy$Reference)), append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\") \n"
+                    + "write.table(result$output, append=TRUE, file=\"" + resultFilename.replace(" ", "\\ ") + "\", sep=\"\\t\",row.names=FALSE, col.names=FALSE)");
 
             out.close();
         } catch (IOException exception) {
@@ -434,8 +403,6 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
         try {
 
             Runtime.getRuntime();
-
-
 
             String[] command = Utils.getRCommand(rFilename.replace(" ", "\\ "));
             //command += r;
@@ -452,7 +419,7 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
                 publish(line);
                 if (line.contains("current chromosome")) {
                     this.setProgress((int) iProgress + (70 / 24 * chr++));
-                /*Logger.getLogger(
+                    /*Logger.getLogger(
                 CBSWorker.class.getName()).log(
                 Level.INFO, line); */
                 }
@@ -488,10 +455,9 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
 
         }
 
-        Hashtable<String, Vector<? extends Feature>> breakPoints = new Hashtable<String, Vector<? extends Feature>>();
+        Hashtable<String, Vector<? extends IFeature>> breakPoints = new Hashtable<String, Vector<? extends IFeature>>();
 
         try {
-
 
             FeatureCBS newF = null;
             BufferedReader input = new BufferedReader(new FileReader(resultFile));
@@ -533,8 +499,8 @@ public class CBSWorker extends SwingWorker<ChipFeature, String> {
                 newF.setRatio(new Double(par[5]));
                 newF.setCount(new Integer(par[4]));
                 ((Vector<FeatureCBS>) breakPoints.get(chrom)).add(newF);
-            //breakPoints[(new Integer(par[1])).intValue() - 1].add(new Integer(par[4]));
-            // breakPoints[(new Integer(par[1])).intValue() - 1].add(new Double(par[5]));
+                //breakPoints[(new Integer(par[1])).intValue() - 1].add(new Integer(par[4]));
+                // breakPoints[(new Integer(par[1])).intValue() - 1].add(new Double(par[5]));
 
             }
             input.close();

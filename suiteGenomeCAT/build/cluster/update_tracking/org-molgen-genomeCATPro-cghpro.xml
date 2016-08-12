@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module codename="org.molgen.genomeCATPro.cghpro">
-    <module_version install_time="1383062781928" last="true" origin="installer" specification_version="2.7.3">
-        <file crc="1305948881" name="config/Modules/org-molgen-genomeCATPro-cghpro.xml"/>
-        <file crc="3309850549" name="modules/org-molgen-genomeCATPro-cghpro.jar"/>
+<?xml version="1.0" encoding="UTF-8"?><module codename="org.molgen.genomeCATPro.cghpro">
+    <module_version install_time="1470624903867" last="true" origin="installer" specification_version="4">
+        <file crc="2320744069" name="config/Modules/org-molgen-genomeCATPro-cghpro.xml"/>
+        <file crc="2202197717" name="modules/org-molgen-genomeCATPro-cghpro.jar"/>
     </module_version>
 </module>

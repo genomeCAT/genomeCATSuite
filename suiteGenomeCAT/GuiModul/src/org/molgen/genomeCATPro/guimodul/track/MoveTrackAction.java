@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.guimodul.track;
 /**
  * @name MoveTrackAction
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -38,8 +35,8 @@ import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
 /**
- * 
- * 050612 kt    update Notification
+ *
+ * 050612 kt update Notification
  */
 public final class MoveTrackAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
@@ -83,8 +80,8 @@ public final class MoveTrackAction extends AbstractAction implements LookupListe
         init();
         for (Track instance : lkpInfo.allInstances()) {
             Logger.getLogger(MoveTrackAction.class.getName()).log(
-                    Level.INFO, "found lookup instance: " +
-                    instance.getName());
+                    Level.INFO, "found lookup instance: "
+                    + instance.getName());
             run(instance);
         }
     }
@@ -97,19 +94,18 @@ public final class MoveTrackAction extends AbstractAction implements LookupListe
         try {
 
             /* 060612 kt
-            if (s.getParentTrack() == null) { 
-            JOptionPane.showMessageDialog(null, " track " + s.getName() + " is already at top level. ");
-            return;
-            }*/
+             if (s.getParentTrack() == null) { 
+             JOptionPane.showMessageDialog(null, " track " + s.getName() + " is already at top level. ");
+             return;
+             }*/
             if (!TrackService.moveTrack(s, false, null)) {
                 //if (!TrackService.moveTrack(s, true, null)) {
                 JOptionPane.showMessageDialog(null, "track " + s.getName() + " not moveable");
                 return;
-            //}
+                //}
             }
 
             ExperimentService.notifyListener(); //050612 kt
-
 
         } catch (Exception e) {
             Logger.getLogger(MoveTrackAction.class.getName()).log(
@@ -128,7 +124,3 @@ public final class MoveTrackAction extends AbstractAction implements LookupListe
         return new MoveTrackAction(arg0);
     }
 }
-
-
-    
-

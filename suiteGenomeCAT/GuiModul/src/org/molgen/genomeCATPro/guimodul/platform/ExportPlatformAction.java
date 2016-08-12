@@ -66,8 +66,8 @@ public final class ExportPlatformAction extends AbstractAction implements Lookup
             run(instance);
             return;
         }
-        JOptionPane.showMessageDialog(null, "Export Plattform: " +
-                "please select platform data to export in platform tree");
+        JOptionPane.showMessageDialog(null, "Export Plattform: "
+                + "please select platform data to export in platform tree");
     }
 
     public void run(PlatformData s) {
@@ -86,4 +86,3 @@ public final class ExportPlatformAction extends AbstractAction implements Lookup
         return new ExportPlatformAction(arg0);
     }
 }
-

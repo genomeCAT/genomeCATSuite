@@ -1,23 +1,21 @@
 package org.molgen.genomeCATPro.cat;
+
 /**
  * @name CATProperties
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of props file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use props file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * props program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>. The contents of
+ * props file are subject to the terms of either the GNU General Public License
+ * Version 2 only ("GPL") or the Common Development and Distribution
+ * License("CDDL") (collectively, the "License"). You may not use props file
+ * except in compliance with the License. You can obtain a copy of the License
+ * at http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. props program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -31,7 +29,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.openide.modules.InstalledFileLocator;
-
 
 public class CATPropertiesMod implements Serializable {
 
@@ -57,10 +54,9 @@ public class CATPropertiesMod implements Serializable {
                     CATPropertiesMod.stfile, "org.molgen.genomeCATPro.cat", false);
             //CATPropertiesMod.stfile, null, true);
 
-            
             XMLDecoder d = new XMLDecoder(
                     new BufferedInputStream(
-                    new FileInputStream(f)));
+                            new FileInputStream(f)));
             CATProperties _props = (CATProperties) d.readObject();
             d.close();
             return _props;
@@ -76,7 +72,7 @@ public class CATPropertiesMod implements Serializable {
         Logger.getLogger(CATProperties.class.getName()).log(Level.INFO, "CATProperties created");
         CATPropertiesMod.props = new CATProperties();
 
-    /*try {
+        /*try {
     // save();
     ;
     } catch (FileNotFoundException ex) {
@@ -93,7 +89,7 @@ public class CATPropertiesMod implements Serializable {
         //CATPropertiesMod.stfile, null, true);
         XMLEncoder e = new XMLEncoder(
                 new BufferedOutputStream(
-                new FileOutputStream(f)));
+                        new FileOutputStream(f)));
         e.writeObject(CATPropertiesMod.props);
         e.close();
     }
@@ -138,4 +134,3 @@ public class CATPropertiesMod implements Serializable {
         }
     }
 }
-

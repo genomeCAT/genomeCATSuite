@@ -19,24 +19,22 @@ import javax.persistence.Transient;
 import org.molgen.genomeCATPro.common.Utils;
 
 /**
- * @name  MapList
+ * @name MapList
  *
  * mapped data
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 @Entity
 @Table(name = "MapList")
@@ -68,7 +66,6 @@ public class MapDetail implements Serializable {
     public MapDetail() {
     }
 
-    
     public MapDetail(String mapId, String type, String release, String desc) {
         this();
         this.mapName = mapId;
@@ -76,8 +73,6 @@ public class MapDetail implements Serializable {
         this.genomeRelease = release;
         this.description = desc;
     }
-
-   
 
     /*
      * copy - useful for GUI Entities with field attached listeners
@@ -194,12 +189,12 @@ public class MapDetail implements Serializable {
 
     public String toFullString() {
         return new String(
-                this.getMapName() + "," +
-                this.getCreated() + "," +
-                this.getModified() + "," +
-                this.getMapName() + "," +
-                this.getMapType() + "," +
-                this.getGenomeRelease());
+                this.getMapName() + ","
+                + this.getCreated() + ","
+                + this.getModified() + ","
+                + this.getMapName() + ","
+                + this.getMapType() + ","
+                + this.getGenomeRelease());
     }
 
     @PrePersist

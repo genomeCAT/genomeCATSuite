@@ -18,12 +18,13 @@ import org.molgen.genomeCATPro.annotation.RegionImpl;
 @Deprecated
 
 public class RegionEditText extends PlainDocument {
+
     JComboBox box = null;
 
     public RegionEditText(JComboBox _box) {
         box = _box;
     }
-    
+
     public void insertString(int offs, String str, AttributeSet a) {
 
         System.out.println(str);
@@ -33,7 +34,7 @@ public class RegionEditText extends PlainDocument {
             Long from = Long.parseLong(str.substring(str.indexOf(":") + 1, str.indexOf("_")));
             Long to = Long.parseLong(str.substring(str.indexOf("-") + 1, str.length()));
             Region r = new RegionImpl("", chrom, from, to);
-          
+
             box.setSelectedItem(r);
         }
 

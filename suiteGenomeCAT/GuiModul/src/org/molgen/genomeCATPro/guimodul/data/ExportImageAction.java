@@ -40,7 +40,6 @@ public class ExportImageAction extends AbstractAction implements
         final JButton startButton = new JButton();
         //startButton.setText("<html>image</html>");
 
-
         //startButton.setMaximumSize(startButton.getPreferredSize());
         startButton.setAction(this);
         startButton.setIcon(new ImageIcon(Utilities.loadImage(

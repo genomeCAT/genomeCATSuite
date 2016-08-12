@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.data;
 /**
  * @name DataManager
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -33,8 +30,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.AnnotationManager;
 import org.molgen.genomeCATPro.annotation.AnnotationManagerImpl;
 import org.molgen.genomeCATPro.annotation.CytoBandManagerImpl;
@@ -42,6 +39,7 @@ import org.molgen.genomeCATPro.annotation.GeneImpl;
 import org.molgen.genomeCATPro.annotation.RegionAnnotation;
 import org.molgen.genomeCATPro.annotation.RegionArray;
 import org.molgen.genomeCATPro.annotation.RegionLib;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
@@ -58,19 +56,17 @@ import org.openide.util.Lookup;
 import org.openide.util.Lookup.Result;
 
 /**
- * 310513   kt      exception spotclazz
- * 300512   doFilter() addSamples (of ParentTrack) for Track 
- *          doFilter() setName for new Data
- * 
- * 010812   add annotateData
- * 120912   reimplement annotateData, thread per chromosome, use spatial index
- * 161012   convertExperiment   bugfix 
+ * 310513 kt exception spotclazz 300512 doFilter() addSamples (of ParentTrack)
+ * for Track doFilter() setName for new Data
+ *
+ * 010812 add annotateData 120912 reimplement annotateData, thread per
+ * chromosome, use spatial index 161012 convertExperiment bugfix
  */
 public class DataManager {
 
     public static void addExperiment2Project(String projectname, ExperimentDetail exp) throws Exception {
-        Logger.getLogger(DataManager.class.getName()).log(Level.INFO, " add experiment" +
-                exp.getName() + " to " + projectname);
+        Logger.getLogger(DataManager.class.getName()).log(Level.INFO, " add experiment"
+                + exp.getName() + " to " + projectname);
 
         Connection con = null;
         Statement s = null;
@@ -112,11 +108,15 @@ public class DataManager {
     }
 
     /**
-     * 
+     *
      * @param data
      * @param newNameData
      * @param annoName
+     * @param query
+     * @param pos
      * @param field
+     * @param downstream
+     * @param upstream
      * @return
      */
     public static Data annotateData(final Data data,
@@ -127,13 +127,11 @@ public class DataManager {
             final int upstream) {
 
         final boolean extend_anno_region = (downstream == 0 && upstream == 0 ? false : true);
-        String info = "Anno: " + annoName + " field: " + field +
-                " QUERY: " + (query == AnnoQuery.DataContainsAnno ? "DataContainsAnno " : (query == AnnoQuery.DataWithinAnno ? " DataWithinAnno " : " Overlap")) +
-                " SUBJECT: " + (pos == AnnoSubject.Middle ? " Middle " : " Within ") +
-                (extend_anno_region ? ("extend AnnoRegion UP: " + upstream + " DOWN: " + downstream) : " ");
+        String info = "Anno: " + annoName + " field: " + field
+                + " QUERY: " + (query == AnnoQuery.DataContainsAnno ? "DataContainsAnno " : (query == AnnoQuery.DataWithinAnno ? " DataWithinAnno " : " Overlap"))
+                + " SUBJECT: " + (pos == AnnoSubject.Middle ? " Middle " : " Within ")
+                + (extend_anno_region ? ("extend AnnoRegion UP: " + upstream + " DOWN: " + downstream) : " ");
         Logger.getLogger(DataManager.class.getName()).log(Level.INFO, "annotate " + data.getTableData() + "  " + info);
-
-
 
         String clazz = data.getClazz();
 
@@ -145,13 +143,12 @@ public class DataManager {
         } else {
             clazzAnno = clazz + Defaults.annoClazzExtension;
         }
-        Feature f = DataService.getFeatureClazz(clazzAnno);
+        IFeature f = DataService.getFeatureClazz(clazzAnno);
 
 
         /* String annoTableName = DBUtils.getAnnoTableForRelease(
         annoName,
         Defaults.GenomeRelease.toRelease(data.getGenomeRelease()));*/
-
         final AnnotationManager am = new AnnotationManagerImpl(
                 Defaults.GenomeRelease.toRelease(data.getGenomeRelease()), annoName);
         List<String> _chroms = CytoBandManagerImpl.stGetChroms(
@@ -159,7 +156,6 @@ public class DataManager {
 
         //final AnnotationList anno = am.getAnnotation();
         //String annoClazz = anno.getClazz();
-
         EntityManager em = DBService.getEntityManger();
         EntityTransaction userTransaction = null;
 
@@ -168,7 +164,7 @@ public class DataManager {
         Connection con = null;
 
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
             Data newData = null;
             Data test = null;
@@ -178,7 +174,6 @@ public class DataManager {
                 DBUtils.addPositionAtTable(data.getTableData());
 
                 final int lengthData = DBUtils.getMeanLengthPosition(data.getTableData());
-
 
                 if (data instanceof ExperimentData) {
                     newData = new ExperimentData();
@@ -200,18 +195,17 @@ public class DataManager {
                     newData.setClazz(clazzAnno);
 
                     test = TrackService.getTrack(newData.getName(), data.getGenomeRelease());
-                /*
+                    /*
                 if (!(data instanceof ExperimentData)) {
                 Logger.getLogger(DataManager.class.getName()).log(Level.WARNING,
                 "filterData", " No ExperimentData - save failed!");
                 return null;
                 }
-                 */
+                     */
                 }
                 if (test != null) {
                     throw new RuntimeException("Name already given, please change");
                 }
-
 
                 newData.setProcProcessing(DataManager.procDoAnnotate);
                 newData.setParamProcessing(info);
@@ -219,11 +213,9 @@ public class DataManager {
                     ((ExperimentData) newData).setPlatformdata(((ExperimentData) data).getPlatformdata());
                 }
 
-
                 data.addChildData(newData);
                 userTransaction = em.getTransaction();
                 userTransaction.begin();
-
 
                 if (newData instanceof ExperimentData) {
                     ((ExperimentData) data).getExperiment().addExperimentData(
@@ -258,8 +250,8 @@ public class DataManager {
                 sql = "ALTER TABLE " + newData.getTableData() + " ADD INDEX(`id`)";
                 s.execute(sql);
                 // add column "anno"
-                s.execute("ALTER TABLE  " + newData.getTableData() + " ADD " +
-                        Defaults.annoColName + " varchar(255) NOT NULL default \'\' ");
+                s.execute("ALTER TABLE  " + newData.getTableData() + " ADD "
+                        + Defaults.annoColName + " varchar(255) NOT NULL default \'\' ");
 
                 final String newD = newData.getTableData();
                 final String oldD = data.getTableData();
@@ -277,7 +269,7 @@ public class DataManager {
 
                         public void run() {
                             try {
-                                Connection _con = Database.getDBConnection(Defaults.localDB);
+                                Connection _con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                                 Statement _s = _con.createStatement();
                                 List<? extends RegionAnnotation> _data = am.getData(_chromId);
                                 if (_data == null || _data.size() == 0) {
@@ -298,15 +290,15 @@ public class DataManager {
                                         annoR.setChromEnd(annoR.getChromEnd() + upstream);
                                     }
                                     if (query == AnnoQuery.Overlap) {
-                                        _sql = "INSERT INTO  " + newD +
-                                                "  SELECT d.*, \'" +
-                                                (o != null ? o.toString() : "") + "\'" +
-                                                " FROM " + oldD + " as d  " +
-                                                " WHERE MBRIntersects(d.gc_position," +
-                                                "LineString(" +
-                                                "Point(" + ichrom + "," + annoR.getChromStart() + "), " +
-                                                "Point(" + ichrom + ", " + annoR.getChromEnd() + "))" +
-                                                ")";
+                                        _sql = "INSERT INTO  " + newD
+                                                + "  SELECT d.*, \'"
+                                                + (o != null ? o.toString() : "") + "\'"
+                                                + " FROM " + oldD + " as d  "
+                                                + " WHERE MBRIntersects(d.gc_position,"
+                                                + "LineString("
+                                                + "Point(" + ichrom + "," + annoR.getChromStart() + "), "
+                                                + "Point(" + ichrom + ", " + annoR.getChromEnd() + "))"
+                                                + ")";
                                     } else {
                                         switch (pos) {
                                             case Whole:
@@ -317,27 +309,26 @@ public class DataManager {
                                                 //contained by the first geometry. 
                                                 // The contains predicate returns the 
                                                 //exact opposite result of the within predicate.
-
                                                 if (query == AnnoQuery.DataContainsAnno) {
-                                                    _sql = "INSERT INTO  " + newD +
-                                                            "  SELECT d.*, \'" +
-                                                            (o != null ? o.toString() : "") + "\'" +
-                                                            " FROM " + oldD + " as d  " +
-                                                            " WHERE MBRContains( d.gc_position," +
-                                                            " LineString(" +
-                                                            " Point(" + ichrom + "," + annoR.getChromStart() + "), " +
-                                                            " Point(" + ichrom + ", " + annoR.getChromEnd() + "))" +
-                                                            " )";
+                                                    _sql = "INSERT INTO  " + newD
+                                                            + "  SELECT d.*, \'"
+                                                            + (o != null ? o.toString() : "") + "\'"
+                                                            + " FROM " + oldD + " as d  "
+                                                            + " WHERE MBRContains( d.gc_position,"
+                                                            + " LineString("
+                                                            + " Point(" + ichrom + "," + annoR.getChromStart() + "), "
+                                                            + " Point(" + ichrom + ", " + annoR.getChromEnd() + "))"
+                                                            + " )";
                                                 } else {
-                                                    _sql = "INSERT INTO  " + newD +
-                                                            "  SELECT d.*, \'" +
-                                                            (o != null ? o.toString() : "") + "\'" +
-                                                            " FROM " + oldD + " as d  " +
-                                                            " WHERE MBRWithin( d.gc_position," +
-                                                            " LineString(" +
-                                                            " Point(" + ichrom + "," + annoR.getChromStart() + "), " +
-                                                            " Point(" + ichrom + ", " + annoR.getChromEnd() + "))" +
-                                                            " )";
+                                                    _sql = "INSERT INTO  " + newD
+                                                            + "  SELECT d.*, \'"
+                                                            + (o != null ? o.toString() : "") + "\'"
+                                                            + " FROM " + oldD + " as d  "
+                                                            + " WHERE MBRWithin( d.gc_position,"
+                                                            + " LineString("
+                                                            + " Point(" + ichrom + "," + annoR.getChromStart() + "), "
+                                                            + " Point(" + ichrom + ", " + annoR.getChromEnd() + "))"
+                                                            + " )";
                                                 }
                                                 break;
                                             case Middle:
@@ -346,15 +337,15 @@ public class DataManager {
                                                 // inside
                                                 if (query == AnnoQuery.DataContainsAnno) {
                                                     // anno within data
-                                                    _sql = "INSERT INTO  " + newD +
-                                                            "  SELECT d.*, \'" +
-                                                            (o != null ? o.toString() : "") + "\'" +
-                                                            " FROM " + oldD + " as d  " +
-                                                            " WHERE MBRContains( " +
-                                                            " d.gc_position," +
-                                                            " Point(" + ichrom + "," + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) + ") " +
-                                                            ")";
-                                                /*
+                                                    _sql = "INSERT INTO  " + newD
+                                                            + "  SELECT d.*, \'"
+                                                            + (o != null ? o.toString() : "") + "\'"
+                                                            + " FROM " + oldD + " as d  "
+                                                            + " WHERE MBRContains( "
+                                                            + " d.gc_position,"
+                                                            + " Point(" + ichrom + "," + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) + ") "
+                                                            + ")";
+                                                    /*
                                                 _sql = "INSERT INTO  " + newD +
                                                 "  SELECT d.*, \'" +
                                                 (o != null ? o.toString() : "") + "\'" +
@@ -362,32 +353,30 @@ public class DataManager {
                                                 " WHERE d.chrom =  \'" + _chromId + "\'" +
                                                 " AND (  d.chromStart  <= " + (annoR.getChromEnd() + annoR.getChromStart()) / 2 +
                                                 " AND  d.chromEnd  >=  " + (annoR.getChromEnd() + annoR.getChromStart()) / 2 + " ) ";
-                                                 */
+                                                     */
                                                 } else {
                                                     // data middle within annotation
 
                                                     // operation on gc_position avert using of spatial index
                                                     // therefor extend annotation area to half of mean data length 
-                                                    _sql = "INSERT INTO  " + newD +
-                                                            "  SELECT d.*, \'" +
-                                                            (o != null ? o.toString() : "") + "\'" +
-                                                            " FROM " + oldD + " as d  " +
-                                                            " WHERE MBRWithin( d.gc_position," +
-                                                            " LineString(" +
-                                                            " Point(" + ichrom + "," + (annoR.getChromStart() - lengthData / 2) + "), " +
-                                                            " Point(" + ichrom + ", " + (annoR.getChromEnd() + lengthData / 2) + "))" +
-                                                            " )";
+                                                    _sql = "INSERT INTO  " + newD
+                                                            + "  SELECT d.*, \'"
+                                                            + (o != null ? o.toString() : "") + "\'"
+                                                            + " FROM " + oldD + " as d  "
+                                                            + " WHERE MBRWithin( d.gc_position,"
+                                                            + " LineString("
+                                                            + " Point(" + ichrom + "," + (annoR.getChromStart() - lengthData / 2) + "), "
+                                                            + " Point(" + ichrom + ", " + (annoR.getChromEnd() + lengthData / 2) + "))"
+                                                            + " )";
 
-                                                /* _sql = "INSERT INTO  " + newD +
+                                                    /* _sql = "INSERT INTO  " + newD +
                                                 "  SELECT d.*, \'" +
                                                 (o != null ? o.toString() : "") + "\'" +
                                                 " FROM " + oldD + " as d  " +
                                                 " WHERE d.chrom =  \'" + _chromId + "\'" +
                                                 " AND  ( " + annoR.getChromStart() + "<=  ((d.chromStart + d.chromEnd)/2)  " +
                                                 " AND " + annoR.getChromEnd() + "  >=  ((d.chromStart + d.chromEnd)/2)  ) ";
-                                                 */
-
-
+                                                     */
                                                 }
 
                                                 break;
@@ -396,8 +385,8 @@ public class DataManager {
                                     //Logger.getLogger(DataManager.class.getName()).log(Level.INFO, _sql);
                                     _s.execute(_sql);
                                     results[ii] += _s.getUpdateCount();
-                                //Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
-                                //       "inserted for chrom  " + _chromId + " : " + results[ii]);
+                                    //Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
+                                    //       "inserted for chrom  " + _chromId + " : " + results[ii]);
                                 }
                             } catch (Exception e) {
                                 Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE,
@@ -408,7 +397,7 @@ public class DataManager {
                                 results[ii] = -1;
                             }
                         }
-                        ;
+                    ;
                     });
                     workers[ii].start();
                 }
@@ -427,13 +416,11 @@ public class DataManager {
                         "inserted with anno " + i);
 
                 // insert data wich doesnt contain to any gene
-
-
-                sql = "INSERT INTO " + newData.getTableData() + " " +
-                        " SELECT d.* , \'\' FROM " + data.getTableData() + "  as d  " +
-                        " WHERE NOT EXISTS " +
-                        " (SELECT * FROM " + newData.getTableData() + " as dneu" +
-                        " WHERE dneu.id = d.id); ";
+                sql = "INSERT INTO " + newData.getTableData() + " "
+                        + " SELECT d.* , \'\' FROM " + data.getTableData() + "  as d  "
+                        + " WHERE NOT EXISTS "
+                        + " (SELECT * FROM " + newData.getTableData() + " as dneu"
+                        + " WHERE dneu.id = d.id); ";
                 s.execute(sql);
                 Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
                         "inserted without anno: " + s.getUpdateCount());
@@ -452,8 +439,8 @@ public class DataManager {
 
                 newData.setNof(rs.getInt(1));
                 // TODO MEDIAN!
-                sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) " +
-                        " from " + newData.getTableData();
+                sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) "
+                        + " from " + newData.getTableData();
 
                 rs = s.executeQuery(sql);
 
@@ -494,7 +481,6 @@ public class DataManager {
                 ExperimentService.notifyListener();
                 return newData;
 
-
             } catch (Exception e) {
                 Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, e);
 
@@ -505,7 +491,7 @@ public class DataManager {
                 }
 
                 //throw new RuntimeException(e);
-            /*if (con != null) {
+                /*if (con != null) {
                 try {
                 s = con.createStatement();
                 s.execute("DROP TABLE if EXISTS " + newData.getTableData());
@@ -554,7 +540,7 @@ public class DataManager {
     }
 
     /**
-     * 
+     *
      * @param data
      * @param newNameData
      * @param annoName
@@ -569,13 +555,11 @@ public class DataManager {
             final int upstream) {
 
         final boolean outside = (downstream == 0 && upstream == 0 ? false : true);
-        String info = "Anno: " + annoName + " field: " + field +
-                " QUERY: " + (query == AnnoQuery.DataContainsAnno ? " Data " : (query == AnnoQuery.DataWithinAnno ? " Anno " : " Overlap")) +
-                " SUBJECT: " + (pos == AnnoSubject.Middle ? " Middle " : " Within ") +
-                (outside ? (" UP: " + upstream + " DOWN: " + downstream) : " INSIDE ");
+        String info = "Anno: " + annoName + " field: " + field
+                + " QUERY: " + (query == AnnoQuery.DataContainsAnno ? " Data " : (query == AnnoQuery.DataWithinAnno ? " Anno " : " Overlap"))
+                + " SUBJECT: " + (pos == AnnoSubject.Middle ? " Middle " : " Within ")
+                + (outside ? (" UP: " + upstream + " DOWN: " + downstream) : " INSIDE ");
         Logger.getLogger(DataManager.class.getName()).log(Level.INFO, "annotate " + data.getTableData() + "  " + info);
-
-
 
         String clazz = data.getClazz();
 
@@ -587,13 +571,12 @@ public class DataManager {
         } else {
             clazzAnno = clazz + Defaults.annoClazzExtension;
         }
-        Feature f = DataService.getFeatureClazz(clazzAnno);
+        IFeature f = DataService.getFeatureClazz(clazzAnno);
 
 
         /* String annoTableName = DBUtils.getAnnoTableForRelease(
         annoName,
         Defaults.GenomeRelease.toRelease(data.getGenomeRelease()));*/
-
         final AnnotationManager am = new AnnotationManagerImpl(
                 Defaults.GenomeRelease.toRelease(data.getGenomeRelease()), annoName);
         List<String> _chroms = CytoBandManagerImpl.stGetChroms(
@@ -601,7 +584,6 @@ public class DataManager {
 
         //final AnnotationList anno = am.getAnnotation();
         //String annoClazz = anno.getClazz();
-
         EntityManager em = DBService.getEntityManger();
         EntityTransaction userTransaction = null;
 
@@ -610,12 +592,11 @@ public class DataManager {
         Connection con = null;
 
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             Statement s = con.createStatement();
             Data newData = null;
             Data test = null;
             try {
-
 
                 if (data instanceof ExperimentData) {
                     newData = new ExperimentData();
@@ -637,18 +618,17 @@ public class DataManager {
                     newData.setClazz(clazzAnno);
 
                     test = TrackService.getTrack(newData.getName(), data.getGenomeRelease());
-                /*
+                    /*
                 if (!(data instanceof ExperimentData)) {
                 Logger.getLogger(DataManager.class.getName()).log(Level.WARNING,
                 "filterData", " No ExperimentData - save failed!");
                 return null;
                 }
-                 */
+                     */
                 }
                 if (test != null) {
                     throw new RuntimeException("Name already given, please change");
                 }
-
 
                 newData.setProcProcessing(DataManager.procDoAnnotate);
                 newData.setParamProcessing(info);
@@ -656,11 +636,9 @@ public class DataManager {
                     ((ExperimentData) newData).setPlatformdata(((ExperimentData) data).getPlatformdata());
                 }
 
-
                 data.addChildData(newData);
                 userTransaction = em.getTransaction();
                 userTransaction.begin();
-
 
                 if (newData instanceof ExperimentData) {
                     ((ExperimentData) data).getExperiment().addExperimentData(
@@ -698,7 +676,7 @@ public class DataManager {
 
                         public void run() {
                             try {
-                                Connection _con = Database.getDBConnection(Defaults.localDB);
+                                Connection _con = Database.getDBConnection(CorePropertiesMod.props().getDb());
                                 Statement _s = _con.createStatement();
                                 List<? extends RegionAnnotation> _data = am.getData(_chromId);
                                 if (_data == null || _data.size() == 0) {
@@ -716,13 +694,13 @@ public class DataManager {
                                         case Overlap:
 
                                             // data query whole region within
-                                            _sql = "INSERT INTO  " + newD +
-                                                    "  SELECT d.*, \'" +
-                                                    (o != null ? o.toString() : "") + "\'" +
-                                                    " FROM " + oldD + " as d  " +
-                                                    " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                    " AND (  d.chromStart <= " + annoR.getChromEnd() +
-                                                    " AND  d.chromEnd  >=  " + annoR.getChromStart() + " ) ";
+                                            _sql = "INSERT INTO  " + newD
+                                                    + "  SELECT d.*, \'"
+                                                    + (o != null ? o.toString() : "") + "\'"
+                                                    + " FROM " + oldD + " as d  "
+                                                    + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                    + " AND (  d.chromStart <= " + annoR.getChromEnd()
+                                                    + " AND  d.chromEnd  >=  " + annoR.getChromStart() + " ) ";
 
                                             /*_sql = "INSERT INTO  " + newD +
                                             "  SELECT d.*, \'" +
@@ -742,55 +720,55 @@ public class DataManager {
 
                                                     if (!outside) {
                                                         // data query whole region inside
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND ( " +
-                                                                "  d.chromStart   <= " + annoR.getChromStart() +
-                                                                " AND  d.chromEnd  >=  " + annoR.getChromEnd() + " ) ";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND ( "
+                                                                + "  d.chromStart   <= " + annoR.getChromStart()
+                                                                + " AND  d.chromEnd  >=  " + annoR.getChromEnd() + " ) ";
                                                     } else {
                                                         // data query whole region outside, i.e. up or downstream
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND ( " +
-                                                                " ( (d.chromStart + " + downstream + " ) < " + annoR.getChromStart() +
-                                                                " AND  d.chromStart  >  " + annoR.getChromEnd() + " ) " +
-                                                                " OR " +
-                                                                " ( d.chromEnd   < " + annoR.getChromStart() +
-                                                                " AND  (d.chromEnd + " + upstream + " ) >  " + annoR.getChromEnd() + " ) " +
-                                                                ")";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND ( "
+                                                                + " ( (d.chromStart + " + downstream + " ) < " + annoR.getChromStart()
+                                                                + " AND  d.chromStart  >  " + annoR.getChromEnd() + " ) "
+                                                                + " OR "
+                                                                + " ( d.chromEnd   < " + annoR.getChromStart()
+                                                                + " AND  (d.chromEnd + " + upstream + " ) >  " + annoR.getChromEnd() + " ) "
+                                                                + ")";
                                                     }
                                                     break;
 
                                                 case Middle:
                                                     if (!outside) {
                                                         // data query middle within
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND (  d.chromStart  <= " + (annoR.getChromEnd() + annoR.getChromStart()) / 2 +
-                                                                " AND  d.chromEnd  >=  " + (annoR.getChromEnd() + annoR.getChromStart()) / 2 + " ) ";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND (  d.chromStart  <= " + (annoR.getChromEnd() + annoR.getChromStart()) / 2
+                                                                + " AND  d.chromEnd  >=  " + (annoR.getChromEnd() + annoR.getChromStart()) / 2 + " ) ";
                                                     } else {
                                                         // data query middle, outside i.e. up oder downstream
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND ( " +
-                                                                "( (d.chromStart + " + downstream + " ) < " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) +
-                                                                " AND d.chromStart  > " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) + " )" +
-                                                                " OR " +
-                                                                "( d.chromEnd  < " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) +
-                                                                " AND (d.chromEnd + " + upstream + " ) > " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) + " )" +
-                                                                " )";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND ( "
+                                                                + "( (d.chromStart + " + downstream + " ) < " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2)
+                                                                + " AND d.chromStart  > " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) + " )"
+                                                                + " OR "
+                                                                + "( d.chromEnd  < " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2)
+                                                                + " AND (d.chromEnd + " + upstream + " ) > " + ((annoR.getChromEnd() + annoR.getChromStart()) / 2) + " )"
+                                                                + " )";
                                                     }
                                             }
                                             break;
@@ -800,57 +778,57 @@ public class DataManager {
 
                                                     if (!outside) {
                                                         // anno query whole data region inside
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND " +
-                                                                " ( " + annoR.getChromStart() + " <=  d.chromStart " +
-                                                                " AND " + annoR.getChromEnd() + " >=  d.chromEnd  ) ";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND "
+                                                                + " ( " + annoR.getChromStart() + " <=  d.chromStart "
+                                                                + " AND " + annoR.getChromEnd() + " >=  d.chromEnd  ) ";
                                                     } else {
                                                         // anno query whole data region outside, i.e. up or downstream
 
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND ( " +
-                                                                " ( " + (annoR.getChromStart() + downstream) + " < d.chromStart " +
-                                                                " AND  " + annoR.getChromStart() + " > d.chromEnd ) " +
-                                                                " OR " +
-                                                                " (" + annoR.getChromEnd() + " < d.chromStart  " +
-                                                                " AND " + (annoR.getChromEnd() + upstream) + " > d.chromEnd   ) " +
-                                                                ")";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND ( "
+                                                                + " ( " + (annoR.getChromStart() + downstream) + " < d.chromStart "
+                                                                + " AND  " + annoR.getChromStart() + " > d.chromEnd ) "
+                                                                + " OR "
+                                                                + " (" + annoR.getChromEnd() + " < d.chromStart  "
+                                                                + " AND " + (annoR.getChromEnd() + upstream) + " > d.chromEnd   ) "
+                                                                + ")";
                                                     }
                                                     break;
 
                                                 case Middle:
                                                     if (!outside) {
                                                         // anno query middle within
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND  ( " + annoR.getChromStart() + "<=  ((d.chromStart + d.chromEnd)/2)  " +
-                                                                " AND " + annoR.getChromEnd() + "  >=  ((d.chromStart + d.chromEnd)/2)  ) ";
-                                                    //" INTO OUTFILE \'/project/H1N1/Data/Katrin/" + newD + ".txt\'";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND  ( " + annoR.getChromStart() + "<=  ((d.chromStart + d.chromEnd)/2)  "
+                                                                + " AND " + annoR.getChromEnd() + "  >=  ((d.chromStart + d.chromEnd)/2)  ) ";
+                                                        //" INTO OUTFILE \'/project/H1N1/Data/Katrin/" + newD + ".txt\'";
                                                     } else {
                                                         // anno query middle outside, i.e. up or downstream
-                                                        _sql = "INSERT INTO  " + newD +
-                                                                "  SELECT d.*, \'" +
-                                                                (o != null ? o.toString() : "") + "\'" +
-                                                                " FROM " + oldD + " as d  " +
-                                                                " WHERE d.chrom =  \'" + _chromId + "\'" +
-                                                                " AND ( " +
-                                                                " ( " + (annoR.getChromStart() + downstream) + " <  ((d.chromStart + d.chromEnd)/2) " +
-                                                                " AND " + annoR.getChromStart() + " > ((d.chromStart + d.chromEnd)/2)  )" +
-                                                                " OR " +
-                                                                "( " + annoR.getChromEnd() + " < ((d.chromStart + d.chromEnd)/2) " +
-                                                                " AND " + (annoR.getChromEnd() + upstream) + " > ((d.chromStart + d.chromEnd)/2) )" +
-                                                                " )";
+                                                        _sql = "INSERT INTO  " + newD
+                                                                + "  SELECT d.*, \'"
+                                                                + (o != null ? o.toString() : "") + "\'"
+                                                                + " FROM " + oldD + " as d  "
+                                                                + " WHERE d.chrom =  \'" + _chromId + "\'"
+                                                                + " AND ( "
+                                                                + " ( " + (annoR.getChromStart() + downstream) + " <  ((d.chromStart + d.chromEnd)/2) "
+                                                                + " AND " + annoR.getChromStart() + " > ((d.chromStart + d.chromEnd)/2)  )"
+                                                                + " OR "
+                                                                + "( " + annoR.getChromEnd() + " < ((d.chromStart + d.chromEnd)/2) "
+                                                                + " AND " + (annoR.getChromEnd() + upstream) + " > ((d.chromStart + d.chromEnd)/2) )"
+                                                                + " )";
                                                     }
                                             }
                                             //Logger.getLogger(DataManager.class.getName()).log(Level.INFO, _sql);
@@ -858,7 +836,6 @@ public class DataManager {
                                     }
 
                                     //Logger.getLogger(DataManager.class.getName()).log(Level.INFO, sql);
-
                                     _s.execute(_sql);
                                     results[ii] += _s.getUpdateCount();
                                 }
@@ -875,7 +852,7 @@ public class DataManager {
                                 results[ii] = -1;
                             }
                         }
-                        ;
+                    ;
                     });
                     workers[ii].start();
                 }
@@ -894,13 +871,11 @@ public class DataManager {
                         "inserted with anno " + i);
 
                 // insert data wich doesnt contain to any gene
-
-
-                sql = "INSERT INTO " + newData.getTableData() + " " +
-                        " SELECT d.* , \'\' FROM " + data.getTableData() + "  as d  " +
-                        " WHERE NOT EXISTS " +
-                        " (SELECT * FROM " + newData.getTableData() + " as dneu" +
-                        " WHERE dneu.id = d.id); ";
+                sql = "INSERT INTO " + newData.getTableData() + " "
+                        + " SELECT d.* , \'\' FROM " + data.getTableData() + "  as d  "
+                        + " WHERE NOT EXISTS "
+                        + " (SELECT * FROM " + newData.getTableData() + " as dneu"
+                        + " WHERE dneu.id = d.id); ";
                 s.execute(sql);
                 Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
                         "inserted without anno: " + s.getUpdateCount());
@@ -918,8 +893,8 @@ public class DataManager {
 
                 newData.setNof(rs.getInt(1));
                 // TODO MEDIAN!
-                sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) " +
-                        " from " + newData.getTableData();
+                sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) "
+                        + " from " + newData.getTableData();
 
                 rs = s.executeQuery(sql);
 
@@ -960,7 +935,6 @@ public class DataManager {
                 ExperimentService.notifyListener();
                 return newData;
 
-
             } catch (Exception e) {
                 Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, e);
 
@@ -971,7 +945,7 @@ public class DataManager {
                 }
 
                 //throw new RuntimeException(e);
-            /*if (con != null) {
+                /*if (con != null) {
                 try {
                 s = con.createStatement();
                 s.execute("DROP TABLE if EXISTS " + newData.getTableData());
@@ -1022,8 +996,8 @@ public class DataManager {
     public static ExperimentData convertExperiment(
             ExperimentData data, ExperimentData newData, PlatformData pData) throws Exception {
 
-        Logger.getLogger(DataManager.class.getName()).log(Level.INFO, "convert " +
-                data.getName() + " to " + newData.getGenomeRelease() + " via " + pData.toFullString());
+        Logger.getLogger(DataManager.class.getName()).log(Level.INFO, "convert "
+                + data.getName() + " to " + newData.getGenomeRelease() + " via " + pData.toFullString());
 
         Connection con = null;
         Statement s = null;
@@ -1032,13 +1006,13 @@ public class DataManager {
         try {
             em = DBService.getEntityManger();
 
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
 
         } catch (Exception ex) {
             Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Spot iSpot = null;
+        ISpot iSpot = null;
         //310513    kt
         try {
             iSpot = DataManager.getSpotClazz(data.getClazz());
@@ -1049,7 +1023,6 @@ public class DataManager {
             throw new RuntimeException("convertExperiment: invalid clazz " + data.getClazz());
         }
         try {
-
 
             newData.setProcProcessing(DataManager.procDoConvert);
             newData.setParamProcessing("");
@@ -1065,25 +1038,22 @@ public class DataManager {
             s.execute("DROP TABLE if EXISTS " + newData.getTableData());
             s.execute("CREATE TABLE " + newData.getTableData() + " LIKE " + data.getTableData());
 
-            String sql = "INSERT INTO  " + newData.getTableData() +
-                    "  SELECT distinct data.* FROM " + data.getTableData() + " as data, " +
-                    pData.getTableData() + " as p " +
-                    " WHERE " + iSpot.getSQLtoPlattform("p", "data");
-
+            String sql = "INSERT INTO  " + newData.getTableData()
+                    + "  SELECT distinct data.* FROM " + data.getTableData() + " as data, "
+                    + pData.getTableData() + " as p "
+                    + " WHERE " + iSpot.getSQLtoPlattform("p", "data");
 
             Logger.getLogger(DataManager.class.getName()).log(Level.INFO, sql);
             s.execute(sql);
             //161012    kt  bugfix 
-            sql = "UPDATE  " + newData.getTableData() + " as newd, " +
-                    pData.getTableData() + " as p " +
-                    " SET  newd.chrom = p.chrom , newd.chromStart = p.chromStart,  " +
-                    " newd.chromEnd = p.chromEnd " +
-                    " WHERE " + iSpot.getSQLtoPlattform("p", "newd");
+            sql = "UPDATE  " + newData.getTableData() + " as newd, "
+                    + pData.getTableData() + " as p "
+                    + " SET  newd.chrom = p.chrom , newd.chromStart = p.chromStart,  "
+                    + " newd.chromEnd = p.chromEnd "
+                    + " WHERE " + iSpot.getSQLtoPlattform("p", "newd");
 
             int i = s.executeUpdate(sql);
             Logger.getLogger(DataManager.class.getName()).log(Level.INFO, "updated: " + i);
-
-
 
             //update array
             sql = "SELECT count(*) from " + newData.getTableData();
@@ -1099,8 +1069,8 @@ public class DataManager {
                 throw new RuntimeException(" update failed: " + newData.getNof() + " (nof) != " + i + " (updated)");
 
             }
-            sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) " +
-                    " from " + newData.getTableData();
+            sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) "
+                    + " from " + newData.getTableData();
 
             rs = s.executeQuery(sql);
 
@@ -1131,15 +1101,11 @@ public class DataManager {
             ExperimentService.notifyListener();
             return newData;
 
-
         } catch (Exception e) {
             Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, e);
 
-
             ((ExperimentData) data).getExperiment().removeExperimentData(
                     (ExperimentData) newData);
-
-
 
             //throw new RuntimeException(e);
             /*if (con != null) {
@@ -1195,20 +1161,19 @@ public class DataManager {
                 CytoBandManagerImpl.name,
                 Defaults.GenomeRelease.toRelease(d.getGenomeRelease()));
         RegionArray r = RegionLib.getRegionArrayClazz(clazz);
-        String sql =
-                " SELECT \'" + header + " \',\"\",\"\",\"\",\"\" UNION " +
-                " SELECT chrom, " +
-                " least(chromStart, chromEnd), greatest(chromStart,  chromEnd), " +
-                r.getProbeColName() + ", " +
-                r.getRatioColName() +
-                " FROM " + d.getTableData() +
-                " where chrom in (select chrom from " + cytoTable + ")" +
-                " INTO OUTFILE \'" + filepath + "\'";
+        String sql
+                = " SELECT \'" + header + " \',\"\",\"\",\"\",\"\" UNION "
+                + " SELECT chrom, "
+                + " least(chromStart, chromEnd), greatest(chromStart,  chromEnd), "
+                + r.getProbeColName() + ", "
+                + r.getRatioColName()
+                + " FROM " + d.getTableData()
+                + " where chrom in (select chrom from " + cytoTable + ")"
+                + " INTO OUTFILE \'" + filepath + "\'";
 
         Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
                 sql);
-        Connection con = Database.getDBConnection(Defaults.localDB);
-
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         try {
             Statement s = con.createStatement();
@@ -1243,17 +1208,17 @@ public class DataManager {
         String cytoTable = DBUtils.getAnnoTableForRelease(
                 CytoBandManagerImpl.name,
                 Defaults.GenomeRelease.toRelease(d.getGenomeRelease()));
-        String sql =
-                " SELECT \'" + header + " \',\"\",\"\",\"\" UNION " +
-                " SELECT chrom, " +
-                " least(chromStart, chromEnd), greatest(chromStart,  chromEnd), " +
-                r.getRatioColName() +
-                " FROM " + d.getTableData() +
-                " where chrom in (select chrom from " + cytoTable + ")" +
-                " INTO OUTFILE \'" + filepath + "\'";
+        String sql
+                = " SELECT \'" + header + " \',\"\",\"\",\"\" UNION "
+                + " SELECT chrom, "
+                + " least(chromStart, chromEnd), greatest(chromStart,  chromEnd), "
+                + r.getRatioColName()
+                + " FROM " + d.getTableData()
+                + " where chrom in (select chrom from " + cytoTable + ")"
+                + " INTO OUTFILE \'" + filepath + "\'";
         Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
                 sql);
-        Connection con = Database.getDBConnection(Defaults.localDB);
+        Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
         try {
             Statement s = con.createStatement();
             s.execute(sql);
@@ -1283,7 +1248,7 @@ public class DataManager {
         Connection con = null;
         Statement s = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
         } catch (Exception ex) {
             Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -1311,18 +1276,17 @@ public class DataManager {
                 newData.setClazz(data.getClazz());
 
                 test = TrackService.getTrack(newData.getName(), data.getGenomeRelease());
-            /*
+                /*
             if (!(data instanceof ExperimentData)) {
             Logger.getLogger(DataManager.class.getName()).log(Level.WARNING,
             "filterData", " No ExperimentData - save failed!");
             return null;
             }
-             */
+                 */
             }
             if (test != null) {
                 throw new RuntimeException("Name already given, please change");
             }
-
 
             newData.setProcProcessing(DataManager.procDoFilter);
             newData.setParamProcessing(_sql);
@@ -1330,13 +1294,10 @@ public class DataManager {
                 ((ExperimentData) newData).setPlatformdata(((ExperimentData) data).getPlatformdata());
             }
 
-
             //newData.setName(name);// 300512 kt
-
             data.addChildData(newData);
             userTransaction = em.getTransaction();
             userTransaction.begin();
-
 
             if (newData instanceof ExperimentData) {
                 ((ExperimentData) data).getExperiment().addExperimentData(
@@ -1355,21 +1316,17 @@ public class DataManager {
             s.execute("DROP TABLE if EXISTS " + newData.getTableData());
             s.execute("CREATE TABLE " + newData.getTableData() + " LIKE " + data.getTableData());
 
-            String sql = "INSERT INTO  " + newData.getTableData() +
-                    "  SELECT * FROM " + data.getTableData() +
-                    " WHERE " + _sql;
+            String sql = "INSERT INTO  " + newData.getTableData()
+                    + "  SELECT * FROM " + data.getTableData()
+                    + " WHERE " + _sql;
             //ratio < 0 && ratio <= d.getNegThreshold()) || (ratio > 0 && ratio >= d.getPosThreshold()
             Logger.getLogger(DataManager.class.getName()).log(Level.INFO, sql);
 
-
             s.execute(sql);
-
 
             // read data -> insert into table
             // todo dye swap
-
             //em.merge(newData);
-
             //update array
             sql = "SELECT count(*) from " + newData.getTableData();
             ResultSet rs = s.executeQuery(sql);
@@ -1378,8 +1335,8 @@ public class DataManager {
 
             newData.setNof(rs.getInt(1));
             // TODO MEDIAN!
-            sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) " +
-                    " from " + newData.getTableData();
+            sql = "SELECT  AVG(ratio), VAR_SAMP(ratio), STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) "
+                    + " from " + newData.getTableData();
 
             rs = s.executeQuery(sql);
 
@@ -1419,7 +1376,7 @@ public class DataManager {
             data.addChildData(newData);
             ExperimentService.notifyListener();
             return newData;
-        // todo?? woher klasse struktur 
+            // todo?? woher klasse struktur 
 
         } catch (Exception e) {
             Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, e);
@@ -1479,6 +1436,7 @@ public class DataManager {
 
     /**
      * save filtered data in db
+     *
      * @param data
      * @param name
      * @param negThreshold
@@ -1487,11 +1445,11 @@ public class DataManager {
      */
     static public Data filterData(
             Data data, String name, double negThreshold, double posThreshold) throws Exception {
-        String sql = " WHERE (ratio < 0 AND ratio  <= " + negThreshold + ")" +
-                " OR  (ratio > 0 AND ratio >= " + posThreshold + ")";
+        String sql = " WHERE (ratio < 0 AND ratio  <= " + negThreshold + ")"
+                + " OR  (ratio > 0 AND ratio >= " + posThreshold + ")";
         return DataManager.doFilter(data, name, sql);
 
-    /*
+        /*
     Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
     "Save " + data.getName() + " into " + name + " with negTreshold " + negThreshold + " posThreshold " + posThreshold);
     
@@ -1508,7 +1466,7 @@ public class DataManager {
     Connection con = null;
     Statement s = null;
     try {
-    con = Database.getDBConnection(Defaults.localDB);
+    con = Database.getDBConnection(CorePropertiesMod.props().getDb());
     s = con.createStatement();
     } catch (Exception ex) {
     Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -1661,10 +1619,10 @@ public class DataManager {
         Connection con = null;
         Statement s = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
-            String sql = "  SELECT count(*) FROM " + data.getTableData() +
-                    " WHERE " + _sql;
+            String sql = "  SELECT count(*) FROM " + data.getTableData()
+                    + " WHERE " + _sql;
             Logger.getLogger(DataManager.class.getName()).log(Level.INFO, sql);
             ResultSet rs = s.executeQuery(sql);
             rs.next();
@@ -1675,25 +1633,24 @@ public class DataManager {
             throw ex;
         }
     }
-    static Lookup.Template<Spot> tmplSpot = new Lookup.Template<Spot>(
-            org.molgen.genomeCATPro.data.Spot.class);
-    final static String procDoFilter = DataManager.class.getName() + ".filter";
-    final static String procDoConvert = DataManager.class.getName() + ".convert";
-    final static String procDoAnnotate = DataManager.class.getName() + ".annotate";
+    static Lookup.Template<ISpot> tmplSpot = new Lookup.Template<ISpot>(
+            org.molgen.genomeCATPro.data.ISpot.class);
+    final static String procDoFilter = DataManager.class.getName() + "Filtered";
+    final static String procDoConvert = DataManager.class.getName() + "Converted";
+    final static String procDoAnnotate = "Annotated";
 
-    public static Spot getSpotClazz(String clazz) {
+    public static ISpot getSpotClazz(String clazz) {
 
         //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
         Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
                 "looking for datatype clazz " + clazz);
 
-
-        Result<Spot> rslt = Lookup.getDefault().lookup(tmplSpot);
+        Result<ISpot> rslt = Lookup.getDefault().lookup(tmplSpot);
         for (Lookup.Item item : rslt.allItems()) {
             if (item.getType().getName().contentEquals(clazz)) {
                 Logger.getLogger(DataManager.class.getName()).log(Level.INFO,
                         "found " + item.getDisplayName());
-                return (Spot) item.getInstance();
+                return (ISpot) item.getInstance();
             }
         }
 
@@ -1706,8 +1663,7 @@ public class DataManager {
 
         try {
 
-
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
 
         } catch (Exception ex) {
@@ -1715,17 +1671,16 @@ public class DataManager {
             return;
         }
 
-
         try {
-            String sql = "select " +
-                    "a.experimentListID, a.tableData, " +
-                    "b.experimentListID, b.tableData " +
-                    "from ExperimentList as a, ExperimentList as b " +
-                    "where a.experimentDetailID = b.experimentDetailID and " +
-                    "(a.parentID is null and b.parentID is null)  " +
-                    "and a.genomeRelease != b.genomeRelease and " +
-                    "a.procProcessing is null and b.originalFile is null  " +
-                    " and a.idOwner = " + userid;
+            String sql = "select "
+                    + "a.experimentListID, a.tableData, "
+                    + "b.experimentListID, b.tableData "
+                    + "from ExperimentList as a, ExperimentList as b "
+                    + "where a.experimentDetailID = b.experimentDetailID and "
+                    + "(a.parentID is null and b.parentID is null)  "
+                    + "and a.genomeRelease != b.genomeRelease and "
+                    + "a.procProcessing is null and b.originalFile is null  "
+                    + " and a.idOwner = " + userid;
             Logger.getLogger(DataManager.class.getName()).log(Level.INFO, sql);
             ResultSet rs = s.executeQuery(sql);
 
@@ -1742,8 +1697,6 @@ public class DataManager {
             return;
         }
 
-
-
     }
 
     public static void tidyUp(ExperimentData d) {
@@ -1753,8 +1706,7 @@ public class DataManager {
         Logger.getLogger(DataManager.class.getName()).log(Level.INFO, d.toFullString());
         try {
 
-
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
             em = DBService.getEntityManger();
 
@@ -1778,7 +1730,7 @@ public class DataManager {
             for (ExperimentData e : dlist) {
                 tidyUp(e);
             }
-            Spot iSpot=null;
+            ISpot iSpot = null;
             try {
                 //310512    kt
                 iSpot = DataManager.getSpotClazz(d.getClazz());
@@ -1791,11 +1743,11 @@ public class DataManager {
             }
             PlatformData pData = d.getPlatformdata();
 
-            String sql = "UPDATE  " + d.getTableData() + " as newd, " +
-                    pData.getTableData() + " as p " +
-                    " SET  newd.chrom = p.chrom , newd.chromStart = p.chromStart,  " +
-                    " newd.chromEnd = p.chromEnd " +
-                    " WHERE " + iSpot.getSQLtoPlattform("p", "newd");
+            String sql = "UPDATE  " + d.getTableData() + " as newd, "
+                    + pData.getTableData() + " as p "
+                    + " SET  newd.chrom = p.chrom , newd.chromStart = p.chromStart,  "
+                    + " newd.chromEnd = p.chromEnd "
+                    + " WHERE " + iSpot.getSQLtoPlattform("p", "newd");
             int i = s.executeUpdate(sql);
             if (i != d.getNof()) {
 

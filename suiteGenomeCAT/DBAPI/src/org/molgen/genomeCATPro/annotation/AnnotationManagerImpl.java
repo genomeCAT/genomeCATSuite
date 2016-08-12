@@ -1,23 +1,21 @@
 package org.molgen.genomeCATPro.annotation;
+
 /**
  * @name AnnotationManagerImpl
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the GenomeCATPro software package.
- * Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the GenomeCATPro software package. Katrin Tebel
+ * <tebel at molgen.mpg.de>. The contents of this file are subject to the terms
+ * of either the GNU General Public License Version 2 only ("GPL") or the Common
+ * Development and Distribution License("CDDL") (collectively, the "License").
+ * You may not use this file except in compliance with the License. You can
+ * obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -35,13 +33,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.datadb.dbentities.AnnotationList;
-
 
 public class AnnotationManagerImpl implements AnnotationManager {
 
@@ -68,8 +66,6 @@ public class AnnotationManagerImpl implements AnnotationManager {
     @SuppressWarnings("unchecked")
     static AnnotationList loadAnnotation(GenomeRelease release, String name) {
 
-
-
         AnnotationList anno = null;
 
         EntityManager em = DBService.getEntityManger();
@@ -79,10 +75,9 @@ public class AnnotationManagerImpl implements AnnotationManager {
 
         try {
             Query query = em.createQuery(
-                    "SELECT s FROM AnnotationList s " +
-                    " where s.name = ?1 " +
-                    " and s.genomeRelease = ?2 ");
-
+                    "SELECT s FROM AnnotationList s "
+                    + " where s.name = ?1 "
+                    + " and s.genomeRelease = ?2 ");
 
             query.setParameter(1, name);
             query.setParameter(2, release.toString());
@@ -94,8 +89,6 @@ public class AnnotationManagerImpl implements AnnotationManager {
                 return null;
             }
 
-
-
         } catch (Exception e) {
             Logger.getLogger(AnnotationManagerImpl.class.getName()).log(Level.WARNING,
                     "Error: ", e);
@@ -105,7 +98,6 @@ public class AnnotationManagerImpl implements AnnotationManager {
         }
 
         //mod = new AnnotationManagerImpl();
-
         //mod.addKey(release, name, clazz, table);
         //AnnKey key = new AnnKey(release, name, clazz, table);
         Logger.getLogger(AnnotationManagerImpl.class.getName()).log(Level.INFO,
@@ -136,17 +128,17 @@ public class AnnotationManagerImpl implements AnnotationManager {
         Connection con = null;
         try {
 
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
             Statement s = con.createStatement();
 
             ResultSet r = s.executeQuery(
-                    "select name from AnnotationList " +
-                    " where  genomeRelease = \'" + release.toString() + "\'");
+                    "select name from AnnotationList "
+                    + " where  genomeRelease = \'" + release.toString() + "\'");
             while (r.next()) {
                 list.add(r.getString("name"));
             }
-        //return list;
+            //return list;
 
         } catch (Exception e) {
             Logger.getLogger(AnnotationManagerImpl.class.getName()).log(Level.WARNING,
@@ -171,8 +163,6 @@ public class AnnotationManagerImpl implements AnnotationManager {
                 "get data for " + anno.getName() + " " + anno.getGenomeRelease() + " " + chromId);
 
         //Hashtable<String, Vector<CytoBand>> _data = data.get(release);
-
-
         if (!data.get(anno).containsKey(chromId)) {
 
             try {
@@ -182,7 +172,7 @@ public class AnnotationManagerImpl implements AnnotationManager {
                         anno.getClazz());
                 AnnotationManagerImpl.data.get(anno).put(chromId,
                         (Vector<? extends RegionAnnotation>) singleRegion.dbLoadRegions(
-                        anno.getTableData(), chromId));
+                                anno.getTableData(), chromId));
             } catch (Exception e) {
                 Logger.getLogger(AnnotationManagerImpl.class.getName()).log(Level.WARNING,
                         "Error: ", e);
@@ -245,10 +235,10 @@ public class AnnotationManagerImpl implements AnnotationManager {
             double yScale) {
 
         Logger.getLogger(AnnotationManagerImpl.class.getName()).log(
-                Level.INFO, "Plot Data for  " + anno.getName() + " " + anno.getGenomeRelease() + " " + chromId +
-                " x0: " + x0 + " y0: " + y0 + " width: " + width +
-                (fullChrom ? " " : new String(" firstPos: " + firstPos + " secondPos: " + secondPos + " yScale: " +
-                yScale)));
+                Level.INFO, "Plot Data for  " + anno.getName() + " " + anno.getGenomeRelease() + " " + chromId
+                + " x0: " + x0 + " y0: " + y0 + " width: " + width
+                + (fullChrom ? " " : new String(" firstPos: " + firstPos + " secondPos: " + secondPos + " yScale: "
+                                + yScale)));
 
         List<? extends RegionAnnotation> _data = this.getData(chromId);
         if (_data == null || _data.size() == 0) {
@@ -261,30 +251,26 @@ public class AnnotationManagerImpl implements AnnotationManager {
                     _data, chromId,
                     firstPos, secondPos);
 
-
         }
-
-
-
 
         Composite originalComposite = g.getComposite();
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, anno.getTransparency().floatValue()));
 
-
-
-        int y1,  y2;
+        int y1, y2;
         // todo color
         Color color = new Color(anno.getColor().intValue());
         Color _color = null;
         for (RegionAnnotation current : _data) {
-            if(current.getChromEnd() < firstPos)
+            if (current.getChromEnd() < firstPos) {
                 continue;
-            if(current.getChromStart() > secondPos)
+            }
+            if (current.getChromStart() > secondPos) {
                 continue;
+            }
             y1 = (int) (y0 + (((current.getChromStart() - firstPos) < 0 ? 0 : (current.getChromStart() - firstPos) / yScale)));
             // 021012 bug draw behind second border
-            y2 = (int) (y0 + (((current.getChromEnd() > secondPos ? secondPos-firstPos : current.getChromEnd()) - firstPos) / yScale));
+            y2 = (int) (y0 + (((current.getChromEnd() > secondPos ? secondPos - firstPos : current.getChromEnd()) - firstPos) / yScale));
             _color = current.getColor();
             // auslassen??
             if (_color == null) {
@@ -353,7 +339,7 @@ public class AnnotationManagerImpl implements AnnotationManager {
     return this.getColorDesc(anno);
     }
      */
-    /*
+ /*
     public class AnnKey {
     
     public final GenomeRelease release;

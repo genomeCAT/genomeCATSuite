@@ -4,10 +4,6 @@
  */
 package org.molgen.genomeCATPro.guimodul.cghpro;
 
-import org.molgen.genomeCATPro.cghpro.xport.ImportPlatformBACID;
-import org.molgen.genomeCATPro.cghpro.xport.XPortPlatform;
-
-
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,11 +13,12 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
+import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.dblib.DBService;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformData;
 import org.molgen.genomeCATPro.datadb.service.PlatformService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.guimodul.platform.ConvertPlatformDialog;
-
 
 /**
  *
@@ -29,7 +26,7 @@ import org.molgen.genomeCATPro.guimodul.platform.ConvertPlatformDialog;
  */
 public class TestConvertPlatform {
 
-    XPortPlatform xport;
+    
 
     public TestConvertPlatform() {
     }
@@ -44,9 +41,11 @@ public class TestConvertPlatform {
 
     @Before
     public void setUp() {
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
-          //xport = new ImportPlatformGEOBAC();
-          xport = new ImportPlatformBACID();
+        Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "test", "test");
+
+        DBService.setConnection("localhost", "3306", "genomecat", "test", "test");//xport = new ImportPlatformGEOBAC();
+       
+        
     }
 
     @After
@@ -65,5 +64,4 @@ public class TestConvertPlatform {
         }
     }
 
-   
 }

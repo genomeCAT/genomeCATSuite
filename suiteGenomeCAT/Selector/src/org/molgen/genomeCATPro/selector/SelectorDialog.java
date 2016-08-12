@@ -6,19 +6,17 @@ package org.molgen.genomeCATPro.selector;
  * Created on October 25, 2011, 12:56 PM
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @version "%I%, %G%
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.awt.Cursor;
@@ -50,18 +48,18 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import org.jdesktop.beansbinding.Converter;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.annotation.RegionArray;
 import org.molgen.genomeCATPro.annotation.RegionLib;
-import org.molgen.genomeCATPro.common.Defaults;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.guimodul.util.ImageCellRenderer;
 import org.openide.util.NbPreferences;
 
 /**
- * 030812 kt    exportList set DecimalFormatSymbol explizit
- * 
+ * 030812 kt exportList set DecimalFormatSymbol explizit
+ *
  */
 public class SelectorDialog extends javax.swing.JDialog {
 
@@ -69,15 +67,13 @@ public class SelectorDialog extends javax.swing.JDialog {
     List<SelectorRegion> list;
     //String path = "/project/Kopenhagen/Katrin/GenomeCATPro/data/regions_Example_for_Selector.bed";
 
-    /** Creates new form Selector */
+    /**
+     * Creates new form Selector
+     */
     public SelectorDialog(java.awt.Frame parent, boolean modal, Data d) {
         super(parent, modal);
         this.data = d;
         this.list = org.jdesktop.observablecollections.ObservableCollections.observableList(new Vector<SelectorRegion>());
-
-
-
-
 
         initComponents();
 
@@ -109,12 +105,12 @@ public class SelectorDialog extends javax.swing.JDialog {
         try {
             RegionArray _spot = RegionLib.getRegionArrayClazz(data.getClazz());
 
-            Connection con = Database.getDBConnection(Defaults.localDB);
+            Connection con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             PreparedStatement ps = con.prepareStatement(
-                    "SELECT AVG(" + _spot.getRatioColName() + ") " +
-                    " FROM " + data.getTableData() +
-                    " WHERE chrom = ? " +
-                    " AND chromStart <= ? AND chromEnd >= ?");
+                    "SELECT AVG(" + _spot.getRatioColName() + ") "
+                    + " FROM " + data.getTableData()
+                    + " WHERE chrom = ? "
+                    + " AND chromStart <= ? AND chromEnd >= ?");
 
             for (SelectorRegion sr : this.list) {
                 Long chromStart, chromEnd;
@@ -163,10 +159,10 @@ public class SelectorDialog extends javax.swing.JDialog {
         } catch (Exception e) {
             Logger.getLogger(SelectorDialog.class.getName()).log(
                     Level.SEVERE, "", e);
-            JOptionPane.showMessageDialog(this, "error  - see logfile for more information: " +
-                    e.getMessage());
+            JOptionPane.showMessageDialog(this, "error  - see logfile for more information: "
+                    + e.getMessage());
 
-        //throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
@@ -237,21 +233,20 @@ public class SelectorDialog extends javax.swing.JDialog {
             out.newLine();
             for (SelectorRegion sr : this.list) {
 
-
                 out.write(
-                        sr.getName() + "\t" +
-                        sr.getChrom() + "\t" +
-                        sr.getChromStart() + "\t" +
-                        sr.getChromEnd() + "\t" +
-                        N.format(sr.getValue()) + "\t" +
-                        N.format(sr.getStddev()));
+                        sr.getName() + "\t"
+                        + sr.getChrom() + "\t"
+                        + sr.getChromStart() + "\t"
+                        + sr.getChromEnd() + "\t"
+                        + N.format(sr.getValue()) + "\t"
+                        + N.format(sr.getStddev()));
                 out.newLine();
             }
         } catch (IOException ex) {
             Logger.getLogger(SelectorDialog.class.getName()).log(
                     Level.SEVERE, "", ex);
-            JOptionPane.showMessageDialog(this, "error  - see logfile for more information: " +
-                    ex.getMessage());
+            JOptionPane.showMessageDialog(this, "error  - see logfile for more information: "
+                    + ex.getMessage());
         } finally {
             try {
                 out.close();
@@ -283,10 +278,10 @@ public class SelectorDialog extends javax.swing.JDialog {
         this.list.addAll(_list);
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -314,7 +309,7 @@ public class SelectorDialog extends javax.swing.JDialog {
 
         jTableRegions.setAutoCreateRowSorter(true);
         jTableRegions.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jTableRegions.setFont(new java.awt.Font("Dialog", 0, 14));
+        jTableRegions.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTableRegions.setGridColor(new java.awt.Color(204, 204, 204));
         jTableRegions.setName("data"); // NOI18N
         jTableRegions.setRowHeight(30);
@@ -546,8 +541,8 @@ private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     this.jTextFieldDataName.setText(importFileChooser.getSelectedFile().getPath());
 
     Logger.getLogger(SelectorDialog.class.getName()).log(Level.INFO,
-            "You chose to import regions of interest from file: " +
-            this.jTextFieldDataName.getText());
+            "You chose to import regions of interest from file: "
+            + this.jTextFieldDataName.getText());
     this.initList();
     this.loadData(true);
     NbPreferences.forModule(SelectorDialog.class).put("pathPreference",
@@ -555,7 +550,6 @@ private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_jButtonBrowseActionPerformed
     private void printDataTable() {
         /* Fetch printing properties from the GUI components */
-
 
         Color c = this.jTableRegions.getBackground();
         this.jTableRegions.setBackground(Color.WHITE);

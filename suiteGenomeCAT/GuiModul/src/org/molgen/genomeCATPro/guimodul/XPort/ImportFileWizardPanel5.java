@@ -51,28 +51,27 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
     public HelpCtx getHelp() {
         // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
-    // If you have context help:
-    // return new HelpCtx(SampleWizardPanel1.class);
+        // If you have context help:
+        // return new HelpCtx(SampleWizardPanel1.class);
     }
 
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
         return done;
-    // If it depends on some condition (form filled out...), then:
-    // return someCondition();
-    // and when this condition changes (last form field filled in...) then:
-    // fireChangeEvent();
-    // and uncomment the complicated stuff below.
+        // If it depends on some condition (form filled out...), then:
+        // return someCondition();
+        // and when this condition changes (last form field filled in...) then:
+        // fireChangeEvent();
+        // and uncomment the complicated stuff below.
     }
     /*
-    public final void addChangeListener(ChangeListener l) {
-    }
+     public final void addChangeListener(ChangeListener l) {
+     }
     
-    public final void removeChangeListener(ChangeListener l) {
-    }
+     public final void removeChangeListener(ChangeListener l) {
+     }
      */
     private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
-
 
     public final void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
@@ -97,13 +96,11 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
         }
     }
 
-
     // You can use a settings object to keep track of state. Normally the
     // settings object will be the WizardDescriptor, so you can use
     // WizardDescriptor.getProperty & putProperty to store information entered
     // by the user.
     public void readSettings(Object settings) {
-
 
         try {
             this.wd = (WizardDescriptor) settings;
@@ -117,10 +114,10 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
         } catch (Exception e) {
             wd.putProperty("WizardPanel_errorMessage", "error: see logfile");
         }
-    /*
-    if (importModul.getNofChannel() == 1) {
-    ((ImportFileVisualPanel5) getComponent()).getJCheckBoxCenterMedian().setSelected(true);
-    }*/
+        /*
+         if (importModul.getNofChannel() == 1) {
+         ((ImportFileVisualPanel5) getComponent()).getJCheckBoxCenterMedian().setSelected(true);
+         }*/
     }
     ActionListener actionListenerRunImport = new ActionListener() {
 
@@ -180,7 +177,6 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
             publish("run Import in Background...");
             setProgress(0);
 
-
             setProgress(10);
             ExperimentData d = null;
             try {
@@ -194,7 +190,6 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
             setProgress(90);
 
             return d;
-
 
         }
 
@@ -215,8 +210,7 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
                 done = true;
                 fireChangeEvent();
 
-
-            //progressBar.setVisible(false);
+                //progressBar.setVisible(false);
             } catch (Exception e) {
                 Logger.getLogger(ImportWorker.class.getName()).log(Level.WARNING, "run import ", e);
 
@@ -224,4 +218,3 @@ public class ImportFileWizardPanel5 implements WizardDescriptor.Panel {
         }
     }
 }
-

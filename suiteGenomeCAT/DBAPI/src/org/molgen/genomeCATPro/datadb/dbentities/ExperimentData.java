@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.datadb.dbentities;
+
 /**
  * @name ExperimentData
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -53,12 +52,10 @@ import org.molgen.genomeCATPro.common.Utils;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
 
-
 /**
- * 090413   kt  new transient member: nofImportData
- * 090413   kt  new transient member: nofImportErrors
+ * 090413 kt new transient member: nofImportData 090413 kt new transient member:
+ * nofImportErrors
  */
-
 @Entity
 @Table(name = "ExperimentList")
 public class ExperimentData implements Serializable, Data {
@@ -114,12 +111,12 @@ public class ExperimentData implements Serializable, Data {
     @Lob
     @Column(name = "originalFile", nullable = false)
     private String originalFile;
-    
+
     @Transient
     private int nofImportErrors = 0;
     @Transient
     private int nofImportData = 0;
-    
+
     @ManyToOne()
     @JoinColumn(name = "idOwner")
     private User owner;
@@ -133,6 +130,7 @@ public class ExperimentData implements Serializable, Data {
     @JoinColumn(name = "parentID")
     private ExperimentData parent;
 
+    @Override
     public ExperimentData getParent() {
         return this.parent;
     }
@@ -148,7 +146,6 @@ public class ExperimentData implements Serializable, Data {
     public void setParent(ExperimentData o) {
 
         this.parent = o;
-
 
     }
     // sample children
@@ -177,6 +174,7 @@ public class ExperimentData implements Serializable, Data {
         }
         this.tracks.addAll(tracks);
     }
+
     /*
     public void addTrack(Track t) {
     if (!this.getTracks().contains(t)) {
@@ -187,7 +185,6 @@ public class ExperimentData implements Serializable, Data {
     }
     }
      */
-
     public List<Track> getTrackList() {
         List<Track> l = TrackService.listChildrenForExperimentData(this);
         return (l == null || l == Collections.EMPTY_LIST ? new Vector<Track>() : l);
@@ -240,31 +237,45 @@ public class ExperimentData implements Serializable, Data {
 
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public String toFullString() {
         try {
-            return new String(
-                    this.getId() + "," +
-                    this.getName() + "," +
-                    this.getCreated() + ", " +
-                    this.getModified() + "," +
-                    this.getGenomeRelease() + "," +
-                    this.getDataType() + "," +
-                    this.getDescription() + "," +
-                    this.getOriginalFile() + "," +
-                    this.getOwner() != null ? this.getOwner().toString() : "no owner " + "," +
-                    this.getParent() != null ? this.getParent().toString() : " no parent " + "," +
-                    this.getParamProcessing() + "," +
-                    this.getProcProcessing() + "," +
-                    this.getExperiment() != null ? this.getExperiment().toFullString() : "no detail");
+            return this.getId() + ","
+                    + this.getName() + ","
+                    + this.getCreated() + ", "
+                    + this.getModified() + ","
+                    + this.getGenomeRelease() + ","
+                    + this.getDataType() + ","
+                    + this.getDescription() + ","
+                    + this.getOriginalFile() + ","
+                    + this.getOwner() != null ? this.getOwner().toString() : "no owner " + ","
+                            + this.getParent() != null ? this.getParent().toString() : " no parent " + ","
+                                    + this.getParamProcessing() + ","
+                                    + this.getProcProcessing() + ","
+                                    + this.getExperiment() != null ? this.getExperiment().toFullString() : "no detail";
         } catch (Exception e) {
             return this.toString();
         }
     }
 
+    /**
+     *
+     * @param RAW
+     */
+    @Override
     public void setDataType(DataType RAW) {
         this.setDataType(RAW.toString());
     }
 
+    /**
+     *
+     * @param o
+     */
+    @Override
     public void setOwner(User o) {
         if (this.owner != null) {
             this.owner.getSamples().remove(this);
@@ -275,6 +286,11 @@ public class ExperimentData implements Serializable, Data {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public User getOwner() {
         return this.owner;
     }
@@ -294,7 +310,7 @@ public class ExperimentData implements Serializable, Data {
     public void setNofImportErrors(int nofImportErrors) {
         this.nofImportErrors = nofImportErrors;
     }
-    
+
     public ExperimentData() {
         this.experiment = new ExperimentDetail();
     }
@@ -309,10 +325,20 @@ public class ExperimentData implements Serializable, Data {
         this.experimentListID = id;
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public Long getId() {
         return this.experimentListID;
     }
 
+    /**
+     *
+     * @param id
+     */
+    @Override
     public void setId(Long id) {
         this.experimentListID = id;
     }
@@ -321,6 +347,7 @@ public class ExperimentData implements Serializable, Data {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         String oldName = this.name;
         this.name = name;
@@ -328,10 +355,12 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("name", oldName, name);
     }
 
+    @Override
     public String getGenomeRelease() {
         return genomeRelease;
     }
 
+    @Override
     public void setGenomeRelease(GenomeRelease genomeRelease) {
         String oldGenomeRelease = this.genomeRelease;
         this.genomeRelease = genomeRelease.toString();
@@ -344,6 +373,7 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("genomeRelease", oldGenomeRelease, genomeRelease);
     }
 
+    @Override
     public Date getModified() {
         return modified;
     }
@@ -354,6 +384,7 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("modified", oldModified, modified);
     }
 
+    @Override
     public Date getCreated() {
         return created;
     }
@@ -364,6 +395,7 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("created", oldCreated, created);
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -374,6 +406,7 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("description", oldDescription, description);
     }
 
+    @Override
     public String getTableData() {
 
         if (this.tableData == null) {
@@ -383,8 +416,8 @@ public class ExperimentData implements Serializable, Data {
     }
 
     public void initTableData() {
-        this.setTableData(Utils.getUniquableName(this.getName()) + "_" +
-                (this.genomeRelease != null ? GenomeRelease.toRelease(genomeRelease).toShortString() : "") + "_Spots");
+        this.setTableData(Utils.getUniquableName(this.getName()) + "_"
+                + (this.genomeRelease != null ? GenomeRelease.toRelease(genomeRelease).toShortString() : "") + "_Spots");
         //this.setTableData(this.getName() + "_" + this.getGenomeRelease(). + "_Spots");
         this.setTableData(this.getTableData().replace("-", "_"));
         this.setTableData(this.getTableData().replace(" ", "_"));
@@ -396,6 +429,7 @@ public class ExperimentData implements Serializable, Data {
 
     }
 
+    @Override
     public String getProcProcessing() {
         return procProcessing;
     }
@@ -410,12 +444,14 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("procProcessing", oldProcProcessing, procProcessing);
     }
 
+    @Override
     public void setProcProcessing(String procProcessing) {
         String oldProcProcessing = this.procProcessing;
         this.procProcessing = procProcessing;
         changeSupport.firePropertyChange("procProcessing", oldProcProcessing, procProcessing);
     }
 
+    @Override
     public String getParamProcessing() {
         return paramProcessing;
     }
@@ -437,10 +473,12 @@ public class ExperimentData implements Serializable, Data {
         changeSupport.firePropertyChange("dataType", oldDataType, dataType);
     }
 
+    @Override
     public String getClazz() {
         return clazz;
     }
 
+    @Override
     public void setClazz(String clazz) {
         String oldClazz = this.clazz;
         this.clazz = clazz;
@@ -539,8 +577,8 @@ public class ExperimentData implements Serializable, Data {
             return false;
         }
         ExperimentData other = (ExperimentData) object;
-        if ((this.experimentListID == null && other.experimentListID != null) || (this.experimentListID != null &&
-                !this.experimentListID.equals(other.experimentListID))) {
+        if ((this.experimentListID == null && other.experimentListID != null) || (this.experimentListID != null
+                && !this.experimentListID.equals(other.experimentListID))) {
             return false;
         }
         return true;
@@ -572,19 +610,22 @@ public class ExperimentData implements Serializable, Data {
         created = modified = new Date();
 
         Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO,
-                "create: " + this.toString());
+                "create: {0}", this.toString());
     }
 
     @PreUpdate
     protected void onUpdate() {
         modified = new Date();
-        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "update: " + this.toString());
+        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO,
+                "update: {0}", this.toString());
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
 
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
@@ -598,7 +639,6 @@ public class ExperimentData implements Serializable, Data {
             return false;
         }
 
-
         return true;
 
     }
@@ -608,8 +648,6 @@ public class ExperimentData implements Serializable, Data {
         text.append(new String(this.getExperiment().getName() + "\n"));
         text.append(new String("Method: \t" + this.getExperiment().getMethod() + "\n"));
         text.append(new String("Type: \t" + this.getExperiment().getType() + "\n"));
-
-
 
         for (SampleInExperiment sie : this.getExperiment().getSamples()) {
             if (sie.isIsCy3()) {
@@ -635,18 +673,16 @@ public class ExperimentData implements Serializable, Data {
         if (d instanceof ExperimentData) {
             this.copy((ExperimentData) d);
         } else {
-            throw new RuntimeException("ExperimentData.copy: no valid copy source " +
-                    d.getClass().getName());
+            throw new RuntimeException("ExperimentData.copy: no valid copy source "
+                    + d.getClass().getName());
         }
     }
 
     public String getIconPath() {
         try {
 
-
             Region d = RegionLib.getRegionClazz(this.getClazz());
             return d.getIconPath();
-
 
         } catch (Exception ex) {
             Logger.getLogger(ExperimentData.class.getName()).log(Level.WARNING,
@@ -662,16 +698,16 @@ public class ExperimentData implements Serializable, Data {
             }
         }
         d.setParent(this);
-        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "addChild " +
-                d.toFullString());
+        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "addChild "
+                + d.toFullString());
 
         changeSupport.firePropertyChange(Data.ADD, this, null);
     }
 
     public void removeChildData(Data d) {
 
-        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "removeChild" +
-                this.toFullString());
+        Logger.getLogger(ExperimentData.class.getName()).log(Level.INFO, "removeChild"
+                + this.toFullString());
         changeSupport.firePropertyChange(Data.REMOVE, this, null);
     }
 }

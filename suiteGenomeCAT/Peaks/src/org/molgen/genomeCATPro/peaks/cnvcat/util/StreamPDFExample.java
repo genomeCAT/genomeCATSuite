@@ -59,8 +59,6 @@ public class StreamPDFExample {
         Desktop.getDesktop().browse(
                 new URI("http://localhost:" + WEB_SERVER_PORT));
 
-
-
     }
 
     public static void stop() {

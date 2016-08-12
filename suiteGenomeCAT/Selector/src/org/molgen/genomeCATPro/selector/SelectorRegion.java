@@ -14,22 +14,20 @@ import org.molgen.genomeCATPro.common.Univariate;
 /**
  * @name SelectorRegion
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 public class SelectorRegion extends RegionImpl {
 
@@ -46,7 +44,6 @@ public class SelectorRegion extends RegionImpl {
 
     public SelectorRegion(String name, String chrom, Long start, Long stop, List<Double> v) {
         super(name, chrom, start, stop);
-
 
         icon = new BufferedImage(SelectorRegion.lengthImage,
                 20,
@@ -87,15 +84,13 @@ public class SelectorRegion extends RegionImpl {
         this.statValues = new Univariate(
                 this.values.toArray(new Double[this.values.size()]));
 
-
         // dummies for property changed calling
         this.setValue();
         this.setStddev();
         this.setImage();
-    //
+        //
 
-    //changeSupport.firePropertyChange("values", old, values);
-
+        //changeSupport.firePropertyChange("values", old, values);
     }
 
     public Color getColor() {
@@ -135,8 +130,8 @@ public class SelectorRegion extends RegionImpl {
             g.fillRect(x, 0, width, img.getHeight());
             x += width;
 
-        //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
-        //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
+            //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
+            //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
         }
     }
 

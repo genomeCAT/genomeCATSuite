@@ -1,4 +1,5 @@
 package org.molgen.genomeCATPro.peaks.cnvcat;
+
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Cursor;
@@ -50,33 +51,32 @@ import org.molgen.genomeCATPro.peaks.ExportFrequenciesDialog;
 import org.molgen.genomeCATPro.peaks.cnvcat.AberrationManager;
 import org.molgen.genomeCATPro.peaks.cnvcat.util.ColorEditor;
 import org.molgen.genomeCATPro.peaks.cnvcat.util.ColorRenderer;
+import org.molgen.genomeCATPro.peaks.cnvcat.util.ListRenderer;
 import org.openide.modules.InstalledFileLocator;
 import org.openide.util.NbPreferences;
 
 /**
  * @name CNVCATFrame
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * This file is part of the GenomeCAT software package.
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- * 260912   kt  setPositionFromHistory() refresh display aberrations
- * 101012   kt  updateMatrixView Matrix scrollbar
+ * 260912 kt setPositionFromHistory() refresh display aberrations 101012 kt
+ * updateMatrixView Matrix scrollbar
  *
  */
 public class CNVCATFrame extends BasicFrame implements AppInterface {
@@ -90,14 +90,10 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     public CNVCATFrame() {
         super();
 
-
-
         this.dispAberrations = new Vector<Aberration>();
         this.AberrationManager();
         this.CytoBandManager();
         this.ScoreFilterManager();
-
-
 
         initComponents();
         super.initFrame();
@@ -162,30 +158,23 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
         super.setRelease(_release);
         this.chromLength = CytoBandManagerImpl.getChromLength(GenomeRelease.toRelease(this.release));
 
-
     }
 
     public CNVCATFrame(String release) {
 
         super(release);
 
-
-
         this.dispAberrations = new Vector<Aberration>();
         this.AberrationManager();
         this.CytoBandManager();
         this.ScoreFilterManager();
 
-
-
         initComponents();
         super.initFrame();
-    //manager.initProject(this);
+        //manager.initProject(this);
 
-    //Dimension dim = getToolkit().getScreenSize();
-    //this.setMaximumSize(new Dimension(dim.width * 1, (int) (dim.height * 0.5)));
-
-
+        //Dimension dim = getToolkit().getScreenSize();
+        //this.setMaximumSize(new Dimension(dim.width * 1, (int) (dim.height * 0.5)));
     }
 
     public AberrationManager getAberrationManager() {
@@ -266,6 +255,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
     public void writeFrequencies(int binsize, String filepath) throws Exception {
         //String filepath = "./test.txt";
+        String oldChrom = this.chromId;
         File outFile = new File(filepath);
         FileWriter out = null;
         try {
@@ -285,21 +275,19 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
                     continue;
                 }
                 this.chromId = d.getActionCommand();
+                this.updateMatrixView();
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "writeFrequencies " + chromId);
-
-
 
                 /*public void printFreqAberration(
                 Graphics2D g, String chromId, int left,
                 int right, int top, int fWidth, boolean fileout, int bin, FileWriter out, boolean first) {
                  */
-
-
                 ((MatrixAberration) this.getMatrix()).printFreqAberration(
                         null, this.chromId, 0, 0, 0, 0, true, binsize, out, first);
                 first = false;
             }
-
+            this.chromId = oldChrom;
+            this.updateMatrixView();
         } catch (Exception e) {
             //  JOptionPane.showMessageDialog(this, "Error: " + (e.getMessage() != null ? e.getMessage() : "undefined"));
             Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "", e);
@@ -308,20 +296,20 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
         try {
             out.close();
-        //System.out.println("DUP: " + sDup);
-        //System.out.println("DEL: " + sDel);
+            //System.out.println("DUP: " + sDup);
+            //System.out.println("DEL: " + sDel);
         } catch (Exception ex) {
             Logger.getLogger(CNVCATFrame.class.getName()).log(Level.SEVERE, "ERROR: ", ex);
             throw ex;
-            
+
         }
 
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -352,23 +340,16 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
         jRadioButtonRegion = new javax.swing.JRadioButton();
         jPanelMain = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableHeader = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         buttonAddActive = new javax.swing.JButton();
         buttonClearActive = new javax.swing.JButton();
         jButtonPrintFreq = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableHeader = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableData = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        textSelChrom = new javax.swing.JTextField();
-        textSelStart = new javax.swing.JTextField();
-        textSelEnd = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanelRight = new javax.swing.JPanel();
         jScrollPaneMatrix = new javax.swing.JScrollPane();
@@ -403,6 +384,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
         jPanelPlotAnno = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(650, 400));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanelTop.setMinimumSize(new java.awt.Dimension(800, 90));
@@ -410,7 +392,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
         jPanelTop.setPreferredSize(new java.awt.Dimension(800, 95));
         jPanelTop.setLayout(new java.awt.GridLayout(1, 1));
 
-        ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Layout"));
+        ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Layout", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
         ModePanel.setMinimumSize(new java.awt.Dimension(0, 0));
         ModePanel.setLayout(new javax.swing.BoxLayout(ModePanel, javax.swing.BoxLayout.Y_AXIS));
 
@@ -444,7 +426,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
         jPanelTop.add(ModePanel);
 
-        TransparancyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Transparency"));
+        TransparancyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transparency", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
 
         buttonGroupTransparency.add(jRadioButtonTransNone);
         jRadioButtonTransNone.setText("None");
@@ -495,7 +477,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
         jPanelTop.add(TransparancyPanel);
 
-        AnnotationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Annotation"));
+        AnnotationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Annotation", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(
             this.listAnnotations));
@@ -535,7 +517,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
     jPanelTop.add(AnnotationPanel);
 
-    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder("selected Region"));
+    jPanelGenome.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "detail history", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), javax.swing.UIManager.getDefaults().getColor("Button.focus"))); // NOI18N
     jPanelGenome.setMaximumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setMinimumSize(new java.awt.Dimension(200, 100));
     jPanelGenome.setOpaque(false);
@@ -552,9 +534,14 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     buttonGroupSelectedView.add(jRadioButtonFullChrom);
     jRadioButtonFullChrom.setSelected(true);
     jRadioButtonFullChrom.setText("full chrom");
+    jRadioButtonFullChrom.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jRadioButtonFullChromActionPerformed(evt);
+        }
+    });
 
     buttonGroupSelectedView.add(jRadioButtonRegion);
-    jRadioButtonRegion.setText(" region");
+    jRadioButtonRegion.setText("detail");
     jRadioButtonRegion.setEnabled(false);
 
     javax.swing.GroupLayout jPanelGenomeLayout = new javax.swing.GroupLayout(jPanelGenome);
@@ -599,59 +586,6 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jSplitPane1.setOneTouchExpandable(true);
     jSplitPane1.setPreferredSize(new java.awt.Dimension(800, 600));
 
-    jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
-    jTabbedPane1.setMinimumSize(new java.awt.Dimension(100, 400));
-
-    jTableHeader.setAutoCreateRowSorter(true);
-    jTableHeader.setName("jTableHeader");
-    jTableHeader.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
-    org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${aberrationManager.activeCases}");
-    org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTableHeader);
-    org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${trackId}"));
-    columnBinding.setColumnName("Track Id");
-    columnBinding.setColumnClass(String.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${paramAsString}"));
-    columnBinding.setColumnName("Parameter");
-    columnBinding.setColumnClass(String.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${color}"));
-    columnBinding.setColumnName("Color");
-    columnBinding.setColumnClass(java.awt.Color.class);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${countAberrations}"));
-    columnBinding.setColumnName("# CNV");
-    columnBinding.setColumnClass(Integer.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${noHiddenCNV}"));
-    columnBinding.setColumnName("# Hidden CNV");
-    columnBinding.setColumnClass(Integer.class);
-    columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${XDispColumn}"));
-    columnBinding.setColumnName("Column");
-    columnBinding.setColumnClass(Integer.class);
-    bindingGroup.addBinding(jTableBinding);
-    jTableBinding.bind();
-    jTableHeader.getModel().addTableModelListener(new TableModelListener() {
-
-        public void tableChanged(TableModelEvent e) {
-
-            int row = e.getFirstRow();
-            int column = e.getColumn();
-            //System.out.println("source:  " + e.getSource() + " type " + e.getType() + " row " + row + " col " + column);
-            //AberrationJFrame.this.updateDisplayMatrix();
-        }
-    });
-    jTableHeader.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-        public void propertyChange(java.beans.PropertyChangeEvent evt) {
-            jTableHeaderPropertyChange(evt);
-        }
-    });
-    jTableHeader.setDefaultEditor(Color.class,  new ColorEditor());
-    jTableHeader.setDefaultRenderer(Color.class, new ColorRenderer(true));
-    jScrollPane1.setViewportView(jTableHeader);
-    jTableHeader.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
     buttonAddActive.setText("Add");
     buttonAddActive.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -678,7 +612,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanel5Layout.setHorizontalGroup(
         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-            .addContainerGap(82, Short.MAX_VALUE)
+            .addContainerGap(145, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                 .addComponent(jButtonPrintFreq, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createSequentialGroup()
@@ -693,32 +627,76 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
             .addContainerGap()
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(buttonAddActive, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(buttonClearActive, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                .addComponent(buttonClearActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jButtonPrintFreq)
             .addContainerGap())
     );
 
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
-    jPanel1Layout.setHorizontalGroup(
-        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addContainerGap(35, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-    );
-    jPanel1Layout.setVerticalGroup(
-        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
-            .addGap(18, 18, 18)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(109, 109, 109))
-    );
+    jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
+    jTabbedPane1.setMinimumSize(new java.awt.Dimension(100, 400));
 
-    jTabbedPane1.addTab("ID", jPanel1);
+    jTableHeader.setAutoCreateRowSorter(true);
+    jTableHeader.setName("jTableHeader");
+    jTableHeader.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+    org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${aberrationManager.activeCases}");
+    org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTableHeader);
+    org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${trackId}"));
+    columnBinding.setColumnName("Track Id");
+    columnBinding.setColumnClass(String.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sampleNames}"));
+    columnBinding.setColumnName("Sample Names");
+    columnBinding.setColumnClass(java.util.List.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${phenotypes}"));
+    columnBinding.setColumnName("Phenotypes");
+    columnBinding.setColumnClass(java.util.List.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${paramAsString}"));
+    columnBinding.setColumnName("Param As String");
+    columnBinding.setColumnClass(String.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${color}"));
+    columnBinding.setColumnName("Color");
+    columnBinding.setColumnClass(java.awt.Color.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${countAberrations}"));
+    columnBinding.setColumnName("Count Aberrations");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${noHiddenCNV}"));
+    columnBinding.setColumnName("No Hidden CNV");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding.setEditable(false);
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${XDispColumn}"));
+    columnBinding.setColumnName("XDisp Column");
+    columnBinding.setColumnClass(Integer.class);
+    columnBinding.setEditable(false);
+    bindingGroup.addBinding(jTableBinding);
+    jTableBinding.bind();
+    jTableHeader.getModel().addTableModelListener(new TableModelListener() {
+
+        public void tableChanged(TableModelEvent e) {
+
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            //System.out.println("source:  " + e.getSource() + " type " + e.getType() + " row " + row + " col " + column);
+            //AberrationJFrame.this.updateDisplayMatrix();
+        }
+    });
+    jTableHeader.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            jTableHeaderPropertyChange(evt);
+        }
+    });
+    jTableHeader.setDefaultEditor(Color.class,  new ColorEditor());
+    jTableHeader.setDefaultRenderer(Color.class, new ColorRenderer(true));
+    jTableHeader.setDefaultRenderer(List.class, new ListRenderer());
+    jScrollPane1.setViewportView(jTableHeader);
+
+    jTabbedPane1.addTab("Tracks", jScrollPane1);
 
     jScrollPane2.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
@@ -801,89 +779,29 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     // selected Item propagating to tableHeader
     jTableData.getSelectionModel().addListSelectionListener(new DataListSelectionHandler());
 
-    jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("selected CNV"));
+    jTabbedPane1.addTab("Regions", jScrollPane2);
 
-    textSelChrom.setEditable(false);
-    textSelChrom.setMinimumSize(new java.awt.Dimension(100, 10));
-
-    textSelStart.setEditable(false);
-    textSelStart.setMinimumSize(new java.awt.Dimension(100, 10));
-
-    textSelEnd.setEditable(false);
-    textSelEnd.setMinimumSize(new java.awt.Dimension(100, 10));
-
-    jLabel1.setText("CNV:");
-
-    javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-    jPanel6.setLayout(jPanel6Layout);
-    jPanel6Layout.setHorizontalGroup(
-        jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel6Layout.createSequentialGroup()
-            .addGap(29, 29, 29)
-            .addComponent(jLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(textSelChrom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(6, 6, 6)
-            .addComponent(textSelStart, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(textSelEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(41, 41, 41))
+    javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+    jPanel3.setLayout(jPanel3Layout);
+    jPanel3Layout.setHorizontalGroup(
+        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
-    jPanel6Layout.setVerticalGroup(
-        jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel6Layout.createSequentialGroup()
+    jPanel3Layout.setVerticalGroup(
+        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(textSelChrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(textSelStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(textSelEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1))
-            .addGap(68, 68, 68))
-    );
-
-    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-    jPanel4.setLayout(jPanel4Layout);
-    jPanel4Layout.setHorizontalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel4Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(13, Short.MAX_VALUE))
-    );
-    jPanel4Layout.setVerticalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-            .addContainerGap(219, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
     );
 
-    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-    jPanel2.setLayout(jPanel2Layout);
-    jPanel2Layout.setHorizontalGroup(
-        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel2Layout.createSequentialGroup()
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addContainerGap())
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                .addContainerGap()))
-    );
-    jPanel2Layout.setVerticalGroup(
-        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-            .addContainerGap(182, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE)))
-    );
-
-    jTabbedPane1.addTab("CNV", jPanel2);
-
-    jSplitPane1.setLeftComponent(jTabbedPane1);
+    jSplitPane1.setLeftComponent(jPanel3);
 
     jSplitPane2.setDividerLocation(100);
     jSplitPane2.setDividerSize(5);
@@ -911,12 +829,12 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
 
     jPanelChroms.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
     jPanelChroms.setMaximumSize(new java.awt.Dimension(100, 32767));
-    jPanelChroms.setMinimumSize(new java.awt.Dimension(100, 550));
+    jPanelChroms.setMinimumSize(new java.awt.Dimension(100, 500));
     jPanelChroms.setPreferredSize(new java.awt.Dimension(61, 550));
     jPanelChroms.setLayout(new java.awt.GridLayout(25, 1));
 
     rbGroupChroms.add(rbChrom1);
-    rbChrom1.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom1.setSelected(true);
     rbChrom1.setText("chr1");
     rbChrom1.setMaximumSize(new java.awt.Dimension(53, 23));
@@ -930,7 +848,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom1);
 
     rbGroupChroms.add(rbChrom2);
-    rbChrom2.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom2.setText("chr2");
     rbChrom2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -940,7 +858,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom2);
 
     rbGroupChroms.add(rbChrom3);
-    rbChrom3.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom3.setText("chr3");
     rbChrom3.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -950,7 +868,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom3);
 
     rbGroupChroms.add(rbChrom4);
-    rbChrom4.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom4.setText("chr4");
     rbChrom4.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -960,7 +878,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom4);
 
     rbGroupChroms.add(rbChrom5);
-    rbChrom5.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom5.setText("chr5");
     rbChrom5.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -970,7 +888,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom5);
 
     rbGroupChroms.add(rbChrom6);
-    rbChrom6.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom6.setText("chr6");
     rbChrom6.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -980,7 +898,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom6);
 
     rbGroupChroms.add(rbChrom7);
-    rbChrom7.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom7.setText("chr7");
     rbChrom7.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -990,7 +908,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom7);
 
     rbGroupChroms.add(rbChrom8);
-    rbChrom8.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom8.setText("chr8");
     rbChrom8.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1000,7 +918,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom8);
 
     rbGroupChroms.add(rbChrom9);
-    rbChrom9.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom9.setText("chr9");
     rbChrom9.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1010,7 +928,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom9);
 
     rbGroupChroms.add(rbChrom10);
-    rbChrom10.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom10.setText("chr10");
     rbChrom10.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1020,7 +938,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom10);
 
     rbGroupChroms.add(rbChrom11);
-    rbChrom11.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom11.setText("chr11");
     rbChrom11.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1030,7 +948,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom11);
 
     rbGroupChroms.add(rbChrom12);
-    rbChrom12.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom12.setText("chr12");
     rbChrom12.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1040,7 +958,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom12);
 
     rbGroupChroms.add(rbChrom13);
-    rbChrom13.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom13.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom13.setText("chr13");
     rbChrom13.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1050,7 +968,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom13);
 
     rbGroupChroms.add(rbChrom14);
-    rbChrom14.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom14.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom14.setText("chr14");
     rbChrom14.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1060,7 +978,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom14);
 
     rbGroupChroms.add(rbChrom15);
-    rbChrom15.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom15.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom15.setText("chr15");
     rbChrom15.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1070,7 +988,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom15);
 
     rbGroupChroms.add(rbChrom16);
-    rbChrom16.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom16.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom16.setText("chr16");
     rbChrom16.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1080,7 +998,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom16);
 
     rbGroupChroms.add(rbChrom17);
-    rbChrom17.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom17.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom17.setText("chr17");
     rbChrom17.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1090,7 +1008,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom17);
 
     rbGroupChroms.add(rbChrom18);
-    rbChrom18.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom18.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom18.setText("chr18");
     rbChrom18.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1100,7 +1018,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom18);
 
     rbGroupChroms.add(rbChrom19);
-    rbChrom19.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom19.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom19.setText("chr19");
     rbChrom19.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1110,7 +1028,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom19);
 
     rbGroupChroms.add(rbChrom20);
-    rbChrom20.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom20.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom20.setText("chr20");
     rbChrom20.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1120,7 +1038,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom20);
 
     rbGroupChroms.add(rbChrom21);
-    rbChrom21.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom21.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom21.setText("chr21");
     rbChrom21.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1130,7 +1048,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom21);
 
     rbGroupChroms.add(rbChrom22);
-    rbChrom22.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChrom22.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChrom22.setText("chr22");
     rbChrom22.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1140,7 +1058,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChrom22);
 
     rbGroupChroms.add(rbChromX);
-    rbChromX.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChromX.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChromX.setText("chrX");
     rbChromX.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1150,7 +1068,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChromX);
 
     rbGroupChroms.add(rbChromY);
-    rbChromY.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbChromY.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbChromY.setText("chrY");
     rbChromY.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1160,7 +1078,7 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jPanelChroms.add(rbChromY);
 
     rbGroupChroms.add(rbAll);
-    rbAll.setFont(new java.awt.Font("Dialog", 1, 14));
+    rbAll.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
     rbAll.setText("ALL");
     rbAll.setActionCommand(this.ALL_CHROMS);
     rbAll.addActionListener(new java.awt.event.ActionListener() {
@@ -1175,8 +1093,6 @@ public class CNVCATFrame extends BasicFrame implements AppInterface {
     jSplitPane2.setRightComponent(jPanelRight);
 
     jScrollPaneAnnotation.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    jScrollPaneAnnotation.setAlignmentX(0.0F);
-    jScrollPaneAnnotation.setHorizontalScrollBar(null);
     jScrollPaneAnnotation.setMaximumSize(new java.awt.Dimension(500, 1000));
     jScrollPaneAnnotation.setMinimumSize(new java.awt.Dimension(100, 500));
     jScrollPaneAnnotation.setPreferredSize(new java.awt.Dimension(200, 800));
@@ -1297,6 +1213,15 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     ExportFrequenciesDialog.ExportFrequencies(this);
 }//GEN-LAST:event_jButtonPrintFreqActionPerformed
 
+private void jRadioButtonFullChromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonFullChromActionPerformed
+    // kt 05112014
+    if (this.jRadioButtonFullChrom.isSelected()) {
+
+        this.getCBHistory().setSelectedItem(null);
+        this.updateMatrixView();
+    }
+}//GEN-LAST:event_jRadioButtonFullChromActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel AnnotationPanel;
     javax.swing.JPanel ModePanel;
@@ -1309,13 +1234,9 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     javax.swing.JButton jButtonPrintFreq;
     javax.swing.JComboBox jComboBox2;
     javax.swing.JComboBox jComboBoxHistory;
-    javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel8;
-    javax.swing.JPanel jPanel1;
-    javax.swing.JPanel jPanel2;
-    javax.swing.JPanel jPanel4;
+    javax.swing.JPanel jPanel3;
     javax.swing.JPanel jPanel5;
-    javax.swing.JPanel jPanel6;
     javax.swing.JPanel jPanelChroms;
     javax.swing.JPanel jPanelGenome;
     javax.swing.JPanel jPanelMain;
@@ -1369,9 +1290,6 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     javax.swing.JRadioButton rbChromY;
     javax.swing.ButtonGroup rbGroupChroms;
     javax.swing.ButtonGroup rbGroupView;
-    javax.swing.JTextField textSelChrom;
-    javax.swing.JTextField textSelEnd;
-    javax.swing.JTextField textSelStart;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     MatrixAberration matrix;
@@ -1392,20 +1310,11 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
         super.refreshMatrixView();
 
         try {
-            this.textSelChrom.setText("");
-            this.textSelStart.setText("");
-            this.textSelEnd.setText("");
 
             if (this.AberrationManager() == null) {
                 return;
             }
-            for (Aberration a : this.AberrationManager().getDispAberrations()) {
-                if (a.isSelected()) {
-                    this.textSelChrom.setText(a.getChrom());
-                    this.textSelStart.setText(Long.toString(a.getChromStart()));
-                    this.textSelEnd.setText(Long.toString(a.getChromEnd()));
-                }
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error: " + (e.getMessage() != null ? e.getMessage() : "undefined"));
@@ -1429,9 +1338,6 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     public void updateMatrixView() {
 
         super.updateMatrixView();
-        this.textSelChrom.setText("");
-        this.textSelStart.setText("");
-        this.textSelEnd.setText("");
 
         if (this.AberrationManager() == null) {
             return;
@@ -1440,7 +1346,6 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
         // kt 101012
         Dimension d2 = this.getMatrix().getSize();
         this.getPlot().setPreferredSize(new Dimension((int) d2.getWidth(), (int) d2.getHeight()));
-
 
     }
 // PUBLIC METHODS 
@@ -1454,7 +1359,7 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
     ex.setVisible(true);
     
      */
-    /*
+ /*
     public void showAberrationFilterAdd() {
     
     try {
@@ -1482,11 +1387,8 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
 
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-
             FilterCNVCATDialog f = new FilterCNVCATDialog(this);
             f.setVisible(true);
-
-
 
         } catch (Exception e) {
             Logger.getLogger(CNVCATFrame.class.getName()).log(Level.SEVERE,
@@ -1498,41 +1400,33 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
         }
 
         // tableHeader is bound to aberrationManager.activeCases
-
-
-
         this.updateMatrixView();
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
     }
 
     /**
-     * load cnv for selected Tracks
-     * combine new selected cnv with formerly loaded cnv,
-     * update cnv hiding state according to score filter
+     * load cnv for selected Tracks combine new selected cnv with formerly
+     * loaded cnv, update cnv hiding state according to score filter
      */
     public void updateAberrationLists() {
 
-
-
-        List<? extends AberrationIds> list =
-                AberrationManager().conflictActiveCases(
-                AberrationManager().getSelectedAberrationIds(),
-                AberrationManager().getActiveCases());
-
+        List<? extends AberrationIds> list
+                = AberrationManager().conflictActiveCases(
+                        AberrationManager().getSelectedAberrationIds(),
+                        AberrationManager().getActiveCases());
 
         if (list == null) {
             AberrationManager().loadActiveCases(false);
         } else {
 
             int rc = JOptionPane.showConfirmDialog(this,
-                    "\nFor at least one CaseId/Exctraction  the CNV are already loaded. " +
-                    "\n To replace the CNV proceed with YES. " +
-                    "\n To keep the older CNV proceed with NO. " +
-                    "\n To cancel the loading hit CANCEL!",
+                    "\nFor at least one CaseId/Exctraction  the CNV are already loaded. "
+                    + "\n To replace the CNV proceed with YES. "
+                    + "\n To keep the older CNV proceed with NO. "
+                    + "\n To cancel the loading hit CANCEL!",
                     "Replace CNV",
                     JOptionPane.YES_NO_CANCEL_OPTION);
-
 
             if (rc == JOptionPane.YES_OPTION) {
                 AberrationManager().loadActiveCases(true);
@@ -1579,8 +1473,8 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
             //
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error exporting data: " +
-                    e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error exporting data: "
+                    + e.getMessage());
         }
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
@@ -1592,8 +1486,8 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
             //deleteAberration(this);
             this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error deleting data: " +
-                    e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error deleting data: "
+                    + e.getMessage());
         }
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
@@ -1645,13 +1539,9 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
 
     class DataListSelectionHandler implements ListSelectionListener {
 
-        String trackId;
-        String param;
-        Vector<Vector<String>> idSelected = new Vector<Vector<String>>();
-
         public void valueChanged(ListSelectionEvent e) {
             System.out.println("list selection event");
-            idSelected.clear();
+
             int j;
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             // clear all selections
@@ -1718,16 +1608,15 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
 
                 ColorConvertOp conv = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_sRGB), null);
 
-
                 conv.filter(img, dest);
                 img = dest;
-            //encoder.encode( dest );   
+                //encoder.encode( dest );   
             }
             ImageIO.write(img, suffix, f);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error exporting image: " +
-                    e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error exporting image: "
+                    + e.getMessage());
         }
         NbPreferences.forModule(CNVCATFrame.class).put("pathPreference", f.getName());
     }
@@ -1804,7 +1693,7 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
 
             } catch (Exception e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "", e);
-            //JOptionPane.showMessageDialog(null, AberrationFrameBack.warnNoConnection);
+                //JOptionPane.showMessageDialog(null, AberrationFrameBack.warnNoConnection);
             }
         }
         return this.scoreFilterManager;
@@ -1821,7 +1710,7 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
                 this.cytoBandManager = new CytoBandManagerImpl(GenomeRelease.toRelease(release));
             } catch (Exception e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "", e);
-            //JOptionPane.showMessageDialog(null, " No Database Connection. Please set parameter at \"edit Properties\"");
+                //JOptionPane.showMessageDialog(null, " No Database Connection. Please set parameter at \"edit Properties\"");
             }
         }
         return this.cytoBandManager;
@@ -1849,13 +1738,10 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Colorlist: " + colfile.getAbsolutePath());
 
                 //File colfile = new File(colfileurl.toURI());
-
                 BufferedReader input = new BufferedReader(new FileReader(colfile));
                 String line;
 
-
                 colorlist = new HashMap<String, String>();
-
 
                 while ((line = input.readLine()) != null) {
                     String[] par = line.split("\t");
@@ -1880,5 +1766,3 @@ private void jButtonPrintFreqActionPerformed(java.awt.event.ActionEvent evt) {//
         }
     }
 }
-
-

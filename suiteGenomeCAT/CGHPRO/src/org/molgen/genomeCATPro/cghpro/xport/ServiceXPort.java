@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ServiceXPort
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.util.Collections;
 import java.util.Vector;
@@ -29,9 +27,9 @@ import org.openide.util.Lookup;
 import org.openide.util.Lookup.Result;
 
 /**
- *  020813   kt      XPortImport createNewImport();
- * 
- *  Service-Factory
+ * 020813 kt XPortImport createNewImport();
+ *
+ * Service-Factory
  */
 public abstract class ServiceXPort {
 
@@ -40,12 +38,12 @@ public abstract class ServiceXPort {
     static Lookup.Template<XPortTrack> tmplXPortTrack = new Lookup.Template<XPortTrack>(org.molgen.genomeCATPro.cghpro.xport.XPortTrack.class);
 
     /**
-     * list of all filetypes for attached import modules  - Import
+     * list of all filetypes for attached import modules - Import
+     *
      * @return
      */
     public static Vector<String> getFileTypesImport() {
         Vector<String> listall = new Vector<String>();
-
 
         Lookup.Result<XPortExperimentFile> rslt = Lookup.getDefault().lookup(ServiceXPort.tmplXPortFile);
         for (XPortExperimentFile impl : rslt.allInstances()) {
@@ -58,12 +56,12 @@ public abstract class ServiceXPort {
     }
 
     /**
-     * list of all filetypes for attached import modules  - platform
+     * list of all filetypes for attached import modules - platform
+     *
      * @return
      */
     public static Vector<String> getFileTypesPlatformImport() {
         Vector<String> listall = new Vector<String>();
-
 
         Lookup.Result<XPortPlatform> rslt = Lookup.getDefault().lookup(ServiceXPort.tmplXPortPlatform);
         for (XPortPlatform impl : rslt.allInstances()) {
@@ -76,12 +74,11 @@ public abstract class ServiceXPort {
     }
 
     /**
-     * 
-     * @return list of all filetypes for attached import modules  - track
+     *
+     * @return list of all filetypes for attached import modules - track
      */
     public static Vector<String> getFileTypeTrackImport() {
         Vector<String> listall = new Vector<String>();
-
 
         Lookup.Result<XPortTrack> rslt = Lookup.getDefault().lookup(ServiceXPort.tmplXPortTrack);
         for (XPortTrack impl : rslt.allInstances()) {
@@ -95,6 +92,7 @@ public abstract class ServiceXPort {
 
     /**
      * lookup import dependent on file type
+     *
      * @param filetype
      * @return
      */
@@ -114,6 +112,7 @@ public abstract class ServiceXPort {
 
     /**
      * lookup track dependent on file type
+     *
      * @param filetype
      * @return
      */
@@ -126,7 +125,6 @@ public abstract class ServiceXPort {
 
                 Logger.getLogger(ServiceXPort.class.getName()).log(Level.INFO, " getXPortTrack: return Service: " + impl.getName());
 
-
                 return (XPortTrack) impl.createNewImport();
             }
         }
@@ -135,6 +133,7 @@ public abstract class ServiceXPort {
 
     /**
      * lookup platform dependent on filetype
+     *
      * @param filetype
      * @return
      */

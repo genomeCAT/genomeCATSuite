@@ -8,16 +8,16 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import org.netbeans.spi.options.OptionsCategory;
 import org.netbeans.spi.options.OptionsPanelController;
-import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
+import org.openide.util.*;
 
 public final class GuimodulOptionsCategory extends OptionsCategory {
 
     @Override
     public Icon getIcon() {
-        return new ImageIcon(Utilities.loadImage("org/molgen/genomeCATPro/guimodul/MPIMG_helix_4c.png"));
+        return new ImageIcon(ImageUtilities.loadImage("org/molgen/genomeCATPro/guimodul/genomeCATLogo32.png"));
     }
 
+    @Override
     public String getCategoryName() {
         return NbBundle.getMessage(GuimodulOptionsCategory.class, "OptionsCategory_Name_Guimodul");
     }

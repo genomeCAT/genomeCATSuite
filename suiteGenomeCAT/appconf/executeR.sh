@@ -1,1 +1,1 @@
-"/usr/local/package/bin/R" --no-save  < $1
+"R" --no-save  < $1

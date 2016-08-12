@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportBAC
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Jan 19, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Jan 19, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,10 +38,10 @@ import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
 import org.molgen.genomeCATPro.datadb.service.PlatformService;
 
 /**
- * 020813   kt	XPortImport createNewImport();
- * 170413   kt  allow empty chrom position in table definition
- * 160413   kt  header tags modified
- * 010812   add getCreateTableSQLWithAnno
+ * 100716 review
+ * 020813 kt	XPortImport createNewImport(); 170413 kt allow empty chrom position
+ * in table definition 160413 kt header tags modified 010812 add
+ * getCreateTableSQLWithAnno
  */
 public class ImportBAC extends ImportExperimentFile implements XPortExperimentFile {
 
@@ -57,9 +54,9 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
 
         return "\"Type=GenePix";
 
-
     }
 
+    @Override
     public ImportBAC createNewImport() {
         return new ImportBAC();
     }
@@ -80,7 +77,7 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
 
     @Override
     protected boolean isHeaderLine(String is) {
-        if (is.indexOf("\"Block\"") >= 0) {
+        if (is.contains("\"Block\"")) {
             return true;
         } else {
             return false;
@@ -110,110 +107,111 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     *
+     * @param tableData
+     * @param tablePlatform
+     * @return
+     
     @Override
-    protected String getCreateTableSQL(String tableData) {
-        String tablePlatform = this.experimentdata.getPlatformdata().getTableData();
-        return ImportBAC.getCreateTableSQL(tableData, tablePlatform);
-    }
+    public String getCreateTableSQL(String tableData, String tablePlatform) {
+        return (new SpotBAC()).getCreateTableSQL(this.experimentdata);*/
+        /*
+        String sql = "CREATE TABLE " + tableData + "("
+                + "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "block int(4) NOT NULL default '0',"
+                + "col int(4) NOT NULL default '0',"
+                + "row int(4) NOT NULL default '0',"
+                + "probeID varchar(255) NOT NULL default '',"
+                + "probeName varchar(255) ,"
+                + "f635Mean float NOT NULL default '0',"
+                + "b635Mean float NOT NULL default '0',"
+                + "b635sd float NOT NULL default '0',"
+                + "f532Mean float NOT NULL default '0',"
+                + "b532Mean float NOT NULL default '0',"
+                + "b532sd float NOT NULL default '0',"
+                + "snr635 double NOT NULL default '0',"
+                + "snr532 double NOT NULL default '0',"
+                + "f635 double NOT NULL default '0',"
+                + "f532 double NOT NULL default '0',"
+                + "ratio double NOT NULL default '0',"
+                + "chrom varChar(45)  DEFAULT '',"
+                + "chromStart int(10) unsigned default 0,"
+                + "chromEnd int(10) unsigned  default 0,"
+                + " ifExcluded int(1)  NOT NULL default '0',"
+                + " controlType int NOT NULL default 0,"
+                + "PRIMARY KEY (id),"
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + "CONSTRAINT `fk_Data_Spots_" + tablePlatform + "` "
+                + "FOREIGN KEY (`probeID` ) "
+                + " REFERENCES `" + tablePlatform + "` "
+                + " (`probeName`) "
+                + " ON DELETE NO ACTION "
+                + " ON UPDATE NO ACTION) ";
 
-    public static String getCreateTableSQL(String tableData, String tablePlatform) {
-
-
-
-        String sql = "CREATE TABLE " + tableData + "(" +
-                "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT," +
-                "block int(4) NOT NULL default '0'," +
-                "col int(4) NOT NULL default '0'," +
-                "row int(4) NOT NULL default '0'," +
-                "probeId varchar(255) NOT NULL default ''," +
-                "probeName varchar(255) ," +
-                "f635Mean float NOT NULL default '0'," +
-                "b635Mean float NOT NULL default '0'," +
-                "b635sd float NOT NULL default '0'," +
-                "f532Mean float NOT NULL default '0'," +
-                "b532Mean float NOT NULL default '0'," +
-                "b532sd float NOT NULL default '0'," +
-                "snr635 double NOT NULL default '0'," +
-                "snr532 double NOT NULL default '0'," +
-                "f635 double NOT NULL default '0'," +
-                "f532 double NOT NULL default '0'," +
-                "ratio double NOT NULL default '0'," +
-                "chrom varChar(45)  DEFAULT ''," +
-                "chromStart int(10) unsigned default 0," +
-                "chromEnd int(10) unsigned  default 0," +
-                " ifExcluded int(1)  NOT NULL default '0'," +
-                " controlType int NOT NULL default 0," +
-                "PRIMARY KEY (id)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                "CONSTRAINT `fk_Data_Spots_" + tablePlatform + "` " +
-                "FOREIGN KEY (`probeId` ) " +
-                " REFERENCES `" + tablePlatform + "` " +
-                " (`probeName`) " +
-                " ON DELETE NO ACTION " +
-                " ON UPDATE NO ACTION) ";
-
-        return sql;
-    }
-
+        return sql;*/
+    
     /**
      * create table without primary key, table will be filled by select into,
      * primary key is added after select into
-     */
+     
     public static String getCreateTableSQLWithAnno(
             String tableData, String tablePlatform, String annoColName) {
 
-
-
-        String sql = "CREATE TABLE " + tableData + "(" +
-                "id BIGINT UNSIGNED ," +
-                "block int(4) NOT NULL default '0'," +
-                "col int(4) NOT NULL default '0'," +
-                "row int(4) NOT NULL default '0'," +
-                "probeId varchar(255) NOT NULL default ''," +
-                "probeName varchar(255) ," +
-                "f635Mean float NOT NULL default '0'," +
-                "b635Mean float NOT NULL default '0'," +
-                "b635sd float NOT NULL default '0'," +
-                "f532Mean float NOT NULL default '0'," +
-                "b532Mean float NOT NULL default '0'," +
-                "b532sd float NOT NULL default '0'," +
-                "snr635 double NOT NULL default '0'," +
-                "snr532 double NOT NULL default '0'," +
-                "f635 double NOT NULL default '0'," +
-                "f532 double NOT NULL default '0'," +
-                "ratio double NOT NULL default '0'," +
-                "chrom varChar(45) unsigned ''," +
-                "chromStart int(10) unsigned default 0," +
-                "chromEnd int(10) unsigned  default 0," +
-                " ifExcluded int(1)  NOT NULL default '0'," +
-                " controlType int NOT NULL default 0," +
-                "gc_position LINESTRING NOT NULL," +
-                annoColName + " varchar(255) NOT NULL default '' ," +
-                "INDEX (id), " +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd), " +
-                "CONSTRAINT `fk_Data_Spots_" + tablePlatform + "` " +
-                "FOREIGN KEY (`probeId` ) " +
-                " REFERENCES `" + tablePlatform + "` " +
-                " (`probeName`) " +
-                " ON DELETE NO ACTION " +
-                " ON UPDATE NO ACTION) ";
+        String sql = "CREATE TABLE " + tableData + "("
+                + "id BIGINT UNSIGNED ,"
+                + "block int(4) NOT NULL default '0',"
+                + "col int(4) NOT NULL default '0',"
+                + "row int(4) NOT NULL default '0',"
+                + "probeID varchar(255) NOT NULL default '',"
+                + "probeName varchar(255) ,"
+                + "f635Mean float NOT NULL default '0',"
+                + "b635Mean float NOT NULL default '0',"
+                + "b635sd float NOT NULL default '0',"
+                + "f532Mean float NOT NULL default '0',"
+                + "b532Mean float NOT NULL default '0',"
+                + "b532sd float NOT NULL default '0',"
+                + "snr635 double NOT NULL default '0',"
+                + "snr532 double NOT NULL default '0',"
+                + "f635 double NOT NULL default '0',"
+                + "f532 double NOT NULL default '0',"
+                + "ratio double NOT NULL default '0',"
+                + "chrom varChar(45) unsigned '',"
+                + "chromStart int(10) unsigned default 0,"
+                + "chromEnd int(10) unsigned  default 0,"
+                + " ifExcluded int(1)  NOT NULL default '0',"
+                + " controlType int NOT NULL default 0,"
+                + "gc_position LINESTRING NOT NULL,"
+                + annoColName + " varchar(255) NOT NULL default '' ,"
+                + "INDEX (id), "
+                + "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd), "
+                + "CONSTRAINT `fk_Data_Spots_" + tablePlatform + "` "
+                + "FOREIGN KEY (`probeID` ) "
+                + " REFERENCES `" + tablePlatform + "` "
+                + " (`probeName`) "
+                + " ON DELETE NO ACTION "
+                + " ON UPDATE NO ACTION) ";
 
         return sql;
-    }
-
+        * **/
+    
+    /**
+     * 
+     * @param tabledata
+     * @throws Exception 
+     */
     @Override
     public void generateTable(String tabledata) throws Exception {
         Statement s;
         try {
-            //con = Database.getDBConnection(Defaults.localDB);
-            s = con.createStatement();
+             s = con.createStatement();
             s.execute(
                     "DROP TABLE if EXISTS " + tabledata);
-            String sql = this.getCreateTableSQL(tabledata);
+            String sql = (new SpotBAC()).getCreateTableSQL(this.experimentdata);
             Logger.getLogger(ImportBAC.class.getName()).log(
                     Level.INFO,
                     sql);
@@ -223,35 +221,35 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
             String triggername = "tr_position_" + this.experimentdata.getTableData();
             String tableAnno = this.experimentdata.getPlatformdata().getTableData();
             try {
-                s.execute("DROP TRIGGER " + triggername);
+                s.execute(" DROP TRIGGER if EXISTS " + triggername);
             } catch (SQLException sQLException) {
             }
-            sql = "" +
-                    "CREATE TRIGGER " + triggername +
-                    " BEFORE INSERT ON " + this.experimentdata.getTableData() +
-                    "  FOR EACH ROW " +
-                    "BEGIN " +
-                    "DECLARE done INT DEFAULT 0;  " +
-                    "DECLARE varAlias varchar(100);  " +
-                    "DECLARE varChrom varchar(45);  " +
-                    "DECLARE varStart INT; " +
-                    "DECLARE varStop INT;   " +
-                    "DECLARE cs CURSOR FOR  SELECT chrom ,chromStart, chromEnd, alias FROM " +
-                    tableAnno + " WHERE " + tableAnno + ".probeName = new.probeId; " +
-                    "DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; " +
-                    "OPEN cs;  " +
-                    "FETCH cs INTO varChrom, varStart, varStop, varAlias;  " +
-                    "IF NOT done THEN " +
-                    //"CLOSE cs; " +
-                    " SET done = \'Position not found in annotation table\'; " +
-                    "END IF;  " +
-                    //" SELECT \'FOUND POSITION \', chrom, start, stop; " +
-                    " SET new.chrom = varChrom;  " +
-                    " SET new.chromStart = varStart;  " +
-                    " SET new.chromEnd = varStop;  " +
-                    " SET new.probeName = varAlias;  " +
-                    "CLOSE cs;  " +
-                    " END ;";
+            sql = ""
+                    + "CREATE TRIGGER " + triggername
+                    + " BEFORE INSERT ON " + this.experimentdata.getTableData()
+                    + "  FOR EACH ROW "
+                    + "BEGIN "
+                    + "DECLARE done INT DEFAULT 0;  "
+                    + "DECLARE varAlias varchar(100);  "
+                    + "DECLARE varChrom varchar(45);  "
+                    + "DECLARE varStart INT; "
+                    + "DECLARE varStop INT;   "
+                    + "DECLARE cs CURSOR FOR  SELECT chrom ,chromStart, chromEnd, alias FROM "
+                    + tableAnno + " WHERE " + tableAnno + ".probeName = new.probeID; "
+                    + "DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; "
+                    + "OPEN cs;  "
+                    + "FETCH cs INTO varChrom, varStart, varStop, varAlias;  "
+                    + "IF NOT done THEN "
+                    + //"CLOSE cs; " +
+                    " SET done = \'Position not found in annotation table\'; "
+                    + "END IF;  "
+                    + //" SELECT \'FOUND POSITION \', chrom, start, stop; " +
+                    " SET new.chrom = varChrom;  "
+                    + " SET new.chromStart = varStart;  "
+                    + " SET new.chromEnd = varStop;  "
+                    + " SET new.probeName = varAlias;  "
+                    + "CLOSE cs;  "
+                    + " END ;";
 
             Logger.getLogger(ImportBAC.class.getName()).log(
                     Level.INFO,
@@ -266,16 +264,14 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
 
     @Override
     public List<String[]> getDefaultMappingFile2DBColNames() {
-        List<String[]> _map = new Vector<String[]>();
-
+        List<String[]> _map = new Vector<>();
 
         String[] entry;
 
         entry = new String[2];
-        entry[ind_db] = "probeId";
+        entry[ind_db] = "probeID";
         entry[ind_file] = "\"ID\"";
         _map.add(entry);
-
 
         entry = new String[2];
         entry[ind_db] = "block";
@@ -311,14 +307,12 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
         entry[ind_file] = "\"B635 Mean\"";
         _map.add(entry);
 
-
         entry = new String[2];
         entry[ind_db] = "b532Mean";
         entry[ind_file] = "\"B532 Mean\"";
         _map.add(entry);
 
         // background SD
-
         entry = new String[2];
         entry[ind_db] = "b532sd";
         entry[ind_file] = "\"B532 SD\"";
@@ -329,33 +323,34 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
         entry[ind_file] = "\"B635 SD\"";
         _map.add(entry);
 
-
-
-
         return _map;
     }
 
+    @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeId",
-                    "block", "row", "col",
-                    "controlType",
-                    "f635Mean", "b635Mean", "b635sd",
-                    "f532Mean", "b532Mean", "b532sd"
-                };
+            "probeID",
+            "block", "row", "col",
+            "controlType",
+            "f635Mean", "b635Mean", "b635sd",
+            "f532Mean", "b532Mean", "b532sd"
+        };
     }
 
+    @Override
     public Vector<String> getImportType() {
-        return new Vector<String>(
+        return new Vector<>(
                 Arrays.asList(new String[]{
-                    ImportBAC.bac
-                }));
+            ImportBAC.bac
+        }));
     }
 
+    @Override
     public String getName() {
         return this.getClass().getSimpleName();
     }
 
+    @Override
     public String getFileInfoAsHTML() {
         String info = "<html>";
         info += ("time: " + this.time + "<br/>");
@@ -365,24 +360,26 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
     }
 
     /**
-     * find list of suitable arrays
-     * use barcode of FE File to get Protocoll
-     * 
+     * find list of suitable arrays use barcode of FE File to get Protocoll
+     *
+     * @param type
+     * @param method
      * @return
+     * @throws java.lang.Exception
      */
+    @Override
     public List<PlatformDetail> getPlatformList(String type, String method) throws Exception {
         List<PlatformDetail> list = new Vector<PlatformDetail>();
         try {
 
             if (method != null) {
                 this.setMethod(Defaults.Method.toMethod(method));
-            // find array, plattform
-            //  this.method + type
+                // find array, plattform
+                //  this.method + type
             }
             list = PlatformService.getPlatformByTypeAndMethod(
                     this.method,
                     this.type);
-
 
             Logger.getLogger(ImportBAC.class.getName()).log(
                     Level.INFO,
@@ -393,7 +390,7 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
             Logger.getLogger(ImportBAC.class.getName()).log(Level.SEVERE,
                     "Error: ", ex);
             throw ex;
-        //return Collections.emptyList();
+            //return Collections.emptyList();
         }
 
     }
@@ -413,7 +410,6 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
 
         String is = null;
 
-
         Pattern pattern;
         Matcher matcher;
         try {
@@ -429,14 +425,14 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
                 }
                 if (is.indexOf("\"") == 0) {
                     header = true;
-                    if (is.indexOf("\"DateTime") >= 0) {
+                    if (is.contains("\"DateTime")) {
 
                         pattern = Pattern.compile("DateTime=(\\d+)/(\\d+)/(\\d+)\\s(\\d+):(\\d+):(\\d+)");
                         matcher = pattern.matcher(is);
                         if (matcher.find()) {
 
-                            this.time = new String((matcher.group(1) + "-" + matcher.group(2) + "-" + matcher.group(3) + " " +
-                                    matcher.group(4) + ":" + matcher.group(5) + ":" + matcher.group(6)));
+                            this.time = (matcher.group(1) + "-" + matcher.group(2) + "-" + matcher.group(3) + " "
+                                    + matcher.group(4) + ":" + matcher.group(5) + ":" + matcher.group(6));
 
                         }
 
@@ -577,10 +573,9 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
     int ifexcluded = -1;
 
     /**
-     * 1) distinguish between one channel/two channel
-     * 2) set g/rProcesssedSignal to 0 if pvalueLogRatio == 1 and LogRatio == 0
-     *      (bad quality) 
-     * 
+     * 1) distinguish between one channel/two channel 2) set g/rProcesssedSignal
+     * to 0 if pvalueLogRatio == 1 and LogRatio == 0 (bad quality)
+     *
      * @param map
      * @param tmp
      * @return
@@ -588,7 +583,6 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
     protected String[] modify(List<String[]> map, String[] tmp) {
 
         // todo logratio aus r/g (abhängig ob dyeswap 
-
         int control = Integer.parseInt(tmp[icontrolType]);
 
         double fMean = Double.parseDouble(tmp[if532Mean]);
@@ -611,8 +605,6 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
         tmp[if532snr] = myFormatter.format(snr);
         double ratio532 = MyMath.formatDoubleValue(MyMath.log2(fMean), 3);
         tmp[if532] = myFormatter.format(ratio532);
-
-
 
         fMean = Double.parseDouble(tmp[if635Mean]);
         bMean = Double.parseDouble(tmp[ib635Mean]);
@@ -642,15 +634,15 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
             if (tmp[i] != null) {
                 tmp[i] = Pattern.compile("([\"])").matcher(tmp[i]).replaceAll("");
             }
-        //System.out.print(tmp[i]+"\\t");
+            //System.out.print(tmp[i]+"\\t");
 
         }
         //System.out.println("");
         return tmp;
 
-    //calc Spot.java
-    // this.snr635 = (f635Mean - b635Mean) / b635Std;
-    // this.snr532 = (f532Mean - b532Mean) / b532Std;
+        //calc Spot.java
+        // this.snr635 = (f635Mean - b635Mean) / b635Std;
+        // this.snr532 = (f532Mean - b532Mean) / b532Std;
         /*if (Double.isNaN(this.snr635)) {
     
     this.snr635 = 0;
@@ -662,9 +654,9 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
     System.out.println(this.id + " snr 532 NAN!!");
     setIfExcluded(-1);
     }*/
-    //BatchAnalysis.java
+        //BatchAnalysis.java
 
-    /* calc f635 and f532   chip.setSpotByMean();
+        /* calc f635 and f532   chip.setSpotByMean();
      * includeSpotsByNegSignal();
     Iterator e = allSpots.iterator();
     Spot currentSpot;
@@ -683,10 +675,7 @@ public class ImportBAC extends ImportExperimentFile implements XPortExperimentFi
     setIfHmm(false);
     setIfCbs(false);
      * calc ratio as  currentSpot.f532-currentSpot.f635;
-     */
-
-
-
+         */
     }
 
     public boolean hasSplitField() {

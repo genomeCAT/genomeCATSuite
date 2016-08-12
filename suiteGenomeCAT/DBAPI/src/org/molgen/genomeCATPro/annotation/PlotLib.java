@@ -1,24 +1,22 @@
 package org.molgen.genomeCATPro.annotation;
 
 /**
- * @name  PlotLib
+ * @name PlotLib
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.util.Collections;
 import java.util.List;
@@ -27,20 +25,18 @@ import java.util.logging.Logger;
 
 /**
  *
- * 260612 kt remove bug getIDataAtPos 
- * 290612 kt  getDataAtPos/getIDataAtPos  pos liegt innerhalb der region
+ * 260612 kt remove bug getIDataAtPos 290612 kt getDataAtPos/getIDataAtPos pos
+ * liegt innerhalb der region
  */
 public class PlotLib {
 
     /**
-     * @Deprecated
-     * return index position 
+     * @Deprecated return index position
      * @param list
      * @param key
      * @return
      */
     public static int getIndexDataAtPos(List<Long> list, Long key) {
-
 
         int i = Collections.binarySearch(list, key);
         i = i < 0 ? i * -1 - 2 : i;     // i:= (-(insertion point) - 1)
@@ -52,13 +48,11 @@ public class PlotLib {
     }
 
     /**
-     * @Deprecated
-     * @param list
+     * @Deprecated @param list
      * @param key
      * @return
      */
     public static int getIndexDataAtPos(List<? extends Region> list, Region key) {
-
 
         int i = Collections.binarySearch(list, key, Region.comChromStart);
         i = i < 0 ? i * -1 - 2 : i;     // i:= (-(insertion point) - 1)
@@ -70,7 +64,9 @@ public class PlotLib {
     }
 
     /**
-     * get index for element with start (or stop if start not found) near current position
+     * get index for element with start (or stop if start not found) near
+     * current position
+     *
      * @param arrayStart
      * @param arrayEnd
      * @param pos
@@ -88,9 +84,10 @@ public class PlotLib {
             ia = 0;
         }
         //290612 kt pos liegt innerhalb region
-        if(arrayStart.get(ia) <= pos && pos <= arrayEnd .get(ia) )
+        if (arrayStart.get(ia) <= pos && pos <= arrayEnd.get(ia)) {
             return ia;
-        
+        }
+
         int ie = Collections.binarySearch(arrayEnd, pos);
         ie = ie < 0 ? ie * -1 - 2 : ie;     // i:= (-(insertion point) - 1)
 
@@ -113,6 +110,7 @@ public class PlotLib {
 
     /**
      * get element with start (or stop if start not found) near current position
+     *
      * @param list
      * @param chromId
      * @param pos
@@ -145,7 +143,6 @@ public class PlotLib {
         long distB = list.get(ie).getChromEnd() - pos;
 
         // entscheiden, welche Region näher dran ist.
-
         if (Math.abs(distA) < dist && (Math.abs(distA) <= Math.abs(distB))) {
             i = ia;
         }
@@ -190,13 +187,12 @@ public class PlotLib {
                 key,
                 Region.compByStart);
 
-
         //int ind1 = Collections.binarySearch(a, new Aberration(posEnd, (long) 0), Aberration.findByStart);
         ind1 = ind1 < 0 ? (ind1 * -1) - 2 : ind1;     // i:= (-(insertion point) - 1)
 
         if (ind1 < 0) {
             ind1 = 0;
-        // go to the last element with chromStart == posEnd
+            // go to the last element with chromStart == posEnd
         }
 
         Logger.getLogger(PlotLib.class.getName()).log(Level.INFO,
@@ -217,14 +213,12 @@ public class PlotLib {
         List<? extends Region> x = list.subList(0, ind1 + 1);
         Collections.sort(x, Region.compByEnd);
 
-
         // find ab with minimal end position greater than posStart
         key = (Region) new RegionImpl("key", chromId, start, start);
         int ind2 = Collections.binarySearch(
                 x,
                 key,
                 Region.compByEnd);
-
 
         // int ind2 = Collections.binarySearch(x, new Aberration( (long) 0, posStart), Aberration.findByEnd);
         ind2 = ind2 < 0 ? (ind2 * -1) - 1 : ind2;     // i:= (-(insertion point) - 1), false!!
@@ -250,10 +244,9 @@ public class PlotLib {
         Logger.getLogger(PlotLib.class.getName()).log(Level.INFO,
                 "moved to " + ind2 + " as " + x.get(ind2).toString());
 
-
         Logger.getLogger(PlotLib.class.getName()).log(Level.INFO,
-                "sublist " + x.get(ind2).toString() + " to " +
-                x.get(x.size() - 1).toString());
+                "sublist " + x.get(ind2).toString() + " to "
+                + x.get(x.size() - 1).toString());
 
         return x.subList(ind2, x.size());
 

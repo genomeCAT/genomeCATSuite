@@ -19,22 +19,19 @@ import org.openide.modules.InstalledFileLocator;
 /**
  * @name FEProtocoll
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Oct 20, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Oct 20, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 public class GEOProtocollList implements Serializable {
     //An inner class contains an implicit reference to the outer class, 
@@ -46,7 +43,7 @@ public class GEOProtocollList implements Serializable {
     static public class FEProtocoll implements Serializable {
 
         String name;
-        
+
         String text;
         public Type type;
         public Method method;
@@ -86,6 +83,7 @@ public class GEOProtocollList implements Serializable {
         public FEProtocoll() {
             // xml serializer??
         }
+
         ;
 
         public FEProtocoll(String name, String text, Type type, Method method) {
@@ -97,25 +95,25 @@ public class GEOProtocollList implements Serializable {
 
         public String toFullString() {
             return new String(
-                    this.getName() + "," +
-                    this.getText() + ", " +
-                    this.getType() + "," +
-                    this.getMethod());
+                    this.getName() + ","
+                    + this.getText() + ", "
+                    + this.getType() + ","
+                    + this.getMethod());
         }
     }
 
     /**
-     * initial create content for propertie file 
+     * initial create content for propertie file
      */
     @SuppressWarnings("unchecked")
     private static void load() throws FileNotFoundException {
-       
+
         File f = InstalledFileLocator.getDefault().locate(
                 GEOProtocollList.file, "org.molgen.genomeCATPro.xportagilent", false);
-         Logger.getLogger(GEOProtocollList.class.getName()).log(Level.INFO, "load FEProtocoll List from " + f.getPath());
+        Logger.getLogger(GEOProtocollList.class.getName()).log(Level.INFO, "load FEProtocoll List from " + f.getPath());
         XMLDecoder d = new XMLDecoder(
                 new BufferedInputStream(
-                new FileInputStream(f.getPath())));
+                        new FileInputStream(f.getPath())));
         GEOProtocollList.list = (HashMap<String, FEProtocoll>) d.readObject();
 
         d.close();
@@ -128,7 +126,7 @@ public class GEOProtocollList implements Serializable {
         Logger.getLogger(GEOProtocollList.class.getName()).log(Level.INFO, "save FEProtocoll List to " + f.getPath());
         XMLEncoder e = new XMLEncoder(
                 new BufferedOutputStream(
-                new FileOutputStream(f.getPath())));
+                        new FileOutputStream(f.getPath())));
         e.writeObject(GEOProtocollList.list);
 
         e.flush();
@@ -168,7 +166,6 @@ public class GEOProtocollList implements Serializable {
                 Method.aCGH);
         list.put(p.name, p);
 
-
         try {
             save();
 
@@ -187,8 +184,8 @@ public class GEOProtocollList implements Serializable {
             }
         }
         list.put(p.name, p);
-        Logger.getLogger(GEOProtocollList.class.getName()).log(Level.INFO, "add: " +
-                p.toFullString());
+        Logger.getLogger(GEOProtocollList.class.getName()).log(Level.INFO, "add: "
+                + p.toFullString());
         try {
             save();
 

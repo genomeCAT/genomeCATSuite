@@ -9,26 +9,24 @@ import org.openide.util.Lookup.Result;
 /**
  * @name RegionLib
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 /**
- * 
- * log 240412   getRegionArrayClazz with Default FeatureImpl
+ *
+ * log 240412 getRegionArrayClazz with Default FeatureImpl
  */
 public class RegionLib {
 
@@ -39,8 +37,7 @@ public class RegionLib {
 
         //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
         Logger.getLogger(RegionLib.class.getName()).log(Level.INFO,
-                "looking for datatype "+    tmplRegion.toString() + " clazz " + clazz);
-
+                "looking for datatype " + tmplRegion.toString() + " clazz " + clazz);
 
         Result<Region> rslt = Lookup.getDefault().lookup(tmplRegion);
         for (Lookup.Item item : rslt.allItems()) {
@@ -55,7 +52,7 @@ public class RegionLib {
     }
 
     /**
-     * 
+     *
      * @param clazz
      * @return
      */
@@ -64,7 +61,6 @@ public class RegionLib {
         //XPort api = Lookup.getDefault().lookup(org.molgen.genomeCATPro.xport.XPort.class);
         Logger.getLogger(RegionLib.class.getName()).log(Level.INFO,
                 "looking for datatype clazz " + clazz);
-
 
         Result<RegionArray> rslt = Lookup.getDefault().lookup(tmplRegionArray);
         for (Lookup.Item item : rslt.allItems()) {
@@ -77,7 +73,6 @@ public class RegionLib {
 
         return new FeatureImpl();
     }
-    
 
     public static int fromChrToInt(String chr) {
 
@@ -98,16 +93,13 @@ public class RegionLib {
 
             return 0;
 
-
         }
-
 
     }
 
     public static String fromIntToChr(int no) {
 
         if ((no > 0) && (no < 23)) {
-
 
             return "chr" + no;
 
@@ -123,9 +115,7 @@ public class RegionLib {
 
             return "null";
 
-
         }
-
 
     }
 }

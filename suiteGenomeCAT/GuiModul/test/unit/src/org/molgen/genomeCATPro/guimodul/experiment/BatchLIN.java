@@ -2,51 +2,41 @@ package org.molgen.genomeCATPro.guimodul.experiment;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.cghpro.xport.ImportBAC;
-import org.molgen.genomeCATPro.cghpro.xport.ImportExperimentGEO;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.data.DataManager;
-import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
-import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.guimodul.XPort.ImportExperimentBatch;
-import org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction;
-import org.molgen.genomeCATPro.xportagilent.ImportExperimentFileFETXT;
 import static org.junit.Assert.*;
 
 /**
  * @name BatchLIN
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 public class BatchLIN {
 
@@ -66,7 +56,7 @@ public class BatchLIN {
         Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
 
         DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
-    //xport = new ImportPlatformGEOBAC();
+        //xport = new ImportPlatformGEOBAC();
 
     }
 
@@ -81,13 +71,13 @@ public class BatchLIN {
 
             /*
              * String filetype,
-            String filename,
-            List<String[]> map,
-            String platformname,
-            String release,
-            String type, String method,
-            String sampleCy3,
-            String sampleCy5
+             String filename,
+             List<String[]> map,
+             String platformname,
+             String release,
+             String type, String method,
+             String sampleCy3,
+             String sampleCy5
              */
             String[] files = {
                 "/project/Kopenhagen/Katrin/GenomeCATPro/manual/data/LIN/GSM454617_MC_6671_6672_r_Cy3_2LIN121801_99_Cy5_fpool_S28_190906.gpr",
@@ -135,24 +125,23 @@ public class BatchLIN {
 
             /*
              * String filetype,
-            String filename,
-            List<String[]> map,
-            String platformname,
-            String release,
-            String type, String method,
-            String sampleCy3,
-            String sampleCy5
+             String filename,
+             List<String[]> map,
+             String platformname,
+             String release,
+             String type, String method,
+             String sampleCy3,
+             String sampleCy5
              */
             File f = new File("/project/Kopenhagen/Katrin/GenomeCATPro/manual/data/LIN3"); // current directory
 
             File[] files = f.listFiles(
                     new FilenameFilter() {
 
-                        public boolean accept(File dir, String name) {
-                            return name.toLowerCase().endsWith(".gpr");
-                        }
-                    });
-
+                public boolean accept(File dir, String name) {
+                    return name.toLowerCase().endsWith(".gpr");
+                }
+            });
 
             for (File file : files) {
                 //String file = "/project/H1N1/Array-CGH/Results/Neues_Set/new/MC_7195_7196_r_Cy3_JurkatIP_H3K9_Cy5_JurkatWCE_S4_50607.gpr";

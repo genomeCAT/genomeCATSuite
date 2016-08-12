@@ -44,7 +44,7 @@ public class LoadAction extends AbstractAction implements
         startButton.setIcon(new ImageIcon(Utilities.loadImage(
                 "org/molgen/genomeCATPro/guimodul/data/database_search_24.png", true)));
         startButton.setText("");
-        startButton.setToolTipText("get data from database");
+        startButton.setToolTipText("search in database");
         return startButton;
     }
 

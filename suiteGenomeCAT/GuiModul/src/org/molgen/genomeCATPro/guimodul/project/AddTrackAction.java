@@ -59,8 +59,8 @@ public final class AddTrackAction extends AbstractAction implements LookupListen
         init();
         for (Study instance : lkpInfo.allInstances()) {
             Logger.getLogger(AddExperimentAction.class.getName()).log(
-                    Level.INFO, "found lookup instance:" +
-                    instance.getName());
+                    Level.INFO, "found lookup instance:"
+                    + instance.getName());
             run(instance);
             return;
         }
@@ -77,8 +77,6 @@ public final class AddTrackAction extends AbstractAction implements LookupListen
             dialog = new ImportTrackDialog(null, s);
         }
         dialog.setVisible(true);
-
-
 
     }
 

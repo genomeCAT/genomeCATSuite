@@ -72,7 +72,7 @@ public final class ProjectExperimentAction extends AbstractAction implements Loo
         // nachfrage ok
         // view log panel
         Project2ExperimentDialog.addExperiment2Project(s);
-        
+
     }
 
     public void resultChanged(LookupEvent arg0) {
@@ -83,4 +83,3 @@ public final class ProjectExperimentAction extends AbstractAction implements Loo
         return new ProjectExperimentAction(arg0);
     }
 }
-

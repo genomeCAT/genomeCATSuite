@@ -1,23 +1,22 @@
 package org.molgen.genomeCATPro.cghpro.xport;
+
 /**
  * @name PlatformManager
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,12 +27,12 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformData;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
-
 
 public class PlatformManager {
 
@@ -42,8 +41,6 @@ public class PlatformManager {
         // delete platform
         // check if experiments exists
         // 
-
-
 
         PlatformDetail d = s.getPlattform();
         EntityManager em = DBService.getEntityManger();
@@ -57,16 +54,15 @@ public class PlatformManager {
             query.executeUpdate();
 
             query = em.createQuery(
-                    "DELETE FROM PlatformData d WHERE " +
-                    "d.platformListID = :id");
+                    "DELETE FROM PlatformData d WHERE "
+                    + "d.platformListID = :id");
             query.setParameter("id", s.getPlatformListID());
-
 
             int deleted = query.executeUpdate();
 
             Logger.getLogger(PlatformManager.class.getName()).log(Level.INFO,
-                    "PlatformData " +
-                    (deleted > 0 ? s.getName() : "none"));
+                    "PlatformData "
+                    + (deleted > 0 ? s.getName() : "none"));
             if (d != null) {
                 d.removePlatformData(s);
             }
@@ -90,12 +86,10 @@ public class PlatformManager {
 
         // for each file column get table column
         // if found import, otherwise report error
-
         // create data
         // copy table
         // update table
         //s.getUpdateCount());
-
         oldData.getPlattform().addPlatformData(newData);
         newData.setOriginalFile(filepath);
         newData.initTableData();
@@ -104,7 +98,7 @@ public class PlatformManager {
         Connection con = null;
         Statement s = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
         } catch (Exception ex) {
             Logger.getLogger(PlatformManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,14 +108,14 @@ public class PlatformManager {
 
             // create tmp table with bed data
             s.execute("DROP TABLE if EXISTS " + bedTable);
-            s.execute(" CREATE TABLE " + bedTable + " ( " +
-                    "chrom varChar(255) NOT NULL," +
-                    "chromStart int(10) unsigned NOT NULL," +
-                    "chromEnd int(10) unsigned NOT NULL," +
-                    "id varchar(255), " +
-                    " PRIMARY KEY (id), " +
-                    "INDEX (chrom, chromStart, chromEnd) " +
-                    " ) TYPE=MyISAM");
+            s.execute(" CREATE TABLE " + bedTable + " ( "
+                    + "chrom varChar(255) NOT NULL,"
+                    + "chromStart int(10) unsigned NOT NULL,"
+                    + "chromEnd int(10) unsigned NOT NULL,"
+                    + "id varchar(255), "
+                    + " PRIMARY KEY (id), "
+                    + "INDEX (chrom, chromStart, chromEnd) "
+                    + " ) TYPE=MyISAM");
             s.execute("LOAD DATA INFILE \'" + filepath + "\' INTO TABLE " + bedTable);
 
             int nofConvData = s.getUpdateCount();
@@ -132,10 +126,10 @@ public class PlatformManager {
             // content of old data table
             s.execute("DROP TABLE if EXISTS " + newData.getTableData());
             s.execute("CREATE TABLE " + newData.getTableData() + " LIKE " + oldData.getTableData());
-            String sql = "INSERT INTO " + newData.getTableData() +
-                    "  SELECT o.* FROM " + oldData.getTableData() +
-                    " as o , " + bedTable + " as bed " +
-                    " where o.id = bed.id";
+            String sql = "INSERT INTO " + newData.getTableData()
+                    + "  SELECT o.* FROM " + oldData.getTableData()
+                    + " as o , " + bedTable + " as bed "
+                    + " where o.id = bed.id";
 
             Logger.getLogger(PlatformManager.class.getName()).log(Level.INFO, sql);
             s.execute(sql);
@@ -144,13 +138,12 @@ public class PlatformManager {
             Logger.getLogger(PlatformManager.class.getName()).log(Level.INFO,
                     "inserted: " + nofInsData);
 
-
             // update new data with chrom positions from bed table
-            sql = " Update " + newData.getTableData() + " as newd, " +
-                    bedTable + " as bed " +
-                    " set newd.chrom = bed.chrom , newd.chromStart = bed.chromStart, " +
-                    " newd.chromEnd = bed.chromEnd " +
-                    " where newd.id = bed.id";
+            sql = " Update " + newData.getTableData() + " as newd, "
+                    + bedTable + " as bed "
+                    + " set newd.chrom = bed.chrom , newd.chromStart = bed.chromStart, "
+                    + " newd.chromEnd = bed.chromEnd "
+                    + " where newd.id = bed.id";
             s.execute(sql);
             int nofUpdData = s.getUpdateCount();
             Logger.getLogger(PlatformManager.class.getName()).log(Level.INFO,
@@ -162,14 +155,10 @@ public class PlatformManager {
 
             newData.setNofSpots(rs.getInt(1));
 
-
-
-
             // make newdata as PlatformData persistent
             em.getTransaction().begin();
             em.persist(newData);
             em.flush();
-
 
             em.refresh(newData);
             em.getTransaction().commit();

@@ -1,9 +1,5 @@
 package org.molgen.genomeCATPro.annotation;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -18,15 +14,18 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
 /**
  *
  * @author tebel
  */
-@Entity
+@MappedSuperclass
+
 public class GCContentBase extends RegionAnnotationImpl implements RegionAnnotation {
 
     @Transient
@@ -93,20 +92,18 @@ public class GCContentBase extends RegionAnnotationImpl implements RegionAnnotat
     @Override
     public List<? extends RegionAnnotation> dbLoadRegions(String table, String chromId) throws SQLException {
 
-
         Connection con = null;
 
-
-        con = Database.getDBConnection(Defaults.localDB);
+        con = Database.getDBConnection(CorePropertiesMod.props().getDb());
 
         Statement s = con.createStatement();
 
         ResultSet r = s.executeQuery(
-                "SELECT name, bin, chrom, chromStart, chromEnd," +
-                " sumData, validCount from " +
-                table + " where " +
-                " chrom = \'" + chromId + "\'" +
-                " order by chromEnd");
+                "SELECT name, bin, chrom, chromStart, chromEnd,"
+                + " sumData, validCount from "
+                + table + " where "
+                + " chrom = \'" + chromId + "\'"
+                + " order by chromEnd");
 
         Vector<GCContentBase> _data = new Vector<GCContentBase>();
         while (r.next()) {
@@ -136,18 +133,15 @@ public class GCContentBase extends RegionAnnotationImpl implements RegionAnnotat
     @Override
     public String getColorDesc() {
         /**
-         *   if (this.value < 40) {
-        factor = 0;
-        } else if (this.value > 50) {
-        factor = 1;
-        } else {
-        factor = (int) (50 - this.value / 10);
-        }
+         * if (this.value < 40) {
+         * factor = 0;
+         * } else if (this.value > 50) { factor = 1; } else { factor = (int) (50
+         * - this.value / 10); }
          */
-        return new String("<html> " +
-                "gray : < 40% GC content <br/>" +
-                "gray to light green : 40 - 50% GC content <br/> " +
-                "light green: > 50% GC content</html>");
+        return new String("<html> "
+                + "gray : < 40% GC content <br/>"
+                + "gray to light green : 40 - 50% GC content <br/> "
+                + "light green: > 50% GC content</html>");
     }
 
     public static Color getColor(double _value) {
@@ -196,9 +190,8 @@ public class GCContentBase extends RegionAnnotationImpl implements RegionAnnotat
             g.fillRect(x, 0, width, _icon.getHeight());
             x += width;
 
-        //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
-        //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
+            //g.fillRect(0, (Defines.ARRAY_HEIGTH / 2) + y, 10, 1);
+            //System.out.println("j: " + j + " y: " + ((Defines.ARRAY_HEIGTH/2)+y));
         }
     }
 }
-    

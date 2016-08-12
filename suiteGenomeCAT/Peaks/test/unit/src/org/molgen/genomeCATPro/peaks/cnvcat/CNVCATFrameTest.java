@@ -7,10 +7,10 @@ package org.molgen.genomeCATPro.peaks.cnvcat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
 /**
@@ -22,11 +22,13 @@ public class CNVCATFrameTest {
     public CNVCATFrameTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
+    @Before
+    public void setUp() {
         Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
 
         DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
+        //xport = new ImportPlatformGEOBAC();
+
     }
 
     @AfterClass

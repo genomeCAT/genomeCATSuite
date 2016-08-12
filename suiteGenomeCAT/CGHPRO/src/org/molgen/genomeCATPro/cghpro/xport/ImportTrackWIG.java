@@ -3,23 +3,21 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportTrackWIG
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +27,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 020813   kt      XPortImport createNewImport();
- * 070513   kt      map from read content to db content in wig file case just here, fixed
- * 030513   kt      import variabel wig format
- * 240413   kt      hasHeader: false
- * 020412   kt      auch erste Zeile (info zeile) als Datenzeile lesen
- * 
+ * 020813 kt XPortImport createNewImport(); 070513 kt map from read content to
+ * db content in wig file case just here, fixed 030513 kt import variabel wig
+ * format 240413 kt hasHeader: false 020412 kt auch erste Zeile (info zeile) als
+ * Datenzeile lesen
+ *
  *
  */
 public class ImportTrackWIG extends ImportTrack implements XPortTrack {
@@ -132,7 +129,6 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
         List<String[]> _map = this.getMappingFile2DBColNames();
         String[] entry = new String[2];
 
-
         if (this.fileColNames.length == 1) {
             entry[ind_db] = "chromStart";
             entry[ind_file] = "chromStart";
@@ -143,17 +139,11 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
         entry[ind_file] = "";
         _map.add(entry);
 
-
-
-
         entry = new String[2];
         entry[ind_db] = "chromEnd";
         entry[ind_file] = "";
 
         _map.add(entry);
-
-
-
 
         for (int i = 0; i < _map.size(); i++) {
             if (_map.get(i)[ind_db].contentEquals("chromEnd")) {
@@ -173,8 +163,6 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
 
             }
 
-
-
         }
 
         return _map;
@@ -191,11 +179,11 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
     boolean fixed;
 
     @Override
-    /** 
-     * 070513 kt map from read content to db content in wig file case just here, fixed
+    /**
+     * 070513 kt map from read content to db content in wig file case just here,
+     * fixed
      */
     protected String[] modify(List<String[]> map, String[] tmp) {
-
 
         if (tmp[0] != null && tmp[0].indexOf(tagVariableStep) >= 0) {
             // #variableStep  chrom=chrN  [span=windowSize]
@@ -204,15 +192,14 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
             tmp = new String[3];
             System.out.println(line);
             wigpattern = Pattern.compile(
-                    tagVariableStep +
-                    "\\s+chrom=(\\w+)(?:\\s*span=(\\d+))?", Pattern.CASE_INSENSITIVE);
+                    tagVariableStep
+                    + "\\s+chrom=(\\w+)(?:\\s*span=(\\d+))?", Pattern.CASE_INSENSITIVE);
             wigmatcher = wigpattern.matcher(line);
             if (wigmatcher.find()) {
                 System.out.println(wigmatcher.group(0));
                 this.chrom = wigmatcher.group(1);
 
                 System.out.println("Group1: " + wigmatcher.group(1));
-
 
                 this.span = this.step;
                 if (wigmatcher.groupCount() >= 1) {
@@ -236,15 +223,14 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
             tmp = new String[3];
             System.out.println(line);
             wigpattern = Pattern.compile(
-                    tagFixedStep +
-                    "\\s+chrom=(\\w+)(?:\\s*start=)(\\d+)(?:\\s*step=(\\d+))?(?:\\s*span=(\\d+))?",
+                    tagFixedStep
+                    + "\\s+chrom=(\\w+)(?:\\s*start=)(\\d+)(?:\\s*step=(\\d+))?(?:\\s*span=(\\d+))?",
                     // "\\s+chrom=(\\w+).*start=(\\d+)(?:\\s)(?:step=)(\\d+)?",
                     //.*(span=(\\d+))?",
                     Pattern.CASE_INSENSITIVE);
             wigmatcher = wigpattern.matcher(line);
 
             //[]
-
             if (wigmatcher.find()) {
                 System.out.println(wigmatcher.group(0));
                 this.chrom = wigmatcher.group(1);
@@ -286,11 +272,9 @@ public class ImportTrackWIG extends ImportTrack implements XPortTrack {
             tmp[i_ratio] = _tmp[1];
             tmp[i_chrom] = this.chrom;
             tmp[i_chromEnd] = Long.toString(new Long(_tmp[0]).longValue() + this.span - 1);
-
             ;
-        //55638	0.558
+            //55638	0.558
         }
-
 
         //System.out.println(Arrays.deepToString(tmp));
         return tmp;

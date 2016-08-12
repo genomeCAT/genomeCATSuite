@@ -49,8 +49,6 @@ public class ShowDataAction extends AbstractAction implements
 
         cb.setText("<html>show<br/>data</html>");
 
-
-
         //cb.setMaximumSize(cb.getPreferredSize());
         cb.setAction(this);
 

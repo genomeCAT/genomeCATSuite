@@ -1,24 +1,22 @@
 package org.molgen.genomeCATPro.common;
 
 /**
- * @name  Utils.java
+ * @name Utils.java
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
  * @author Wei Chen
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.io.File;
 import java.io.IOException;
@@ -30,26 +28,28 @@ import java.util.Date;
 import org.openide.modules.InstalledFileLocator;
 
 /**
- * 090712 kt    getRCommand relocate R batch File
- * 310712 kt    new getRCMD run batch with no interactions
- **/
+ * 090712 kt getRCommand relocate R batch File 310712 kt new getRCMD run batch
+ * with no interactions
+ *
+ */
 public class Utils {
 
     public static String getUniquableName(String oldName) {
-        return new String(oldName.substring(0, (oldName.length() > 10 ? 10 : oldName.length())) +
-                "_" + "_" + new SimpleDateFormat("yyMMdd_hhmmssSSS").format(new Date()));
+        return new String(oldName.substring(0, (oldName.length() > 10 ? 10 : oldName.length()))
+                + "_" + "_" + new SimpleDateFormat("yyMMdd_hhmmssSSS").format(new Date()));
 
     }
 
     /**
      * convert int from 0 - .. to alpha
+     *
      * @param no
      * @return
      */
     public static String intToAlpha(Integer no) {
         if (no > 25) {
             return intToAlpha(no - 26);
-        //for(int i=65;i<=91;i++){
+            //for(int i=65;i<=91;i++){
         }
         return String.valueOf((char) (65 + no));
     }
@@ -88,9 +88,11 @@ public class Utils {
 
     /**
      * Get the extension of a file.
+     *
      * @param f input file
      * @return the extension of the file
-     **/
+     *
+     */
     public static String getExtension(
             File f) {
         String ext = null;
@@ -106,6 +108,7 @@ public class Utils {
 
     /**
      * Transform a boolean value to integer,true to 1 and false to 0
+     *
      * @param x the boolean value
      * @return the integer value
      */
@@ -119,7 +122,9 @@ public class Utils {
     }
 
     /**
-     * Transform the name of human chromosome to an integer value, x to 23,y to 24 and the inconsistant value to 0.
+     * Transform the name of human chromosome to an integer value, x to 23,y to
+     * 24 and the inconsistant value to 0.
+     *
      * @param chr the name of chromosome
      * @return the integer value
      */
@@ -146,7 +151,7 @@ public class Utils {
 
         } catch (Exception e) {
             e.printStackTrace();
-        //throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
 
     }
@@ -192,13 +197,10 @@ public class Utils {
     }
 
     /**
-    get R as BATCH (run batch with no interactions for windows)
+     * get R as BATCH (run batch with no interactions for windows)
      */
     public static String[] getRCMD(String datafile) {
         //String[] command;
-
-
-
 
         String os = System.getProperty("os.name");
         if (os == null || os.toLowerCase().startsWith("windows")) {
@@ -211,7 +213,7 @@ public class Utils {
         } else {
             File f = InstalledFileLocator.getDefault().locate(
                     Defaults.batchfile + ".sh", "org.molgen.genomeCATPro.appconf", false);
-            
+
             String[] command = {"sh", f.getPath(), datafile};
             return command;
         }
@@ -222,10 +224,9 @@ public class Utils {
     }
 
     /**
-    set command line for Runtime.exec() depending on operation system
-    R_BATCH is set in chg.properties and loaded with programm start
-    R_BATCH contains absolute pathname to batch file
-    inside the batchfile R batch is called
+     * set command line for Runtime.exec() depending on operation system R_BATCH
+     * is set in chg.properties and loaded with programm start R_BATCH contains
+     * absolute pathname to batch file inside the batchfile R batch is called
      */
     public static String intToRoman(
             int i) {
@@ -236,11 +237,11 @@ public class Utils {
         String roman = "";
 
         if (i >= 10) {
-            for (int j = (int) Math.ceil(i / 10); j >
-                    0; j--) {
+            for (int j = (int) Math.ceil(i / 10); j
+                    > 0; j--) {
                 i -= 10;
-                roman +=
-                        "X";
+                roman
+                        += "X";
             }
 
         }
@@ -252,19 +253,19 @@ public class Utils {
             roman += "V";
             i -= 5;
 
-            for (int d = i; d >
-                    5; d--) {
+            for (int d = i; d
+                    > 5; d--) {
                 i -= 1;
-                roman +=
-                        "I";
+                roman
+                        += "I";
             }
 
         }
         if (i == 4) {
             return (roman += "IV");
         }
-        for (int d = i; d >
-                0; d--) {
+        for (int d = i; d
+                > 0; d--) {
             roman += "I";
         }
 
@@ -273,8 +274,6 @@ public class Utils {
 
     public static String[] getRCommand(String datafile) {
         //String[] command;
-
-
 
         String os = System.getProperty("os.name");
         if (os == null || os.toLowerCase().startsWith("windows")) {
@@ -305,21 +304,13 @@ public class Utils {
                 Integer i1 = (new Integer(c1.substring(3)));
                 Integer i2 = (new Integer(c2.substring(3)));
                 return i1.compareTo(i2);
-            } else {
-                if (c1.matches("chr[xyXY]") && c2.matches("chr[xyXY]")) {
-                    return c1.compareToIgnoreCase(c2);
-                } else {
-                    if (c1.matches("chr\\d+") &&
-                            c2.matches("chr[xyXY]")) {
-                        return -1;
-                    } else {
-                        if (c2.matches("chr\\d+") && c1.matches("chr[xyXY]")) {
-                            return +1;
-                        }
-
-                    }
-
-                }
+            } else if (c1.matches("chr[xyXY]") && c2.matches("chr[xyXY]")) {
+                return c1.compareToIgnoreCase(c2);
+            } else if (c1.matches("chr\\d+")
+                    && c2.matches("chr[xyXY]")) {
+                return -1;
+            } else if (c2.matches("chr\\d+") && c1.matches("chr[xyXY]")) {
+                return +1;
             }
 
             return 0;

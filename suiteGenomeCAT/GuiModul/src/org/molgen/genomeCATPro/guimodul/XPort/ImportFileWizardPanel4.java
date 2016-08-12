@@ -76,19 +76,19 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
     public HelpCtx getHelp() {
         // Show no Help button for this panel:
         return HelpCtx.DEFAULT_HELP;
-    // If you have context help:
-    // return new HelpCtx(SampleWizardPanel1.class);
+        // If you have context help:
+        // return new HelpCtx(SampleWizardPanel1.class);
     }
     boolean isValid = false;
 
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
         return this.isValid;
-    // If it depends on some condition (form filled out...), then:
-    // return someCondition();
-    // and when this condition changes (last form field filled in...) then:
-    // fireChangeEvent();
-    // and uncomment the complicated stuff below.
+        // If it depends on some condition (form filled out...), then:
+        // return someCondition();
+        // and when this condition changes (last form field filled in...) then:
+        // fireChangeEvent();
+        // and uncomment the complicated stuff below.
     }
 
     public void setIsValid(boolean isValid) {
@@ -96,7 +96,6 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
         this.fireChangeEvent();
     }
     private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
-
 
     public final void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
@@ -125,9 +124,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
         Logger.getLogger(ImportFileWizardPanel3.class.getName()).log(Level.INFO,
                 "validate changes ");
 
-
         //this.experimentdetail = ((ImportFileVisualPanel4) getComponent()).getExperimentDetailView1().getExperiment();
-
         // check if name is not null or already given
         String experimentName = ((ImportFileVisualPanel4) getComponent()).getFieldExperimentName().getText().toString();
 
@@ -162,33 +159,26 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
 
                 SwingUtilities.invokeLater(updateName);
 
-
-            //wd.putProperty("WizardPanel_errorMessage",
-            //         "experiment " + d.getName() + " already exists, name changed.");
+                //wd.putProperty("WizardPanel_errorMessage",
+                //         "experiment " + d.getName() + " already exists, name changed.");
             }
         } catch (Exception ex) {
             Logger.getLogger(ImportFileWizardPanel3.class.getName()).log(Level.SEVERE,
                     "error:", ex);
         }
 
-
-
-
-        if (this.experimentdetail.getSamples().size() == 0 ||
-                (this.experimentdetail.getNofChannel() > 1 && this.experimentdetail.getSamples().size() <= 1)) {
-            wd.putProperty("WizardPanel_errorMessage", "only " + this.experimentdetail.getSamples().size() +
-                    " sample(s) set, but experiment has   " + this.experimentdetail.getNofChannel() + "channel!");
+        if (this.experimentdetail.getSamples().size() == 0
+                || (this.experimentdetail.getNofChannel() > 1 && this.experimentdetail.getSamples().size() <= 1)) {
+            wd.putProperty("WizardPanel_errorMessage", "only " + this.experimentdetail.getSamples().size()
+                    + " sample(s) set, but experiment has   " + this.experimentdetail.getNofChannel() + "channel!");
             this.setIsValid(false);
             return;
         }
 
-
-
         this.setIsValid(true);
         this.wd.putProperty("WizardPanel_errorMessage", null);
 
-
-    //return this.isValid;
+        //return this.isValid;
     }
 
     public void validate() throws WizardValidationException {
@@ -251,7 +241,6 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
             //todo check if samples exists
             List<SampleInExperiment> list = this.experimentdetail.getSamples();
 
-
             this.setSamples();
             this.updateSamples(true, true);
 
@@ -297,7 +286,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
     };
 
     /**
-     * 
+     *
      * @param list
      * @throws java.lang.Exception
      */
@@ -315,7 +304,6 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
         ((ImportFileVisualPanel4) getComponent()).getHintSample1().setText("");
         ((ImportFileVisualPanel4) getComponent()).getHintSample2().setText("");
 
-
         //check if sample already exists
         SampleDetail d = null;
         if (sie1 != null) {
@@ -328,7 +316,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
             this.experimentdetail.removeSample(sie1);
             SampleInExperiment sie = experimentdetail.addSample(d, sie1.isIsCy3(), sie1.isIsCy5());
 
-        //this.sie1.setName(sie1.getName() + "_" + Calendar.getInstance().getTimeInMillis());
+            //this.sie1.setName(sie1.getName() + "_" + Calendar.getInstance().getTimeInMillis());
         }
         if (sie2 != null) {
             d = ExperimentService.getSampleDetailByName(this.sie2.getName());
@@ -341,7 +329,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
                 this.experimentdetail.removeSample(sie2);
                 SampleInExperiment sie = experimentdetail.addSample(d, sie2.isIsCy3(), sie2.isIsCy5());
 
-            //this.sie2.setName(sie2.getName() + "_" + Calendar.getInstance().getTimeInMillis());
+                //this.sie2.setName(sie2.getName() + "_" + Calendar.getInstance().getTimeInMillis());
             }
         }
     }
@@ -352,9 +340,6 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
         ((ImportFileVisualPanel4) getComponent()).getJLabelSampl1().setText("Sample1");
         ((ImportFileVisualPanel4) getComponent()).getJLabelSample2().setText("Sample2");
 
-
-
-
         ((ImportFileVisualPanel4) getComponent()).getFieldSample1().setText(this.sie1.getName());
 
         if (this.sie1.isIsCy3()) {
@@ -364,16 +349,10 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
             ((ImportFileVisualPanel4) getComponent()).getJLabelSampl1().setText("Cy5*:");
         }
 
-
         ((ImportFileVisualPanel4) getComponent()).getJButtonSelectSample1().setVisible(edit1);
-
-
-
-
 
         if (this.experimentdetail.getNofChannel() >= 2) {
             ((ImportFileVisualPanel4) getComponent()).getFieldSample2().setText(sie2.getName());
-
 
             if (sie2.isIsCy3()) {
                 ((ImportFileVisualPanel4) getComponent()).getJLabelSample2().setText("Cy3*:");
@@ -390,7 +369,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
             ((ImportFileVisualPanel4) getComponent()).getJButtonEditSample2().setVisible(false);
         }
 
-    // todo edit in experimentdetailview for sample 
+        // todo edit in experimentdetailview for sample 
     }
 
     class ActionListenerSampleEdit implements ActionListener {
@@ -410,7 +389,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
                 String sampleName = (index == 0 ? ((ImportFileVisualPanel4) getComponent()).getFieldSample1().getText() : ((ImportFileVisualPanel4) getComponent()).getFieldSample2().getText());
                 sampleName = (String) JOptionPane.showInputDialog(null,
                         "enter new name",
-                        "edit sample name",
+                        "create/edit sample",
                         JOptionPane.QUESTION_MESSAGE,
                         null, null, sampleName);
                 if (sampleName == null) {
@@ -428,13 +407,13 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
                     isCy5 = sie2.isIsCy5();
                     old_name = sie2.getName();
 
-                //experimentdetail.getSamples().remove(sie2);
+                    //experimentdetail.getSamples().remove(sie2);
                 }
                 if (index == 0 && sie1 != null) {
                     isCy3 = sie1.isIsCy3();
                     isCy5 = sie1.isIsCy5();
                     old_name = sie1.getName();
-                //experimentdetail.getSamples().remove(sie1);
+                    //experimentdetail.getSamples().remove(sie1);
                 }
 
                 // remove by name and channel
@@ -512,20 +491,19 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
                     for (SampleDetail d : list) {
                         if (d.getName().contentEquals(name)) {
 
-
                             String old_name = "";
                             if (index == 1 && sie2 != null) {
                                 isCy3 = sie2.isIsCy3();
                                 isCy5 = sie2.isIsCy5();
                                 old_name = sie2.getName();
 
-                            //experimentdetail.getSamples().remove(sie2);
+                                //experimentdetail.getSamples().remove(sie2);
                             }
                             if (index == 0 && sie1 != null) {
                                 isCy3 = sie1.isIsCy3();
                                 isCy5 = sie1.isIsCy5();
                                 old_name = sie1.getName();
-                            //experimentdetail.getSamples().remove(sie1);
+                                //experimentdetail.getSamples().remove(sie1);
                             }
                             SampleInExperiment rSie = null;
                             for (SampleInExperiment sie : experimentdetail.getSamples()) {
@@ -533,7 +511,7 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
                                     rSie = sie;
 
                                     break;
-                                //experimentdetail.getSamples().remove(sie);
+                                    //experimentdetail.getSamples().remove(sie);
                                 }
                             }
                             // experimentdetail.getSamples().remove(rSie);
@@ -569,7 +547,5 @@ public class ImportFileWizardPanel4 implements WizardDescriptor.Panel, DocumentL
         ((WizardDescriptor) settings).putProperty("filetype",
                 this.filetype);
 
-
     }
 }
-

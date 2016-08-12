@@ -3,22 +3,20 @@ package org.molgen.genomeCATPro.guimodul.platform;
 /**
  * @name CreatePlatformDialog
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 import java.awt.Color;
 import java.awt.Component;
@@ -51,11 +49,9 @@ import org.molgen.genomeCATPro.datadb.service.PlatformService;
 import org.openide.util.NbPreferences;
 
 /**
- * 140513       kt      set map only if file col really exists, otherwise highlight the column
- * 050413       kt      batch - set mapping added
- * 050413       kt      allow empty mapping
- * 120313	kt	readFilenames throws Exception 
- * 120313	kt	batch 
+ * 140513 kt set map only if file col really exists, otherwise highlight the
+ * column 050413 kt batch - set mapping added 050413 kt allow empty mapping
+ * 120313	kt	readFilenames throws Exception 120313	kt	batch
  */
 public class CreatePlatformDialog extends javax.swing.JDialog {
 
@@ -64,7 +60,9 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
     PlatformDetail detail = null;
     PlatformData data = null;
 
-    /** Creates new form CreatePlatformDialog */
+    /**
+     * Creates new form CreatePlatformDialog
+     */
     public CreatePlatformDialog(java.awt.Frame parent) {
         super(parent, false);
         importModul = null;
@@ -74,11 +72,8 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
         this.detail = this.platformDetailView1.getPlatform();
         this.data = this.platformDataView1.getPlatform();
 
-
-
         initComponents();
         this.jPanelFile.setEnabled(true);
-
 
         this.detailsOKButton.setEnabled(false);
         this.jButtonSave.setEnabled(false);
@@ -91,8 +86,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
 
         this.filetype = filetype;
 
-
-    // todo check if file is already choosen
+        // todo check if file is already choosen
     }
 
     public void setImportFile(String file, String filetype) {
@@ -125,6 +119,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
 
     /**
      * summing up all necessary actions for batch processing
+     *
      * @param filetype
      * @param filename
      * @param method
@@ -139,8 +134,6 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
 
         d.filetype = filetype;
 
-
-
         try {
 
             d.importModul = ServiceXPort.getXPortPlatform(filetype);
@@ -152,18 +145,13 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             d.detail.setMethod(method);
             d.detail.setName(Utils.getUniquableName(d.detail.getName()));
 
-
             // mapping
             if (mapping == null) {
                 mapping = d.importModul.getDefaultMappingFile2DBColNames();
             }
             d.importModul.setSplitFieldName(splitPos);
 
-
-
-
             d.importModul.setMappingFile2DBColNames(mapping);
-
 
             // data
             d.data.copy(d.importModul.getPlatformData(d.detail));
@@ -174,7 +162,6 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             neud.setNofImportErrors(d.importModul.getError());
             neud.setNofImportData(d.importModul.getNoimp());
             return neud;
-
 
         } catch (Exception ex) {
             Logger.getLogger(CreatePlatformDialog.class.getName()).log(
@@ -189,7 +176,6 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
 
         this.filetype = filetype;
 
-
         try {
 
             this.importModul = ServiceXPort.getXPortPlatform(filetype);
@@ -201,19 +187,14 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             this.detail.setMethod(method);
             this.detail.setName(Utils.getUniquableName(detail.getName()));
 
-
             // mapping
             List<String[]> mapping = this.importModul.getDefaultMappingFile2DBColNames();
             this.importModul.setMappingFile2DBColNames(mapping);
-
 
             // data
             this.data.copy(this.importModul.getPlatformData(this.detail));
             this.data.setGenomeRelease(release);
             this.data.initTableData();
-
-
-
 
             ImportWorker worker = new ImportWorker(importModul, detail, data, inf);
             worker.execute();
@@ -233,8 +214,8 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             error("please set filepath!", null);
             return false;
         }
-        if (this.cbFileType.getSelectedIndex() < 0 ||
-                this.cbFileType.getSelectedItem().toString().contentEquals("")) {
+        if (this.cbFileType.getSelectedIndex() < 0
+                || this.cbFileType.getSelectedItem().toString().contentEquals("")) {
             this.textHint.setText("please select import type!");
             return false;
         }
@@ -266,7 +247,6 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             listFileCols = new Vector<String>(
                     Arrays.asList(importModul.getFileColNames()));
 
-
             _data.add(new Vector<String>());
 
             _data = importModul.readData(100);
@@ -284,8 +264,8 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
 
 
             /* Vector<String> map = new Vector<String>(
-            Arrays.asList(importModul.getImportFile4DBColNames(
-            this.filetype)));
+             Arrays.asList(importModul.getImportFile4DBColNames(
+             this.filetype)));
              */
             Vector<String> colsmap = new Vector<String>(
                     Arrays.asList(importModul.getDBColNames()));
@@ -297,12 +277,11 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             Vector<Vector<String>> datamap = new Vector<Vector<String>>();
             datamap.add(map);
 
-
             List<String[]> mapping = importModul.getDefaultMappingFile2DBColNames();
 
             tableMap.setModel(
                     new DefaultTableModel(
-                    datamap, colsmap));
+                            datamap, colsmap));
 
             this.tableData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             this.tableMap.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -323,23 +302,23 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                     if (m[XPortImport.ind_db].equalsIgnoreCase(this.tableMap.getColumnName(i))) {
                         //box.setSelectedItem(XPortImport.ind_file);
                         this.tableMap.getModel().setValueAt(CreatePlatformDialog.emptyCol, 0, i);
-                        
+
                         //140513    kt  set map only if file col really exists, otherwise highlight the column
-                        boolean found=false;
-                        
+                        boolean found = false;
+
                         for (String filecol : listFileCols) {
                             if (filecol.contentEquals(m[XPortImport.ind_file])) {
                                 this.tableMap.getModel().setValueAt(m[XPortImport.ind_file], 0, i);
                                 Logger.getLogger(
                                         CreatePlatformDialog.class.getName()).log(
-                                        Level.INFO, "readSettings: found for col: " + m[XPortImport.ind_db] +
-                                        " mapping: " + m[XPortImport.ind_file]);
+                                                Level.INFO, "readSettings: found for col: " + m[XPortImport.ind_db]
+                                                + " mapping: " + m[XPortImport.ind_file]);
                                 found = true;
                                 break;
                             }
                         }
-                        if(!found){
-                            this.tableMap.getColumnModel().getColumn(i).setCellRenderer(new  ColorColumnCellRenderer());
+                        if (!found) {
+                            this.tableMap.getColumnModel().getColumn(i).setCellRenderer(new ColorColumnCellRenderer());
                         }
 
                     }
@@ -370,11 +349,11 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-        
-            c.setBackground( Color.RED );
+
+            c.setBackground(Color.RED);
             return c;
         }
-        
+
     }
 
     boolean initEditPlatform(PlatformDetail platformdetail) {
@@ -390,19 +369,17 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 this.detail.copy(platformdetail);
                 Logger.getLogger(
                         CreatePlatformDialog.class.getName()).log(
-                        Level.INFO, "init with given platform detail: " + this.detail.toFullString());
+                                Level.INFO, "init with given platform detail: " + this.detail.toFullString());
             } else {
 
                 //this.platformDetailView1 = new PlatformDetailView();
                 //this.detail = this.platformDetailView1.getPlatform();
-
                 this.detail.copy(this.importModul.getPlatformDetail());
                 Logger.getLogger(
                         CreatePlatformDialog.class.getName()).log(
-                        Level.INFO, "init with new platform detail: " + this.detail.toFullString());
+                                Level.INFO, "init with new platform detail: " + this.detail.toFullString());
 
-            //this.platformDetailView1.setPlatform(this.importModul.getPlatformDetail());
-
+                //this.platformDetailView1.setPlatform(this.importModul.getPlatformDetail());
             }
             this.platformDetailView1.setAllFieldsEditable(true);
 
@@ -432,7 +409,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 this.data.copy(this.importModul.getPlatformData(this.detail));
                 Logger.getLogger(
                         CreatePlatformDialog.class.getName()).log(
-                        Level.INFO, "init with new platform data: " + this.data.toFullString());
+                                Level.INFO, "init with new platform data: " + this.data.toFullString());
 
             } else {
                 this.data.copy(d);
@@ -441,17 +418,18 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             }
             this.data.setGenomeRelease(this.cbRelease.getSelectedItem().toString());
             this.data.initTableData();
-            /**if (this.data.getGenomeRelease() != null) {
-            this.platformDataView1.setGenomeReleaseEditable(false);
-            }**/
+            /**
+             * if (this.data.getGenomeRelease() != null) {
+             * this.platformDataView1.setGenomeReleaseEditable(false); }*
+             */
             this.jTabbedPaneMain.setSelectedIndex(2);
             this.textHint.setText("press <import> to create new platform");
             this.jButtonSave.setEnabled(true);
         } catch (Exception e) {
             Logger.getLogger(
                     CreatePlatformDialog.class.getName()).log(
-                    Level.SEVERE,
-                    "initImportPlatform", e);
+                            Level.SEVERE,
+                            "initImportPlatform", e);
             error("error init import", null);
             return false;
         }
@@ -493,7 +471,6 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             return false;
         }
 
-
         return this.initMapping();
 
     }
@@ -518,27 +495,26 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
             }
         }
 
-
         this.importModul.setMappingFile2DBColNames(mapping);
         return this.initImportPlatform(null);
     }
 
     /*void savePlatformData() {
     
-    if (this.data.getGenomeRelease() == null) {
-    error("no release set", null);
-    return;
-    } else {
-    this.data.initTableData();
-    }
-    this.jButtonSave.setEnabled(true);
-    this.textHint.setText("press <save> to start import");
+     if (this.data.getGenomeRelease() == null) {
+     error("no release set", null);
+     return;
+     } else {
+     this.data.initTableData();
+     }
+     this.jButtonSave.setEnabled(true);
+     this.textHint.setText("press <save> to start import");
     
-    }*/
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+     }*/
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -622,7 +598,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addComponent(platformDetailView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPlatformLayout.createSequentialGroup()
-                .addContainerGap(631, Short.MAX_VALUE)
+                .addContainerGap(659, Short.MAX_VALUE)
                 .addComponent(detailsOKButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonResetDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -632,7 +608,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbRelease, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(371, Short.MAX_VALUE))
+                .addContainerGap(393, Short.MAX_VALUE))
         );
         jPanelPlatformLayout.setVerticalGroup(
             jPanelPlatformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -777,7 +753,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanelTableFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTableMap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelTableMap, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanelMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMapLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -789,7 +765,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                     .addGroup(jPanelMapLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBoxPositionField)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jTabbedPaneMain.addTab(org.openide.util.NbBundle.getMessage(CreatePlatformDialog.class, "CreatePlatformDialog.jPanelMap.TabConstraints.tabTitle"), jPanelMap); // NOI18N
@@ -818,7 +794,7 @@ public class CreatePlatformDialog extends javax.swing.JDialog {
                 .addComponent(platformDataView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jTabbedPaneMain.addTab(org.openide.util.NbBundle.getMessage(CreatePlatformDialog.class, "CreatePlatformDialog.jPanelPlatformData.TabConstraints.tabTitle"), jPanelPlatformData); // NOI18N
@@ -988,9 +964,8 @@ private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     this.jTextFieldFileName.setText(importFileChooser.getSelectedFile().getPath());
     this.importModul = null;
     Logger.getLogger(CreatePlatformDialog.class.getName()).log(Level.INFO,
-            "You chose to import as annotation file: " +
-            this.jTextFieldFileName.getText());
-
+            "You chose to import as annotation file: "
+            + this.jTextFieldFileName.getText());
 
     this.initImportModul();
     //ImportFileDialog.filePath = importFileChooser.getCurrentDirectory().toString();
@@ -1095,14 +1070,11 @@ private void jPanelMapFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:even
             publish("run Import in Background...");
             setProgress(0);
 
-
             setProgress(10);
             PlatformData d = null;
             try {
 
                 d = importModul.doImportPlatform(this.detail, this.data, this.informable);
-
-
 
             } catch (Exception ex) {
                 publish("error during import see logfile !");
@@ -1114,7 +1086,6 @@ private void jPanelMapFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:even
             setProgress(90);
 
             return d;
-
 
         }
 
@@ -1135,7 +1106,7 @@ private void jPanelMapFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:even
                     publish(" ERROR see above for further details");
                 }
 
-            //progressBar.setVisible(false);
+                //progressBar.setVisible(false);
             } catch (Exception e) {
                 Logger.getLogger(ImportWorker.class.getName()).log(Level.WARNING, "do cbs ", e);
                 error("error during import see logfile !", null);

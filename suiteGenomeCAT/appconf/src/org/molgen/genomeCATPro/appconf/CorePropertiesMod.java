@@ -1,6 +1,5 @@
 package org.molgen.genomeCATPro.appconf;
 
-
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
@@ -13,27 +12,24 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.openide.modules.InstalledFileLocator;
-
+import org.openide.modules.Places;
 
 /**
  * @name CoreProperties
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
- * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of props file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use props file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * props program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Copyright Apr 7, 2009 Katrin Tebel <tebel at molgen.mpg.de>. The contents of
+ * props file are subject to the terms of either the GNU General Public License
+ * Version 2 only ("GPL") or the Common Development and Distribution
+ * License("CDDL") (collectively, the "License"). You may not use props file
+ * except in compliance with the License. You can obtain a copy of the License
+ * at http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. props program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /*
  * 090712 kt    relocate coreproperties.xml
@@ -55,7 +51,7 @@ public class CorePropertiesMod implements Serializable {
     }
 
     private static CoreProperties load() {
-        
+
         try {
             Logger.getLogger(CorePropertiesMod.class.getName()).log(
                     Level.INFO, "load properties from " + stfile);
@@ -63,31 +59,48 @@ public class CorePropertiesMod implements Serializable {
                     CorePropertiesMod.stfile, "org.molgen.genomeCATPro.appconf", false);
             //CorePropertiesMod.stfile, null, true);
 
-            Logger.getLogger(CorePropertiesMod.class.getName()).log(
-                    Level.INFO, "coreproperties path " + f.getPath());
-            XMLDecoder d = new XMLDecoder(
+            Logger.getLogger(CorePropertiesMod.class.getName()).log(Level.INFO,
+                    "coreproperties path {0}", f != null ? f.getPath() : "null");
+            CoreProperties _props;
+            try (XMLDecoder d = new XMLDecoder(
                     new BufferedInputStream(
-                    new FileInputStream(f)));
-            CoreProperties _props = (CoreProperties) d.readObject();
-            d.close();
+                            new FileInputStream(f)))) {
+                _props = (CoreProperties) d.readObject();
+            }
             return _props;
         } catch (Exception ex) {
             Logger.getLogger(CorePropertiesMod.class.getName()).log(
-                    Level.SEVERE, "error ", ex);
+                    Level.SEVERE, "error ", ex.getMessage());
             return null;
         }
     }
 
     @SuppressWarnings("empty-statement")
     public static void create() {
-        Logger.getLogger(CoreProperties.class.getName()).log(Level.INFO, "CoreProperties created");
+        Logger.getLogger(CoreProperties.class.getName()).log(Level.INFO, "CoreProperties create");
         CorePropertiesMod.props = new CoreProperties();
-
-
+        CorePropertiesMod.props.setDb("genomecat");
+        CorePropertiesMod.props.setPort("3306");
+        CorePropertiesMod.props.setUser("test");
+        CorePropertiesMod.props.setPwd("test");
+        CorePropertiesMod.props.setHost("localhost");
+        Logger.getLogger(CoreProperties.class.getName()).log(Level.INFO, 
+                "CoreProperties create" );
+       
         try {
-             save();
+            String dir = Places.getUserDirectory() != null ? Places.getUserDirectory().getPath() : System.getProperty("user.home");
+            String file = dir + File.separator + CorePropertiesMod.stfile;
+            Logger.getLogger(CoreProperties.class.getName()).log(Level.INFO, file);
+            //FileObject fo = FileUtil.createData(new File(file));
+
+            XMLEncoder e = new XMLEncoder(
+                    new BufferedOutputStream(
+                            new FileOutputStream(new File(file))));
+            //  new FileOutputStream(FileUtil.toFile(fo))));
+            e.writeObject(CorePropertiesMod.props);
+            e.close();
             ;
-        } catch (FileNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CorePropertiesMod.class.getName()).log(
                     Level.SEVERE, "error ", ex);
         }
@@ -97,11 +110,12 @@ public class CorePropertiesMod implements Serializable {
         Logger.getLogger(CoreProperties.class.getName()).log(
                 Level.INFO, "save CoreProperties");
         File f = InstalledFileLocator.getDefault().locate(
+                // File f = InstalledFile Locator.getDefault().locate(
                 CorePropertiesMod.stfile, "org.molgen.genomeCATPro.appconf", false);
         //CorePropertiesMod.stfile, null, true);
         XMLEncoder e = new XMLEncoder(
                 new BufferedOutputStream(
-                new FileOutputStream(f)));
+                        new FileOutputStream(f)));
         e.writeObject(CorePropertiesMod.props);
         e.close();
     }
@@ -117,7 +131,7 @@ public class CorePropertiesMod implements Serializable {
             // CorePropertiesMod.stfile, null, true);
             XMLEncoder e = new XMLEncoder(
                     new BufferedOutputStream(
-                    new FileOutputStream(f)));
+                            new FileOutputStream(f)));
             e.writeObject(props);
             e.close();
         } finally {
@@ -125,8 +139,8 @@ public class CorePropertiesMod implements Serializable {
                     "restore set pwd");
             props.setPwd(oldpwd);
         }
-        Logger.getLogger(CorePropertiesMod.class.getName()).log(
-                Level.INFO, "PWD: " + props.getPwd());
+        Logger.getLogger(CorePropertiesMod.class.getName()).log(Level.INFO,
+                "PWD: {0}", props.getPwd());
     }
 
     public static class CoreProperties implements Serializable {
@@ -138,7 +152,6 @@ public class CorePropertiesMod implements Serializable {
         private String db;
         private String user;
         private String pwd;
-        
 
         public CoreProperties() {
         }
@@ -201,7 +214,5 @@ public class CorePropertiesMod implements Serializable {
             this.port = port;
         }
 
-       
     }
 }
-

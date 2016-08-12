@@ -81,4 +81,3 @@ public final class ViewPlatformAction extends AbstractAction implements LookupLi
         return new ViewPlatformAction(arg0);
     }
 }
-

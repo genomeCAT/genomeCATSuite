@@ -3,22 +3,19 @@ package org.molgen.genomeCATPro.cghpro.xport;
 /**
  * @name ImportFE
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Oct 8, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Oct 8, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,8 +30,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.logging.SimpleFormatter;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.common.Defaults;
 
 import org.molgen.genomeCATPro.common.InformableHandler;
@@ -48,10 +46,9 @@ import org.molgen.genomeCATPro.datadb.service.DBUtils;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 
 /**
- * 170413   kt  list and delete spots without position information
- * 100413   kt  initSample  check if sample already exists
- * 150812   kt    extends Import_batch
- * 
+ * 170413 kt list and delete spots without position information 100413 kt
+ * initSample check if sample already exists 150812 kt extends Import_batch
+ *
  */
 public abstract class ImportExperimentFile extends Import_batch implements XPortExperimentFile {
     //variables to manage connection to db and file
@@ -67,10 +64,13 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
     boolean centerMedian = false;
     boolean dyeSwap = false;
 
+    
+
     public boolean isCenterMean() {
         return this.centerMean;
     }
 
+    @Override
     public void setCenterMean(boolean b) {
         this.centerMean = b;
         Logger.getLogger(ImportExperimentFile.class.getName()).log(Level.INFO, "set " + b);
@@ -88,7 +88,7 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
         this.centerMedian = b;
         Logger.getLogger(ImportExperimentFile.class.getName()).log(Level.INFO, "set " + b);
 
-    /*if (b && this.experimentdata != null &&
+        /*if (b && this.experimentdata != null &&
     this.experimentdata.getProcProcessing() != null &&
     this.experimentdata.getProcProcessing().indexOf(procCenterMedian) < 0) {
     experimentdata.setProcProcessing(procCenterMedian);
@@ -107,7 +107,7 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
     public void setDyeSwap(boolean b) {
         this.dyeSwap = b;
         Logger.getLogger(ImportExperimentFile.class.getName()).log(Level.INFO, "set " + b);
-    /* if (b && this.experimentdata != null &&
+        /* if (b && this.experimentdata != null &&
     this.experimentdata.getProcProcessing() != null &&
     this.experimentdata.getProcProcessing().indexOf(procDyeSwap) < 0) {
     experimentdata.setProcProcessing(procDyeSwap);
@@ -121,6 +121,7 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
 
     /**
      * init Instance to import new file
+     *
      * @param nameFile
      */
     public void newImportFile(String filename) throws Exception {
@@ -268,8 +269,6 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
         detail.setNofChannel(this.nofChannel);
         detail.setType((this.platformdetail.getType()));
 
-
-
         return detail;
     }
 
@@ -315,22 +314,67 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
         return null;
     }
 
-    public void generateTable(String tableData) throws Exception {
-        Statement s;
+   
+
+    public abstract void generateTable(String tableData) throws Exception ;
+        /*Statement s;
         try {
-            // con = Database.getDBConnection(Defaults.localDB);
+            // con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
             s.execute(
                     "DROP TABLE if EXISTS " + tableData);
-            s.execute(
-                    this.getCreateTableSQL(tableData));
+            String sql = this.getCreateTableSQL(tableData);
+            Logger.getLogger(ImportExperimentFile.class.getName()).log(
+                    Level.INFO,
+                    sql);
+            s.execute(sql);
+            
+            // update insert row with position data from platform table 
+            String triggername = "tr_position_" + this.experimentdata.getTableData();
+            String tablePlatform = this.experimentdata.getPlatformdata().getTableData();
+            try {
+                s.execute(" DROP TRIGGER if EXISTS " + triggername);
+            } catch (SQLException sQLException) {
+            }
+            sql = ""
+                    + "CREATE TRIGGER " + triggername
+                    + " BEFORE INSERT ON " + this.experimentdata.getTableData()
+                    + "  FOR EACH ROW "
+                    + "BEGIN "
+                    + "DECLARE done INT DEFAULT 0;  "
+                    + "DECLARE varChrom varchar(45);  "
+                    + "DECLARE varStart INT; "
+                    + "DECLARE varStop INT;   "
+                    + "DECLARE cs CURSOR FOR  SELECT chrom ,chromStart, chromEnd FROM "
+                    + tablePlatform + " WHERE " + tablePlatform + ".probeName = new.probeName; "
+                    + //" AND " + tableAnno + ".probeID = new.probeID; " +
+                    "DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; "
+                    + "OPEN cs;  "
+                    + "FETCH cs INTO varChrom, varStart, varStop;  "
+                    + "IF NOT done THEN "
+                    + //"CLOSE cs; " +
+                    " SET done = \'Position not found in annotation table\'; "
+                    + "END IF;  "
+                    + //" SELECT \'FOUND POSITION \', chrom, start, stop; " +
+                    " SET new.chrom = varChrom;  "
+                    + " SET new.chromStart = varStart;  "
+                    + " SET new.chromEnd = varStop;  "
+                    + "CLOSE cs;  "
+                    + " END ;";
+
+            Logger.getLogger(ImportExperimentFile.class.getName()).log(
+                    Level.INFO,
+                    sql);
+
+            s.execute(sql);
         } catch (Exception ex) {
             Logger.getLogger(ImportExperimentFile.class.getName()).log(Level.SEVERE, "generateTable", ex);
             throw ex;
         }
-    }
+    }*/
     Logger logger;
 
+    @Override
     public ExperimentData doImportFile(InformableHandler ifh) {
 
         logger = Logger.getLogger(ImportExperimentFile.class.getName());
@@ -360,7 +404,7 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
 
         Statement s = null;
         try {
-            con = Database.getDBConnection(Defaults.localDB);
+            con = Database.getDBConnection(CorePropertiesMod.props().getDb());
             s = con.createStatement();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "getDBConnection", ex);
@@ -374,20 +418,18 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
 
             em.getTransaction().begin();
 
-
-            if (this.experimentdetail.getExperimentDetailID() == null ||
-                    em.find(ExperimentDetail.class, this.experimentdetail.getExperimentDetailID()) == null) {
+            if (this.experimentdetail.getExperimentDetailID() == null
+                    || em.find(ExperimentDetail.class, this.experimentdetail.getExperimentDetailID()) == null) {
 
                 isNewDetail = true;
 
                 Logger.getLogger(
                         ImportExperimentFile.class.getName()).log(Level.INFO,
-                        "doImportFile: create experiemnt " + this.experimentdetail.toFullString());
-
+                                "doImportFile: create experiemnt " + this.experimentdetail.toFullString());
 
                 // make experimentthis.experimentdetail persistent in db
                 em.persist(this.experimentdetail);
-            //em.flush();
+                //em.flush();
             } else {
                 // update experiment from db with current entity
                 this.experimentdetail = em.merge(this.experimentdetail);
@@ -397,7 +439,6 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
             //this.experimentdata.setExperiment(this.experimentdetail);
             this.experimentdetail.addExperimentData(experimentdata);
             this.experimentdata.initTableData();
-
 
             // make experimentdata persistent in db
             em.persist(this.experimentdata);
@@ -420,45 +461,39 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
             this.generateTable(this.experimentdata.getTableData());
             // read data -> insert into table
 
-
             error = this.importData(this.experimentdata.getTableData());
 
             Logger.getLogger(
                     ImportExperimentFile.class.getName()).log(Level.INFO,
-                    "doImportFile: read data, number of errors: " + error);
+                            "doImportFile: read data, number of errors: " + error);
 
             //170413    kt  list and delete spots without position information
-            String _sql = " SELECT count(*) from " + this.experimentdata.getTableData() +
-                    " WHERE chrom is null";
+            String _sql = " SELECT count(*) from " + this.experimentdata.getTableData()
+                    + " WHERE chrom is null";
             ResultSet rs = s.executeQuery(_sql);
 
             if (rs.next()) {
                 Integer nofErr = rs.getInt(1);
                 if (nofErr > 0) {
                     try {
-                        _sql = "SELECT probeId from " + this.experimentdata.getTableData() +
-                                " WHERE chrom is null into outfile \'" + this.experimentdata.getOriginalFile() + ".err" +
-                                "\'";
+                        _sql = "SELECT probeID from " + this.experimentdata.getTableData()
+                                + " WHERE chrom is null into outfile \'" + this.experimentdata.getOriginalFile() + ".err"
+                                + "\'";
                         s.execute(_sql);
                     } catch (SQLException sQLException) {
                         Logger.getLogger(
                                 ImportExperimentFile.class.getName()).log(Level.WARNING,
-                                "could not export list of invalid features to file " +
-                                this.experimentdata.getOriginalFile() + ".err");
+                                        "could not export list of invalid features to file "
+                                        + this.experimentdata.getOriginalFile() + ".err");
 
                     }
 
-
-
-
-
-
                     Logger.getLogger(
                             ImportExperimentFile.class.getName()).log(Level.INFO,
-                            "doImportFile: " + nofErr + "  features could not be imported due missing spot at platform: " +
-                            "see " + this.experimentdata.getOriginalFile() + ".err" + " (lists  this features) ");
-                    _sql = " DELETE from " + this.experimentdata.getTableData() +
-                            " WHERE chrom is null";
+                                    "doImportFile: " + nofErr + "  features could not be imported due missing spot at platform: "
+                                    + "see " + this.experimentdata.getOriginalFile() + ".err" + " (lists  this features) ");
+                    _sql = " DELETE from " + this.experimentdata.getTableData()
+                            + " WHERE chrom is null";
                     s.execute(_sql);
                     int nodel = s.getUpdateCount();
                     System.out.println(nodel);
@@ -472,19 +507,17 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
             boolean update = s.execute(_sql);*/
 
             //update array
-
             String sql = "SELECT count(*) from " + this.experimentdata.getTableData();
             rs = s.executeQuery(sql);
 
             rs.next();
             Integer nofSpots = rs.getInt(1);
 
-
             // todo median
-            sql = "SELECT  AVG(ratio),  VAR_SAMP(ratio), " +
-                    " STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) " +
-                    " from " + this.experimentdata.getTableData() +
-                    " where (chromStart + chromEnd) != 0";
+            sql = "SELECT  AVG(ratio),  VAR_SAMP(ratio), "
+                    + " STDDEV_SAMP(ratio), MIN(ratio), MAX(ratio) "
+                    + " from " + this.experimentdata.getTableData()
+                    + " where (chromStart + chromEnd) != 0";
             rs = s.executeQuery(sql);
             rs.next();
             /* try {
@@ -500,7 +533,6 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
             this.experimentdata.setMinRatio(rs.getDouble(4));
             this.experimentdata.setMaxRatio(rs.getDouble(5));
 
-
             try {
                 double median = DBUtils.getMedian(this.experimentdata.getTableData(), this.getRatioCol());
                 this.experimentdata.setMedian(median);
@@ -508,17 +540,11 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
                 logger.log(Level.SEVERE, "get median", e);
             }
 
-
-
-
-
-
             // test get modified, id ...???
             //this.experimentdata = em.merge(this.experimentdata);
             if (this.dyeSwap) {
                 //experimentdata.setProcProcessing(this.getClass().getName());
                 experimentdata.setParamProcessing(Defaults.DYESWAP);
-
 
             }
             if (this.centerMean || this.centerMedian) {
@@ -537,8 +563,8 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
                             experimentdata.getParamProcessing() + "centerMedian: " + experimentdata.getMedian());
                 }
                 PreparedStatement ps = con.prepareStatement(
-                        "update " + experimentdata.getTableData() +
-                        " set " + this.getRatioCol() + " =  " + this.getRatioCol() + "-?");
+                        "update " + experimentdata.getTableData()
+                        + " set " + this.getRatioCol() + " =  " + this.getRatioCol() + "-?");
 
                 ps.setDouble(1, factor);
                 ps.executeUpdate();
@@ -547,7 +573,6 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
             em.flush();
             em.getTransaction().commit();
             this.experimentdetail.addExperimentData(experimentdata);
-
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "doImportFile: -start rollback", ex);
@@ -573,8 +598,8 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
                     }
                     if (isNewDetail && this.experimentdetail.getExperimentDetailID() != null) {
                         logger.log(Level.INFO,
-                                "doImportFile: remove Experimentthis.experimentdetail  " +
-                                this.experimentdetail.getExperimentDetailID());
+                                "doImportFile: remove Experimentthis.experimentdetail  "
+                                + this.experimentdetail.getExperimentDetailID());
                         em.remove(em.find(PlatformData.class,
                                 this.experimentdetail.getExperimentDetailID()));
                     }
@@ -612,23 +637,19 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
         List<SampleInExperiment> new_samples = new Vector<SampleInExperiment>();
         for (SampleInExperiment sie : samples) {
 
-
-
             SampleDetail detail = sie.getSample();
-            if (detail.getSampleDetailID() == null ||
-                    em.find(SampleDetail.class, detail.getSampleDetailID()) == null) {
+            if (detail.getSampleDetailID() == null
+                    || em.find(SampleDetail.class, detail.getSampleDetailID()) == null) {
                 //isNewPlatformDetail = true;
 
                 Logger.getLogger(
                         ImportExperimentFile.class.getName()).log(Level.INFO,
-                        "importSamples: create sampledetail " + detail.toFullString());
-
+                                "importSamples: create sampledetail " + detail.toFullString());
 
                 // make new sampledetail persistent in db
                 em.persist(detail);  //cascade??
 
-            //em.flush();
-
+                //em.flush();
             } else {
                 // update sample from db with current entity
                 detail = em.merge(detail);
@@ -644,20 +665,20 @@ public abstract class ImportExperimentFile extends Import_batch implements XPort
             {
                 Logger.getLogger(
                         ImportExperimentFile.class.getName()).log(Level.INFO,
-                        "importSamples: create new SampleInExperiment " + sie.toFullString());
+                                "importSamples: create new SampleInExperiment " + sie.toFullString());
                 em.persist(sie);
-            //em.flush();
+                //em.flush();
             } else {
                 Logger.getLogger(
                         ImportExperimentFile.class.getName()).log(Level.INFO,
-                        "importSamples: merge existing SampleInExperiment " + sie.toFullString());
+                                "importSamples: merge existing SampleInExperiment " + sie.toFullString());
 
                 sie = em.merge(sie);
 
             }
 
             new_samples.add(sie);
-        //em.flush();
+            //em.flush();
 
         }
         return new_samples; // return entities from persistent context

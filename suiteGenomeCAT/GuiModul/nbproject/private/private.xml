@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/GuiModul/src/org/molgen/genomeCATPro/guimodul/Bundle.properties</file>
-        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/GuiModul/src/org/molgen/genomeCATPro/guimodul/CATLOGO.png</file>
-        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/GuiModul/src/org/molgen/genomeCATPro/guimodul/InfoTopComponent.java</file>
-        <file>file:/scratch/local/katrin/devel/src/suiteGenomeCAT/GuiModul/src/org/molgen/genomeCATPro/guimodul/platform/GEOProtocollList.java</file>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/build/cluster/update_tracking/org-molgen-genomeCATPro-guimodul.xml</file>
+        </group>
     </open-files>
 </project-private>

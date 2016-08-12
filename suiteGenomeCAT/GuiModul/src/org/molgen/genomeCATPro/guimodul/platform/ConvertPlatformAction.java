@@ -66,8 +66,8 @@ public final class ConvertPlatformAction extends AbstractAction implements Looku
             run(instance);
             return;
         }
-        JOptionPane.showMessageDialog(null, "Convert Plattform: " +
-                "please select platform data to convert in platform tree");
+        JOptionPane.showMessageDialog(null, "Convert Plattform: "
+                + "please select platform data to convert in platform tree");
     }
 
     public void run(PlatformData s) {
@@ -86,4 +86,3 @@ public final class ConvertPlatformAction extends AbstractAction implements Looku
         return new ConvertPlatformAction(arg0);
     }
 }
-

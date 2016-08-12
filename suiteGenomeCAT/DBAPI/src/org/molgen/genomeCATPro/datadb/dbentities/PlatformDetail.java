@@ -21,24 +21,20 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 /**
- * @name PlatformDetail
- * technical attributes of a platform 
- * 
+ * @name PlatformDetail technical attributes of a platform
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Oct 6, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Oct 6, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 @Entity
 @Table(name = "PlatformDetail")
@@ -326,22 +322,22 @@ public class PlatformDetail implements Serializable {
 
     public String toFullString() {
         return new String(
-                this.getPlatformID() + "," +
-                this.getName() + "," +
-                this.getTitel() + "," +
-                this.getType() + "," +
-                this.getMethod() + "," +
-                this.getTechnology() + "," +
-                this.getDescription() + "," +
-                this.getDistribution() + "," +
-                this.getOrganism() + "," +
-                this.getCoating() + "," +
-                this.getManufactureProtocol() + "," +
-                this.getManufacturer() + "," +
-                this.getSupport() + "," +
-                this.getCreated() + "," +
-                this.getModified() + "," +
-                this.getWebLink());
+                this.getPlatformID() + ","
+                + this.getName() + ","
+                + this.getTitel() + ","
+                + this.getType() + ","
+                + this.getMethod() + ","
+                + this.getTechnology() + ","
+                + this.getDescription() + ","
+                + this.getDistribution() + ","
+                + this.getOrganism() + ","
+                + this.getCoating() + ","
+                + this.getManufactureProtocol() + ","
+                + this.getManufacturer() + ","
+                + this.getSupport() + ","
+                + this.getCreated() + ","
+                + this.getModified() + ","
+                + this.getWebLink());
     }
 
     @PrePersist
@@ -373,16 +369,16 @@ public class PlatformDetail implements Serializable {
             }
         }
         d.setPlatform(this);
-        Logger.getLogger(PlatformDetail.class.getName()).log(Level.INFO, "addPlatform" +
-                this.toFullString());
+        Logger.getLogger(PlatformDetail.class.getName()).log(Level.INFO, "addPlatform"
+                + this.toFullString());
 
         changeSupport.firePropertyChange(PlatformDetail.ADD, this, null);
     }
 
     public void removePlatformData(PlatformData d) {
 
-        Logger.getLogger(PlatformDetail.class.getName()).log(Level.INFO, "removePlatform" +
-                this.toFullString());
+        Logger.getLogger(PlatformDetail.class.getName()).log(Level.INFO, "removePlatform"
+                + this.toFullString());
         changeSupport.firePropertyChange(PlatformDetail.REMOVE, this, null);
     }
 }

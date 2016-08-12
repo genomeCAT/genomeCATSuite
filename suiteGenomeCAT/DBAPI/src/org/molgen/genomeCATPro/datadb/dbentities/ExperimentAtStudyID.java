@@ -12,7 +12,6 @@ import java.io.Serializable;
  */
 public class ExperimentAtStudyID implements Serializable {
 
-   
     public Long experimentDetailID;
     public Long studyID;
 
@@ -22,7 +21,8 @@ public class ExperimentAtStudyID implements Serializable {
     public ExperimentAtStudyID(Long experimentDetailID, Long studyID) {
         this.experimentDetailID = experimentDetailID;
         this.studyID = studyID;
-}
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof ExperimentAtStudyID) {
@@ -40,5 +40,4 @@ public class ExperimentAtStudyID implements Serializable {
         return hash;
     }
 
-    
 }

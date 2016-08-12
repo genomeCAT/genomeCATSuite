@@ -23,20 +23,20 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "ExperimentAtStudy")
 public class ExperimentAtStudy {
+
     /*With the @IdClass annotation, you don't declare an instance variable of 
     type CompoundKey, but instead, just define instance variables for each of 
     the primary key fields. You then mark the corresponding getter tags with 
     standard @Id annotations. 
     http://jpa.ezhibernate.com/Javacode/learn.jsp?tutorial=15usingcompoundprimarykeys
      */
-
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     @Id
     public Long experimentDetailID = new Long(0);
     @Id
     public Long studyID = new Long(0);
-    
+
     @ManyToOne()
     @JoinColumn(name = "experimentDetailID", insertable = false, updatable = false, nullable = false)
     //@PrimaryKeyJoinColumn(name = "experimentDetailID", referencedColumnName = "experimentDetailID")
@@ -58,7 +58,7 @@ public class ExperimentAtStudy {
     private Study study;
 
     public ExperimentAtStudy() {
-       
+
     }
 
     public Long getExperimentDetailID() {
@@ -86,32 +86,25 @@ public class ExperimentAtStudy {
         this.experimentDetailID = this.experiment.getExperimentDetailID();
     }
 
-    
-
-    
-
-    
-
     public Study getStudy() {
         return this.study;
     }
 
     public void setStudy(Study s) {
-        this.study  = s;
+        this.study = s;
         this.studyID = s.getStudyID();
     }
 
-    
-
     public String toFullString() {
         return new String(
-                this.getStudyID() + ":" +
-                (this.getStudy()!= null ? this.getStudy().getName() : "") + "," +
-                this.getExperimentDetailID() + "," +
-                (this.getExperiment() != null ? this.getExperiment().getName() : "") 
-                );
+                this.getStudyID() + ":"
+                + (this.getStudy() != null ? this.getStudy().getName() : "") + ","
+                + this.getExperimentDetailID() + ","
+                + (this.getExperiment() != null ? this.getExperiment().getName() : "")
+        );
     }
-     public void addPropertyChangeListener(PropertyChangeListener listener) {
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
 

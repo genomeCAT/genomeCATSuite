@@ -49,8 +49,6 @@ public class ShowRulerAction extends AbstractAction implements
 
         cb.setText("<html>show<br/>ruler</html>");
 
-
-
         //cb.setMaximumSize(cb.getPreferredSize());
         cb.setAction(this);
 

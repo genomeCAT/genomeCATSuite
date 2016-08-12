@@ -1,22 +1,19 @@
 /**
  * @name ImportPlatformBACID
  *
- * 
+ *
  * @author Katrin Tebel <tebel at molgen.mpg.de>
- * This file is part of the CGHPRO software package.
- * Copyright Oct 8, 2010 Katrin Tebel <tebel at molgen.mpg.de>.
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * This file is part of the CGHPRO software package. Copyright Oct 8, 2010
+ * Katrin Tebel <tebel at molgen.mpg.de>. The contents of this file are subject
+ * to the terms of either the GNU General Public License Version 2 only ("GPL")
+ * or the Common Development and Distribution License("CDDL") (collectively, the
+ * "License"). You may not use this file except in compliance with the License.
+ * You can obtain a copy of the License at
+ * http://www.netbeans.org/cddl-gplv2.html or nbbuild/licenses/CDDL-GPL-2-CP.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 package org.molgen.genomeCATPro.cghpro.xport;
 
@@ -29,11 +26,11 @@ import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformDetail;
 
 /**
- * 020813   kt	XPortImport createNewImport();
- * 
- * 
+ * 020813 kt	XPortImport createNewImport();
+ *
+ *
  * import BAC platform from cloneid file
- * 
+ *
  */
 public class ImportPlatformBED extends ImportPlatform implements XPortPlatform {
 
@@ -83,22 +80,22 @@ public class ImportPlatformBED extends ImportPlatform implements XPortPlatform {
     }
 
     @Override
-    protected String getCreateTableSQL(String tableData) {
-        String sql = new String("CREATE TABLE " + tableData + " ( " +
-                " ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , " +
-                " probeid varchar(255) NOT NULL default ''," +
-                " alias varchar(255), " +
-                " chrom varChar(255) NOT NULL default '', " +
-                " chromStart int(10) unsigned NOT NULL default '0'," +
-                " chromEnd int(10) unsigned NOT NULL default '0'," +
-                " source varchar(255)," +
-                " comment varchar(255), " +
-                "PRIMARY KEY (ID) ," +
-                //"UNIQUE KEY (probeID)," +
-                "INDEX (chrom (5) ), " +
-                "INDEX (chromStart ), " +
-                "INDEX (chromEnd) " +
-                ") ;");
+    public String getCreateTableSQL(String tableData) {
+        String sql = "CREATE TABLE " + tableData + " ( "
+                + " ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , "
+                + " probeid varchar(255) NOT NULL default '',"
+                + " alias varchar(255), "
+                + " chrom varChar(255) NOT NULL default '', "
+                + " chromStart int(10) unsigned NOT NULL default '0',"
+                + " chromEnd int(10) unsigned NOT NULL default '0',"
+                + " source varchar(255),"
+                + " comment varchar(255), "
+                + "PRIMARY KEY (ID) ,"
+                + //"UNIQUE KEY (probeID)," +
+                "INDEX (chrom (5) ), "
+                + "INDEX (chromStart ), "
+                + "INDEX (chromEnd) "
+                + ") ;";
         return sql;
     }
 
@@ -108,7 +105,6 @@ public class ImportPlatformBED extends ImportPlatform implements XPortPlatform {
     }
 
     protected String[] modify(List<String[]> map, String[] tmp) {
-
 
         for (int i = 0; i < map.size(); i++) {
             if (map.get(i)[ind_db].contentEquals("chrom")) {
@@ -136,9 +132,9 @@ public class ImportPlatformBED extends ImportPlatform implements XPortPlatform {
     @Override
     public String[] getDBColNames() {
         return new String[]{
-                    "probeid", "alias", "chrom",
-                    "chromStart", "chromEnd", "source", "comment"
-                };
+            "probeid", "alias", "chrom",
+            "chromStart", "chromEnd", "source", "comment"
+        };
     }
 
     @Override

@@ -11,6 +11,8 @@ import javax.swing.Action;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -18,6 +20,8 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.cat.CATDataAction", category = "CAT")
+@ActionRegistration(displayName = "add ComparativeView", lazy = false)
 public class CATDataAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     private Lookup context;

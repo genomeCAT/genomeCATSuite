@@ -10,9 +10,10 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.molgen.dblib.DBService;
-import org.molgen.dblib.Database;
+import org.molgen.genomeCATPro.dblib.DBService;
+import org.molgen.genomeCATPro.dblib.Database;
 import org.molgen.genomeCATPro.cghpro.xport.ImportTrack;
 import org.molgen.genomeCATPro.cghpro.xport.ImportTrackAffy;
 import org.molgen.genomeCATPro.cghpro.xport.ImportTrackWIG;
@@ -25,22 +26,20 @@ import static org.junit.Assert.*;
 /**
  * @name TestCreateExperiment
  *
- * 
- * @author Katrin Tebel <tebel at molgen.mpg.de>
- * 
  *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. 
- * You can obtain a copy of the License at http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * @author Katrin Tebel <tebel at molgen.mpg.de>
+ *
+ *
+ * The contents of this file are subject to the terms of either the GNU General
+ * Public License Version 2 only ("GPL") or the Common Development and
+ * Distribution License("CDDL") (collectively, the "License"). You may not use
+ * this file except in compliance with the License. You can obtain a copy of the
+ * License at http://www.netbeans.org/cddl-gplv2.html or
+ * nbbuild/licenses/CDDL-GPL-2-CP. See the License for the specific language
+ * governing permissions and limitations under the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE.
  */
 public class TestTrack {
 
@@ -57,10 +56,9 @@ public class TestTrack {
 
     @Before
     public void setUp() {
-        Database.setDBParams(Defaults.localDB, "genomeCAT", "localhost", "3306", "user", "user");
+        Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "test", "test");
 
-        DBService.setConnection("localhost", "3306", "genomeCAT", "user", "user");
-    //xport = new ImportPlatformGEOBAC();
+        DBService.setConnection("localhost", "3306", "genomecat", "test", "test");//xport = new ImportPlatformGEOBAC();
 
     }
 
@@ -69,25 +67,24 @@ public class TestTrack {
     }
 
     @Test
+    //@Ignore
     public void testBEDBatch() throws InterruptedException {
 
         try {
 
             /*batch(String filetype, 
-            String filename, 
-            String release,
-            boolean hasHeader,
-            SampleDetail s1, SampleDetail s2, String project, String splitPos) {
+             String filename, 
+             String release,
+             boolean hasHeader,
+             SampleDetail s1, SampleDetail s2, String project, String splitPos) {
              */
-            String file = "/project/Kopenhagen/Katrin/GenomeCATPro/test/test_OLUSC_Subt_5_120619_035025529_hg18_Spots.bed";
+            String file = "/home/paula/GenomeCATPro/data/test/test_OLUSC_Subt_5_120619_035025529_hg18_Spots.bed";
             Track t = ImportTrackDialog.batch(
                     ImportTrack.track_bedgraph_txt,
                     file,
                     Defaults.GenomeRelease.hg18.toString(),
                     true,
-                    null, null, "Katrin", null);
-
-
+                    null, null, "test", null);
 
             assertNotNull("empty Track", t);
             assertEquals("Filename:", file, t.getOriginalFile());
@@ -95,39 +92,36 @@ public class TestTrack {
             assertTrue("nofImportErrors:" + t.getNofImportErrors(), t.getNofImportErrors() == 0);
             assertTrue("nofSpots != noImportData:" + t.getNofPeaks(), t.getNofPeaks() == t.getNofImportData());
 
-
         } catch (Exception ex) {
             Logger.getLogger(TestTrack.class.getName()).log(Level.SEVERE, "ex: ", ex);
         }
     }
 
     @Test
+    //@Ignore
     public void testWIGFixedBatch() throws InterruptedException {
 
         try {
 
             /*batch(String filetype, 
-            String filename, 
-            String release,
-            boolean hasHeader,
-            SampleDetail s1, SampleDetail s2, String project, String splitPos) {
+             String filename, 
+             String release,
+             boolean hasHeader,
+             SampleDetail s1, SampleDetail s2, String project, String splitPos) {
              */
-            String file = "/project/Kopenhagen/Katrin/GenomeCATPro/test/test_wig_bin_1000.txt";
+            String file = "/home/paula/GenomeCATPro/data/test/test_wig_bin_1000.txt";
             Track t = ImportTrackDialog.batch(
                     ImportTrackWIG.track_wig_txt,
                     file,
                     Defaults.GenomeRelease.hg18.toString(),
                     false,
-                    null, null, "Katrin", null);
-
-
+                    null, null, "test", null);
 
             assertNotNull("empty Track", t);
             assertEquals("Filename:", file, t.getOriginalFile());
 
             assertTrue("nofImportErrors:" + t.getNofImportErrors(), t.getNofImportErrors() == 0);
             assertTrue("nofSpots != noImportData:" + t.getNofPeaks(), t.getNofPeaks() == t.getNofImportData());
-
 
         } catch (Exception ex) {
             Logger.getLogger(TestTrack.class.getName()).log(Level.SEVERE, "ex: ", ex);
@@ -135,25 +129,24 @@ public class TestTrack {
     }
 
     @Test
+    //@Ignore
     public void testWIGVariableBatch() throws InterruptedException {
 
         try {
 
             /*batch(String filetype, 
-            String filename, 
-            String release,
-            boolean hasHeader,
-            SampleDetail s1, SampleDetail s2, String project, String splitPos) {
+             String filename, 
+             String release,
+             boolean hasHeader,
+             SampleDetail s1, SampleDetail s2, String project, String splitPos) {
              */
-            String file = "/project/Kopenhagen/Katrin/GenomeCATPro/test/ucsc_laminb1_wig.txt";
+            String file = "/home/paula/GenomeCATPro/data/test/ucsc_laminb1_wig.txt";
             Track t = ImportTrackDialog.batch(
                     ImportTrackWIG.track_wig_txt,
                     file,
                     Defaults.GenomeRelease.hg18.toString(),
                     false,
-                    null, null, "Katrin", null);
-
-
+                    null, null, "test", null);
 
             assertNotNull("empty Track", t);
             assertEquals("Filename:", file, t.getOriginalFile());
@@ -161,32 +154,29 @@ public class TestTrack {
             assertTrue("nofImportErrors:" + t.getNofImportErrors(), t.getNofImportErrors() == 0);
             assertTrue("nofSpots != noImportData:" + t.getNofPeaks(), t.getNofPeaks() == t.getNofImportData());
 
-
         } catch (Exception ex) {
             Logger.getLogger(TestTrack.class.getName()).log(Level.SEVERE, "ex: ", ex);
         }
     }
 
-    //@Test
+    @Test
     public void testAffyBatch() throws InterruptedException {
 
         try {
 
             /*batch(String filetype, 
-            String filename, 
-            String release,
-            boolean hasHeader,
-            SampleDetail s1, SampleDetail s2, String project, String splitPos) {
+             String filename, 
+             String release,
+             boolean hasHeader,
+             SampleDetail s1, SampleDetail s2, String project, String splitPos) {
              */
-            String file = "/project/Kopenhagen/Katrin/GenomeCATPro/test/test_GSM696325_Affy.txt";
+            String file = "/home/paula/GenomeCATPro/data/test/test_GSM696325_Affy.txt";
             Track t = ImportTrackDialog.batch(
                     ImportTrackAffy.track_affy_cnv_txt,
                     file,
                     Defaults.GenomeRelease.hg18.toString(),
                     true,
-                    null, null, "Katrin", null);
-
-
+                    null, null, "test", null);
 
             assertNotNull("empty Track", t);
             assertEquals("Filename:", file, t.getOriginalFile());
@@ -194,12 +184,13 @@ public class TestTrack {
             assertTrue("nofImportErrors:" + t.getNofImportErrors(), t.getNofImportErrors() == 0);
             assertTrue("nofSpots != noImportData:" + t.getNofPeaks(), t.getNofPeaks() == t.getNofImportData());
 
-
         } catch (Exception ex) {
             Logger.getLogger(TestTrack.class.getName()).log(Level.SEVERE, "ex: ", ex);
         }
     }
-    // @Test
+
+    @Test
+    @Ignore
 
     @SuppressWarnings("empty-statement")
     public void testCreateTrack() throws InterruptedException {
@@ -207,7 +198,7 @@ public class TestTrack {
         try {
 
             ImportTrackDialog dialog = new ImportTrackDialog(new JFrame());
-            dialog.setImportFile("/project/Kopenhagen/Katrin/GenomeCATPro/test/bed_track.bed",
+            dialog.setImportFile("/home/paula/GenomeCATPro/data/test/bed_track.bed",
                     ImportTrack.track_bedgraph_txt);
 
             dialog.setVisible(true);
@@ -257,12 +248,13 @@ public class TestTrack {
     }
 
     @SuppressWarnings("empty-statement")
+
     public void testCreateWIGTrack() throws InterruptedException {
 
         try {
 
             ImportTrackDialog dialog = new ImportTrackDialog(new JFrame());
-            dialog.setImportFile("/project/Kopenhagen/Katrin/GenomeCATPro/test/test_wig_bin_1000.txt",
+            dialog.setImportFile("/home/paula/GenomeCATPro/data/test/test_wig_bin_1000.txt",
                     ImportTrackWIG.track_wig_txt);
 
             dialog.setVisible(true);
