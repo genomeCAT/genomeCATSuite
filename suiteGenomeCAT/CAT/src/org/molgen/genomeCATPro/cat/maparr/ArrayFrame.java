@@ -21,6 +21,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -113,7 +114,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
         //this.createMenu();
         initComponents();
         //this.jPanelMenue.add(this.topMenu);
-       
+
         this.setRelease(release);
 
         this.vChromTabs = ChromTab.createChromTabs(this);
@@ -236,15 +237,27 @@ public class ArrayFrame extends JPanel implements AppInterface {
                 tabbedPanePropertyChange(e);
             }
         });
+        this.sPane.setPreferredSize(
+                new Dimension(
+                        Defines.ARRAY_WIDTH + (int) (Defines.ARRAY_WIDTH * 0.3),
+                        480));
         this.jPanelRuler.setPreferredSize(new Dimension(Defines.ARRAY_WIDTH, Defines.ARRAY_HEIGTH / 20));
-        sPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         this.jSplitPane.setDividerSize(1);
         this.jSplitPane.setOneTouchExpandable(true);
         jSplitPane.setDividerLocation(Defines.ARRAY_WIDTH);
-        jSplitPane.setDividerSize(1);
+        //this.jSplitPane.setMinimumSize(new Dimension(Defines.ARRAY_WIDTH, 2*Defines.ARRAY_HEIGTH));
+        this.jSplitPane.setPreferredSize(new Dimension( // data plus legend
+                Defines.ARRAY_WIDTH + (int) (Defines.ARRAY_WIDTH * 0.3),
+                (int) (10 * Defines.ARRAY_HEIGTH)));
 
         panelChroms.setPreferredSize(new Dimension(Defines.ARRAY_WIDTH, Defines.ARRAY_HEIGTH));
+        legendPanel.setPreferredSize(new Dimension((int) (Defines.ARRAY_WIDTH * 0.3), 10 * Defines.ARRAY_HEIGTH));
+        legendPanel.setMinimumSize(new Dimension((int) (Defines.ARRAY_WIDTH * 0.3), Defines.ARRAY_HEIGTH));
+        legendPanel.setMaximumSize(new Dimension((int) (Defines.ARRAY_WIDTH * 0.3), Defines.ARRAY_HEIGTH));
 
+        sPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        //sPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        sPane.repaint();
         /*
         ImageIcon back = new ImageIcon(new String(Defines.RPrefix + "genomeCAT.jpg"));
         
@@ -258,9 +271,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
         // create tabs at tabbed pane
         this.initChromPane();
 
-        legendPanel.setLayout(new GridLayout(1, 2));
+        legendPanel.setLayout(new GridLayout(1, 1, 0, 0));
         this.arrayPanel = new LegendPanel(this);
-        this.arrayPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        // this.arrayPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        this.arrayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
         legendPanel.add(arrayPanel);
 
         this.getPositionToHistory();
@@ -598,8 +612,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
                     JOptionPane.ERROR_MESSAGE);
 
         }
-
-        repaint();
+        this.sPane.repaint();
+        this.repaint();
     }
 
     public void changePosArrayView(int sourcePos, int destPos) {
@@ -843,24 +857,27 @@ public class ArrayFrame extends JPanel implements AppInterface {
         tabbedPane = new javax.swing.JTabbedPane();
 
         setAutoscrolls(true);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
+        setPreferredSize(new java.awt.Dimension(1173, 600));
         setRequestFocusEnabled(false);
 
+        sPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         sPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        sPane.setPreferredSize(new java.awt.Dimension(1000, 550));
-        sPane.setRequestFocusEnabled(false);
+        sPane.setMaximumSize(new java.awt.Dimension(32767, 2147483647));
 
         jSplitPane.setDividerLocation(900);
         jSplitPane.setDividerSize(1);
         jSplitPane.setLastDividerLocation(900);
-        jSplitPane.setPreferredSize(new java.awt.Dimension(13, 600));
+        jSplitPane.setPreferredSize(new java.awt.Dimension(213, 500));
 
+        panelChroms.setAutoscrolls(true);
         panelChroms.setMinimumSize(new Dimension(org.molgen.genomeCATPro.cat.util.Defines.ARRAY_WIDTH, (int) ( org.molgen.genomeCATPro.cat.util.Defines.ARRAY_HEIGTH*0.5) ));
         panelChroms.setPreferredSize(new Dimension(org.molgen.genomeCATPro.cat.util.Defines.ARRAY_WIDTH, org.molgen.genomeCATPro.cat.util.Defines.ARRAY_HEIGTH));
         panelChroms.setLayout(new java.awt.CardLayout());
         jSplitPane.setLeftComponent(panelChroms);
 
-        legendPanel.setPreferredSize(new java.awt.Dimension(0, 600));
+        legendPanel.setFont(new java.awt.Font("Dialog", 0, 8)); // NOI18N
+        legendPanel.setMaximumSize(new java.awt.Dimension(32767, 2147483647));
+        legendPanel.setPreferredSize(new java.awt.Dimension(200, 200));
 
         javax.swing.GroupLayout legendPanelLayout = new javax.swing.GroupLayout(legendPanel);
         legendPanel.setLayout(legendPanelLayout);
@@ -870,7 +887,7 @@ public class ArrayFrame extends JPanel implements AppInterface {
         );
         legendPanelLayout.setVerticalGroup(
             legendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 598, Short.MAX_VALUE)
+            .addGap(0, 498, Short.MAX_VALUE)
         );
 
         jSplitPane.setRightComponent(legendPanel);
@@ -967,11 +984,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
     });
 
     jPanelRuler.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-    jPanelRuler.setPreferredSize(new java.awt.Dimension(600, 20));
     jPanelRuler.setLayout(new java.awt.CardLayout());
 
     tabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-    tabbedPane.setPreferredSize(new java.awt.Dimension(5, 600));
+    tabbedPane.setPreferredSize(new java.awt.Dimension(5, 500));
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -982,8 +998,8 @@ public class ArrayFrame extends JPanel implements AppInterface {
             .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanelRuler, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(sPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))
+                .addComponent(jPanelRuler, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPane, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
@@ -993,10 +1009,10 @@ public class ArrayFrame extends JPanel implements AppInterface {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanelRuler, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addComponent(sPane, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(sPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1060,6 +1076,7 @@ private void jRadioButtonChromActionPerformed(java.awt.event.ActionEvent evt) {/
             //this.getCBHistory().setSelectedItem(null);
         }
         CardLayout cl = (CardLayout) (this.panelChroms.getLayout());
+        //GridLayout cl = (GridLayout) (this.panelChroms.getLayout());
         cl.show(panelChroms, vChromTabs.get(i).chrom);
         CardLayout cl2 = (CardLayout) (this.jPanelRuler.getLayout());
         cl2.show(this.jPanelRuler, vChromTabs.get(i).chrom);

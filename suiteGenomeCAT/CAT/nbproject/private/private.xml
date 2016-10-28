@@ -4,9 +4,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/build/cluster/config/Modules/org-molgen-genomeCATPro-cat.xml</file>
-            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/build/cluster/update_tracking/org-molgen-genomeCATPro-cat.xml</file>
-            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/release/catproperties.xml</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/maparr/ArrayFrame.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/maparr/LegendPanel.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/ArrayRegionImpl.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/ArrayFramePropsTopComponent.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/maparr/ArrayView.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/maparr/FilterExperimentsDialog.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/util/Defines.java</file>
+            <file>file:/home/paula/GenomeCATProWORK/devel/src/suiteGenomeCAT/CAT/src/org/molgen/genomeCATPro/cat/maparr/ChromTab.java</file>
         </group>
     </open-files>
 </project-private>

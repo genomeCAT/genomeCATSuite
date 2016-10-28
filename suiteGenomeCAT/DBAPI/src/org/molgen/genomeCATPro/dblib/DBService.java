@@ -2,11 +2,15 @@ package org.molgen.genomeCATPro.dblib;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import static org.molgen.genomeCATPro.dblib.Database.lastinformed;
 
 /**
  * @name DBService Handle DB Connection via one Persistance Unit
@@ -26,12 +30,42 @@ import javax.persistence.Persistence;
  */
 public class DBService {
 
+    private static final Vector<Observer> obs = new Vector<>();
+    static long lastinformed = 0;
     static String defaultPu = "genomeCATPU";
     static HashMap<String, EntityManagerFactory> factories = null;
     static Map<String, String> properties = new HashMap<String, String>();
 
     public static boolean setConnection(String host, String port, String db, String user, String pwd) {
         return DBService.setConnection(defaultPu, host, port, db, user, pwd);
+    }
+
+    public static void addObserver(java.util.Observer o) {
+        if (o == null) {
+            throw new NullPointerException();
+        }
+        if (!obs.contains(o)) {
+            obs.addElement(o);
+        }
+    }
+
+    static void inform(String message) {
+
+        if ((java.lang.System.currentTimeMillis() - lastinformed) < 9000) {
+            return;
+        }
+        lastinformed = System.currentTimeMillis();
+        Object[] arrLocal;
+        synchronized (obs) {
+
+            arrLocal = obs.toArray();
+
+            for (int i = arrLocal.length - 1; i >= 0; i--) {
+                ((Observer) arrLocal[i]).update(null, message);
+            }
+
+        }
+
     }
 
     /**
@@ -113,16 +147,27 @@ public class DBService {
     }
 
     public static EntityManager getEntityManger(String pu) {
+        EntityManager e = null;
         try {
             if (DBService.getFactory(pu) == null) {
                 DBService.setFactory(pu, Persistence.createEntityManagerFactory(pu, properties));
             }
-            return DBService.getFactory(pu).createEntityManager();
-        } catch (Exception e) {
+            e = DBService.getFactory(pu).createEntityManager();
+            if (e == null) {
+                //kt 06102016 log status of database connection
+                Database.inform("connection to database failed!");
+                Logger.getLogger(DBService.class.getName()).log(Level.SEVERE,
+                        "getEntityManager", "no database connection");
+                setFactory(pu, (EntityManagerFactory) null);
+            }
+
+        } catch (Exception ex) {
+            //kt 06102016 log status of database connection
+            Database.inform("connection to database failed!");
             Logger.getLogger(DBService.class.getName()).log(Level.SEVERE,
-                    e.getMessage());
+                    "getEntityManager", ex);
             setFactory(pu, (EntityManagerFactory) null);
-            return null;
         }
+        return e;
     }
 }

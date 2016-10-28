@@ -42,6 +42,7 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 /**
+ * 281016 kt component closed empty (bug no how up after closing frame)
  * 260612 kt initComponents() rulerSpinner.stateChanged check if frame != null
  */
 final class ArrayFramePropsTopComponent extends TopComponent implements LookupListener {
@@ -83,6 +84,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
 
     @Override
     public void componentClosed() {
+        /*
         result.removeLookupListener(this);
         result = null;
         try {
@@ -91,7 +93,7 @@ final class ArrayFramePropsTopComponent extends TopComponent implements LookupLi
             Logger.getLogger(ArrayFramePropsTopComponent.class.getName()).log(
                     Level.INFO, "", e);
         }
-
+        */
     }
 
     public void resultChanged(LookupEvent lookupEvent) {

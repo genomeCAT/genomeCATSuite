@@ -12,12 +12,21 @@ import javax.swing.ImageIcon;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.cghpro.CGHProFrameAction", category = "DATA")
+@ActionRegistration(displayName = "open in SingleView", lazy = false)
+@ActionReferences(value = {
+    @ActionReference(path = "Toolbars/Modules", name = "CGHProFrameAction", position = 30),
+    @ActionReference(path = "Menu/Modules/SingleView", name = "SingleViewFrameAction", position = 100)})
 public class CGHProFrameAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     private Lookup context;

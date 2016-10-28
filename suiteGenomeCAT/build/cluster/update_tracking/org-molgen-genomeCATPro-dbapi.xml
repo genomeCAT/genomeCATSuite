@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.molgen.genomeCATPro.dbapi">
-    <module_version install_time="1470624903720" last="true" origin="installer" specification_version="4.3">
+    <module_version install_time="1477656857253" last="true" origin="installer" specification_version="4">
         <file crc="2362706803" name="config/Modules/org-molgen-genomeCATPro-dbapi.xml"/>
         <file crc="715579565" name="modules/ext/mysql-connector-java-5.1.5-bin.jar"/>
-        <file crc="4078518247" name="modules/org-molgen-genomeCATPro-dbapi.jar"/>
+        <file crc="37592857" name="modules/org-molgen-genomeCATPro-dbapi.jar"/>
     </module_version>
 </module>

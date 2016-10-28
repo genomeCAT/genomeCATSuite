@@ -37,7 +37,6 @@ import org.molgen.genomeCATPro.appconf.CorePropertiesMod;
 import org.molgen.genomeCATPro.dblib.DBService;
 import org.molgen.genomeCATPro.dblib.Database;
 
-import org.molgen.genomeCATPro.common.Defaults;
 import org.molgen.genomeCATPro.common.Defaults.GenomeRelease;
 import org.molgen.genomeCATPro.datadb.dbentities.AnnotationList;
 

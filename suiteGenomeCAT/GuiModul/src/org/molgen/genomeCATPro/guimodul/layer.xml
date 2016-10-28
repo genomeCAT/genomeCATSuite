@@ -1,42 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
-    <folder name="Actions">
-        <folder name="Experiment">
-            <file name="org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddTrackAction.instance"/>
-        </folder>
-        <folder name="DATA">
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-RINGOAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-HMMAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-WebPositionAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-GlobalPositionDataAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ExportImageAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-LoadAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ShowDataAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ShowRulerAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ZoomYAction.instance">
-                <attr name="instanceCreate" methodvalue="org.molgen.genomeCATPro.guimodul.data.ZoomYAction.getInstance"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-experiment-DeleteDataAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-experiment-ExportData.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-experiment-ViewExperimentAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-ConvertPlatformAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-DeletePlatformAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-ExportPlatformAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-PlatformTreeAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddExperimentAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-project-ProjectTreeAction.instance"/>
-             <file name="org-molgen-genomeCATPro-guimodul-track-MoveTrackAction.instance"/>
-        </folder>
-        <folder name="Window">
-            <file name="org-molgen-genomeCATPro-guimodul-InfoAction.instance"/>
-            <file name="org-molgen-genomeCATPro-guimodul-InfoTopComponent.instance_hidden"/>
-        </folder>
+     <folder name="Actions">
+        <folder name="DATA"/>       
+        <folder name="Window"/>
     </folder>
     <file name="Cloud_hidden"/>
     <folder name="Loaders">
@@ -47,78 +14,28 @@
         </folder>
     </folder>
     <folder name="Menu"> 
+        <file name="GoTo_hidden"/>
         <folder name="Modules">
             <attr name="position" intvalue="50"/>
             <folder name="SingleView">
                 <attr name="position" intvalue="1"/>
-                <file name="SingleViewFrameAction.shadow">
-                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>
-                    <attr name="position" intvalue="100"/>
-                </file>
             </folder>
         </folder>
         <file name="BuildProject_hidden"/>
         <folder name="Calculate">
             <attr name="position" intvalue="225"/>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance"/>
-                <attr name="position" intvalue="10"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-RINGOAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-RINGOAction.instance"/>
-                <attr name="position" intvalue="20"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-HMMAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-HMMAction.instance"/>
-                <attr name="position" intvalue="30"/>
-            </file>
         </folder>
         <file name="Edit_hidden"/>
         <folder name="Experiment">
             <attr name="position" intvalue="-100"/>
             <folder name="Platform">
                 <attr name="position" intvalue="110"/>
-                <file name="org-molgen-genomeCATPro-guimodul-platform-ConvertPlatformAction.shadow">
-                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-ConvertPlatformAction.instance"/>
-                    <attr name="position" intvalue="200"/>
-                </file>
-                <file name="org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.shadow">
-                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.instance"/>
-                    <attr name="position" intvalue="100"/>
-                </file>
-                <file name="org-molgen-genomeCATPro-guimodul-platform-DeletePlatformAction.shadow">
-                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-DeletePlatformAction.instance"/>
-                    <attr name="position" intvalue="300"/>
-                </file>
-                <file name="org-molgen-genomeCATPro-guimodul-platform-ExportPlatformAction.shadow">
-                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-ExportPlatformAction.instance"/>
-                    <attr name="position" intvalue="400"/>
-                </file>
             </folder>
-            <file name="org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.instance"/>
-                <attr name="position" intvalue="2"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-experiment-ExportData.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-experiment-ExportData.instance"/>
-                <attr name="position" intvalue="6"/>
-            </file>
             <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction-separatorBefore.instance">
                 <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
                 <attr name="position" intvalue="10"/>
             </file>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction-separatorBefore.instance">
-                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-                <attr name="position" intvalue="20"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddProjectAction.instance"/>
-                <attr name="position" intvalue="1"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddTrackAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddTrackAction.instance"/>
-                <attr name="position" intvalue="3"/>
-            </file>
+            
             <file name="org-netbeans-core-actions-SystemExit.shadow">
                 <attr name="originalFile" stringvalue="Actions/System/org-netbeans-core-actions-SystemExit.instance"/>
             </file>
@@ -138,7 +55,7 @@
         </folder>
         <file name="Refactoring_hidden"/>
         <file name="RunProject_hidden"/>
-         <file name="Profile_hidden"/>
+        <file name="Profile_hidden"/>
         <file name="Source_hidden"/>
         <file name="Spacer.instance_hidden"/>
         <folder name="Tools">
@@ -152,34 +69,18 @@
             <file name="VariablesCustomizerAction.shadow_hidden"/>
             <file name="org-netbeans-modules-apisupport-project-ui-platform-NbPlatformCustomizerAction.shadow_hidden"/>
             <file name="org-netbeans-modules-templates-actions-TemplatesAction.shadow_hidden"/>
-            <file name="org-netbeans-modules-xml-catalog-CatalogAction.shadow_hidden"/>
             <file name="org-openide-actions-ToolsAction.shadow_hidden"/>
         </folder>
         <file name="Versioning_hidden"/>
         <folder name="View">
-            <attr name="position" intvalue="500"/>
-            <file name="InfoAction.shadow">
-                <attr name="position" intvalue="10"/>
-                <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-guimodul-InfoAction.instance"/>
-            </file>
             
+                
             <file name="ShowEditorOnlyAction.shadow_hidden"/>
             <file name="javax-swing-JSeparator.instance">
                 <attr name="position" intvalue="100"/>
                 <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
             </file>
-            <file name="org-molgen-genomeCATPro-guimodul-project-ProjectTreeAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-project-ProjectTreeAction.instance"/>
-                <attr name="position" intvalue="110"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-PlatformTreeAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-PlatformTreeAction.instance"/>
-                <attr name="position" intvalue="120"/>
-            </file>
-            <file name="javax-swing-JSeparator.instance">
-                <attr name="position" intvalue="200"/>
-                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-            </file>
+           
            
             <file name="org-netbeans-core-multiview-EditorsAction.instance_hidden"/>
             <file name="org-netbeans-core-multiview-SplitAction.instance_hidden"/>
@@ -220,18 +121,28 @@
         <folder name="AutoupdateType">
             <file name="certified-update-provider.instance_hidden"/>
             <file name="distribution-update-provider.instance_hidden"/>
-            <file name="org_molgen_genomeCATPro_guimodul_update_center_1.instance">
-                <attr name="displayName" bundlevalue="org.molgen.genomeCATPro.guimodul.Bundle#Services/AutoupdateType/org_molgen_genomeCATPro_guimodul_update_center_1.instance"/>
+            <file name="org_molgen_genomeCATPro_guimodul_update_center_3.instance">
+                <attr name="displayName" bundlevalue="org.molgen.genomeCATPro.guimodul.Bundle#Services/AutoupdateType/org_molgen_genomeCATPro_guimodul_update_center_3.instance"/>
                 <attr name="enabled" boolvalue="true"/>
                 <attr name="instanceCreate" methodvalue="org.netbeans.modules.autoupdate.updateprovider.AutoupdateCatalogFactory.createUpdateProvider"/>
                 <attr name="instanceOf" stringvalue="org.netbeans.spi.autoupdate.UpdateProvider"/>
-                <attr name="url" bundlevalue="org.molgen.genomeCATPro.guimodul.Bundle#org_molgen_genomeCATPro_guimodul_update_center_1"/>
+                <attr name="url" bundlevalue="org.molgen.genomeCATPro.guimodul.Bundle#org_molgen_genomeCATPro_guimodul_update_center_3"/>
             </file>
             <file name="pluginportal-update-provider.instance_hidden"/>
         </folder>
     </folder>
     <folder name="Toolbars">
-        <file name="Debugging.xml_hidden"/>
+        <file name="Clipboard_hidden"/>
+        <file name="Debug_hidden"/>
+        <file name="Memory_hidden"/>
+        <file name="org-openide-actions-CopyAction.instance_hidden"/>
+        <file name="org-openide-actions-CutAction.instance_hidden"/>
+        <file name="org-openide-actions-PasteAction.instance_hidden"/>
+        <file name="org-openide-actions-RedoAction.instance_hidden"/>
+        <file name="org-openide-actions-UndoAction.instance_hidden"/>
+        
+        
+       
         <file name="Standard.xml_hidden"/>
         <file name="StandardApp.xml" url="StandardApp.xml"/>
         <file name="CATApp.xml" url="CATApp.xml"/>
@@ -240,80 +151,29 @@
         <folder name="Edit_hidden"/>
         <folder name="Experiment">
             <attr name="position" intvalue="1"/>
-            <file name="org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.instance"/>
-                <attr name="position" intvalue="0"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance"/>
-                <attr name="position" intvalue="10"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.instance"/>
-                <attr name="position" intvalue="-300"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddProjectAction.instance"/>
-                <attr name="position" intvalue="-100"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-project-AddTrackAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddTrackAction.instance"/>
-                <attr name="position" intvalue="-400"/>
-            </file>
         </folder>
         <folder name="Modules">
             <attr name="position" intvalue="2"/>
-            <file name="CGHProFrameAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>
-                <attr name="position" intvalue="30"/>
-            </file>
         </folder>
+        <file name="UndoRedo_hidden"/>
         <folder name="globalmenu1">
             <attr name="position" intvalue="3"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-LoadAction.shadow">
-                <attr name="position" intvalue="1"/>
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-LoadAction.instance"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ExportImageAction.shadow">
-                <attr name="position" intvalue="2"/>
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ExportImageAction.instance"/>
-            </file>
         </folder>
         <folder name="globalmenu2">
             <attr name="position" intvalue="4"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ShowDataAction.shadow">
-                <attr name="position" intvalue="1"/>
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ShowDataAction.instance"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-data-GlobalPositionDataAction.shadow">
-                <attr name="position" intvalue="2"/>
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-GlobalPositionDataAction.instance"/>
-            </file>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ShowRulerAction.shadow">
-                <attr name="position" intvalue="3"/>
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ShowRulerAction.instance"/>
-            </file>
         </folder>
         <folder name="Zoom">
             <attr name="position" intvalue="5"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-ZoomYAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ZoomYAction.instance"/>
-            </file>
         </folder>
         <folder name="globalpos">
             <attr name="position" intvalue="6"/>
-            <file name="org-molgen-genomeCATPro-guimodul-data-WebPositionAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-WebPositionAction.instance"/>
-            </file>
         </folder>
-        <file name="org-openide-actions-CopyAction.instance_hidden"/>
-        <file name="org-openide-actions-CutAction.instance_hidden"/>
-        <file name="org-openide-actions-PasteAction.instance_hidden"/>
-        <file name="org-openide-actions-RedoAction.instance_hidden"/>
-        <file name="org-openide-actions-UndoAction.instance_hidden"/>
+       
     </folder>
     <folder name="Windows2">
         <folder name="Components">
+           
+            
             <file name="InfoTopComponent.settings" url="InfoTopComponentSettings.xml"/>
             <file name="ProjectTreeTopComponent.settings" url="ProjectTreeTopComponentSettings.xml"/>
             <file name="PlatformTreeTopComponent.settings" url="PlatformTreeTopComponentSettings.xml"/>
@@ -323,37 +183,25 @@
         <folder name="Groups">
             <file name="OpenedProjects_hidden"/>
         </folder>
+   
+    
         <folder name="Modes">
-                        
-            <file name="bottomSlidingSide.wsmode" url="bottomSlidingSideWsmode_1.xml"/>
-            <file name="code_evaluator.wsmode" url="code_evaluatorWsmode_1.xml"/>
-            <file name="commonpalette.wsmode" url="commonpaletteWsmode_1.xml"/>
-            <folder name="editor">
-                <!--<file name="InfoTopComponent.wstcref" url="InfoTopComponentWstcref.xml"/>-->
-               
-            </folder>
-            <file name="editor.wsmode" url="editorWsmode_1.xml"/>
+            <file name="bottomSlidingSide.wsmode" url="bottomSlidingSideWsmode.xml"/>
+            <file name="code_evaluator.wsmode" url="code_evaluatorWsmode.xml"/>
+          
+            <file name="commonpalette.wsmode" url="commonpaletteWsmode.xml"/>
+            <file name="editor.wsmode" url="editorWsmode.xml"/>
             <folder name="explorer">
                 <file name="favorites.wstcref_hidden"/>
-                <file name="services.wstcref_hidden"/>
             </folder>
-            <file name="explorer.wsmode" url="explorerWsmode_1.xml"/>
+            <file name="explorer.wsmode" url="explorerWsmode.xml"/>
             <file name="leftSlidingSide.wsmode" url="leftSlidingSideWsmode.xml"/>
-             <file name="navigator.wsmode" url="navigatorWsmode.xml"/>
+            <file name="navigator.wsmode" url="navigatorWsmode.xml"/>
             <file name="output.wsmode" url="outputWsmode.xml"/>
             <file name="properties.wsmode" url="propertiesWsmode.xml"/>
             <file name="rightSlidingSide.wsmode" url="rightSlidingSideWsmode.xml"/>
             <file name="topSlidingSide.wsmode" url="topSlidingSideWsmode.xml"/>
             <file name="webpreview.wsmode" url="webpreviewWsmode.xml"/>
         </folder>
-        <!--<folder name="Groups">
-            <file name="cghprogroup.wsgrp" url="cghprogroupWsgrp.xml"/>
-            <folder name="cghprogroup">
-                <file name="CGHProTopComponent.wstcgrp" url="CGHProTopComponentWstcgrp.xml"/>
-               
-                <file name="CGHPROFramePropsTopComponent.wstcgrp" url="CGHPROFramePropsTopComponentWstcgrp.xml"/>
-            
-                </folder>
-        </folder>-->
     </folder>
 </filesystem>

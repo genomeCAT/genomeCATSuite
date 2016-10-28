@@ -35,9 +35,9 @@ public class ArrayFrameTest {
 
     @Before
     public void setUp() {
-       Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "user", "user");
+       Database.setDBParams(Defaults.localDB, "genomecat", "localhost", "3306", "test", "test");
 
-        DBService.setConnection("localhost", "3306", "genomecat", "user", "user");
+        DBService.setConnection("localhost", "3306", "genomecat", "test", "test");
 
     }
 

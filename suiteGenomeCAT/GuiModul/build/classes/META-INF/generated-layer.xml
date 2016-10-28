@@ -4,6 +4,11 @@
 <filesystem>
     <folder name="Actions">
         <folder name="Window">
+            <file name="org-molgen-genomeCATPro-guimodul-InfoAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.InfoAction-->
+                <attr name="displayName" stringvalue="INFO"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.InfoAction"/>
+            </file>
             <file name="org-molgen-genomeCATPro-guimodul-cghpro-CGHPROFramePropsAction.instance">
                 <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHPROFramePropsAction-->
                 <attr name="displayName" stringvalue="Properties"/>
@@ -19,8 +24,216 @@
                     bundlevalue="org.molgen.genomeCATPro.guimodul.Bundle#CTL_InfoAction" name="displayName"/>
             </file>
         </folder>
+        <folder name="Experiment">
+            <file name="org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction-->
+                <attr name="displayName" stringvalue="#create Experiment"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddProjectAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.project.Bundle#CTL_AddProject" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.project.AddProjectAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddTrackAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddTrackAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.project.Bundle#CTL_AddTrackAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.project.AddTrackAction"/>
+            </file>
+        </folder>
+        <folder name="DATA">
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CBSAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.cghpro.Bundle#CTL_CBSAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.cghpro.CBSAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHProFrameAction-->
+                <attr name="displayName" stringvalue="open in SingleView"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.cghpro.CGHProFrameAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-HMMAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.HMMAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.cghpro.Bundle#CTL_HMMAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.cghpro.HMMAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-RINGOAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.RINGOAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.cghpro.Bundle#CTL_RINGOAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.cghpro.RINGOAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-ExportImageAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.ExportImageAction-->
+                <attr name="displayName" stringvalue=""/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.data.ExportImageAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-GlobalPositionDataAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.GlobalPositionDataAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.data.Bundle#CTL_GlobalPositionAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.data.GlobalPositionDataAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-LoadAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.LoadAction-->
+                <attr name="displayName" stringvalue=""/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.data.LoadAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-ShowDataAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.ShowDataAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.data.Bundle#CTL_ViewDataAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.data.ShowDataAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-ShowRulerAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.ShowRulerAction-->
+                <attr name="displayName" stringvalue="show ruler"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.data.ShowRulerAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-WebPositionAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.WebPositionAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.data.Bundle#CTL_GlobalPositionAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.data.WebPositionAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-ZoomYAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.data.ZoomYAction.getInstance()-->
+                <attr name="displayName" stringvalue=""/>
+                <attr
+                    methodvalue="org.molgen.genomeCATPro.guimodul.data.ZoomYAction.getInstance" name="instanceCreate"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-experiment-DeleteDataAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.experiment.DeleteDataAction-->
+                <attr name="displayName" stringvalue="delete"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.experiment.DeleteDataAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-experiment-ExportData.instance">
+                <!--org.molgen.genomeCATPro.guimodul.experiment.ExportData-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.experiment.Bundle#CTL_ExportData" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.experiment.ExportData"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-experiment-ViewExperimentAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.experiment.ViewExperimentAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.experiment.Bundle#CTL_ViewExperimentAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.experiment.ViewExperimentAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-platform-ConvertPlatformAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.platform.ConvertPlatformAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.platform.Bundle#CTL_ConvertPlatformAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.platform.ConvertPlatformAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.platform.CreatePlatformDetailAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.platform.Bundle#CTL_CreatePlatformDetailAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.platform.CreatePlatformDetailAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-platform-DeletePlatformAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.platform.DeletePlatformAction-->
+                <attr name="displayName" stringvalue="delete release"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.platform.DeletePlatformAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-platform-ExportPlatformAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.platform.ExportPlatformAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.platform.Bundle#CTL_ExportPlatformAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.platform.ExportPlatformAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-platform-PlatformTreeAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.platform.PlatformTreeAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.platform.Bundle#CTL_PlatformTreeAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.platform.PlatformTreeAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddExperimentAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddExperimentAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.project.Bundle#CTL_AddExperiment" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.project.AddExperimentAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-ProjectTreeAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.project.ProjectTreeAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.project.Bundle#CTL_ProjectTreeAction" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.project.ProjectTreeAction"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-track-MoveTrackAction.instance">
+                <!--org.molgen.genomeCATPro.guimodul.track.MoveTrackAction-->
+                <attr
+                    bundlevalue="org.molgen.genomeCATPro.guimodul.track.Bundle#CTL_MoveTrack" name="displayName"/>
+                <attr name="instanceCreate" newvalue="org.molgen.genomeCATPro.guimodul.track.MoveTrackAction"/>
+            </file>
+        </folder>
     </folder>
     <folder name="Menu">
+        <folder name="Experiment">
+            <file name="org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction-->
+                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.instance"/>
+                <attr intvalue="2" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-experiment-ExportData.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.experiment.ExportData-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-experiment-ExportData.instance"/>
+                <attr intvalue="6" name="position"/>
+            </file>
+            <folder name="Platform">
+                <file name="org-molgen-genomeCATPro-guimodul-platform-ConvertPlatformAction.shadow">
+                    <!--org.molgen.genomeCATPro.guimodul.platform.ConvertPlatformAction-->
+                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-ConvertPlatformAction.instance"/>
+                    <attr intvalue="200" name="position"/>
+                </file>
+                <file name="org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.shadow">
+                    <!--org.molgen.genomeCATPro.guimodul.platform.CreatePlatformDetailAction-->
+                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.instance"/>
+                    <attr intvalue="100" name="position"/>
+                </file>
+                <file name="org-molgen-genomeCATPro-guimodul-platform-DeletePlatformAction.shadow">
+                    <!--org.molgen.genomeCATPro.guimodul.platform.DeletePlatformAction-->
+                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-DeletePlatformAction.instance"/>
+                    <attr intvalue="300" name="position"/>
+                </file>
+                <file name="org-molgen-genomeCATPro-guimodul-platform-ExportPlatformAction.shadow">
+                    <!--org.molgen.genomeCATPro.guimodul.platform.ExportPlatformAction-->
+                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-ExportPlatformAction.instance"/>
+                    <attr intvalue="400" name="position"/>
+                </file>
+            </folder>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddProjectAction-->
+                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddProjectAction.instance"/>
+                <attr intvalue="1" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddTrackAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddTrackAction-->
+                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddTrackAction.instance"/>
+                <attr intvalue="3" name="position"/>
+            </file>
+        </folder>
+        <folder name="Calculate">
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CBSAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance"/>
+                <attr intvalue="10" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-HMMAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.HMMAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-HMMAction.instance"/>
+                <attr intvalue="30" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-RINGOAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.RINGOAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-RINGOAction.instance"/>
+                <attr intvalue="20" name="position"/>
+            </file>
+        </folder>
         <folder name="Modules">
             <folder name="SingleView">
                 <file name="CGHPROFramePropsAction.shadow">
@@ -28,7 +241,24 @@
                     <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-guimodul-cghpro-CGHPROFramePropsAction.instance"/>
                     <attr intvalue="200" name="position"/>
                 </file>
+                <file name="SingleViewFrameAction.shadow">
+                    <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHProFrameAction-->
+                    <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>
+                    <attr intvalue="100" name="position"/>
+                </file>
             </folder>
+        </folder>
+        <folder name="View">
+            <file name="org-molgen-genomeCATPro-guimodul-platform-PlatformTreeAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.platform.PlatformTreeAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-PlatformTreeAction.instance"/>
+                <attr intvalue="120" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-ProjectTreeAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.project.ProjectTreeAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-project-ProjectTreeAction.instance"/>
+                <attr intvalue="110" name="position"/>
+            </file>
         </folder>
         <folder name="Window">
             <file name="org-molgen-genomeCATPro-guimodul-InfoTopComponent.shadow">
@@ -38,6 +268,83 @@
             <file name="org-molgen-genomeCATPro-guimodul-project-ProjectTreeTopComponent.shadow">
                 <!--org.molgen.genomeCATPro.guimodul.project.ProjectTreeTopComponent-->
                 <attr name="originalFile" stringvalue="Actions/Window/org-molgen-genomeCATPro-guimodul-project-ProjectTreeTopComponent.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="Experiment">
+            <file name="org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction-->
+                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-XPort-ImportFileWizardAction.instance"/>
+                <attr intvalue="0" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CBSAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CBSAction.instance"/>
+                <attr intvalue="10" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.platform.CreatePlatformDetailAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-platform-CreatePlatformDetailAction.instance"/>
+                <attr intvalue="-300" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddProjectAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddProjectAction-->
+                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddProjectAction.instance"/>
+                <attr intvalue="-100" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-project-AddTrackAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.project.AddTrackAction-->
+                <attr name="originalFile" stringvalue="Actions/Experiment/org-molgen-genomeCATPro-guimodul-project-AddTrackAction.instance"/>
+                <attr intvalue="-400" name="position"/>
+            </file>
+        </folder>
+        <folder name="Modules">
+            <file name="CGHProFrameAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.cghpro.CGHProFrameAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-cghpro-CGHProFrameAction.instance"/>
+                <attr intvalue="30" name="position"/>
+            </file>
+        </folder>
+        <folder name="globalmenu1">
+            <file name="org-molgen-genomeCATPro-guimodul-data-ExportImageAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.ExportImageAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ExportImageAction.instance"/>
+                <attr intvalue="2" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-LoadAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.LoadAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-LoadAction.instance"/>
+                <attr intvalue="1" name="position"/>
+            </file>
+        </folder>
+        <folder name="globalmenu2">
+            <file name="org-molgen-genomeCATPro-guimodul-data-GlobalPositionDataAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.GlobalPositionDataAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-GlobalPositionDataAction.instance"/>
+                <attr intvalue="2" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-ShowDataAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.ShowDataAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ShowDataAction.instance"/>
+                <attr intvalue="1" name="position"/>
+            </file>
+            <file name="org-molgen-genomeCATPro-guimodul-data-ShowRulerAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.ShowRulerAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ShowRulerAction.instance"/>
+                <attr intvalue="3" name="position"/>
+            </file>
+        </folder>
+        <folder name="globalpos">
+            <file name="org-molgen-genomeCATPro-guimodul-data-WebPositionAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.WebPositionAction-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-WebPositionAction.instance"/>
+            </file>
+        </folder>
+        <folder name="Zoom">
+            <file name="org-molgen-genomeCATPro-guimodul-data-ZoomYAction.shadow">
+                <!--org.molgen.genomeCATPro.guimodul.data.ZoomYAction.getInstance()-->
+                <attr name="originalFile" stringvalue="Actions/DATA/org-molgen-genomeCATPro-guimodul-data-ZoomYAction.instance"/>
             </file>
         </folder>
     </folder>

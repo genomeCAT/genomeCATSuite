@@ -11,7 +11,7 @@ import javax.swing.Action;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
-import org.openide.awt.ActionID;
+import org.openide.awt.ActionID;     
 import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;

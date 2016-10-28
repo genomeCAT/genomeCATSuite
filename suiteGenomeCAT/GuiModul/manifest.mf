@@ -1,8 +1,10 @@
-Manifest-Version: 1
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
 OpenIDE-Module: org.molgen.genomeCATPro.guimodul
-OpenIDE-Module-Implementation-Version: 3
+OpenIDE-Module-Implementation-Version: 4
 OpenIDE-Module-Install: org/molgen/genomeCATPro/guimodul/Installer.class
 OpenIDE-Module-Layer: org/molgen/genomeCATPro/guimodul/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/guimodul/Bundle.properties
 OpenIDE-Module-Requires: org.openide.windows.WindowManager
 OpenIDE-Module-Specification-Version: 4
+

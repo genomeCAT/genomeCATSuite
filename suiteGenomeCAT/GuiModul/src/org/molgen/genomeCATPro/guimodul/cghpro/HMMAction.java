@@ -25,6 +25,9 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -33,6 +36,9 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.cghpro.HMMAction", category = "DATA")
+@ActionRegistration(displayName = "#CTL_HMMAction", lazy = false)
+@ActionReference(path = "Menu/Calculate", position = 30)
 public final class HMMAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Data> lkpInfo;

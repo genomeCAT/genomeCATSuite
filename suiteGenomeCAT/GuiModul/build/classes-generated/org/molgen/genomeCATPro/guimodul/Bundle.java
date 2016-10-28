@@ -23,5 +23,5 @@ class Bundle {
     static String HINT_InfoTopComponent() {
         return org.openide.util.NbBundle.getMessage(Bundle.class, "HINT_InfoTopComponent");
     }
-    private void Bundle() {}
+    private Bundle() {}
 }

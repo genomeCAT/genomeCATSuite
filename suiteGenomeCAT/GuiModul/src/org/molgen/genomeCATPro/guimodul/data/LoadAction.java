@@ -11,6 +11,9 @@ import javax.swing.Action;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -18,6 +21,9 @@ import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import org.openide.util.actions.Presenter;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.data.LoadAction", category = "DATA")
+@ActionRegistration(displayName = "", lazy = false)
+@ActionReference(path = "Toolbars/globalmenu1", position = 1)
 public class LoadAction extends AbstractAction implements
         LookupListener, ContextAwareAction, Presenter.Toolbar {
 

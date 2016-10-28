@@ -39,9 +39,9 @@ public class Defines {
     public final static String COL_PVALUE_GEN = "pGEN";
 //public final static String tempPrefix = "/project/Kopenhagen/Katrin/export";
 
-    public final static int ARRAY_HEIGTH = 200;
+    public final static int ARRAY_HEIGTH = 220;
     public final static int ARRAY_OFFSET = 10;
-    public final static int ARRAY_WIDTH = 900;
+    public final static int ARRAY_WIDTH = 700;
     public final static String SOURCE_AGILENT = "Agilent";
     public final static String SOURCE_CGHPRO = "CGHPRO";
     public final static String SOURCE_USER = "USERDEF";

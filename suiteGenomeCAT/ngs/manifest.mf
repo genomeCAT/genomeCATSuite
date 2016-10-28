@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 OpenIDE-Module: org.molgen.genomeCATPro.ngs
-OpenIDE-Module-Implementation-Version: 3
+OpenIDE-Module-Implementation-Version: 4
 OpenIDE-Module-Layer: org/molgen/genomeCATPro/ngs/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/molgen/genomeCATPro/ngs/Bundle.properties
 OpenIDE-Module-Install: org/molgen/genomeCATPro/ngs/Installer.class

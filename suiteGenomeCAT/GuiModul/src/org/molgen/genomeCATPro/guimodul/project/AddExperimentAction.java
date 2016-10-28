@@ -14,6 +14,8 @@ import org.molgen.genomeCATPro.data.DataManager;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
 import org.molgen.genomeCATPro.datadb.dbentities.Study;
 import org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -22,6 +24,8 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.project.AddExperimentAction", category = "DATA")
+@ActionRegistration(displayName = "#CTL_AddExperiment", lazy = false)
 public final class AddExperimentAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Study> lkpInfo;

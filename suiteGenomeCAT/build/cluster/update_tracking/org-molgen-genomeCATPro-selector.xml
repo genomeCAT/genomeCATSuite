@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.molgen.genomeCATPro.selector">
-    <module_version install_time="1470624904351" last="true" origin="installer" specification_version="4.3.121.1.3.3">
+    <module_version install_time="1477656858505" last="true" origin="installer" specification_version="4">
         <file crc="1066691790" name="config/Modules/org-molgen-genomeCATPro-selector.xml"/>
-        <file crc="1465263000" name="modules/org-molgen-genomeCATPro-selector.jar"/>
+        <file crc="1631011227" name="modules/org-molgen-genomeCATPro-selector.jar"/>
     </module_version>
 </module>

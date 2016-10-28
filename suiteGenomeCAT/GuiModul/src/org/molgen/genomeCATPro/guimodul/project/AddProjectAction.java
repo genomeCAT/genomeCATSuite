@@ -4,10 +4,19 @@
  */
 package org.molgen.genomeCATPro.guimodul.project;
 
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.CallableSystemAction;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.project.AddProjectAction", category = "Experiment")
+@ActionRegistration(displayName = "#CTL_AddProject", lazy = false)
+@ActionReferences(value = {
+    @ActionReference(path = "Menu/Experiment", position = 1),
+    @ActionReference(path = "Toolbars/Experiment", position = -100)})
 public final class AddProjectAction extends CallableSystemAction {
 
     public void performAction() {

@@ -10,6 +10,9 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import javax.swing.JCheckBox;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -17,6 +20,9 @@ import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import org.openide.util.actions.Presenter;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.data.ShowDataAction", category = "DATA")
+@ActionRegistration(displayName = "#CTL_ViewDataAction", lazy = false)
+@ActionReference(path = "Toolbars/globalmenu2", position = 1)
 public class ShowDataAction extends AbstractAction implements
         LookupListener, ContextAwareAction, Presenter.Toolbar {
 

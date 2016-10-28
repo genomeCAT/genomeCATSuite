@@ -310,6 +310,7 @@ public class ProjectView extends JDialog implements ServiceListener {
         jButtonCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         projectTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
         statusPanel = new javax.swing.JPanel();
         progressBar = new javax.swing.JProgressBar();
         statusMessageLabel = new javax.swing.JLabel();
@@ -337,7 +338,7 @@ public class ProjectView extends JDialog implements ServiceListener {
         nameField.setPreferredSize(new java.awt.Dimension(100, 19));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, projectTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameField, org.jdesktop.beansbinding.BeanProperty.create("text_ON_FOCUS_LOST"));
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, projectTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nameField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -347,7 +348,7 @@ public class ProjectView extends JDialog implements ServiceListener {
         summaryField.setPreferredSize(new java.awt.Dimension(100, 19));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, projectTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.summary}"), summaryField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, projectTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), summaryField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -357,7 +358,7 @@ public class ProjectView extends JDialog implements ServiceListener {
         descriptionField.setPreferredSize(new java.awt.Dimension(100, 19));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, projectTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, projectTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), descriptionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -427,6 +428,10 @@ public class ProjectView extends JDialog implements ServiceListener {
         jTableBinding.bind();
         jScrollPane1.setViewportView(projectTable);
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 2, 12)); // NOI18N
+        jLabel1.setText("<html>to create a new project press the \"new\" button.<br/> \"refresh\" reloads all projects from database, with \"save\" all changes are stored into the database. <br/>\"delete\" removes the selected (highlighted) project. </html>");
+        jLabel1.setName("jLabel1"); // NOI18N
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -434,22 +439,19 @@ public class ProjectView extends JDialog implements ServiceListener {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(summaryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 456, Short.MAX_VALUE)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addComponent(descriptionField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(summaryField, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(summaryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                                    .addComponent(descriptionField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(summaryField, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(newButton)
                         .addGap(36, 36, 36)
                         .addComponent(deleteButton)
@@ -458,11 +460,14 @@ public class ProjectView extends JDialog implements ServiceListener {
                         .addGap(65, 65, 65)
                         .addComponent(saveButton)
                         .addGap(43, 43, 43)
-                        .addComponent(jButtonCancel)
-                        .addGap(24, 24, 24))))
+                        .addComponent(jButtonCancel))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 755, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
-        mainPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {deleteButton, newButton, refreshButton, saveButton});
+        mainPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {deleteButton, jButtonCancel, newButton, refreshButton, saveButton});
 
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,15 +486,19 @@ public class ProjectView extends JDialog implements ServiceListener {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(descriptionLabel)
                     .addComponent(descriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(newButton)
                     .addComponent(deleteButton)
                     .addComponent(refreshButton)
                     .addComponent(saveButton)
                     .addComponent(jButtonCancel))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        mainPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {deleteButton, jButtonCancel, newButton, refreshButton, saveButton});
 
         getContentPane().add(mainPanel);
 
@@ -507,17 +516,20 @@ public class ProjectView extends JDialog implements ServiceListener {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusMessageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
-                    .addComponent(progressBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addGap(0, 553, Short.MAX_VALUE)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statusMessageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
                 .addContainerGap())
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(statusPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(statusMessageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(statusPanel);
@@ -580,6 +592,7 @@ private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     javax.swing.JLabel descriptionLabel;
     javax.persistence.EntityManager entityManager;
     javax.swing.JButton jButtonCancel;
+    javax.swing.JLabel jLabel1;
     javax.swing.JScrollPane jScrollPane1;
     private java.util.List<Study> list;
     javax.swing.JPanel mainPanel;

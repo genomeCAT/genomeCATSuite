@@ -15,10 +15,19 @@ import javax.swing.JComponent;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.HelpCtx;
 import org.openide.util.ImageUtilities;
 import org.openide.util.actions.CallableSystemAction;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.XPort.ImportFileWizardAction", category = "Experiment")
+@ActionRegistration(displayName = "#create Experiment", lazy = false)
+@ActionReferences(value = {
+    @ActionReference(path = "Menu/Experiment", position = 2),
+    @ActionReference(path = "Toolbars/Experiment", position = 0)})
 public final class ImportFileWizardAction extends CallableSystemAction {
 
     /* public void actionPerformed(ActionEvent e) {

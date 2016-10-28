@@ -14,6 +14,9 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -28,6 +31,9 @@ public class ZoomYAction extends AbstractAction implements
     Lookup.Result<AppInterface> lkpInfo;
     private static ZoomYAction instance = null;
 
+    @ActionID(id = "org.molgen.genomeCATPro.guimodul.data.ZoomYAction", category = "DATA")
+    @ActionRegistration(displayName = "", lazy = false)
+    @ActionReference(path = "Toolbars/Zoom")
     public static ZoomYAction getInstance() {
         if (ZoomYAction.instance == null) {
             instance = new ZoomYAction();

@@ -508,7 +508,7 @@ public class ArrayView extends JPanel {
         g.setColor(Color.black);
         g.drawString(f.format(-this.pos_max_y),
                 ((ChromTab.off_legend / 2) + 1),
-                Defines.ARRAY_HEIGTH - (Defines.ARRAY_OFFSET) + 10);
+                Defines.ARRAY_HEIGTH - (Defines.ARRAY_OFFSET -5));
         g.setFont(defFont);
         /*
          * x1 - the first point's x coordinate. y1 - the first point's y coordinate. x2 - the second point's x coordinate. y2 - the second point's y coordinate.

@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.text.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -68,6 +69,8 @@ public class LegendPanel extends JPanel {
         super();
         this.arrayFrame = arrayFrame;
         initMenues();
+        this.setFont(this.getFont().deriveFont(10));
+
     }
 
     /**
@@ -300,6 +303,7 @@ public class LegendPanel extends JPanel {
          */
         void initView() {
             JTabbedPane tabbedPane = new JTabbedPane();
+            
             this.add(tabbedPane);
 
             tabbedPane.addMouseListener(popupListener);
@@ -322,14 +326,18 @@ public class LegendPanel extends JPanel {
             //arrayText.setWrapStyleWord(true);
             JLabel arrayTextL = new JLabel(arrayText.toString());
             arrayTextL.setHorizontalTextPosition(SwingConstants.LEFT);
-            //arrayTextL.setFont(new Font("Serif", Font.BOLD, 10));
+            
             if (!(arraydata instanceof ArrayDataAnno)) {
+                tabbedPane.setPreferredSize(new Dimension((int) (Defines.ARRAY_WIDTH * 0.3), 
+                                (int) (Defines.ARRAY_HEIGTH)));
                 arrayTextL.setPreferredSize(
-                        new Dimension((int) (Defines.ARRAY_WIDTH * 0.25),
-                                Defines.ARRAY_HEIGTH));
+                        new Dimension((int) (Defines.ARRAY_WIDTH * 0.3), 
+                                (int) (Defines.ARRAY_HEIGTH*0.8)));
             } else {
+                tabbedPane.setPreferredSize(new Dimension((int) (Defines.ARRAY_WIDTH * 0.3), 
+                                (int) (Defines.ARRAY_HEIGTH *0.5)));
                 arrayTextL.setPreferredSize(
-                        new Dimension((int) (Defines.ARRAY_WIDTH * 0.25),
+                        new Dimension((int) (Defines.ARRAY_WIDTH * 0.3),
                                 (int) (Defines.ARRAY_HEIGTH * 0.5)));
             }
             tabbedPane.addTab(
@@ -338,6 +346,7 @@ public class LegendPanel extends JPanel {
                     null, arrayTextL, "information about the array");
 
             JPanel arrayPanel = new JPanel();
+            //arrayPanel.setLayout(new FlowLayout());
             arrayPanel.setLayout(new BoxLayout(arrayPanel, BoxLayout.Y_AXIS));
             if (!(arraydata instanceof ArrayDataAnno)) {
                 SpinnerModel negThresholdModel = new SpinnerNumberModel(0,
@@ -358,6 +367,7 @@ public class LegendPanel extends JPanel {
                     }
                 });
                 negThresholdSpinner.setEnabled(false);
+                negThresholdSpinner.setSize((int) (Defines.ARRAY_WIDTH * 0.23), 10);
                 JPanel pNegThreshold = new JPanel(new java.awt.BorderLayout());
                 pNegThreshold.setBorder(new javax.swing.border.TitledBorder("negative threshold"));
                 pNegThreshold.add(negThresholdSpinner, java.awt.BorderLayout.CENTER);
@@ -383,6 +393,7 @@ public class LegendPanel extends JPanel {
                     }
                 });
                 posThresholdSpinner.setEnabled(false);
+                posThresholdSpinner.setSize((int) (Defines.ARRAY_WIDTH * 0.23), 10);
                 JPanel pPosThreshold = new JPanel(new java.awt.BorderLayout());
                 pPosThreshold.setBorder(new javax.swing.border.TitledBorder("positive threshold"));
                 pPosThreshold.add(posThresholdSpinner, java.awt.BorderLayout.CENTER);
@@ -403,10 +414,10 @@ public class LegendPanel extends JPanel {
 
                     }
                 });
-
+                checkThresholds.setSize((int) (Defines.ARRAY_WIDTH * 0.23), 10);
                 JPanel pCheckThresholds = new JPanel(new java.awt.BorderLayout());
                 //pCheckThresholds.setBorder(new javax.swing.border.TitledBorder("display tresholds"));
-                pCheckThresholds.add(checkThresholds, java.awt.BorderLayout.CENTER);
+                pCheckThresholds.add(checkThresholds, java.awt.BorderLayout.LINE_START);
                 arrayPanel.add(pCheckThresholds);
 
                 arrayPanel.add(pNegThreshold);

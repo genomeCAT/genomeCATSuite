@@ -3,10 +3,7 @@
     <type>org.netbeans.modules.apisupport.project.suite</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-suite-project/1">
-            <name>suiteGenomeCAT</name>
-        </data> 
-         </configuration>
-        
-        
-   
+            <name>suiteGenomecat2</name>
+        </data>
+    </configuration>
 </project>

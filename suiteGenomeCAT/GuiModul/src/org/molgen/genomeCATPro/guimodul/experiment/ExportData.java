@@ -12,14 +12,21 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.molgen.genomeCATPro.datadb.dbentities.Data;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.experiment.ExportData", category = "DATA")
+@ActionRegistration(displayName = "#CTL_ExportData", lazy = false)
+@ActionReference(path = "Menu/Experiment", position = 6)
 public final class ExportData extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Data> lkpInfo;
@@ -27,7 +34,7 @@ public final class ExportData extends AbstractAction implements LookupListener, 
 
     public ExportData() {
         this(Utilities.actionsGlobalContext());
-        putValue(SMALL_ICON, new ImageIcon(Utilities.loadImage(
+        putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage(
                 "org/molgen/genomeCATPro/guimodul/save_download_16.png", true)));
 
         //setIcon();

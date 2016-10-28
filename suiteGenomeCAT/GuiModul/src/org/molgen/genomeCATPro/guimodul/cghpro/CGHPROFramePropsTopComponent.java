@@ -50,10 +50,12 @@ import org.openide.windows.WindowManager;
 
 @TopComponent.Description(
         preferredID = "CGHPROFramePropsTopComponent",
-        persistenceType = TopComponent.PERSISTENCE_NEVER)
+        persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 
 @TopComponent.Registration(mode = "navigator", openAtStartup = false)
 /**
+ * 281016 kt component closed empty (bug no how up after closing frame)
+ *
  * Top component which displays something.
  */
 final class CGHPROFramePropsTopComponent extends TopComponent implements LookupListener {
@@ -108,9 +110,10 @@ final class CGHPROFramePropsTopComponent extends TopComponent implements LookupL
 
     @Override
     public void componentClosed() {
+       /*
         result.removeLookupListener(this);
         result = null;
-
+        */
     }
 
     public void resultChanged(LookupEvent lookupEvent) {
@@ -1101,11 +1104,12 @@ private void fieldAnnoGapPropertyChange(java.beans.PropertyChangeEvent evt) {//G
             this.open();
         }
     }
-
+    /*
     @Override
     public int getPersistenceType() {
         return TopComponent.PERSISTENCE_NEVER;
     }
+    */
 
     /**
      * replaces this in object stream

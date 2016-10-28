@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.molgen.genomeCATPro.ngs">
-    <module_version install_time="1470624904780" last="true" origin="installer" specification_version="4">
+    <module_version install_time="1477656858092" last="true" origin="installer" specification_version="4">
         <file crc="1822096305" name="config/Modules/org-molgen-genomeCATPro-ngs.xml"/>
-        <file crc="2460315355" name="modules/org-molgen-genomeCATPro-ngs.jar"/>
+        <file crc="333876124" name="modules/org-molgen-genomeCATPro-ngs.jar"/>
     </module_version>
 </module>

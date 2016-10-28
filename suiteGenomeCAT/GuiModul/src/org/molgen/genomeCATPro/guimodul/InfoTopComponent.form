@@ -38,7 +38,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="419" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="411" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,18 +76,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jLabelIcon" min="-2" pref="486" max="-2" attributes="1"/>
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="Version" min="-2" pref="70" max="-2" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabelDBState" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="1">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="Version" min="-2" pref="87" max="-2" attributes="1"/>
-                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jLabelIcon" min="-2" pref="486" max="-2" attributes="1"/>
                   </Group>
-                  <Component id="jLabelAck" min="-2" pref="383" max="-2" attributes="0"/>
-                  <EmptySpace pref="34" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jLabelAck" min="-2" pref="394" max="-2" attributes="0"/>
+                  <EmptySpace pref="23" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -95,13 +94,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabelIcon" min="-2" max="-2" attributes="1"/>
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
-                          <Component id="Version" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabelIcon" min="-2" pref="210" max="-2" attributes="1"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="Version" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDBState" alignment="2" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="156" max="32767" attributes="0"/>
+                          <EmptySpace pref="164" max="32767" attributes="0"/>
                           <Component id="jLabelAck" min="-2" pref="105" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -147,6 +149,19 @@
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/molgen/genomeCATPro/guimodul/Bundle.properties" key="InfoTopComponent.Version.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelDBState">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="33" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="org/molgen/genomeCATPro/guimodul/Bundle.properties" key="InfoTopComponent.jLabelDBState.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

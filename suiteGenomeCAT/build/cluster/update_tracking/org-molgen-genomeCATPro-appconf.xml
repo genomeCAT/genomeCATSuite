@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.molgen.genomeCATPro.appconf">
-    <module_version install_time="1470624903559" last="true" origin="installer" specification_version="17.1">
+    <module_version install_time="1477656857059" last="true" origin="installer" specification_version="17.1">
         <file crc="3534784262" name="config/Modules/org-molgen-genomeCATPro-appconf.xml"/>
         <file crc="2848339114" name="coreproperties.xml"/>
         <file crc="2488352018" name="executeR.cmd"/>
         <file crc="4228531395" name="executeR.sh"/>
         <file crc="4270246061" name="executeRCMD.cmd"/>
-        <file crc="2606938597" name="modules/org-molgen-genomeCATPro-appconf.jar"/>
+        <file crc="2183641603" name="modules/org-molgen-genomeCATPro-appconf.jar"/>
     </module_version>
 </module>

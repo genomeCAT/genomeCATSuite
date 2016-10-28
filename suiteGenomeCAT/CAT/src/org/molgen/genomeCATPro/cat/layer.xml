@@ -26,14 +26,11 @@
         </folder>
     </folder>
     <folder name="Toolbars">
-        <file name="Build_hidden"/>
-        <file name="Clipboard_hidden"/>
-        <file name="Debug_hidden"/>
-        <file name="Memory_hidden"/>
+       
         <folder name="Modules">
             <attr name="position" intvalue="2"/>
         </folder>
-        <file name="UndoRedo_hidden"/>
+      
         <folder name="globalmenu1">
             <file name="org-molgen-genomeCATPro-cat-MappingAction.shadow">
                 <attr name="position" intvalue="3"/>
@@ -47,28 +44,8 @@
             <file name="MapCATTopComponent.settings" url="MapCATTopComponentSettings.xml"/>
             <file name="MapTreeTopComponent.settings" url="MapTreeTopComponentSettings.xml"/>
             <file name="ArrayFramePropsTopComponent.settings" url="ArrayFramePropsTopComponentSettings.xml"/>
-            <file name="Welcome.settings_hidden"/>
+            
         </folder>
-        <folder name="Modes">
-            <file name="anonymousMode_1.wsmode" url="anonymousMode_1Wsmode.xml"/>
-            <file name="bottomSlidingSide.wsmode" url="bottomSlidingSideWsmode.xml"/>
-            <file name="code_evaluator.wsmode" url="code_evaluatorWsmode.xml"/>
-            <file name="commonpalette.wsmode" url="commonpaletteWsmode.xml"/>
-            <file name="editor.wsmode" url="editorWsmode.xml"/>
-            <file name="explorer.wsmode" url="explorerWsmode.xml"/>
-            <file name="leftSlidingSide.wsmode" url="leftSlidingSideWsmode.xml"/>
-            
-            <folder name="editor">
-                <file name="CATTopComponent.wstcref" url="CATTopComponentWstcref.xml"/>
-                <file name="MapCATTopComponent.wstcref" url="MapCATTopComponentWstcref.xml"/>
-            </folder>
-            
-            
-            <file name="navigator.wsmode" url="navigatorWsmode.xml"/>
-            <file name="properties.wsmode" url="propertiesWsmode.xml"/>
-            <file name="rightSlidingSide.wsmode" url="rightSlidingSideWsmode.xml"/>
-            <file name="topSlidingSide.wsmode" url="topSlidingSideWsmode.xml"/>
-            <file name="webpreview.wsmode" url="webpreviewWsmode.xml"/>
-        </folder>
+       
     </folder>
 </filesystem>

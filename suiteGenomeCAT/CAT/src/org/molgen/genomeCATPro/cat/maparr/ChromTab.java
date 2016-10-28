@@ -20,7 +20,9 @@ package org.molgen.genomeCATPro.cat.maparr;
  */
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -91,8 +93,12 @@ public class ChromTab extends JPanel {
         for (int i = 0; i < ChromTab.chroms.get(parent.release.toString()).length; i++) {
 
             chromTab = new ChromTab(ChromTab.chroms.get(parent.release.toString())[i], parent);
-            chromTab.setLayout(new BoxLayout(chromTab, BoxLayout.Y_AXIS));
-            //chromTab.setLayout(new GridLayout(0, 1, 10, 10));
+            //chromTab.setLayout(new BoxLayout(chromTab, BoxLayout.Y_AXIS));
+             chromTab.setLayout(new FlowLayout( FlowLayout.CENTER,0,10));
+             // chromTab.setComponentOrientation(ComponentOrientation.);
+            
+         
+            //chromTab.setLayout(new GridLayout(0, 1,0, 0));
             //chromTab.add(chromTab.getRuler());
             vChromTabs.add(chromTab);
         }
@@ -156,14 +162,19 @@ public class ChromTab extends JPanel {
         try {
             for (int i = 0; i < size; i++) {
                 chromTab = vChromtabs.get(i);
-                //Component[] clist = chromTab.getComponents();
-                //int c = clist.length +1;
+                Component[] clist = chromTab.getComponents();
+                int c = clist.length + 1;
                 list[i] = ArrayViewBase.getView(d, chromTab);
-
-                //((java.awt.GridLayout) chromTab.getLayout()).setRows(c);
                 chromTab.add(list[i]);
-
-            }//chromTab.setPreferredSize(new Dimension(Defines.ARRAY_WIDTH, Defines.ARRAY_HEIGTH*c));
+                chromTab.revalidate();
+                //((java.awt.GridLayout) chromTab.getLayout()).setRows(c);
+                // chromTab.getLayout().addLayoutComponent("test", list[i]);
+                // kt 131016
+                /*chromTab.setSize(new Dimension(Defines.ARRAY_WIDTH,
+                        Defines.ARRAY_HEIGTH * chromTab.getComponentCount()));
+                //chromTab.repaint();
+                System.out.println("height " + chromTab.getSize().height);*/
+            }
 
         } catch (Exception e) {
             Logger.getLogger(ChromTab.class.getName()).log(Level.SEVERE,
@@ -213,12 +224,15 @@ public class ChromTab extends JPanel {
                 list[i] = ArrayViewBase.getView(d,
                         names[i], chromStart[i], chromEnd[i], data[i], chromTab);
                 chromTab.add(list[i]);
+                // kt 131016
+                chromTab.revalidate();
 
             } catch (Exception e) {
                 Logger.getLogger(ChromTab.class.getName()).log(Level.SEVERE,
                         "addArray", e);
             }
         }
+
         return list;
     }
 
@@ -257,6 +271,7 @@ public class ChromTab extends JPanel {
                 list[i] = ArrayViewBase.getView(d,
                         names[i], chromStart[i], chromEnd[i], data[i], data2[i], chromTab);
                 chromTab.add(list[i]);
+                chromTab.revalidate();
 
             } catch (Exception e) {
                 Logger.getLogger(ChromTab.class.getName()).log(Level.SEVERE,
@@ -453,6 +468,7 @@ public class ChromTab extends JPanel {
      */
     ChromTab(String chrom, ArrayFrame parent) {
         super();
+        
         parent.addPropertyChangeListener(
                 new PropertyChangeListener() {
 

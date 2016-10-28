@@ -1,12 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.molgen.genomeCATPro.guimodul;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.NbBundle;
@@ -47,6 +46,9 @@ public final class InfoTopComponent extends TopComponent {
         initComponents();
         setName(NbBundle.getMessage(InfoTopComponent.class, "CTL_InfoTopComponent"));
         setToolTipText(NbBundle.getMessage(InfoTopComponent.class, "HINT_InfoTopComponent"));
+        org.molgen.genomeCATPro.dblib.Database.addObserver((java.util.Observer) new DatabaseState());
+        org.molgen.genomeCATPro.dblib.DBService.addObserver((java.util.Observer) new DatabaseState());
+
         this.setBackground(Color.white);
     }
 
@@ -64,6 +66,7 @@ public final class InfoTopComponent extends TopComponent {
         jLabelAck = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
         Version = new javax.swing.JLabel();
+        jLabelDBState = new javax.swing.JLabel();
 
         setBackground(javax.swing.UIManager.getDefaults().getColor("window"));
         setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -76,7 +79,7 @@ public final class InfoTopComponent extends TopComponent {
 
         jPanel1.setBackground(java.awt.Color.white);
 
-        jLabelAck.setFont(new java.awt.Font("Dialog", 1, 14));
+        jLabelAck.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabelAck.setForeground(new java.awt.Color(0, 102, 102));
         jLabelAck.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         org.openide.awt.Mnemonics.setLocalizedText(jLabelAck, org.openide.util.NbBundle.getMessage(InfoTopComponent.class, "InfoTopComponent.jLabelAck.text")); // NOI18N
@@ -86,9 +89,13 @@ public final class InfoTopComponent extends TopComponent {
         org.openide.awt.Mnemonics.setLocalizedText(jLabelIcon, org.openide.util.NbBundle.getMessage(InfoTopComponent.class, "InfoTopComponent.jLabelIcon.text")); // NOI18N
         jLabelIcon.setOpaque(true);
 
-        Version.setFont(new java.awt.Font("Dialog", 3, 18));
+        Version.setFont(new java.awt.Font("Dialog", 3, 18)); // NOI18N
         Version.setForeground(new java.awt.Color(0, 102, 102));
         org.openide.awt.Mnemonics.setLocalizedText(Version, org.openide.util.NbBundle.getMessage(InfoTopComponent.class, "InfoTopComponent.Version.text")); // NOI18N
+
+        jLabelDBState.setFont(new java.awt.Font("Dialog", 3, 12)); // NOI18N
+        jLabelDBState.setForeground(new java.awt.Color(255, 51, 153));
+        org.openide.awt.Mnemonics.setLocalizedText(jLabelDBState, org.openide.util.NbBundle.getMessage(InfoTopComponent.class, "InfoTopComponent.jLabelDBState.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,25 +104,27 @@ public final class InfoTopComponent extends TopComponent {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Version, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)))
-                .addComponent(jLabelAck, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(Version, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelDBState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelAck, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelIcon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(Version))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(156, Short.MAX_VALUE)
+                        .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(Version)
+                            .addComponent(jLabelDBState)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(164, Short.MAX_VALUE)
                         .addComponent(jLabelAck, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -132,13 +141,14 @@ public final class InfoTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Version;
     private javax.swing.JLabel jLabelAck;
+    private javax.swing.JLabel jLabelDBState;
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -228,4 +238,28 @@ public final class InfoTopComponent extends TopComponent {
             return InfoTopComponent.getDefault();
         }
     }
+
+    class DatabaseState implements Observer {
+
+        boolean firstCall = true;
+
+        @Override
+        public void update(Observable o, Object arg) {
+            String message = arg.toString();
+            InfoTopComponent.this.jLabelDBState.setText(message);
+           // if (firstCall) {
+                message = "<html> " + message + "<br/>"
+                        + "If you see this message at first program start <br/>"
+                        + "after installation please check if mySQLServer is running <br/> "
+                        + "and/or reset connection parameter (Tools->Options-genomeCAT). <br/>"
+                        + "If you get this message running the application for some time in idle state <br/>"
+                        + "consider connection timeout - so please restart the application</html>";
+            //    firstCall = false;
+            //}
+            JOptionPane.showMessageDialog(InfoTopComponent.this, message);
+
+        }
+
+    }
+
 }

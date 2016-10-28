@@ -5,5 +5,4 @@
 <project name="org.molgen.genomeCATPro.guimodul" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project org.molgen.genomeCATPro.guimodul.</description>
     <import file="nbproject/build-impl.xml"/>
-    <property  name="test.timeout" value="3600000"/> 
 </project>

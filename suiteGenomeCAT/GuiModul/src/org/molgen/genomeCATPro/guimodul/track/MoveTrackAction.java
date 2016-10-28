@@ -26,6 +26,8 @@ import javax.swing.JOptionPane;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -38,6 +40,8 @@ import org.openide.util.Utilities;
  *
  * 050612 kt update Notification
  */
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.track.MoveTrackAction", category = "DATA")
+@ActionRegistration(displayName = "#CTL_MoveTrack", lazy = false)
 public final class MoveTrackAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Track> lkpInfo;

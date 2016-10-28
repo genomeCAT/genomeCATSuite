@@ -13,6 +13,10 @@ import javax.swing.ImageIcon;
 import org.molgen.genomeCATPro.datadb.dbentities.Study;
 
 import org.molgen.genomeCATPro.guimodul.track.ImportTrackDialog;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -21,6 +25,11 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.project.AddTrackAction", category = "Experiment")
+@ActionRegistration(displayName = "#CTL_AddTrackAction", lazy = false)
+@ActionReferences(value = {
+    @ActionReference(path = "Menu/Experiment", position = 3),
+    @ActionReference(path = "Toolbars/Experiment", position = -400)})
 public final class AddTrackAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Study> lkpInfo;

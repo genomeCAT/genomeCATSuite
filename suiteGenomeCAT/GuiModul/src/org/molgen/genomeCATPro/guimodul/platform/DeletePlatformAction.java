@@ -12,6 +12,9 @@ import javax.swing.Action;
 import javax.swing.JOptionPane;
 import org.molgen.genomeCATPro.cghpro.xport.PlatformManager;
 import org.molgen.genomeCATPro.datadb.dbentities.PlatformData;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -20,6 +23,9 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.platform.DeletePlatformAction", category = "DATA")
+@ActionRegistration(displayName = "delete release", lazy = false)
+@ActionReference(path = "Menu/Experiment/Platform", position = 300)
 public final class DeletePlatformAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<PlatformData> lkpInfo;

@@ -15,6 +15,8 @@ import org.molgen.genomeCATPro.datadb.dbentities.ExperimentData;
 import org.molgen.genomeCATPro.datadb.dbentities.Track;
 import org.molgen.genomeCATPro.datadb.service.ExperimentService;
 import org.molgen.genomeCATPro.datadb.service.TrackService;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -23,6 +25,8 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.experiment.DeleteDataAction", category = "DATA")
+@ActionRegistration(displayName = "delete", lazy = false)
 public final class DeleteDataAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<Data> lkpInfo;

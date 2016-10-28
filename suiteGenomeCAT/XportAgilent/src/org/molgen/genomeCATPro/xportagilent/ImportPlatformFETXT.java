@@ -1,5 +1,5 @@
 /**
- * @name ImportPlatformGEO
+ * @name ImportPlatformFETXT
  *
  *
  * @author Katrin Tebel <tebel at molgen.mpg.de>

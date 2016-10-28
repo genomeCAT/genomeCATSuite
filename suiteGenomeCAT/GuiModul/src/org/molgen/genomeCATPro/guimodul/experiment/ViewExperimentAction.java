@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.molgen.genomeCATPro.datadb.dbentities.ExperimentDetail;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -18,6 +20,8 @@ import org.openide.util.LookupListener;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 
+@ActionID(id = "org.molgen.genomeCATPro.guimodul.experiment.ViewExperimentAction", category = "DATA")
+@ActionRegistration(displayName = "#CTL_ViewExperimentAction", lazy = false)
 public final class ViewExperimentAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
     Lookup.Result<ExperimentDetail> lkpInfo;
