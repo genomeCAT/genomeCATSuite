@@ -76,8 +76,18 @@
     <div style="padding: 20px;background-color: white;text-align:left;  margin: auto;
     width: 90%;  font-size:  12px;"> 
 		<div style=" font-weight: bold;font-size:  18px";><br/>Frequently asked questions<br/><br/></div><br/>
+		
 		<div style="background-color: powderblue; font-size:  16px; font-weight: bold;"> General </div><br/>
-		<div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">Why does GenomeCAT shows the start screen, but does not complete starting?</div><br/>
+		<div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">GenomeCAT reports a problem with the connection to MySQL. What could be the causes and how to solve the problem?</div>
+		<br/><div style="font-size:  14px;">One reason for a failed connection to MySQL could be a problem with the configuration of the MySQL database. <br/>Problems with MySQL configuration have never been observed by us when MySQL has been installed together with GenomeCAT, but can occur when users deselect MySQL from the GenomeCAT installation package, because of a pre-installed version of MySQL. However, in this case GenomeCAT only works if MySQL is always running (as a background process) and binaries are available.
+
+<br/>Problems with MySQL can also arise when GenomeCAT is installed on a computer with an existing GenomeCAT installation. Uninstall the old version before. <br/>
+Attention: “Uninstall” GenomeCAT also deletes the GenomeCAT database and all of its content! 
+If you just want to update to the latest software version, it is better to take advantage of the automatic update feature provided by GenomeCAT.<br/>
+
+When MySQL worked fine after installation, but loses connection at some later time point a connection time out may have occurred. 
+This could happen when GenomeCAT is running in idle state for a longer time. In this case restarting the program should solve the problem. </div>
+		<br/><div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">Why does GenomeCAT shows the start screen, but does not complete starting?</div><br/>
 		<div style="font-size:  14px;">GenomeCAT depends on an active MySQL data base running in the background. If you use a MySQL environment that has not been installed in the course of the GenomeCAT installation procedure please ensure that MySQL is running. As of GenomeCAT version 4.3 this problem should no longer exist for Windows7 and Linux systems usually start their MySQL server automatically.</div>
 		<br/><div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">Why does the graphical user interface does not show all windows or doesn't start at all?</div><br/>
 		<div style="font-size:  14px;">Data on the configuration of how windows are displayed in GenomeCAT are stored in the local user directory.
@@ -86,8 +96,6 @@
 <br/>On Linux systems the directory can be found at:  		/home/xxx/.genomecatpro/dev<br/><br/>
 Deletion of this file initiates the creation of a new configuration file</div>
 
-<br/><div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">Why the startpage of Netbeans and further tabs shows up sometimes and asks for feedback when GenomeCAT is started?</div>
-<br/><div style="font-size:  14px;">This problem came up with the latest version of Netbeans, the programming platform we have used to program GenomeCAT. We are working on the problem and hope to get rid of these tabs very soon. For now, please close these tabs manually. </div>
 
 <br/><div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">Why do CBS/HMM/RINGO do not work the first time after I have installed GenomeCAT?</div>
 
@@ -104,7 +112,7 @@ If you rely on a preinstalled R environment it can also be that the R binaries a
 
 
 <br/><div style="background-color: whitesmoke;font-size:  14px;font-weight: bold;">How can I improve the performance of GenomeCAT?</div>
-<br/><div style="font-size:  14px;">As of GenomeCAT version 4.3 the minimal and maximal RAM is determined and set automatically. 
+<br/><div style="font-size:  14px;">As of GenomeCAT version 4.4 the minimal and maximal RAM is determined and set automatically. 
 If you want to increase memory (because your computer system is powerful enough to do so) you can change these settings in 
 startGenomecat.bat or startGenomecat.sh ( you can find them in GenomeCATs installation directory).
 <br/>
