@@ -3,6 +3,7 @@ suiteGenomeCAT/build/
 suiteGenomeCAT/**/profiler
 suiteGenomeCAT/**/depcache
 **/*test/
+**/*/build/
 suiteGenomeCAT/**/*.class
 suiteGenomeCAT/**/*~
 *gitignore*
